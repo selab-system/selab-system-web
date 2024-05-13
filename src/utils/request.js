@@ -5,7 +5,6 @@ import axios from "axios";
 import store from "@/store";
 import router from "@/router";
 
-
 // 自定义配置发送请求
 const request = axios.create({
     // 配置的baseURL + 接口地址
