@@ -39,6 +39,19 @@
     /* 链接的小手
     --cursor: pointer; */
     /* 这个我会在全局配置 */
+
+    /* 按钮的配置 */
+    /* 按钮颜色 */
+    --button-color: rgba(196, 246, 176, 0.812);
+    /* 绿色按钮下面的颜色 */
+    /* 按钮的颜色 */
+    /* 黑色 */
+    --button-color-green: black;
+    /* 白色 */
+    --button-color-white: white;
+    /* 米色 */
+    --button-color-mint: rgba(196, 246, 176, 0.812);
+    /*  */
 }
 
 /* 黑暗模式 */
@@ -75,6 +88,12 @@
     --font-weight: bold;
     /* 动态变化的transition */
     --transition-timing-settings: all 0.5s;
+    /* 输入框配置 */
+    /* 鼠标点击的颜色 */
+    --input-color: #424140;
+    /* 输入框的边框配置 */
+    /* 输入框颜色 */
+    --input-border-color: #7868686f;
 }
 
 .button-theme {
@@ -82,4 +101,16 @@
     --button-color-second: blue;
     --button-color-third: green;
     --button-color-fourth: yellow;
+    color: rb;
 }
+
+/*  */
+.font-theme {
+    /* logo字体 */
+    --font-logo-family: 'Times New Roman',
+        Times,
+        serif;
+
+}
+
+/* 所有的输入框 */

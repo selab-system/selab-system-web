@@ -5,17 +5,19 @@
     <!-- <Login/> -->
     <router-link to="/index"></router-link>
     <router-view></router-view>
+    <!-- <navBasicComponent/> -->
   </div>
 </template>
 
 <script>
+// 为了测试
+import navBasicComponent from './components/navComponent/navBasicComponent.vue';
 import index from './views/indexPage/index.vue';
 import Login from './views/loginPage/Login.vue';
 import UserHome from './views/UserHomePage/UserHome.vue';
 import TaskManagement from './views/TaskManagePage/TaskManagement.vue';
 import EnrolmentFormManagementPage from './views/EnrolmentManagePage/EnrolmentFormManagementPage.vue';
 import BookManage from './views/BookManagePage/BookManage.vue';
-import { test } from './api/Book/BookManage'
 export default {
   name: 'App',
   components: {
@@ -24,7 +26,8 @@ export default {
     UserHome,
     TaskManagement,
     EnrolmentFormManagementPage,
-    BookManage
+    BookManage,
+    navBasicComponent
   },
 }
 </script>
