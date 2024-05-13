@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="6a35c98e-bf55-4f3e-bb3b-2c62270c7261" name="更改" comment="">
       <change afterPath="$PROJECT_DIR$/project-demo/src/untils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project-demo" beforeDir="false" afterPath="$PROJECT_DIR$/project-demo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-demo/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/project-demo/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-demo/src/assets/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-demo/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-demo/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/project-demo/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +89,9 @@
       <workItem from="1715598477620" duration="351000" />
       <workItem from="1715599917370" duration="2257000" />
       <workItem from="1715602201190" duration="4930000" />
+      <workItem from="1715611647051" duration="327000" />
+      <workItem from="1715611986488" duration="387000" />
+      <workItem from="1715613184659" duration="728000" />
     </task>
     <servers />
   </component>
