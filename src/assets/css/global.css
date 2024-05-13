@@ -1,0 +1,85 @@
+/* 阳光模式 */
+[data-theme="light"] {
+    /* 主体背景色 */
+    --bg-color: #fff;
+    /* 导航栏的阴影配置 */
+    --nav-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* 字体配置 */
+    --bg-color-transparent: rgba(255, 255, 255, 0.8);
+    /* 头部的字体(比如导航栏的字体) */
+    --font-family: Georgia, serif;
+    /* 其他一些表单数据字体 */
+    --font-family-secondary: Helvetica, sans-serif;
+    /* 字体颜色为黑色 */
+    --font-color: #000;
+    /* 字体颜色为白色 */
+    --font-color-secondary: #fff;
+    /* 链接的鼠标经过配置 */
+    --box-mouseenter-background-color: rgb(255, 255, 255);
+    /* 鼠标经过链接的颜色 */
+    --box-mouseenter-color: #000;
+    /* 鼠标经过链接的边框宽度 */
+    --box-mouseenter-border-width: 1px;
+    /* 鼠标经过链接的边框样式 */
+    --box-mouseenter-border-style: solid;
+    /* 鼠标经过链接的边框圆角 */
+    --box-mouseenter-border-radius: 10px;
+    /* 鼠标经过链接的动态变化 */
+    --box-mouseenter-margin-right: 20px;
+    --box-mouseenter-padding-right: 20px;
+    /* 动态阴影 */
+    --box-mouseenter-box-shadow: 0 0 25px rgba(9, 8, 8, 0.563);
+    /* 字体变化 */
+    --font-size: 20px;
+    --font-weight: bold;
+    /* 动态变化的transition */
+    --transition-timing-settings: all 0.5s;
+    /* 导航栏的border */
+    --box-border: 1px solid #fff;
+    /* 链接的小手
+    --cursor: pointer; */
+    /* 这个我会在全局配置 */
+}
+
+/* 黑暗模式 */
+[data-theme="dark"] {
+    --bg-color: #000;
+    /* 导航栏的阴影配置 */
+    --nav-box-shadow: 0 0 10px rgba(245, 239, 239, 0.909);
+    /* 超链接字体 */
+    --font-family: Georgia, serif;
+    /* 其他一些表单数据字体 */
+    --font-family-secondary: Helvetica, sans-serif;
+    /* 字体颜色为黑色 */
+    --font-color: #fff;
+    /* 字体颜色为白色 */
+    /* 链接的鼠标经过配置 */
+    --box-mouseenter-background-color: #000;
+    /* 鼠标经过链接的颜色 */
+    --box-mouseenter-color: #fff;
+    /* 鼠标经过链接的边框宽度 */
+    --box-mouseenter-border-width: 1px;
+    /* 鼠标经过链接的边框样式 */
+    --box-mouseenter-border-style: solid;
+    /* 鼠标经过链接的边框圆角 */
+    --box-mouseenter-border-radius: 10px;
+    /* 鼠标经过链接的动态变化 */
+    --box-mouseenter-margin-right: 20px;
+    --box-mouseenter-padding-right: 20px;
+    /* 动态阴影 */
+    --box-mouseenter-box-shadow: 0 0 25px rgba(209, 194, 194, 0.563);
+    /* 导航栏的border */
+    --box-border: 1px solid #000;
+    /* 字体变化 */
+    --font-size: 20px;
+    --font-weight: bold;
+    /* 动态变化的transition */
+    --transition-timing-settings: all 0.5s;
+}
+
+.button-theme {
+    --button-color-first: red;
+    --button-color-second: blue;
+    --button-color-third: green;
+    --button-color-fourth: yellow;
+}

@@ -1,0 +1,145 @@
+// 图书管理相关的API
+// bookservice
+import request from '@/utils/request'
+
+// 我所有的封装都是直接简单的request封装
+// 然后之后的判断根据各自的逻辑完成
+// 尽量都用异步 我封装这个函数返回Promise，完了直接await
+// 去设置一个变量 const response 去接后端的数据
+// 我的请求需要带的参数我封装时写明白，然后具体返回什么样的数据自己看文档
+
+
+// borrow-noReturn
+// 查询所有已借阅未归还书籍的借阅信息
+// 需要的请求参数是
+// Query参数
+// {cur: 当前页,size: 每页数量}
+// 可以选择任意的页面
+
+export function BorrowNoReturn(params = {}) {
+    return request({
+        url: '/borrow/noReturn',
+        method: 'get',
+        params: param
+    })
+}
+
+// borrow-my
+// 查询我借阅的书籍
+// 这里的userid通过后端来获取
+// Query参数  可选
+// {cur: 当前页,size: 每页数量}
+export function BorrowMy() {
+    return request({
+        url: '/borrow/my',
+        method: 'get',
+        // 这里要带params参数,params参数来源于后端
+    })
+}
+
+// borrow-record
+// 查询借阅信息(动态查询)
+// param:bookId | userId 二选一或者为空
+// Query参数
+// {cur: 当前页,size: 每页数量,  bookId: 书籍id,userId: 用户id}
+// 当前页和页面数  是必需的   书籍id和userid 是可选的
+export function BorrowRecord(params = {}) {
+    return request({
+        url: '/borrow/record',
+        method: 'get',
+        params: params
+    })
+}
+
+// return 
+// 归还书籍
+// 请求的参数是Path参数
+// 也就是你要直接加在路径后面
+export function ReturnBook() {
+    return request({
+        url: '/borrow/return/{borrowId}',
+        method: 'get',
+    })
+}
+
+// borrow
+// 借阅书籍
+// Body参数 
+// bookId 借阅的书籍id (number)
+// borrowDuration 借阅时长(以天为单位) (number)
+// returnTime 归还时间(string)
+// Query参数
+// {
+//     "bookId": 0,
+//         "borrowDuration": 0,
+//             "returnTime": "string"
+// }
+export function BorrowBook(params = {}) {
+    return request({
+        url: '/borrow/borrow/{bookId}',
+        method: 'post',
+        params: {}
+    })
+}
+
+// delete
+// 删除书籍
+// Query参数
+// {bookid: (number)}
+export function DeleteBook(params = {}) {
+    return request({
+        url: '/book/delete',
+        method: 'get',
+        params: {}
+    })
+}
+
+// list
+// 应该是查询当前页面的所有书籍(包括当前书籍状态)
+// 传入参数Query参数
+// 应该是必须的
+// {cur: 当前页,size: 每页数量}
+export function getBookList(params = {}) {
+    return request({
+        url: '/book/list',
+        method: 'get',
+        params: {}
+    })
+}
+
+// queryOne
+// 查询借阅记录
+// 传入参数Query参数
+// {cur,size,userid,bookid,bookname}
+// userid,bookid,bookname三选一，也可以都传
+export function getBookInfo(params = {}) {
+    return request({
+        url: '/book/queryOne',
+        method: 'get',
+        params: {}
+    })
+}
+
+// update
+// 修改书籍信息
+// 传入参数Body参数
+// 这个模块就是修改书籍信息
+// 这个后端写的有问题
+// 自己看文档要传什么
+export function updateBookInfo(data) {
+    return request({
+        url: '/book/update',
+        method: 'post',
+        data:data
+    })
+}
+
+// save
+// 保存修改的信息？？？？？
+export function saveBookInfo(data) {
+    return request({
+        url: '/book/save',
+        method: 'post',
+        data:data
+    })
+}   

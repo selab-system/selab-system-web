@@ -1,28 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- 登录 -->
+    <!-- 首页组件 -->
+    <!-- <Login/> -->
+    <router-link to="/index"></router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import index from './views/indexPage/index.vue';
+import Login from './views/loginPage/Login.vue';
+import UserHome from './views/UserHomePage/UserHome.vue';
+import TaskManagement from './views/TaskManagePage/TaskManagement.vue';
+import EnrolmentFormManagementPage from './views/EnrolmentManagePage/EnrolmentFormManagementPage.vue';
+import BookManage from './views/BookManagePage/BookManage.vue';
+import { test } from './api/Book/BookManage'
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    index,
+    Login,
+    UserHome,
+    TaskManagement,
+    EnrolmentFormManagementPage,
+    BookManage
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  font-family: var(--font-family-secondary);
+  color: var(--font-color);
+}
+a {  
+    text-decoration: none;  
+    cursor: pointer;
 }
 </style>
