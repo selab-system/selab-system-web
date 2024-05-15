@@ -34,8 +34,6 @@ export default {
   align-items: center;
   width: 100%;
   height: 100px;
-  /* 刚刚设置的导航栏margin */
-  /* margin-left: 60px; */
   /* 动态设置导航栏的颜色 */
   background-color: var(--bg-color);
   box-shadow: var(--nav-box-shadow);
@@ -102,3 +100,50 @@ export default {
   box-shadow: inset 8px -4px 0 0 white; /* 恢复夜晚模式的阴影效果 */
 }
 </style>
+<!-- /* .table-search-content-title{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    flex: 1;
+}
+.table-search-content-title-item{
+    /* margin-right: 30px; */
+    /* height: 80px;
+    line-height: 80px;
+    padding: 10px 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 20px;
+    font-weight: var(--table-font-bold);
+    color: var(--table-font-color);
+    border: 1px solid var(--table-border-color);
+}
+.content-button {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1;
+    width: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.table-search-content-title-item-button{
+    margin-left: 10px;
+    margin-right: 10px; */ 
+    /* border: 0.5px solid var(--table-border-color) */
+
+/* }
+.table-search-content-title-item-button button {
+    border: 0,5px solid var(--table-border-color);
+    background-color: var(--table-action-bg-color);
+    height: 40px;
+    width: 80px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 30px var(--table-action-box-shadow-color);
+}
+.table-search-content-title-item-button button:hover{
+    background-color: var(--table-action-hover-bg-color);
+    color: var(--table-action-hover-color);
+}
+.table-search-content-title-item-button button:active{
+    transform: scale(0.95);
+} */ -->

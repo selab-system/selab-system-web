@@ -13,6 +13,7 @@ import BookManage from "@/views/BookManagePage/BookManage.vue";
 import EnrolmentFormManagementPage from "@/views/EnrolmentManagePage/EnrolmentFormManagementPage.vue";
 // 引入任务管理组件
 import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
+// 引入报名表组件
 // 把vuerouter安装成vue的插件
 Vue.use(VueRouter)
 
@@ -35,11 +36,11 @@ let routes = [
         name: "user",
         component: UserHome,
         children: [
-         {
-            path: "/user/user",
-            name: "user",
-            component: UserHome
-}   
+            {
+                path: "/user/user",
+                name: "user",
+                component: UserHome
+            }
         ]
     },
     // 图书管理路由
@@ -48,8 +49,11 @@ let routes = [
         name: "book",
         component: BookManage,
         children: [
-            
-        ]
+            {
+                path: "/user/user",
+                name: "user",
+                component: UserHome
+            }   ]
     },
     // 招新报名表管理路由
     {

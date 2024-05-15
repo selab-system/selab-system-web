@@ -4,17 +4,23 @@
     <!-- 导航栏组件 -->
     <navBasicComponent/>
     <!-- 主体业务组件 -->
-    <mainCard/>
+    <!-- <mainCard/> -->
+    <!-- <mainPerfectTable/> -->
+    <!-- 报名表组件 -->
+    <RegistrasionForm/>
   </div>
 </template>
 
 <script>
 import navBasicComponent from '@/components/navComponent/navBasicComponent.vue';
-import mainCard from '@/components/mainCardComponent/mainCard.vue';
+import mainPerfectTable from '@/components/mainCardComponent/mainPerfectTable.vue';
+import RegistrasionForm from '@/components/mainCardComponent/RegistrasionForm.vue';
 export default {
   components: {
     navBasicComponent,
-    mainCard
+    mainPerfectTable,
+    // pageChangeComponent
+    RegistrasionForm
   }
 }
 </script>
