@@ -4,8 +4,7 @@
     <!-- 导航栏组件 -->
     <navBasicComponent/>
     <!-- 主体业务组件 -->
-    <!-- <mainCard/> -->
-    <!-- <mainPerfectTable/> -->
+    <mainPerfectTable/>
     <!-- 报名表组件 -->
     <RegistrasionForm/>
   </div>
@@ -19,7 +18,6 @@ export default {
   components: {
     navBasicComponent,
     mainPerfectTable,
-    // pageChangeComponent
     RegistrasionForm
   }
 }
