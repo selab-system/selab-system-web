@@ -2,20 +2,41 @@
   <div>
     <div class="nav-container">
       <div class="nav-left-selections">
-        <div class="nav-selection">
-          <span><router-link to="/user">用户管理</router-link></span>
+        <div class="logo">
+        <span><router-link to="/">Laboratory</router-link></span>
         </div>
-        <div class="nav-selection">
-          <span><router-link to="/enroll">招新报名表管理</router-link></span>
+        <div class="nav-selection" @mouseleave="showDropdownU = false">
+          <span @click="toggleDropdownU"> <a href="javascript:;">用户管理</a></span>
+          <div class="dropdown-content" v-if="this.showDropdownU">
+            <div class="menuDown"><router-link to="/user">修改信息</router-link></div>
+            <div class="menuDown"><router-link to="/user">部门信息</router-link></div>
+          </div>
         </div>
-        <div class="nav-selection">
-          <span><router-link to="/book">图书管理</router-link></span>
+        <div class="nav-selection" @mouseleave="showDropdownE = false">
+          <span @click="toggleDropdownE"> <a href="javascript:;">招新报名表管理</a> </span>
+          <div class="dropdown-content-Long" v-if="this.showDropdownE">
+            <div><router-link to="/enroll">报名表数量</router-link></div>
+            <div><router-link to="/enroll">提交记录</router-link></div>
+            <div><router-link to="/enroll">已提交的报名表</router-link></div>
+          </div>
         </div>
-        <div class="nav-selection">
-          <span><router-link to="/task">任务管理</router-link></span>
+        <div class="nav-selection" @mouseleave="showDropdownB = false">
+          <span @click="toggleDropdownB"><a herf="javascript:;">图书管理</a></span>
+          <div class="dropdown-content" v-if="this.showDropdownB">
+            <div class="menuDown"><router-link to="/book">查询书籍信息</router-link></div>
+            <div class="menuDown"><router-link to="/book">修改书籍信息</router-link></div>
+            <div class="menuDown"><router-link to="/book">查询借阅状态</router-link></div>
+          </div>
+        </div>
+        <div class="nav-selection dropdown" @mouseleave="showDropdownE = false">
+          <span @click="toggleDropdownT"><a href="javascript:;">任务管理</a></span>
+          <div class="dropdown-content" v-if="this.showDropdownT">
+            <div class="menuDown"> <router-link to="/task">发布任务</router-link> </div>
+            <div class="menuDown"><router-link to="/task">查看进度</router-link></div>
+            <div class="menuDown"><router-link to="/task">查看汇报记录</router-link></div>
+          </div>
         </div>
       </div>
-      <router-view></router-view>
       <div class="nav-right-changestylebutton">
         <label class="switch">
           <input type="checkbox" @click="toggleTheme"/>
@@ -23,15 +44,50 @@
         </label>
       </div>
     </div>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>  
 
 <script>  
-export default {  
+export default { 
+  data() {  
+    return {  
+      showDropdownU: false,
+      showDropdownE: false,
+      showDropdownB: false,
+      showDropdownT: false,
+    };  
+  }, 
   methods: {
     toggleTheme() {  
         document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';    
-}
+    },
+    toggleDropdownU() {  
+      this.showDropdownU = !this.showDropdownU;  
+      this.showDropdownE= false,
+      this.showDropdownB= false,
+      this.showDropdownT= false
+    },
+    toggleDropdownE() {  
+      this.showDropdownE = !this.showDropdownE;
+      this.showDropdownU= false,
+      this.showDropdownB= false,
+      this.showDropdownT= false  
+    },
+    toggleDropdownB() {  
+      this.showDropdownB = !this.showDropdownB;  
+      this.showDropdownE= false,
+      this.showDropdownU= false,
+      this.showDropdownT= false
+    },
+    toggleDropdownT() {  
+      this.showDropdownT = !this.showDropdownT;  
+      this.showDropdownE= false,
+      this.showDropdownB= false,
+      this.showDropdownU= false
+    },
   },
   mounted() {
     document.documentElement.dataset.theme = 'light';
@@ -40,6 +96,20 @@ export default {
 </script>  
 
 <style scoped>
+/* logo字体配置 */
+.logo{
+    font-family:var(--font-logo-family);
+    font-size: 30px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--font-logo-color);
+    margin-left: 20px;
+    margin-right: 15px;
+}
+.nav-right-changestylebutton{
+    margin-right: 20px;
+}
+
 .nav-container {
   display: flex;
   flex-direction: row;
@@ -135,5 +205,64 @@ export default {
   transform: translateX(1.3em);
   background-color: black; /* 夜晚模式滑块拇指的颜色 */
   box-shadow: inset 8px -4px 0 0 white; /* 恢复夜晚模式的阴影效果 */
+}
+
+/* 下拉菜单 */
+.dropdown {
+  position: relative; /* 为下拉菜单的容器添加相对定位 */
+}
+
+.dropdown-content {
+  /* 默认隐藏下拉内容 */
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 123px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  /* 根据需要调整下拉菜单的样式 */
+  line-height: 50px;
+}
+
+.dropdown-content a{
+  padding: 0px;
+  margin:0px;
+}
+
+.dropdown-content-Long a{
+  padding: 0px;
+  margin:0px;
+}
+
+.dropdown-content-Long {
+  /* 默认隐藏下拉内容 */
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 176px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  /* 根据需要调整下拉菜单的样式 */
+  line-height: 50px;
+}
+
+.dropdown-content div {
+  cursor: pointer;
+  width: 122px;
+}
+
+.dropdown-content div:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-content-Long div {
+  cursor: pointer;
+}
+
+.dropdown-content-Long div:hover {
+  background-color: #f1f1f1;
+}
+
+.menuDown {
+  width: 123px;
+  height: 50px;
 }
 </style>

@@ -22,51 +22,40 @@ let routes = [
     {
         path: "/",
         name: "index",
-        component: index
-    },
+        component: index,
+        children:[
+            // 用户管理路由
+            {
+                path: "/user",
+                name: "user",
+                component: UserHome
+            },
+            // 图书管理路由
+            {
+                path: "/book",
+                name: "book",
+                component: BookManage
+            },
+            // 招新报名表管理路由
+            {
+                path: "/enroll",
+                name: "enroll",
+                component: EnrolmentFormManagementPage
+            },
+            // 任务管理路由
+            {
+                path: "/task",
+                name: "task",
+                component: TaskManagement
+            }
+                ]
+            },
     // 登录路由
     {
         path: "/login",
         name: "login",
         component: Login
     },
-    // 用户管理路由
-    {
-        path: "/user",
-        name: "user",
-        component: UserHome,
-        children: [
-            {
-                path: "/user/user",
-                name: "user",
-                component: UserHome
-            }
-        ]
-    },
-    // 图书管理路由
-    {
-        path: "/book",
-        name: "book",
-        component: BookManage,
-        children: [
-            {
-                path: "/user/user",
-                name: "user",
-                component: UserHome
-            }   ]
-    },
-    // 招新报名表管理路由
-    {
-        path: "/enroll",
-        name: "enroll",
-        component: EnrolmentFormManagementPage
-    },
-    // 任务管理路由
-    {
-        path: "/task",
-        name: "task",
-        component: TaskManagement
-    }
 ]
 let router = new VueRouter({
     routes,

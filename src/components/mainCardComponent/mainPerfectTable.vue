@@ -170,7 +170,7 @@ export default {
     left:300px;
     margin-left: 60px;
     margin-right: 60px;
-    z-index: 999;
+    /* z-index: 999; */
 }
 .table-search-title-name{
     font-size: 17px;

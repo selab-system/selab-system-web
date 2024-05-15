@@ -3,7 +3,6 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
-        <router-view></router-view>
       </div>
       <div class="content"></div>
     </div>
