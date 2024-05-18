@@ -6,6 +6,7 @@ import bookmanage from '../views/BookManage.vue'
 import recruitmanage from '../views/RecruitManage.vue'
 import taskmanage from '../views/TaskManage.vue'
 import register from '../views/Register.vue'
+import usermanage from '../views/UserManage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
         path: '/TaskManage',
         name: 'TaskManage',
         component: taskmanage
+      },
+      {
+        path: '/UserManage',
+        name: 'UserManage',
+        component: usermanage
       }
     ]
   },
