@@ -15,7 +15,8 @@
     <li><span id="second">密码：</span><el-input placeholder="请输入密码" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
     </li>
     <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div>
-        <li><el-button type="primary" @click="judgeLogin">登录</el-button></li>
+        <li><el-button type="primary" @click="judgeLogin">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
+
     </ul>
         <!-- 登录框需要进行输入验证 -->
 <!-- 暂时确定仅验证输入的内容是否符合要求 -->
@@ -41,8 +42,8 @@ export default {
     return {
       password: '',
       postMessage: '',
-      noticeMessge1: '123123',
-      noticeMessge2: '1231'
+      noticeMessge1: '',
+      noticeMessge2: ''
     }
   },
   name: 'IndexLogin',
@@ -64,41 +65,57 @@ export default {
       str1 = /@/g
       let str2 = RegExp()
       str2 = /@qq.com/g
-      const judge1 = str1.test(this.postMessage1)
+      const judge1 = str1.test(this.postMessage)
       // 输入为用户名时：判断输入字数
       console.log(judge1)
       if (judge1) {
         // 当输入为邮箱号时
-        if (this.postMessage1.length === 0) {
+        if (this.postMessage.length === 0) {
           this.noticeMessge1 = '输入为空'
         }
-        if (!str2.test(this.postMessage1)) {
+        if (!str2.test(this.postMessage)) {
           this.noticeMessage1 = '输入格式错误'
         }
       } else {
         // 输入为账号时
         console.log(122)
-        if (this.postMessage1.length > 8) {
-          this.noticeMessge1 = '输入账号应小于8位'
+        if (this.postMessage.length > 8) {
+          this.noticeMessge1 = '输入位数应小于等于8位'
           console.log(this.postMessage1)
         }
-        if (this.postMessage1.length === 0) {
+        if (this.postMessage.length === 0) {
           this.noticeMessge1 = '输入为空'
           console.log(this.noticeMessge1)
         }
       }
     },
     judgePassWord () {
-
+      if (this.password === '') {
+        this.noticeMessge2 = '输入为空'
+      }
+      if (this.password.length > 8) {
+        this.noticeMessge2 = '输入位数应小于等于8位'
+      }
     },
+    // 提示框显示
     noticeDisplay () {
       if (this.noticeMessge1) {
         setTimeout(() => {
           this.postMessage1 = ''
           this.noticeMessge1 = ''
-        }, 3000)
+        }, 2000)
         console.log(this.noticeMessge1)
       }
+      if (this.noticeMessge2) {
+        setTimeout(() => {
+          this.postMessage2 = ''
+          this.noticeMessge2 = ''
+        }, 2000)
+        console.log(this.noticeMessge2)
+      }
+    },
+    toRegister () {
+      this.$router.push('/register')
     }
 
   }
@@ -115,7 +132,8 @@ export default {
      height:1000px;
      background-color: #d37c7c;
     position: relative;
-    display: inline-block;
+    // display: inline-block;
+    overflow: hidden;
     }
 //     .main2{
 // height: 100%;
@@ -157,7 +175,7 @@ export default {
         font-size: 16px;
     }
      .alter1{
-      width: 160px;
+      width: 190px;
       height: 40px;
       background-color: #fcf9f9;
       color: red;
@@ -172,7 +190,7 @@ export default {
      }
     /* 登录界面设置背景的自定义 */
     .alter2{
-      width: 160px;
+      width: 190px;
       height: 40px;
       background-color: #fcf9f9;
       color: red;

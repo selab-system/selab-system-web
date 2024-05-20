@@ -8,8 +8,12 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      redirect: '/login'
+
+    },
+    {
+      path: '/login',
       component: login
-      // redirect: '/login'
       // 不显示
     },
     {
@@ -17,7 +21,6 @@ const router = new VueRouter({
       component: register
 
     }
-
   ]
 })
 

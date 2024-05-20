@@ -5,7 +5,8 @@ const state = {
   postMessagex: '13123',
   passwordx: '',
   // 登录仅记录一次一人的登录信息？
-  // 信息记录后会在主页面显示？
+  // 信息记录后会在用户管理处使用？
+  // 注意token的获取
   userName: '',
   groupId: '',
   roleId: '',
