@@ -64,17 +64,17 @@ export default {
       let str1 = RegExp()
       str1 = /@/g
       let str2 = RegExp()
-      str2 = /@qq.com/g
+      str2 = /@qq.com$/g
       const judge1 = str1.test(this.postMessage)
       // 输入为用户名时：判断输入字数
-      console.log(judge1)
       if (judge1) {
         // 当输入为邮箱号时
         if (this.postMessage.length === 0) {
           this.noticeMessge1 = '输入为空'
         }
         if (!str2.test(this.postMessage)) {
-          this.noticeMessage1 = '输入格式错误'
+          console.log('执行了')
+          this.noticeMessge1 = '输入格式错误'
         }
       } else {
         // 输入为账号时
@@ -85,7 +85,6 @@ export default {
         }
         if (this.postMessage.length === 0) {
           this.noticeMessge1 = '输入为空'
-          console.log(this.noticeMessge1)
         }
       }
     },

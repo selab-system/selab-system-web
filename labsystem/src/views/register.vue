@@ -7,24 +7,26 @@
       <!-- <li><h1>账号注册</h1></li> -->
       <!-- 当需要对多个输入框内容进行校验时 可以统一在一个函数中判断？
         根据每个输入框输入内容的不同可以分函数进行校验 -->
-      <li><div><span>用户名:</span><el-input placeholder="请输入用户名" v-model="username" clearable  ></el-input></div>
+      <li><div><span>用户名:</span><el-input placeholder="请输入用户名" v-model="username" clearable @change="usernameCheck()" ></el-input></div>
           <el-alert :title=noticeMessage.usernameNotice type="error" v-show="noticeMessage.usernameNotice" show-icon></el-alert>
       </li>
-      <li><div><span>小组名称:</span><el-input placeholder="请输入小组名称" v-model="groupid"  clearable></el-input></div>
+      <!-- 用户名设置位数限制 不可使用数字作为用户名 -->
+    <li><div><span>小组名称:</span><el-input placeholder="请输入小组名称" v-model="groupid"  clearable  @change="groupidCheck()"></el-input></div>
           <el-alert :title=noticeMessage.groupidNotice v-show="noticeMessage.groupidNotice" type="error" show-icon></el-alert>
       </li>
-      <li><div><span>邮箱:</span><el-input placeholder="请输入邮箱号码" v-model="email"  clearable></el-input></div>
+      <!--小组名称任意 设置字数限制 -->
+      <li><div><span>邮箱:</span><el-input placeholder="请输入邮箱号码" v-model="email"  clearable @change="emailCheck()"></el-input></div>
           <el-alert :title=noticeMessage.emailNotice type="error" v-show="noticeMessage.emailNotice" show-icon></el-alert>
       </li>
-      <li><div><span>手机号:</span><el-input placeholder="请输入手机号" v-model="phonenumber"  clearable  @keyup="phonenumber=phonenumber.replace(/^(0+)|[^\d]+/g,'')"></el-input></div>
+      <!-- 邮箱号不设置字数限制 设置格式限制 @存在 -->
+      <li><div><span>手机号:</span><el-input placeholder="请输入手机号" v-model="phonenumber"  clearable @change="phonenumberCheck()"></el-input></div>
           <el-alert :title=noticeMessage.phonenumberNotice v-show="noticeMessage.phonenumberNotice" type="error" show-icon></el-alert>
-
       </li>
-
+       <!--手机号设置格式报错 字数限制  -->
       <li><span>性别:</span><el-radio v-model="radio" label="1">女</el-radio>
      <el-radio v-model="radio" label="2">男</el-radio></li>
       <!-- 单选框 -->
-      <li> <el-button type="primary" >下一步</el-button></li>
+      <li> <el-button type="primary" @click="registerData(),dataBind(username,groupid,email,phonenumber,gender),genderJudge()" >下一步</el-button></li>
     </ul>
   </div>
 </div>
@@ -32,6 +34,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'IndexRegister',
   data () {
@@ -45,10 +48,10 @@ export default {
       phonenumber: '',
       gender: '',
       noticeMessage: {
-        usernameNotice: '1',
-        groupidNotice: '2',
-        emailNotice: '3',
-        phonenumberNotice: '4'
+        usernameNotice: '',
+        groupidNotice: '',
+        emailNotice: '',
+        phonenumberNotice: ''
 
       }
 
@@ -61,7 +64,63 @@ export default {
     }
   },
   methods: {
-    // 对用户名设置
+
+    usernameCheck () {
+      if (/\d/g.test(this.username)) {
+        this.noticeMessage.usernameNotice = '小组名称不可包含数字'
+        setTimeout(() => {
+          this.noticeMessage.usernameNotice = ''
+        }, 2000)
+      }
+      if (this.username.length > 11) {
+        this.noticeMessage.usernameNotice = '用户名小于等于11个字符'
+        setTimeout(() => {
+          this.noticeMessage.usernameNotice = ''
+        }, 2000)
+      }
+    },
+    groupidCheck () {
+      if (this.groupid.length > 11) {
+        this.noticeMessage.groupidNotice = '用户名小于等于11个字符'
+        setTimeout(() => {
+          this.noticeMessage.groupidNotice = ''
+        }, 2000)
+      }
+    },
+    emailCheck () {
+      if (!/@qq.com$/.test(this.email)) {
+        // console.log('格式错误')
+        this.noticeMessage.emailNotice = '邮箱号码格式错误'
+        setTimeout(() => {
+          this.noticeMessage.emailNotice = ''
+        }, 2000)
+      }
+    },
+    phonenumberCheck () {
+      if (this.phonenumber.length > 11) {
+        this.noticeMessage.phonenumberNotice = '手机号格式错误'
+        setTimeout(() => {
+          this.noticeMessage.phonenumberNotice = ''
+        }, 2000)
+      }
+    },
+    // 针对性别数据进行判断并传递
+    genderJudge () {
+      if (this.radio === '1') {
+        // console.log(this.radio)
+        this.gender = 0
+      } else {
+        // console.log(this.radio)
+        this.gender = 1
+      }
+    }, // 以上是对输入的校验判断
+    // 将输入信息传输到仓库中
+    ...mapMutations('register', ['dataBind']),
+    // ...mapMutations('register', ['userNameInput']),
+    // ...mapMutations('register', ['groupIdInput']),
+    // ...mapMutations('register', ['EmailInput']),
+    // ...mapMutations('register', ['phoneNumberInput']),
+    ...mapActions('register', ['registerData'])
   }
 }
 </script>

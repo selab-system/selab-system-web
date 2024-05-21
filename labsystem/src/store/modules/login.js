@@ -1,4 +1,4 @@
-import { judgeLogin } from '@/api/logon'
+import { judgeLogin } from '@/api/enter'
 
 // 在各模块中设置数据存储 直接设置即可
 const state = {
