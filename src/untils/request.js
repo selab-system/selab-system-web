@@ -20,3 +20,4 @@ requests.interceptors.response.use(function (response) {
 }, function (error) {
   return Promise.reject(error)
 })
+export default requests

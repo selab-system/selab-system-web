@@ -1,10 +1,9 @@
-<script >
+<script setup>
 
 </script>
 
 <template>
-<div class="bookmanage">
-</div>
+<div></div>
 </template>
 
 <style scoped>

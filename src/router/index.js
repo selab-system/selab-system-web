@@ -1,10 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '../views/Home.vue'
+import adHome from "@/views/adHome.vue";
 import login from '../views/Login.vue'
-import bookmanage from '../views/BookManage.vue'
-import recruitmanage from '../views/RecruitManage.vue'
-import taskmanage from '../views/TaskManage.vue'
+import changeBookInformation from '@/views/changeBookInformation.vue'
+import borrowBooks from '../views/borrowBooks.vue'
+import countNumberOfForm from  '@/views/countNumberOfForm.vue'
+import departInformation from '@/views/departInformation.vue'
+import publishTask from '@/views/publishTask.vue'
+import QueryBookInformation from "@/views/QueryBookInformation.vue"
+import queryBorrowingRecords from '@/views/queryBorrowingRecords.vue'
+import myRemarks from '@/views/myRemarks.vue'
+import reportProgress from '@/views/reportProgress.vue'
+import returnBook from '@/views/returnBook.vue'
+import serachAllBook from  '@/views/serachAllBooks.vue'
+import serachBookBorrowed from '@/views/serachBooksBorrowed.vue'
+import serachOwnBooks from '@/views/serachOwnBooks.vue'
+import submissionRecord from '@/views/submissionRecord.vue'
+import submitForm from  '@/views/submitForm.vue'
+import submittedForm from "@/views/submittedForm.vue"
+import userinformationchange from '@/views/userinformationchange.vue'
+import viewCompletionStatus from '@/views/viewCompletionStatus.vue'
+import viewOwnForm from '@/views/viewOwnForm.vue'
+import viewReportRecords from '@/views/viewReportRecords.vue'
+import viewTasks from "@/views/viewTasks.vue";
+import adUserChange from '@/views/adUserChange.vue'
 import register from '../views/Register.vue'
 Vue.use(VueRouter)
 
@@ -19,19 +39,59 @@ const routes = [
     component: home,
     children: [
       {
-        path: '/BookManage',
-        name: 'BookManage',
-        component: bookmanage
+        path:'/userinformationchange',
+        name:'userinformationchange',
+        component: userinformationchange
       },
       {
-        path: '/RecruitManage',
-        name: 'RecruitManage',
-        component: recruitmanage
+        path:'/departInformation',
+        name:'departInformation',
+        component: departInformation
       },
       {
-        path: '/TaskManage',
-        name: 'TaskManage',
-        component: taskmanage
+        path:'/borrowBooks',
+        name:'borrowBooks',
+        component: borrowBooks
+      },
+      {
+        path:'/returnBook',
+        name:'returnBook',
+        component: returnBook
+      },
+      {
+        path:'/serachAllBook',
+        name:'serachAllBook',
+        component: serachAllBook
+      },
+      {
+        path:'/serachOwnBooks',
+        name:'serachOwnBooks',
+        component: serachOwnBooks
+      },
+      {
+        path:'/serachBookBorrowed',
+        name:'serachBookBorrowed',
+        component: serachBookBorrowed
+      },
+      {
+        path:'/submitForm',
+        name:'submitForm',
+        component: submitForm
+      },
+      {
+        path:'/viewOwnForm',
+        name:'viewOwnForm',
+        component: viewOwnForm
+      },
+      {
+        path:'/viewTasks',
+        name: 'viewTasks',
+        component: viewTasks
+      },
+      {
+        path:'/reportProgress',
+        name:'reportProgress',
+        component: reportProgress
       }
     ]
   },
@@ -44,6 +104,74 @@ const routes = [
     path: '/register',
     name: 'MyRegister',
     component: register
+  },
+  {
+    path:'/adhome',
+    name:'adHome',
+    component: adHome,
+    children: [
+      {
+        path:'/adUserChange',
+        name:'adUserChange',
+        component: adUserChange
+      },
+      {
+
+        path:'/QueryBookInformation',
+        name:'QueryBookInformation',
+        component:QueryBookInformation,
+      },
+      {
+        path:'/changeBookInformation',
+        name:'changeBookInformation',
+        component: changeBookInformation
+      },
+      {
+        path:'/ queryBorrowingRecords',
+        name:' queryBorrowingRecords',
+        component:  queryBorrowingRecords
+      },
+      {
+        path:'/countNumberOfForm',
+        name:'countNumberOfForm',
+        component: countNumberOfForm
+      },
+      {
+        path:'/submissionRecord',
+        name:'submissionRecord',
+        component: submissionRecord
+      },
+      {
+        path:'/submittedForm',
+        name:'submittedForm',
+        component: submittedForm
+      },
+      {
+        path:'/myRmarks',
+        name:'myRemarks',
+        component: myRemarks
+      },
+      {
+        path:'/publishTask',
+        name:'publishTask',
+        component: publishTask
+      },
+      {
+        path:'/viewCompletionStatus',
+        name:'viewCompletionStatus',
+        component: viewCompletionStatus
+      },
+      {
+        path:'/viewReportRecords',
+        name:'viewReportRecords',
+        component: viewReportRecords
+      },
+
+
+
+
+    ]
+
   }]
 const router = new VueRouter({
   routes

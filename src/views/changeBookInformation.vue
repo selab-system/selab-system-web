@@ -1,9 +1,9 @@
-<script >
+<script setup>
 
 </script>
 
 <template>
-  <div></div>
+<div>123456</div>
 </template>
 
 <style scoped>
