@@ -39,14 +39,12 @@ export default {
                 <el-submenu index="1-1">
                   <template slot="title">用户管理</template>
                   <el-menu-item index="/UserManage">用户角色</el-menu-item>
-                  <el-menu-item index="1-1-2" disabled
-                    >用户信息修改</el-menu-item
-                  >
+                  <el-menu-item index="/UserManageChange">用户信息修改</el-menu-item>
                 </el-submenu>
                 <el-submenu index="1-2">
                   <template slot="title">图书管理</template>
-                  <el-menu-item index="/BookManage">选项1</el-menu-item>
-                  <el-menu-item index="/BookManage">选项2</el-menu-item>
+                  <el-menu-item index="/BookManage">图书信息查询</el-menu-item>
+                  <el-menu-item index="/BookAdd">图书信息添加</el-menu-item>
                 </el-submenu>
                 <el-submenu index="1-3">
                   <template slot="title">招新报名表管理</template>

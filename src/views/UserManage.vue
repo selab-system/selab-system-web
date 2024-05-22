@@ -1,6 +1,6 @@
 <script>
 // 引入封装的axios
-import requests from '@/untils/request'
+import { getTableData } from '@/api/userquery'
 export default {
   data () {
     return {
@@ -37,15 +37,14 @@ export default {
       }]
     }
   },
-  created () {
-    requests({
-      url: '/user/query',
-      headers: {
-        Authorization: 'string'
-      }
-    }).then(res => {
+  async created () {
+    this.getTableData()
+  },
+  methods: {
+    async getTableData () {
+      const res = await getTableData()
       console.log(res)
-    })
+    }
   }
 }
 </script>

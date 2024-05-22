@@ -7,6 +7,8 @@ import recruitmanage from '../views/RecruitManage.vue'
 import taskmanage from '../views/TaskManage.vue'
 import register from '../views/Register.vue'
 import usermanage from '../views/UserManage.vue'
+import usermanagechange from '../views/UserManageChange'
+import bookadd from '@/views/BookAdd'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,6 +27,11 @@ const routes = [
         component: bookmanage
       },
       {
+        path: '/BookAdd',
+        name: 'BookAdd',
+        component: bookadd
+      },
+      {
         path: '/RecruitManage',
         name: 'RecruitManage',
         component: recruitmanage
@@ -38,6 +45,11 @@ const routes = [
         path: '/UserManage',
         name: 'UserManage',
         component: usermanage
+      },
+      {
+        path: '/UserManageChange',
+        name: 'UserManageChange',
+        component: usermanagechange
       }
     ]
   },
