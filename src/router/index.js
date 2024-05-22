@@ -13,6 +13,10 @@ import BookManage from "@/views/BookManagePage/BookManage.vue";
 import EnrolmentFormManagementPage from "@/views/EnrolmentManagePage/EnrolmentFormManagementPage.vue";
 // 引入任务管理组件
 import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
+//引入发布任务组件
+import TaskRelease from "@/views/TaskManagePage/Manager/TaskRelease.vue";
+//引入查看全部任务组件
+import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask";
 // 引入报名表组件
 // 把vuerouter安装成vue的插件
 Vue.use(VueRouter)
@@ -47,6 +51,18 @@ let routes = [
                 path: "/task",
                 name: "task",
                 component: TaskManagement
+            },
+            // 任务发布路由
+            {
+                path: "/release",
+                name: "taskRelease",
+                component: TaskRelease
+            },
+            //查看全部任务
+            {
+                path: "/CheckAllTask",
+                name: "CheckAllTask",
+                component: CheckAllTask
             }
                 ]
             },

@@ -147,6 +147,7 @@ export default {
 
 <style>
 .registrasion-form-main{
+    height: 1000px;
     width: 60%;
     margin: 0 auto;
     padding-top: 10px;
