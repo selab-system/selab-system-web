@@ -4,7 +4,7 @@ import { registerPost } from '@/api/enter'
 
 const state = {
   userName: '',
-  groupId: '',
+  passWord: '',
   Email: '',
   phoneNumber: '',
   Gender: null
@@ -14,9 +14,9 @@ const mutations = {
 // mutations对象中创建函数时不需要使用关键字
 // 可以进行简化 在点击下一步按钮时将数据进行传输
 
-  dataBind (state, username, groupid, email, phonenumber, gender) {
+  dataBind (state, username, password, email, phonenumber, gender) {
     state.userName = username
-    state.groupId = groupid
+    state.passWord = password
     state.Email = email
     state.phoneNumber = phonenumber
     state.Gender = gender
@@ -25,7 +25,7 @@ const mutations = {
 }
 const actions = {
   async registerData () {
-    const result = await registerPost(state.userName, state.groupId, state.Email, state.phoneNumber)
+    const result = await registerPost(state.userName, state.passWord, state.Email, state.phoneNumber)
     console.log(result)
   }
 }

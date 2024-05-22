@@ -1,6 +1,7 @@
 import { judgeLogin } from '@/api/enter'
 
 // 在各模块中设置数据存储 直接设置即可
+// 补充 token的记录
 const state = {
   postMessagex: '13123',
   passwordx: '',
@@ -20,6 +21,14 @@ const mutations = {
   },
   changepostMessage (state, postMessage) {
     state.postMessagex = postMessage
+  },
+  getRegisterData ({ state }) {
+    // 获取时 函数在 页面进行渲染后执行 注册页面此时可能打开了或者没有打开
+    // 应进行判断 如果获取数据为空应结束函数
+    // state.postMessagex(rootState)
+    // {
+
+    // }
   }
 }
 // 实现数据绑定
@@ -35,6 +44,7 @@ const actions = {
     state.useId = data.useId// 用户id
     // console.log(result)
   }
+
 }
 
 export default

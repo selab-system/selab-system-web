@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import login from '../views/login.vue'
 import register from '../views/register.vue'
+import registerCheck from '../views/registerCheck.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -20,6 +21,10 @@ const router = new VueRouter({
       path: '/register',
       component: register
 
+    },
+    {
+      path: '/registerCheck',
+      component: registerCheck
     }
   ]
 })

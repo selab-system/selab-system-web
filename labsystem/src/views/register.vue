@@ -11,8 +11,8 @@
           <el-alert :title=noticeMessage.usernameNotice type="error" v-show="noticeMessage.usernameNotice" show-icon></el-alert>
       </li>
       <!-- 用户名设置位数限制 不可使用数字作为用户名 -->
-    <li><div><span>小组名称:</span><el-input placeholder="请输入小组名称" v-model="groupid"  clearable  @change="groupidCheck()"></el-input></div>
-          <el-alert :title=noticeMessage.groupidNotice v-show="noticeMessage.groupidNotice" type="error" show-icon></el-alert>
+    <li><div><span>密码:</span><el-input placeholder="请输入所设置的密码" v-model="password"  clearable  @change="passwordCheck()"></el-input></div>
+          <el-alert :title=noticeMessage.passwordNotice v-show="noticeMessage.passwordNotice" type="error" show-icon></el-alert>
       </li>
       <!--小组名称任意 设置字数限制 -->
       <li><div><span>邮箱:</span><el-input placeholder="请输入邮箱号码" v-model="email"  clearable @change="emailCheck()"></el-input></div>
@@ -26,7 +26,7 @@
       <li><span>性别:</span><el-radio v-model="radio" label="1">女</el-radio>
      <el-radio v-model="radio" label="2">男</el-radio></li>
       <!-- 单选框 -->
-      <li> <el-button type="primary" @click="registerData(),dataBind(username,groupid,email,phonenumber,gender),genderJudge()" >下一步</el-button></li>
+      <li> <el-button type="primary" @click="registerData(),dataBind(username,password,email,phonenumber,gender),genderJudge(),toregisterCheck()" >下一步</el-button></li>
     </ul>
   </div>
 </div>
@@ -43,13 +43,13 @@ export default {
       // 对radio进行判断
       // 定仓库中gender变量存储的特征值
       username: '',
-      groupid: '',
+      password: '',
       email: '',
       phonenumber: '',
       gender: '',
       noticeMessage: {
         usernameNotice: '',
-        groupidNotice: '',
+        passwordNotice: '',
         emailNotice: '',
         phonenumberNotice: ''
 
@@ -79,11 +79,11 @@ export default {
         }, 2000)
       }
     },
-    groupidCheck () {
-      if (this.groupid.length > 11) {
-        this.noticeMessage.groupidNotice = '用户名小于等于11个字符'
+    passwordCheck () {
+      if (this.password.length > 11) {
+        this.noticeMessage.passwordNotice = '密码小于等于11个字符'
         setTimeout(() => {
-          this.noticeMessage.groupidNotice = ''
+          this.noticeMessage.passwordNotice = ''
         }, 2000)
       }
     },
@@ -120,7 +120,10 @@ export default {
     // ...mapMutations('register', ['groupIdInput']),
     // ...mapMutations('register', ['EmailInput']),
     // ...mapMutations('register', ['phoneNumberInput']),
-    ...mapActions('register', ['registerData'])
+    ...mapActions('register', ['registerData']),
+    toregisterCheck () {
+      this.$router.push('/registerCheck')
+    }
   }
 }
 </script>
