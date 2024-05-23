@@ -13,8 +13,8 @@ import queryBorrowingRecords from '@/views/queryBorrowingRecords.vue'
 import myRemarks from '@/views/myRemarks.vue'
 import reportProgress from '@/views/reportProgress.vue'
 import returnBook from '@/views/returnBook.vue'
-import serachAllBook from '@/views/serachAllBooks.vue'
-import serachBookBorrowed from '@/views/serachBooksBorrowed.vue'
+import serachAllBooks from '@/views/serachAllBooks.vue'
+import serachBooksBorrowed from '@/views/serachBooksBorrowed.vue'
 import serachOwnBooks from '@/views/serachOwnBooks.vue'
 import submissionRecord from '@/views/submissionRecord.vue'
 import submitForm from '@/views/submitForm.vue'
@@ -59,9 +59,9 @@ const routes = [
         component: returnBook
       },
       {
-        path: '/serachAllBook',
-        name: 'serachAllBook',
-        component: serachAllBook
+        path: '/serachAllBooks',
+        name: 'serachAllBooks',
+        component: serachAllBooks
       },
       {
         path: '/serachOwnBooks',
@@ -69,9 +69,9 @@ const routes = [
         component: serachOwnBooks
       },
       {
-        path: '/serachBookBorrowed',
-        name: 'serachBookBorrowed',
-        component: serachBookBorrowed
+        path: '/serachBooksBorrowed',
+        name: 'serachBooksBorrowed',
+        component: serachBooksBorrowed
       },
       {
         path: '/submitForm',
