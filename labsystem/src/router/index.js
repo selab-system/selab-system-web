@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import login from '../views/login.vue'
 import register from '../views/register.vue'
+import tasks from '@/views/tasks/firstTasks.vue'
+import setTasks from '@/views/tasks/setTasks.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -19,7 +21,14 @@ const router = new VueRouter({
     {
       path: '/register',
       component: register
-
+    },
+    {
+      path: '/tasks',
+      component: tasks
+    },
+    {
+      path: '/setTasks',
+      component: setTasks
     }
   ]
 })
