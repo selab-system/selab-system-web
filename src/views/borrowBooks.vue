@@ -1,12 +1,13 @@
-<script setup>
-
-</script>
-
 <template>
-<div></div>
-
+<div>你好</div>
 </template>
 
-<style scoped>
+<script>
+export default {
+
+}
+</script>
+
+<style>
 
 </style>
