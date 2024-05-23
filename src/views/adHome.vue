@@ -7,9 +7,9 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
-    },
-
     }
+
+  }
 
 }
 </script>
@@ -76,7 +76,7 @@ export default {
 .homeview{
   width: 87%;
   height: 880px;
-  background-color: blue;
+  /* background-color: blue; */
 }
 .active{
   color: white;
