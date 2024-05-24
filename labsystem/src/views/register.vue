@@ -26,7 +26,7 @@
       <li><span>性别:</span><el-radio v-model="radio" label="1">女</el-radio>
      <el-radio v-model="radio" label="2">男</el-radio></li>
       <!-- 单选框 -->
-      <li> <el-button type="primary" @click="registerData(),dataBind(username,password,email,phonenumber,gender),genderJudge(),toregisterCheck()" >下一步</el-button></li>
+      <li> <el-button type="primary" @click="registerData(),dataBind(username,password,email,phonenumber,gender),genderJudge(),toregisterCheck()">前往登录</el-button></li>
     </ul>
   </div>
 </div>
@@ -122,7 +122,7 @@ export default {
     // ...mapMutations('register', ['phoneNumberInput']),
     ...mapActions('register', ['registerData']),
     toregisterCheck () {
-      this.$router.push('/registerCheck')
+      this.$router.push('/login')
     }
   }
 }

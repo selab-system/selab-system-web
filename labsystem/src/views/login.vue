@@ -15,7 +15,7 @@
     <li><span id="second">密码：</span><el-input placeholder="请输入密码" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
     </li>
     <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div>
-        <li><el-button type="primary" @click="judgeLogin">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
+        <li><el-button type="primary" @click="judgeLogin,tohomePage()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
 
     </ul>
         <!-- 登录框需要进行输入验证 -->
@@ -115,6 +115,9 @@ export default {
     },
     toRegister () {
       this.$router.push('/register')
+    },
+    tohomePage () {
+      this.$router.push('./homePage')
     }
 
   }

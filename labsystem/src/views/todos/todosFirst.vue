@@ -19,8 +19,8 @@
 
 <script>
 export default {
-  name: "todosFirst",
-};
+  name: 'todosFirst'
+}
 </script>
 
 <style>
