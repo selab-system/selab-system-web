@@ -230,7 +230,7 @@ export default {
     search () {
       queryMyTask().then((res) => {
         console.log(res)
-        this.tableData = res.data
+        this.tableData = Object.values(res.data)
       })
     },
     // 查询汇报记录
@@ -238,7 +238,7 @@ export default {
       const id = { taskId: this.tableData.id }
       queryAllResport(id).then((res) => {
         console.log(res)
-        this.allTableData1 = res.data
+        this.allTableData1 = Object.values(res.data)
         if (!this.currentPage || this.currentPage === 1) {
           this.handleCurrentChange(1)
         }

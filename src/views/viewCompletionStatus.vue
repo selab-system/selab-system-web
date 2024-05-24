@@ -194,9 +194,9 @@ export default {
       queryMyTask(obj).then(response => {
         console.log(response)
         // 多条件查询的数据
-        this.allTableData = response.data
+        this.allTableData = Object.values(response.data)
         // 总数量
-        this.totalCount = response.data.length
+        // this.totalCount = response.data.length
         // 取第一页数据
         if (!this.currentPage || this.currentPage === 1) {
           this.handleCurrentChange(1)
@@ -223,7 +223,7 @@ export default {
       const id = { taskId: this.allTableData.id }
       queryAllNeedReportUser(id).then((res) => {
         console.log(res)
-        this.gridData = res.data
+        this.gridData = Object.values(res.data)
       }
       )
     },
@@ -232,7 +232,7 @@ export default {
       const id = { taskId: this.allTableData.id }
       queryCount(id).then((res) => {
         console.log(res)
-        this.numberData = res
+        this.numberData.data = res
       }
 
       )

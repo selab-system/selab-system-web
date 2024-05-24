@@ -20,11 +20,11 @@
             <el-input v-model="form.publisherId"></el-input>
           </el-form-item>
           <!-- 更新者 -->
-          <el-form-item label="发布者">
+          <el-form-item label="更新者">
             <el-input v-model="form.updaterId"></el-input>
           </el-form-item>
           <!-- 截止时间 -->
-          <el-form-item label="截止时间">
+          <el-form-item label="截止时间" >
             <el-col :span="11">
               <el-date-picker type="date" placeholder="选择日期" v-model="form.date3" style="width: 100%;"></el-date-picker>
             </el-col>
@@ -36,7 +36,7 @@
           <!-- 任务内容 -->
           <el-form-item label="任务内容">
             <el-input type="textarea" v-model="form.content"></el-input>
-            <el-upload
+            <!-- <el-upload
               class="upload-demo"
               drag
               action="http://localhost:8080/"
@@ -44,14 +44,14 @@
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+          </el-upload> -->
           </el-form-item>
           <!-- 发布取消 -->
           <el-form-item>
             <el-button type="primary" @click="onSubmit">立即发布</el-button>
-            <el-button>取消</el-button>
+            <el-button >取消</el-button>
           </el-form-item>
-      </el-form>
+        </el-form>
       </div>
     </div>
   </template>
@@ -81,7 +81,7 @@ export default {
   methods: {
     async onSubmit () {
       console.log('submit!')
-      const res = await save(this.publisherId, this.updaterId, this.groupIds, this.name, this.content, this.dralTime)
+      const res = await save(this.form.publisherId, this.form.updaterId, this.form.groupIds, this.form.name, this.form.content, this.form.dealTime)
       console.log(res)
       alert('任务发布成功')
     }

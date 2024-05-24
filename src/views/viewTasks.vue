@@ -5,6 +5,10 @@
         <div class="title">
           <p>我的任务列表</p>
         </div>
+        <div class="search">
+          <input type="text" placeholder="请输入你的姓名" v-model="username">
+          <el-button type="primary" @click="search()">搜索你的任务</el-button>
+        </div>
         <div class="content">
           <el-table
         :data="tableData"
@@ -12,12 +16,12 @@
         style="width: 100%">
         <el-table-column
           fixed
-          prop="date"
+          prop="dealTime"
           label="截止时间"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="publishTime"
           label="发布时间"
           width="120">
         </el-table-column>
@@ -27,12 +31,12 @@
           width="120">
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="publisherName"
           label="发布者"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="city"
+          prop="status"
           label="任务状态"
           width="120">
         </el-table-column>
@@ -48,7 +52,7 @@
               width="40%"
               :before-close="handleClose"
               :append-to-body='true'>
-              <span>你猜你的任务内容是什么？</span>
+              <span>{{tableData.content}}</span>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -67,32 +71,33 @@ export default {
   name: 'ViewTasks',
   data () {
     return {
+      username: '',
       dialogVisible: false,
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
-        province: '上海',
+        publisherName: '上海',
         city: '普陀区',
         address: '上海市普陀区金沙江路 1518 弄',
         zip: 200333
       }, {
         date: '2016-05-04',
         name: '王小虎',
-        province: '上海',
+        publisherName: '上海',
         city: '普陀区',
         address: '上海市普陀区金沙江路 1517 弄',
         zip: 200333
       }, {
         date: '2016-05-01',
         name: '王小虎',
-        province: '上海',
+        publisherName: '上海',
         city: '普陀区',
         address: '上海市普陀区金沙江路 1519 弄',
         zip: 200333
       }, {
         date: '2016-05-03',
         name: '王小虎',
-        province: '上海',
+        publisherName: '上海',
         city: '普陀区',
         address: '上海市普陀区金沙江路 1516 弄',
         zip: 200333
@@ -111,8 +116,14 @@ export default {
         .catch(_ => {})
     },
     search () {
-      queryForUser().then((res) => {
+      const data = { username: this.username }
+      queryForUser(data).then((res) => {
         console.log(res)
+        if (res.data && typeof res.data === 'object' && !Array.isArray(res.data)) {
+          // 转换对象为数组，每个元素是一个包含 key 和 value 的对象
+          this.tableData = Object.values(res.data)
+        }
+        // this.tableData = res.data
       }
 
       )
@@ -145,7 +156,16 @@ export default {
       font-size: 30px;
       font-weight: 700;
     }
-
+    /* 搜索框 */
+    .search{
+      margin: 5px;
+      margin-bottom:40px ;
+    }
+    .search input{
+      width: 200px;
+      height: 30px;
+      margin-right:15px ;
+    }
     /* 内容 */
     .content{
       width: 800px;
