@@ -112,6 +112,12 @@ export default {
     return {
       tableData: Array(5).fill(item)
     }
+  },
+  methods: {
+
+  },
+  mounted () {
+    console.log(JSON.parse(localStorage.getItem('username')))
   }
 }
 
