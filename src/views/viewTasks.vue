@@ -10,57 +10,62 @@
           <el-button type="primary" @click="search()">搜索你的任务</el-button>
         </div>
         <div class="content">
-          <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-        <el-table-column
-          fixed
-          prop="dealTime"
-          label="截止时间"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="publishTime"
-          label="发布时间"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="任务名"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="publisherName"
-          label="发布者"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="status"
-          label="任务状态"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="200">
-          <template>
-            <el-button type="text" @click="dialogVisible = true">查看任务内容</el-button>
-            <el-dialog
-              title="任务内容"
-              :visible.sync="dialogVisible"
-              width="40%"
-              :before-close="handleClose"
-              :append-to-body='true'>
-              <span>{{tableData.content}}</span>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-              </span>
-            </el-dialog>
-          </template>
-        </el-table-column>
-      </el-table>
+          <div v-if="tableData.length>0">
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                fixed
+                prop="dealTime"
+                label="截止时间"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="publishTime"
+                label="发布时间"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="任务名"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                prop="publisherName"
+                label="发布者"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                prop="status"
+                label="任务状态"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="200">
+                <template>
+                  <el-button type="text" @click="dialogVisible = true">查看任务内容</el-button>
+                  <el-dialog
+                    title="任务内容"
+                    :visible.sync="dialogVisible"
+                    width="40%"
+                    :before-close="handleClose"
+                    :append-to-body='true'>
+                    <span>{{tableData.content}}</span>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                    </span>
+                  </el-dialog>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div v-else>
+            <el-empty :image-size="200"></el-empty>
+          </div>
         </div>
       </div>
     </template>
@@ -73,39 +78,41 @@ export default {
     return {
       username: '',
       dialogVisible: false,
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        publisherName: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        publisherName: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1517 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        publisherName: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1519 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        publisherName: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }]
+      tableData: [
+        // {
+        //   date: '2016-05-02',
+        //   name: '王小虎',
+        //   publisherName: '上海',
+        //   city: '普陀区',
+        //   address: '上海市普陀区金沙江路 1518 弄',
+        //   zip: 200333
+        // }, {
+        //   date: '2016-05-04',
+        //   name: '王小虎',
+        //   publisherName: '上海',
+        //   city: '普陀区',
+        //   address: '上海市普陀区金沙江路 1517 弄',
+        //   zip: 200333
+        // }, {
+        //   date: '2016-05-01',
+        //   name: '王小虎',
+        //   publisherName: '上海',
+        //   city: '普陀区',
+        //   address: '上海市普陀区金沙江路 1519 弄',
+        //   zip: 200333
+        // }, {
+        //   date: '2016-05-03',
+        //   name: '王小虎',
+        //   publisherName: '上海',
+        //   city: '普陀区',
+        //   address: '上海市普陀区金沙江路 1516 弄',
+        //   zip: 200333
+        // }
+      ]
     }
   },
   created () {
-    this.search()
+    // this.search()
   },
   methods: {
     handleClose (done) {
