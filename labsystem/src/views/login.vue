@@ -12,10 +12,12 @@
     <el-input v-model="ruleForm.name"></el-input>
     </el-form-item> -->
     <li><h1>欢迎登录实验室管理系统</h1></li>
-    <li><span id="first">用户名：</span><el-input placeholder="请输入用户名或邮箱" v-model=postMessage clearable @change="changepostMessage(postMessage);judgePostMessage();noticeDisplay()">
+    <li><span id="first">用户名：</span>
+    <el-input placeholder="请输入用户名或邮箱" prefix-icon="el-icon-s-custom" v-model=postMessage clearable @change="changepostMessage(postMessage);judgePostMessage();noticeDisplay()">
     </el-input></li>
     <div class="alter1" v-show="noticeMessge1">{{ noticeMessge1 }}</div>
-    <li><span id="second">密码：</span><el-input placeholder="请输入密码" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
+    <li><span id="second">密码：</span>
+    <el-input placeholder="请输入密码" prefix-icon="el-icon-key" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
     </li>
     <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div>
         <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
