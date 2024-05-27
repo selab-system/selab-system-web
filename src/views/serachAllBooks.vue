@@ -1,15 +1,14 @@
 <script >
-import { getBookList, searchBookMsg } from '@/api/bookmanage'
+import { getBookList, searchBookMsg,getBookId } from '@/api/searchAllBooks'
 export default {
   data () {
     return {
       inputbookname: '',
-      bookName: 'tomorrow',
-      bookAuthor: '雷猴',
-      bookDetails: '暂未定',
-      owner: 'whatever',
-      status: '在',
-      createTime: '哈哈哈哈',
+      bookAuthor: '',
+      bookDetails: '',
+      owner: '',
+      status: '',
+      createTime: '',
       control: false,
       tableData: [{
         bookId: 0,
@@ -49,19 +48,32 @@ export default {
       console.log(str)
     },
     // 点击事件searchbook
-    searchbook () {
-      const data = this.inputbookname
-      this.searchBookMsg(data)
-      this.control = true
+    async searchbook () {
+      if(this.inputbookname.trim()===''){
+        alert("书名不能为空")
+        return
+      }
+      // 用书名查id
+      const res = await getBookId(this.inputbookname)
+      if(res.data.bookId){
+        this.searchBookMsg(this.inputbookname)
+        this.control = true
+        // alert("wow")
+      }
+      else{
+        alert("此书名不存在")
+        this.control = true
+        return
+      }
     },
     async  searchBookMsg (data) {
       const str = await searchBookMsg(data)
-      this.bookName = str.bookName
-      this.bookAuthor = str.bookAuthor
-      this.bookDetails = str.bookDetails
-      this.owner = str.owner
-      this.status = str.status
-      this.createTime = str.createTime
+      // this.bookName = str.bookName
+      // this.bookAuthor = str.bookAuthor
+      // this.bookDetails = str.bookDetails
+      // this.owner = str.owner
+      // this.status = str.status
+      // this.createTime = str.createTime
     }
   }
 }
@@ -69,6 +81,7 @@ export default {
 
 <template>
   <div class="bookmanage">
+    <div class="top">查询所有书籍</div>
     <el-container>
       <!-- 头部 -->
       <el-header>
@@ -76,12 +89,13 @@ export default {
         <el-input
           placeholder="请输入图书名称"
           v-model="inputbookname"
+          @keyup.enter="searchbook"
           clearable
         >
         </el-input>
         <!-- 一个提交按钮 -->
         <el-row>
-          <el-button type="success" plain @click="searchbook">查询</el-button>
+          <el-button type="success" plain @click="searchbook" >查询</el-button>
         </el-row>
       </el-header>
       <!-- 查询到的信息 -->
@@ -159,5 +173,12 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.top {
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  font-size: 40px;
 }
 </style>
