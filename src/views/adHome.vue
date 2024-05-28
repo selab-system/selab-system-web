@@ -2,12 +2,12 @@
 export default {
   name: 'adHome',
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    }
+    // handleOpen (key, keyPath) {
+    //   console.log(key, keyPath)
+    // },
+    // handleClose (key, keyPath) {
+    //   console.log(key, keyPath)
+    // }
 
   }
 
@@ -47,7 +47,8 @@ export default {
               <el-menu-item index="1-3-1"><router-link to="/countNumberOfForm" class="active">统计报名表数量</router-link>></el-menu-item>
               <el-menu-item index="1-3-2"><router-link to="/submissionRecord" class="active">查看提交记录</router-link>></el-menu-item>
               <el-menu-item index="1-3-3"><router-link to="/submittedForm" class="active">查看已提交的报名表</router-link>></el-menu-item>
-              <el-menu-item index="1-3-3"><router-link to="/myRmarks" class="active">添加备注信息</router-link>></el-menu-item>
+              <el-menu-item index="1-3-3"><router-link to="/myRemarks" class="active">添加备注信息</router-link>></el-menu-item>
+              <el-menu-item index="1-3-4"><router-link to="/changeMassage" class="active">修改提交信息</router-link>></el-menu-item>
             </el-submenu>
             <el-submenu index="1-4">
               <template slot="title" >任务管理</template>

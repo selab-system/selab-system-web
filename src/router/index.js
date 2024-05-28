@@ -26,6 +26,7 @@ import viewReportRecords from '@/views/viewReportRecords.vue'
 import viewTasks from '@/views/viewTasks.vue'
 import adUserChange from '@/views/adUserChange.vue'
 import register from '../views/Register.vue'
+import changeMassage from '../views/changeMassage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -150,6 +151,11 @@ const routes = [
         path: '/myRmarks',
         name: 'myRemarks',
         component: myRemarks
+      },
+      {
+        path:'/changeMassage',
+        name:'changeMassage',
+        component: changeMassage
       },
       {
         path: '/publishTask',

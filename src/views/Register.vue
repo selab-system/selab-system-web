@@ -1,26 +1,31 @@
 <script>
+import {register} from "@/api/login";
+
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'MyRegister',
+
+ name: 'MyRegister',
   data () {
     return {
-      form: {
+     form: {
+      usermailbox:'',
         useraccount: '',
-        userpassword: ''
+       userpassword: '',
       }
-    }
+   }
   },
-  methods: {
+ methods: {
     handleReigster () {
-      console.log(11)
-    }
-  }
-}
+   register(this.form).then(res=>{
+       console.log(res)
+     })
+   }}}
 </script>
 
 <template>
 <div>
   <form id="registerform" @submit.prevent="handleregister">
+    <label for="usermailbox">邮箱</label>
+    <input type="text" placeholder="请输入你的qq邮箱" id="usermailbox" v-model=form.usermailbox>
     <label for="useraccount">账号</label>
     <input type="text" placeholder="请输入你的账号" id="useraccount" v-model="form.useraccount">
     <label for="userpassword">密码</label>

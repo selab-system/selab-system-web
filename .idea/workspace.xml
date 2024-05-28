@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a35c98e-bf55-4f3e-bb3b-2c62270c7261" name="更改" comment="" />
+    <list default="true" id="6a35c98e-bf55-4f3e-bb3b-2c62270c7261" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/submitForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/changeMassage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-demo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/untils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/untils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/adHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/adHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/countNumberOfForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/countNumberOfForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/submitForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/submitForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/submittedForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/submittedForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/viewOwnForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/viewOwnForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,13 +32,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/project-demo" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -55,14 +73,16 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lenovo/Desktop/project-demo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;second&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lenovo/Desktop/project-demo2/project-demo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.rainbow.brackets.disable.when&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
     &quot;ts.external.directory.path&quot;: &quot;D:\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -89,6 +109,10 @@
       <workItem from="1715611986488" duration="387000" />
       <workItem from="1715613184659" duration="728000" />
       <workItem from="1715614692966" duration="308000" />
+      <workItem from="1716808300630" duration="26000" />
+      <workItem from="1716808336182" duration="36000" />
+      <workItem from="1716808373585" duration="7960000" />
+      <workItem from="1716816409194" duration="1969000" />
     </task>
     <servers />
   </component>
