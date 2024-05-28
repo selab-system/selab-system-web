@@ -62,12 +62,13 @@ request.interceptors.response.use(response => {
                     }
                 })
                 return Promise.reject("登陆过期，请重新登录")
-                break
+                // break
+                //突然报错，我给注掉了
             // 404 代表请求的资源不存在
             case 404:
                 alert("请求的资源不存在")
                 return Promise.reject("请求的资源不存在")
-                break
+                // break
             // 其他错误
             default:
                 alert("请求失败")

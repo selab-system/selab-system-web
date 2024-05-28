@@ -16,7 +16,13 @@ import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
 //引入发布任务组件
 import TaskRelease from "@/views/TaskManagePage/Manager/TaskRelease.vue";
 //引入查看全部任务组件
-import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask";
+import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask.vue";
+//引入查看任务详情组件
+import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
+//引入任务更新组件
+import TaskUpdate from "@/views/TaskManagePage/Manager/TsakUpdate.vue";
+//引入查看任务汇报组件
+import TaskReport from "@/views/TaskManagePage/Manager/TaskReport.vue";
 // 引入报名表组件
 // 把vuerouter安装成vue的插件
 Vue.use(VueRouter)
@@ -63,6 +69,24 @@ let routes = [
                 path: "/CheckAllTask",
                 name: "CheckAllTask",
                 component: CheckAllTask
+            },
+            //查看任务详情
+            {
+                path: "/TaskDetail",
+                name: "TaskDetail",
+                component: TaskDetail
+            },
+            //更新任务
+            {
+                path: "/TaskUpdate",
+                name: "TaskUpdate",
+                component:TaskUpdate
+            },
+            //查看任务汇报
+            {
+                path:"/TaskReport",
+                name:"TaskReport",
+                component:TaskReport
             }
                 ]
             },

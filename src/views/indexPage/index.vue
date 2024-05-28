@@ -3,6 +3,7 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
+        <div class="body"></div>
       </div>
       <div class="content"></div>
     </div>
@@ -36,5 +37,9 @@ export default {
   border-bottom:var(--box-border);
   box-shadow: var(--nav-box-shadow);
   overflow: hidden;
+}
+.body{
+  height: 600px;
+  background-color: pink;
 }
 </style>
