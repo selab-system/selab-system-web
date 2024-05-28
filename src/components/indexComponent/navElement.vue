@@ -32,8 +32,8 @@
           <span @click="toggleDropdownT"><a href="javascript:;">任务管理</a></span>
           <div class="dropdown-content" v-if="this.showDropdownT">
             <div class="menuDown"> <router-link to="/release">发布任务</router-link> </div>
+            <div class="menuDown"><router-link to="/task">我发布的任务</router-link></div>
             <div class="menuDown"><router-link to="/CheckAllTask">查看全部任务</router-link></div>
-            <div class="menuDown"><router-link to="/task">查看汇报记录</router-link></div>
           </div>
         </div>
       </div>
