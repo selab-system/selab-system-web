@@ -20,8 +20,8 @@
     <el-input placeholder="请输入密码" prefix-icon="el-icon-key" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
     </li>
     <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div>
-        <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
-
+        <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore(),getDatabypassword()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
+<!-- 此处都需要设置为表单项进行自主校验 -->
     </ul>
   </div>
 
@@ -42,6 +42,7 @@
 
 <script>
 // 使用映射引入库中数据 简化写法
+
 import { mapActions, mapMutations } from 'vuex'
 export default {
   data () {
@@ -49,8 +50,11 @@ export default {
     return {
       password: '',
       postMessage: '',
+      roleId: 'user',
+      groupId: '111',
       noticeMessge1: '',
       noticeMessge2: ''
+
     }
   },
   name: 'IndexLogin',
@@ -95,6 +99,7 @@ export default {
         }
       }
     },
+    // 判断密码的输入
     judgePassWord () {
       if (this.password === '') {
         this.noticeMessge2 = '输入为空'
@@ -120,18 +125,28 @@ export default {
         console.log(this.noticeMessge2)
       }
     },
+    // 前往注册界面
     toRegister () {
       this.$router.push('/register')
     },
+    // 前往主页
     tohomePage () {
       this.$router.push('./homePage')
     },
+    // 数据的本地存储
     stataStore () {
       localStorage.setItem('username', JSON.stringify(this.postMessage))
       localStorage.setItem('password', JSON.stringify(this.password))
+      // localStorage.setItem('roleId', JSON.stringify(this.roleId))
+    },
+    // 使用axios进行数据的获取不再使用vuex中的actions 较难 进行数据的保存与沟通；
+    getDatabypassword () {
+      // const { data, msg } = await axios.get({})
+      localStorage.setItem('roleId', JSON.stringify(this.roleId))
+      localStorage.setItem('groupId', JSON.stringify(this.groupId))
     }
-
   },
+  // 对用户名与密码本地存数据的获取
   mounted () {
     this.postMessage = JSON.parse(localStorage.getItem('username'))
     this.password = JSON.parse(localStorage.getItem('password'))

@@ -26,14 +26,14 @@
 
 <script>
 export default {
-  props: ["groups","getDpartmentName"],
-  data() {
+  props: ['groups', 'getDpartmentName'],
+  data () {
     return {
-      filterText: "",
+      filterText: '',
       data: [
         {
           id: 1,
-          label: "创新实验室小组",
+          label: '创新实验室小组',
           children: [
             {
               id: 2,
@@ -41,13 +41,13 @@ export default {
               children: [
                 {
                   id: 9,
-                  label: "开发" + "-" + Object.values(this.groups)[0][0],
+                  label: '开发' + '-' + Object.values(this.groups)[0][0]
                 },
                 {
                   id: 10,
-                  label: "开发" + "-" + Object.values(this.groups)[0][0],
-                },
-              ],
+                  label: '开发' + '-' + Object.values(this.groups)[0][0]
+                }
+              ]
             },
             {
               id: 3,
@@ -55,37 +55,37 @@ export default {
               children: [
                 {
                   id: 4,
-                  label: "网安" + "-" + "text",
-                },
-              ],
-            },
-          ],
-        },
+                  label: '网安' + '-' + 'text'
+                }
+              ]
+            }
+          ]
+        }
       ],
       defaultProps: {
-        children: "children",
-        label: "label",
-      },
-    };
+        children: 'children',
+        label: 'label'
+      }
+    }
   },
   methods: {
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+    filterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     },
-    show(a,b,c){
+    show (a, b, c) {
       // console.log(a['label'])
       // console.log(b)
       // console.log(c)
-      this.getDpartmentName(a['label'])
+      this.getDpartmentName(a.label)
     }
   },
   watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val);
-    },
-  },
-};
+    filterText (val) {
+      this.$refs.tree.filter(val)
+    }
+  }
+}
 </script>
 
 <style scoped>

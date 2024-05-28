@@ -55,8 +55,14 @@
     </el-radio-group>
   </el-form-item>
 
-  <el-form-item label="个人介绍" prop="">
+  <el-form-item label="个人介绍" prop="introduce">
     <el-input type="textarea" size="medium" v-model="paperForm.introduce"></el-input>
+  </el-form-item>
+  <el-form-item label="加入目的" prop="purpose">
+    <el-input type="textarea" size="small" v-model="paperForm.purpose"></el-input>
+  </el-form-item>
+  <el-form-item label="备注" prop="notes">
+    <el-input type="textarea" size="medium" v-model="paperForm.notes"></el-input>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="submitForm('recruit')">提交报名表</el-button>
@@ -79,7 +85,9 @@ export default {
         // date1: '',
         // date2: '',
         group: '',
-        introduce: ''
+        introduce: '',
+        purpose: '',
+        notes: ''
       },
       rules: {
         name: [
@@ -106,8 +114,15 @@ export default {
         group: [
           { required: true, message: '请选择意向部门', trigger: 'change' }
         ],
+
         introduce: [
           { required: true, message: '请填写个人介绍', trigger: 'blur' }
+        ],
+        purpose: [
+          { required: true, message: '请填写加入目的', trigger: 'blur' }
+        ],
+        notes: [
+          { required: true, message: '请填写备注', trigger: 'blur' }
         ]
       }
     }
@@ -142,7 +157,7 @@ padding: 0;
 }
 .body{
 width: 1800px;
-height: 1000px;
+height: 1300px;
 background-color: #f3f5f5;
 padding: 20px;
 }
@@ -185,5 +200,11 @@ font-size: 20px;
 ::v-deep .el-input__innerL
 {width: 300px;
 
+}
+
+::v-deep .el-button, .el-dropdown{
+font-size: 30px;
+width: 200px;
+height: 100px;
 }
 </style>

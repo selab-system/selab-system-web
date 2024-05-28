@@ -137,230 +137,231 @@
 </template>
 
 <script>
-import UserShow from "./UserShow.vue";
+
 export default {
-  props: ["user", "showDepartment"],
+  props: ['user', 'showDepartment'],
   components: {
-    UserShow,
+
   },
-  data() {
+  data () {
     return {
-      username: "",
-      phonenumber: "",
-      nickname: "",
+      username: '',
+      phonenumber: '',
+      nickname: '',
       options: [
         {
-          value: "黄金糕",
+          value: '黄金糕'
         },
         {
-          value: "双皮奶",
+          value: '双皮奶'
         },
         {
-          value: "蚵仔煎",
+          value: '蚵仔煎'
         },
         {
-          value: "龙须面",
+          value: '龙须面'
         },
         {
-          value: "北京烤鸭",
-        },
+          value: '北京烤鸭'
+        }
       ],
-      value0: "",
+      value0: '',
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            },
+            text: '最近一周',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
           },
           {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            },
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
           },
           {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
+            text: '最近三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }
+        ]
       },
-      value1: "",
-      value2: "",
-      //表格
+      value1: '',
+      value2: '',
+      // 表格
       tableData: [
         {
-          idnumber: "1",
-          name: "李四",
-          nickname: "aaa",
-          department: "开发",
-          phonenumber: "1234",
-          status: "龙须面",
-          operation: "",
+          idnumber: '1',
+          name: '李四',
+          nickname: 'aaa',
+          department: '开发',
+          phonenumber: '1234',
+          status: '龙须面',
+          operation: ''
         },
         {
-          idnumber: "2",
-          name: "张三",
-          nickname: "bbb",
-          department: "开发",
-          phonenumber: "456",
-          status: "北京烤鸭",
-          operation: "",
-        },
+          idnumber: '2',
+          name: '张三',
+          nickname: 'bbb',
+          department: '开发',
+          phonenumber: '456',
+          status: '北京烤鸭',
+          operation: ''
+        }
       ],
       tableData2: [],
       multipleSelection: [],
-      //开关
+      // 开关
       valueswitch: true,
-      //展示搜索结果
+      // 展示搜索结果
       showall: true,
-      showanswer: false,
-      //记录tableData2的值
-    };
+      showanswer: false
+      // 记录tableData2的值
+    }
   },
   methods: {
-    //表格
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    // 表格
+    handleSelectionChange (val) {
+      this.multipleSelection = val
     },
-    searchusername(name) {
+    searchusername (name) {
       for (let i = 0; i < this.tableData.length; i++) {
-        let num = 0;
+        let num = 0
         for (let j = 0; j < name.length; j++) {
-          if (name[j] == this.tableData[i]["name"][j]) {
-            num++;
+          if (name[j] === this.tableData[i].name[j]) {
+            num++
           }
         }
-        if (num == name.length) {
-          this.tableData2 = [this.tableData[i]];
-          this.showall = false;
-          this.showanswer = true;
-          return;
+        if (num === name.length) {
+          this.tableData2 = [this.tableData[i]]
+          this.showall = false
+          this.showanswer = true
+          return
         }
       }
-      this.tableData2 = [];
-      this.showall = false;
-      this.showanswer = true;
+      this.tableData2 = []
+      this.showall = false
+      this.showanswer = true
     },
-    blur() {
-      this.showall = true;
-      this.showanswer = false;
+    blur () {
+      this.showall = true
+      this.showanswer = false
     },
-    searchphonenumber(phonenumber) {
+    searchphonenumber (phonenumber) {
       for (let i = 0; i < this.tableData.length; i++) {
-        let num = 0;
+        let num = 0
         for (let j = 0; j < phonenumber.length; j++) {
-          if (phonenumber[j] == this.tableData[i]["phonenumber"][j]) {
-            num++;
+          if (phonenumber[j] === this.tableData[i].phonenumber[j]) {
+            num++
           }
         }
-        if (num == phonenumber.length) {
-          this.tableData2 = [this.tableData[i]];
-          this.showall = false;
-          this.showanswer = true;
-          return;
+        if (num === phonenumber.length) {
+          this.tableData2 = [this.tableData[i]]
+          this.showall = false
+          this.showanswer = true
+          return
         }
       }
-      this.tableData2 = [];
-      this.showall = false;
-      this.showanswer = true;
+      this.tableData2 = []
+      this.showall = false
+      this.showanswer = true
     },
-    serchstatus(status) {
-      let num = 0;
+    serchstatus (status) {
+      let num = 0
       for (let i = 0; i < this.options.length; i++) {
         for (let j = 0; j < status.length; j++) {
-          if (status[j] == this.options[i]["value"][j]) {
-            num++;
+          if (status[j] === this.options[i].value[j]) {
+            num++
           }
         }
       }
-      if (num == status.length) {
+      if (num === status.length) {
         for (let k = 0; k < this.tableData.length; k++) {
-          if (this.tableData[k]["status"] == status) {
-            this.tableData2 = [this.tableData[k]];
+          if (this.tableData[k].status === status) {
+            this.tableData2 = [this.tableData[k]]
             // console.log(this.tableData2)
-            break;
+            break
           }
         }
-        this.showall = false;
-        this.showanswer = true;
-        return;
+        this.showall = false
+        this.showanswer = true
+        return
       }
-      this.tableData2 = [];
-      this.showall = false;
-      this.showanswer = true;
+      this.tableData2 = []
+      this.showall = false
+      this.showanswer = true
     },
-    searchnickname(nickname) {
+    searchnickname (nickname) {
       for (let i = 0; i < this.tableData.length; i++) {
-        let num = 0;
+        let num = 0
         for (let j = 0; j < nickname.length; j++) {
-          if (nickname[j] == this.tableData[i]["nickname"][j]) {
-            num++;
+          if (nickname[j] === this.tableData[i].nickname[j]) {
+            num++
           }
         }
-        if (num == nickname.length) {
-          this.tableData2 = [this.tableData[i]];
-          this.showall = false;
-          this.showanswer = true;
-          return;
+        if (num === nickname.length) {
+          this.tableData2 = [this.tableData[i]]
+          this.showall = false
+          this.showanswer = true
+          return
         }
       }
-      this.tableData2 = [];
-      this.showall = false;
-      this.showanswer = true;
+      this.tableData2 = []
+      this.showall = false
+      this.showanswer = true
     },
-    recover() {
-      this.tableData2 = [];
-      this.showall = true;
-      this.showanswer = false;
+    recover () {
+      this.tableData2 = []
+      this.showall = true
+      this.showanswer = false
       // console.log(3);
     },
-    ak(a) {
-      console.log(a.target);
-    },show() {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "");
-      myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
-      myHeaders.append("Content-Type", "application/json");
+    ak (a) {
+      console.log(a.target)
+    },
+    show () {
+      const myHeaders = new Headers()
+      myHeaders.append('Authorization', '')
+      myHeaders.append('User-Agent', 'Apifox/1.0.0 (https://apifox.com)')
+      myHeaders.append('Content-Type', 'application/json')
 
-      var raw = JSON.stringify({
-        serialVersionUID: "0",
-        bookName: "String",
-        bookAuthor: "String",
-        bookDetails: "String",
+      const raw = JSON.stringify({
+        serialVersionUID: '0',
+        bookName: 'String',
+        bookAuthor: 'String',
+        bookDetails: 'String',
         price: 0,
         owner: 0,
-        ownerName: "String",
-        remark: "String",
-        bookRef: "String",
-      });
+        ownerName: 'String',
+        remark: 'String',
+        bookRef: 'String'
+      })
 
-      var requestOptions = {
-        method: "POST",
+      const requestOptions = {
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
-      };
+        redirect: 'follow'
+      }
 
-      fetch("http://dev-cn.your-api-server.com/book/save", requestOptions)
+      fetch('http://dev-cn.your-api-server.com/book/save', requestOptions)
         .then((response) => response.text())
         .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-    },
-  },
-};
+        .catch((error) => console.log('error', error))
+    }
+  }
+}
 </script>
 
 <style scoped>

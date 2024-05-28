@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <!--  -->
-    hhh
-  </div>
+  <div>查看任务详情</div>
 </template>
 
 <script>

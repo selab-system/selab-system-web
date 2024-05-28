@@ -124,6 +124,7 @@ export default {
     toregisterCheck () {
       this.$router.push('/login')
     },
+    // 用户名与密码数据的本地存储
     stataStore () {
       localStorage.setItem('username', JSON.stringify(this.username))
       localStorage.setItem('password', JSON.stringify(this.password))

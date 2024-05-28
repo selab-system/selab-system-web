@@ -42,29 +42,30 @@
 
 <script>
 export default {
-  data() {
+  name: 'returnBooks',
+  data () {
     return {
       sizeForm: {
-        name: "",
-        id: "",
-        value: "",
+        name: '',
+        id: '',
+        value: '',
         delivery: false,
-        desc: "",
-      },
-    };
+        desc: ''
+      }
+    }
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    onSubmit () {
+      console.log('submit!')
     },
-    getbookname(value) {
-      console.log(value);
+    getbookname (value) {
+      console.log(value)
     },
-    getbookid(value) {
-      console.log(value);
-    },
-  },
-};
+    getbookid (value) {
+      console.log(value)
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -11,17 +11,17 @@
 
 <script>
 import ShowBookInformation from '@/components/BookManage/ShowBookInformation.vue'
-import MyBookInformation from '@/components/BookManage/MyBookInformation.vue';
-import Searchrecords from '@/components/BookManage/Searchrecords.vue';
-import BorrowAndReturn from '@/components/BookManage/BorrowAndReturn.vue';
+// import MyBookInformation from '@/components/BookManage/MyBookInformation.vue'
+import Searchrecords from '@/components/BookManage/Searchrecords.vue'
+import BorrowAndReturn from '@/components/BookManage/BorrowAndReturn.vue'
 export default {
   components: {
     ShowBookInformation,
     BorrowAndReturn,
-    MyBookInformation,
+    // MyBookInformation,
     Searchrecords
   }
-};
+}
 </script>
 
 <style scoped>

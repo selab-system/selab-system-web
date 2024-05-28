@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import Borrowbooks from "@/components/BookManage/Borrowbooks.vue";
-import Returnbooks from "@/components/BookManage/Returnbooks.vue";
+import Borrowbooks from '@/components/BookManage/Borrowbooks.vue'
+import Returnbooks from '@/components/BookManage/Returnbooks.vue'
 export default {
   components: {
     Borrowbooks,
-    Returnbooks,
-  },
-};
+    Returnbooks
+  }
+}
 </script>
 
 <style scoped>

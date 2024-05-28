@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import UserManage from "../../components/UserManage/UserManage.vue";
+import UserManage from '../../components/UserManage/UserManage.vue'
 export default {
   components: {
-    UserManage,
-  },
-};
+    UserManage
+  }
+}
 </script>
 
 <style>

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!--  -->
-    hhh
+    查询部门
   </div>
 </template>
 

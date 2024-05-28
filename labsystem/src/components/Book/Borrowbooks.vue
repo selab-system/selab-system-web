@@ -8,7 +8,7 @@
         font-size: 30px;
       "
     >
-      Borrow
+    Borrow
     </div>
     <el-form
       ref="form"
@@ -42,29 +42,30 @@
 
 <script>
 export default {
-  data() {
+  name: 'borrowBooks',
+  data () {
     return {
       sizeForm: {
-        name: "",
+        name: '',
         // id: "",
-        value: "",
+        value: '',
         delivery: false,
-        desc: "",
-      },
-    };
+        desc: ''
+      }
+    }
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    onSubmit () {
+      console.log('submit!')
     },
-    getbookname(value) {
-      console.log(value);
-    },
+    getbookname (value) {
+      console.log(value)
+    }
     // getbookid(value){
     //   console.log(value)
     // }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

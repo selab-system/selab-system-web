@@ -18,7 +18,7 @@
         <el-table-column label="归还时间" prop="number"> </el-table-column>
         <el-table-column label="借阅者" prop="status"> </el-table-column>
         <el-table-column align="right">
-          <template slot="header" slot-scope="scope">
+          <template slot="header" slot-scope="">
             <el-input v-model="search" size="mini" placeholder="输入书名搜索" />
           </template>
           <template slot-scope="scope">
@@ -62,151 +62,152 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from 'axios'
 export default {
-  props: ["books"],
-  data() {
+  name: 'searchRecords',
+  props: ['books'],
+  data () {
     return {
       tableData: [
         {
-          name: "王",
-          writer: "",
-          number: "0",
-          status: "1",
+          name: '王',
+          writer: '',
+          number: '0',
+          status: '1'
         },
         {
-          name: "小",
-          writer: "",
-          number: "0",
-          status: "1",
+          name: '小',
+          writer: '',
+          number: '0',
+          status: '1'
         },
         {
-          name: "虎",
-          writer: "",
-          number: "0",
-          status: "9",
+          name: '虎',
+          writer: '',
+          number: '0',
+          status: '9'
         },
         {
-          name: "是",
-          writer: "",
-          number: "0",
-          status: "5",
+          name: '是',
+          writer: '',
+          number: '0',
+          status: '5'
         },
         {
-          name: "个",
-          writer: "",
-          number: "0",
-          status: "4",
+          name: '个',
+          writer: '',
+          number: '0',
+          status: '4'
         },
         {
-          name: "人",
-          writer: "",
-          number: "0",
-          status: "3",
-        },
+          name: '人',
+          writer: '',
+          number: '0',
+          status: '3'
+        }
       ],
-      search: "",
-      //编辑按钮的下标
+      search: '',
+      // 编辑按钮的下标
       index: undefined,
-      //完成编辑按钮是否显示
+      // 完成编辑按钮是否显示
       finishbutton: false,
-      //编辑按钮是否起作用
+      // 编辑按钮是否起作用
       btnclick: true,
-      user: "admain",
-    };
+      user: 'admain'
+    }
   },
   watch: {},
   methods: {
-    finish(index, row) {
-      if (this.index == index) {
+    finish (index, row) {
+      if (this.index === index) {
         for (let i = 0; i < 4; i++) {
-          if (document.getElementsByClassName("inputs")[0].value == "") {
-            document.getElementsByClassName("cell")[
-              index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + i
-            ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`;
+          if (document.getElementsByClassName('inputs')[0].value === '') {
+            document.getElementsByClassName('cell')[
+              index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + i
+            ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
           } else {
-            row[Object.keys(row)[i]] =document.getElementsByClassName("inputs")[0].value;
-            document.getElementsByClassName("cell")[
-              index + index * 5 + 5 - (index == 0 ? 0 : 1 * index)+i
+            row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
+            document.getElementsByClassName('cell')[
+              index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + i
             ].innerHTML = `<span>${
-              document.getElementsByClassName("inputs")[0].value
-            }</span>`;
+              document.getElementsByClassName('inputs')[0].value
+            }</span>`
           }
-          if (i == 3) {
-            this.finishbutton = !this.finishbutton;
-            this.btnclick = !this.btnclick;
-            return;
+          if (i === 3) {
+            this.finishbutton = !this.finishbutton
+            this.btnclick = !this.btnclick
+            return
           }
         }
-        row["name"] = document.getElementsByClassName("inputs")[0].value;
-        row["writer"] = document.getElementsByClassName("inputs")[1].value;
-        row["number"] = document.getElementsByClassName("inputs")[2].value;
-        row["status"] = document.getElementsByClassName("inputs")[3].value;
+        row.name = document.getElementsByClassName('inputs')[0].value
+        row.writer = document.getElementsByClassName('inputs')[1].value
+        row.number = document.getElementsByClassName('inputs')[2].value
+        row.status = document.getElementsByClassName('inputs')[3].value
 
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index)
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index)
         ].innerHTML = `<span>${
-          document.getElementsByClassName("inputs")[0].value
-        }</span>`;
+          document.getElementsByClassName('inputs')[0].value
+        }</span>`
 
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 1
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 1
         ].innerHTML = `<span>${
-          document.getElementsByClassName("inputs")[0].value
-        }</span>`;
+          document.getElementsByClassName('inputs')[0].value
+        }</span>`
 
-        console.log(document.getElementsByClassName("inputs"));
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 2
+        console.log(document.getElementsByClassName('inputs'))
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 2
         ].innerHTML = `<span>${
-          document.getElementsByClassName("inputs")[0].value
-        }</span>`;
+          document.getElementsByClassName('inputs')[0].value
+        }</span>`
 
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 3
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 3
         ].innerHTML = `<span>${
-          document.getElementsByClassName("inputs")[0].value
-        }</span>`;
-        this.finishbutton = !this.finishbutton;
-        this.btnclick = !this.btnclick;
+          document.getElementsByClassName('inputs')[0].value
+        }</span>`
+        this.finishbutton = !this.finishbutton
+        this.btnclick = !this.btnclick
       }
     },
-    handleEdit(index, row) {
+    handleEdit (index, row) {
       if (this.btnclick) {
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index)
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index)
         ].innerHTML = `<input style=" outline:none; 
       border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`;
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 1
+      class="inputs" value="">`
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 1
         ].innerHTML = `<input style=" outline:none;
       border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`;
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 2
+      class="inputs" value="">`
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 2
         ].innerHTML = `<input style="outline:none;
       border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`;
-        document.getElementsByClassName("cell")[
-          index + index * 5 + 5 - (index == 0 ? 0 : 1 * index) + 3
+      class="inputs" value="">`
+        document.getElementsByClassName('cell')[
+          index + index * 5 + 5 - (index === 0 ? 0 : 1 * index) + 3
         ].innerHTML = `<input style="outline:none;
       border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`;
-        this.finishbutton = !this.finishbutton;
-        this.index = index;
-        this.btnclick = !this.btnclick;
+      class="inputs" value="">`
+        this.finishbutton = !this.finishbutton
+        this.index = index
+        this.btnclick = !this.btnclick
       }
     },
-    handleDelete(index, row) {
-      console.log(index, row);
-      this.tableData.splice(index, 1);
+    handleDelete (index, row) {
+      console.log(index, row)
+      this.tableData.splice(index, 1)
     },
-    change(page) {
-      console.log(page);
-    },
-  },
-};
+    change (page) {
+      console.log(page)
+    }
+  }
+}
 </script>
 
 <style scoped>

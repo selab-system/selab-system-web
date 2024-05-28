@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!--  -->
-    hhh
+    所有已经提交的报名表的列表
   </div>
 </template>
 

@@ -26,34 +26,34 @@
 </template>
 
 <script>
-import SearchDepartment from "./SearchDepartment.vue";
-import SearchUser from "./SearchUser.vue";
+import SearchDepartment from './SearchDepartment.vue'
+
 export default {
-  data() {
+  data () {
     return {
       groups: {
-        开发: ["groupone", "grouptwo"],
-        网安: ["groupone", "grouptwo"],
+        开发: ['groupone', 'grouptwo'],
+        网安: ['groupone', 'grouptwo']
       },
       user: {
-        xxx: " 1",
+        xxx: ' 1'
       },
-      showDepartment: undefined,
-    };
+      showDepartment: undefined
+    }
   },
   components: {
-    SearchDepartment,
-    SearchUser,
+    SearchDepartment
+
   },
   methods: {
-    getDpartmentName(Department) {
-      this.showDepartment = Department;
+    getDpartmentName (Department) {
+      this.showDepartment = Department
     },
-    changepage(page){
-     console.log(page)
-    } 
-  },
-};
+    changepage (page) {
+      console.log(page)
+    }
+  }
+}
 </script>
 
 <style scoped>

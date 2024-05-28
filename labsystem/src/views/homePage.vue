@@ -8,20 +8,21 @@
     default-active
     router
     style="font-size: 22px;"
-    unique-opened="true"
     >
      <h3 class="logo"><i class="el-icon-setting" style="margin-right: 10px;"></i>实验室管理系统</h3>
       <el-menu-item index="/homePageInner" ><i class="el-icon-s-home"></i>系统主界面</el-menu-item>
       <el-submenu  index="2">
         <template slot="title"><i class="el-icon-message"></i>用户管理</template>
+        <el-menu-item index='/SearchUser' ><i class="el-icon-user"></i>用户信息查询</el-menu-item>
+        <el-menu-item index='/SearchDepartment'><i class="el-icon-user-solid"></i>部门信息查询</el-menu-item>
 
        </el-submenu>
-       <el-submenu  index="3">
+       <el-submenu @click="handleMenuClick()" index="3">
         <template  slot="title"><i class="el-icon-s-management"></i>图书管理</template>
         <!-- 此处设置管理员的权限 -->
         <!-- <el-menu-item index='/bookinfosChange'></el-menu-item> -->
-        <el-menu-item index='/bookinfosCheckandChange'>图书信息查询及修改</el-menu-item>
-        <el-menu-item index='/borrowedCHeck'>借阅信息查询</el-menu-item>
+        <el-menu-item index='/bookinfosCheckandChange' v-if="this.infos.roleId=='admin'">图书信息查询及修改</el-menu-item>
+        <el-menu-item index='/borrowedCHeck' v-if="this.infos.roleId=='admin'">借阅信息查询</el-menu-item>
 
         <el-menu-item index='/booksSearch'>查询图书</el-menu-item>
         <el-menu-item index='/bookselfCheck'>本人书籍(包含正在借阅)</el-menu-item>
@@ -35,12 +36,22 @@
 
        <el-submenu index="4">
        <template slot="title"><i class="el-icon-setting"></i>招新报名表管理</template>
+       <el-menu-item index="/paperSearch" v-if="this.infos.roleId=='admin'"><i class="el-icon-s-claim"></i>查看报名表</el-menu-item>
+
+       <!-- 以下为用户功能 -->
        <el-menu-item index="/paperFillIn"><i class="el-icon-tickets"></i>报名表填写</el-menu-item>
       <el-menu-item index="/paperMyself"><i class="el-icon-s-claim"></i>我的报名表</el-menu-item>
       </el-submenu>
        <el-submenu index="5">
         <template slot="title"><i class="el-icon-setting"></i>任务管理</template>
-
+        <!--以下为管理员功能 -->
+        <el-menu-item index="/reportRecord" v-if="this.infos.roleId=='admin'"><i class="el-icon-s-claim"></i>查看汇报记录</el-menu-item>
+        <el-menu-item index="/setTasks" v-if="this.infos.roleId=='admin'"><i class="el-icon-s-claim"></i>发布任务</el-menu-item>
+        <el-menu-item index="/taskDetails" v-if="this.infos.roleId=='admin'"><i class="el-icon-s-claim"></i>查看任务详细</el-menu-item>
+<!-- 以下为用户功能 -->
+        <el-menu-item index="/checkTasks"><i class="el-icon-s-claim"></i>查看任务</el-menu-item>
+        <el-menu-item index="/tasksDetails"><i class="el-icon-s-claim"></i>查看任务详细</el-menu-item>
+        <el-menu-item index="/testTasks"><i class="el-icon-s-claim"></i>汇报任务进度与备注</el-menu-item>
        </el-submenu>
   </el-menu>
 </el-aside>
@@ -79,18 +90,32 @@
 </template>
 
 <script>
+// import { Collapse } from 'element-ui'
 
 export default {
 
   data () {
     return {
+      isCollapsed: true,
+      infos: {
+        username: '',
+        roleId: ''
+      }
     }
   },
-  methods: {
-
-  },
+  methods: {},
+  //   handleMenuClick () {
+  //     this.isCollapsed = false
+  //     console.log('ssss')
+  //   }
+  // },
   mounted () {
-    console.log(JSON.parse(localStorage.getItem('username')))
+    // 函数实现将登录时输入的用户名与密码在本
+    // 地的保存进行提取并进行组件的显示与隐藏判断
+    // console.log(JSON.parse(localStorage.getItem('username')))
+    this.infos.roleId = JSON.parse(localStorage.getItem('roleId'))
+    console.log(this.infos.roleId)
+    this.infos.username = JSON.parse(localStorage.getItem('username'))
   }
 }
 
