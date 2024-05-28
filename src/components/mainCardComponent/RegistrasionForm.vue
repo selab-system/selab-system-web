@@ -139,11 +139,7 @@ export default {
         },
         // 返回首页按钮
         redirectIndex() {
-<<<<<<< HEAD
             this.$router.push("/index")
-=======
-            this.$router.push("/")
->>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
         }
     },
 }
@@ -151,10 +147,6 @@ export default {
 
 <style>
 .registrasion-form-main{
-<<<<<<< HEAD
-=======
-    height: 1000px;
->>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
     width: 60%;
     margin: 0 auto;
     padding-top: 10px;

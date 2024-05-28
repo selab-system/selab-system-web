@@ -19,7 +19,7 @@ export default {
   width: 100%;
   height: 100px;
   background-color: var(--bg-color);
-  //box-shadow: var(--nav-box-shadow);
+  box-shadow: var(--nav-box-shadow);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .topBarTitle {
