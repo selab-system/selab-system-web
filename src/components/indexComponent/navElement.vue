@@ -44,6 +44,7 @@
         </label>
       </div>
     </div>
+    <index-style-main></index-style-main>
     <div>
       <router-view></router-view>
     </div>
@@ -51,7 +52,11 @@
 </template>  
 
 <script>  
-export default { 
+import Index from "@/views/loginPage/register.vue";
+import IndexStyleMain from "@/components/indexStyle/indexStyleMain.vue";
+
+export default {
+  components: {IndexStyleMain, Index},
   data() {  
     return {  
       showDropdownU: false,
