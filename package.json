@@ -10,24 +10,11 @@
   "dependencies": {
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
-<<<<<<< HEAD
     "element-ui": "^2.15.14",
     "qs": "^6.12.1",
     "vue": "^2.6.14",
     "vue-router": "^3.6.5",
     "vuex": "^3.6.2"
-=======
-    "echarts": "^5.5.0",
-    "echarts-gl": "^2.0.9",
-    "element-ui": "^2.15.14",
-    "qs": "^6.12.1",
-    "sass": "^1.77.2",
-    "sass-loader": "^14.2.1",
-    "vue": "^2.6.14",
-    "vue-router": "^3.6.5",
-    "vuex": "^3.6.2",
-    "yarn": "^1.22.22"
->>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
