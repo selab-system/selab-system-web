@@ -17,17 +17,13 @@
               <el-input v-model="ruleForm.reportStatus" placeholder="已完成/未完成"></el-input>
             </el-form-item>
             <el-form-item label="汇报时间" required>
-              <el-col :span="11">
-                <el-form-item prop="date1">
-                  <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-form-item prop="date2">
-                  <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-                </el-form-item>
-              </el-col>
+              <el-date-picker
+                v-model="ruleForm.dealTime"
+                type="datetime"
+                placeholder="选择截止时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="width: 100%;">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="汇报任务" prop="details">
               <el-input type="textarea" v-model="ruleForm.details"></el-input>
@@ -157,68 +153,11 @@ export default {
         date1: '',
         date2: '',
         details: '',
-        desc: ''
+        desc: '',
+        dealTime: ''
       },
       tableData: [],
-      allTableData: [
-        // {
-      //   dealTime: '2016-05-02',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1518 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-04',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1517 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-01',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1519 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-03',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1516 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-03',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1516 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-03',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1516 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-03',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1516 弄',
-      //   zip: 200333
-      // }, {
-      //   dealTime: '2016-05-03',
-      //   name: '王小虎',
-      //   province: '上海',
-      //   city: '普陀区',
-      //   address: '上海市普陀区金沙江路 1516 弄',
-      //   zip: 200333
-      // }
-      ],
+      allTableData: [],
       tableData1: [],
       rules: {
         name: [
