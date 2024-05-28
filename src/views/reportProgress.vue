@@ -7,14 +7,14 @@
         </div>
         <div class="content">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <!-- <el-form-item label="任务Id" prop="taskId">
+              <el-input v-model="ruleForm.taskId"></el-input>
+            </el-form-item> -->
             <el-form-item label="汇报人" prop="name">
               <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <el-form-item label="汇报状态">
-              <el-select v-model="ruleForm.reportStatus" placeholder="请选择汇报状态">
-                <el-option label="已完成" value="shanghai"></el-option>
-                <el-option label="未完成" value="shanghai2"></el-option>
-              </el-select>
+              <el-input v-model="ruleForm.reportStatus" placeholder="已完成/未完成"></el-input>
             </el-form-item>
             <el-form-item label="汇报时间" required>
               <el-col :span="11">
@@ -41,93 +41,101 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="title">
+        <div class="title title2">
           <p>查看本人汇报记录</p>
         </div>
-        <div class="content">
-          <el-table
-            :data="tableData"
-            border
-            style="width: 100%">
-            <el-table-column
-              fixed
-              prop="dealTime"
-              label="截止时间"
-              width="150">
-            </el-table-column>
-            <el-table-column
-              prop="publishTime"
-              label="发布时间"
-              width="150">
-            </el-table-column>
-            <el-table-column
-              prop="publisherName"
-              label="发布者"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="任务名"
-              width="300">
-            </el-table-column>
-            <el-table-column
-              prop="judge"
-              label="是否汇报"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              prop="status"
-              label="任务状态"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作"
-              width="200">
-              <template >
-                <!-- 任务内容 -->
-                <el-button type="text" @click="dialogVisible = true">任务内容&nbsp;&nbsp;</el-button>
-
-                <el-dialog
-                  title="提示"
-                  :visible.sync="dialogVisible"
-                  width="30%"
-                  :before-close="handleClose"
-                  :append-to-body="true">
-                  <span>这是任务内容</span>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                  </span>
-                </el-dialog>
-                 <!-- 汇报信息 -->
-                <el-button type="text" @click="dialogVisible1 = true">汇报信息</el-button>
-
-                <el-dialog
-                  title="提示"
-                  :visible.sync="dialogVisible1"
-                  width="30%"
-                  :before-close="handleClose"
-                  :append-to-body="true">
-                  <span>这是你的信息</span>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible1 = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
-                  </span>
-                </el-dialog>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="footer">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="100"
-            :page-size='5'
-            @current-change='handleCurrentChange'>
-          </el-pagination>
+        <div class="search">
+          <input type="text" placeholder="请输入你的姓名" v-model="username">
+          <el-button type="primary" @click="search()">搜索你的任务</el-button>
         </div>
+        <div class="content">
+          <div v-if="tableData.length>0">
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                fixed
+                prop="dealTime"
+                label="截止时间"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="publishTime"
+                label="发布时间"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="publisherName"
+                label="发布者"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="任务名"
+                width="300">
+              </el-table-column>
+              <el-table-column
+              :data="tableData1"
+                prop="judge"
+                label="是否汇报"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                prop="status"
+                label="任务状态"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="200">
+                <template >
+                  <!-- 任务内容 -->
+                  <el-button type="text" @click="dialogVisible = true">任务内容&nbsp;&nbsp;</el-button>
+                  <el-dialog
+                    title="提示"
+                    :visible.sync="dialogVisible"
+                    width="30%"
+                    :before-close="handleClose"
+                    :append-to-body="true">
+                    <span>{{tableData.content}}</span>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                    </span>
+                  </el-dialog>
+                   <!-- 汇报信息 -->
+                  <el-button type="text" @click="dialogVisible1 = true">汇报信息</el-button>
 
+                  <el-dialog
+                    title="提示"
+                    :visible.sync="dialogVisible1"
+                    width="30%"
+                    :before-close="handleClose"
+                    :append-to-body="true">
+                    <span>{{tableData1.taskReportVo}}</span>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible1 = false">取 消</el-button>
+                      <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
+                    </span>
+                  </el-dialog>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="footer">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="100"
+              :page-size='5'
+              @current-change='handleCurrentChange'>
+            </el-pagination>
+            </div>
+          </div>
+          <div v-else>
+            <el-empty :image-size="200"></el-empty>
+          </div>
         </div>
       </div>
     </template>
@@ -138,6 +146,7 @@ export default {
   name: 'ReportingTasks',
   data () {
     return {
+      username: '',
       dialogVisible: false,
       dialogVisible1: false,
       currentPage: 1,
@@ -151,64 +160,66 @@ export default {
         desc: ''
       },
       tableData: [],
-      allTableData: [{
-        dealTime: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1517 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1519 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }, {
-        dealTime: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }
+      allTableData: [
+        // {
+      //   dealTime: '2016-05-02',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1518 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-04',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1517 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-01',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1519 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-03',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1516 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-03',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1516 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-03',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1516 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-03',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1516 弄',
+      //   zip: 200333
+      // }, {
+      //   dealTime: '2016-05-03',
+      //   name: '王小虎',
+      //   province: '上海',
+      //   city: '普陀区',
+      //   address: '上海市普陀区金沙江路 1516 弄',
+      //   zip: 200333
+      // }
       ],
+      tableData1: [],
       rules: {
         name: [
           { required: true, message: '请输入汇报人名称', trigger: 'blur' },
@@ -227,15 +238,15 @@ export default {
     }
   },
   created () {
-    this.report()
-    this.search()
-    this.details()
+    // this.submitForm()
+    // this.search()
+    // this.details()
     // this.handleCurrentChange(1)
   },
   methods: {
     // 汇报任务
     async submitForm () {
-      const res = await report(this.reportStatus, this.details)
+      const res = await report(0, this.ruleForm.reportStatus, this.ruleForm.details)
       console.log(res)
       alert('恭喜你又完成了一项任务')
     },
@@ -249,12 +260,13 @@ export default {
     },
     // 查询本人汇报记录
     search () {
+      const data = { username: this.username }
       // 传用户id
-      queryForUser().then((res) => {
+      queryForUser(data).then((res) => {
         console.log(res)
         // 将数据渲染给tableData
-        this.allTableData = res.data
-        this.totalCount = res.allTableData.length
+        this.allTableData = Object.values(res.data)
+        // this.totalCount = res.allTableData.length
         this.handleCurrentChange(this.currentPage)
         // 返回一个任务id
       })
@@ -272,6 +284,7 @@ export default {
       const id = { taskId: this.allTableData.id }
       queryMyReport(id).then((res) => {
         console.log(res)
+        this.tableData1 = Object.values(res.data)
       }
 
       )
@@ -303,14 +316,27 @@ export default {
   /* background-color: wheat; */
   border-radius: 20px;
   padding: 30px;
-  padding-top:45px ;
+  padding-top:0px ;
 }
 .title p{
   font-size: 30px;
   font-weight: 700;
 }
 .title1{
-    padding-top:0px ;
+    margin-top:0px ;
+}
+.title2{
+  margin-top:100px ;
+}
+/* 搜索框 */
+.search{
+  margin: 5px;
+  margin-bottom:40px ;
+}
+.search input{
+  width: 200px;
+  height: 30px;
+  margin-right:15px ;
 }
 /* 内容 */
 .content{

@@ -99,107 +99,107 @@ export default {
       totalCount: 1,
       dialogVisible: false,
       tableData: [
-        {
-          id: '12987122',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987123',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987125',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987126',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }
+        // {
+        //   id: '12987122',
+        //   name: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   shopId: '10333'
+        // }, {
+        //   id: '12987123',
+        //   name: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   shopId: '10333'
+        // }, {
+        //   id: '12987125',
+        //   name: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   shopId: '10333'
+        // }, {
+        //   id: '12987126',
+        //   name: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   shopId: '10333'
+        // }
       ],
       tableData1: [],
       allTableData1: [
-        {
-          name: '12987122',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987123',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987125',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987126',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987126',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987126',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987126',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }, {
-          name: '12987126',
-          publisherName: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          date: '10333'
-        }
+        // {
+        //   name: '12987122',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987123',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987125',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987126',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987126',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987126',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987126',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }, {
+        //   name: '12987126',
+        //   publisherName: '好滋好味鸡蛋仔',
+        //   category: '江浙小吃、小吃零食',
+        //   desc: '荷兰优质淡奶，奶香浓而不腻',
+        //   address: '上海市普陀区真北路',
+        //   shop: '王小虎夫妻店',
+        //   date: '10333'
+        // }
       ]
 
     }
@@ -230,7 +230,7 @@ export default {
     search () {
       queryMyTask().then((res) => {
         console.log(res)
-        this.tableData = res.data
+        this.tableData = Object.values(res.data)
       })
     },
     // 查询汇报记录
@@ -238,7 +238,7 @@ export default {
       const id = { taskId: this.tableData.id }
       queryAllResport(id).then((res) => {
         console.log(res)
-        this.allTableData1 = res.data
+        this.allTableData1 = Object.values(res.data)
         if (!this.currentPage || this.currentPage === 1) {
           this.handleCurrentChange(1)
         }
