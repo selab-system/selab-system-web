@@ -1,0 +1,195 @@
+/* 阳光模式 */
+[data-theme="light"] {
+    /* 主体背景色 */
+    --bg-color: #fff;
+    /* 导航栏的阴影配置 */
+    --nav-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* 字体配置 */
+    --bg-color-transparent: rgba(255, 255, 255, 0.8);
+    /* 头部的字体(比如导航栏的字体) */
+    --font-family: Georgia, serif;
+    /* 其他一些表单数据字体 */
+    --font-family-secondary: Helvetica, sans-serif;
+    /* 字体颜色为黑色 */
+    --font-color: #000;
+    /* 字体颜色为白色 */
+    --font-color-secondary: #fff;
+    /* 链接的鼠标经过配置 */
+    --box-mouseenter-background-color: rgb(255, 255, 255);
+    /* 鼠标经过链接的颜色 */
+    --box-mouseenter-color: #000;
+    /* 鼠标经过链接的边框宽度 */
+    --box-mouseenter-border-width: 1px;
+    /* 鼠标经过链接的边框样式 */
+    --box-mouseenter-border-style: solid;
+    /* 鼠标经过链接的边框圆角 */
+    --box-mouseenter-border-radius: 10px;
+    /* 鼠标经过链接的动态变化 */
+    --box-mouseenter-margin-right: 20px;
+    --box-mouseenter-padding-right: 20px;
+    /* 动态阴影 */
+    --box-mouseenter-box-shadow: 0 0 25px rgba(9, 8, 8, 0.563);
+    /* 字体变化 */
+    --font-size: 20px;
+    --font-weight: bold;
+    /* 动态变化的transition */
+    --transition-timing-settings: all 0.5s;
+    /* 导航栏的border */
+    --box-border: 1px solid #fff;
+    /* 链接的小手
+    --cursor: pointer; */
+    /* 这个我会在全局配置 */
+
+    /* 按钮的配置 */
+    /* 按钮颜色 */
+    --button-color: rgba(196, 246, 176, 0.812);
+    /* 绿色按钮下面的颜色 */
+    /* 按钮的颜色 */
+    /* 黑色 */
+    --button-color-black: black;
+    /* 白色 */
+    --button-color-white: white;
+    /* 米色 */
+    --button-color-mint: rgba(22, 46, 13, 0.812);
+    /*  */
+
+    /* 表格 */
+    /* 查询的按钮背景颜色 */
+    /* 背景颜色 */
+    --table-query-button-color: white;
+    /* 边框颜色 */
+    --table-query-border-color: #E0E1E4;
+    /* 被选中的颜色 */
+    --table-query-button-beChosen-color: #F2F2F2;
+    ;
+
+    /* 边框颜色 */
+    --table-border-color: rgb(210, 210, 210);
+    /* 边框灰色 */
+    --table-border-grey: 1px solid #ccc;
+    /* 边框黑色 */
+    --table-border-color-black: rgba(27, 4, 4, 0.532);
+    /* 表格表头字体配置 */
+    /* 加粗 */
+    --table-font-bold: bold;
+    /* 字体颜色 */
+    /* 灰色 */
+    --table-font-color: rgba(98, 91, 91, 0.27);
+    /* 表格表头边框阴影 */
+    --table-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    /* 表格表头边框颜色 */
+    --table-box-title-bgc-color: rgb(223, 223, 203);
+    /* 表格标头字体配置 */
+    /* 颜色 */
+    --table-box-title-font-color: rgb(0, 0, 0);
+    /* 大小 */
+    --table-box-title-font-size: 20px;
+    /* 宽度 */
+    --table-box-title-font-width: 100%;
+    /* 表格操作边框配置 */
+    /* 背景颜色 */
+
+    --table-action-bg-color: rgb(162, 197, 144);
+    /* 按钮阴影 */
+    /* 按钮的边框半径 */
+    --table-action-radius: 8px;
+    --table-action-box-shadow-color: rgba(5, 34, 23, 0.1);
+    /* 按钮鼠标移入的按钮背景颜色 */
+    --table-action-hover-bg-color: rgb(203, 79, 65);
+    /* 鼠标移入的按钮字体颜色 */
+    --table-action-hover-color: rgb(210, 210, 210);
+    /* 鼠标按下去阴影z轴为0 */
+    --table-action-active-box-shadow: 5px 5px 0px rgb(162, 197, 144, 0.1);
+
+    /* 分页 */
+    /* 字体 */
+    --page-change-box-font-size: 20px;
+    /* 字体宽度 */
+    --page-change-box-width: 700;
+    /* 分页按钮配置 */
+    /* 边框 */
+    --page-change-box-border: 0.5px solid rgb(255, 255, 255);
+    /* 鼠标移除 */
+    /* 背景颜色 */
+    --page-change-box-bg-color: #7fd042;
+    /* 按钮的boxshadow配置 */
+    --page-change-box-box-shadow: 0px 0px 4px #354f20;
+    /* 按下去的变化 */
+    --page-change-box-active-bg-color: scale(0.95);
+
+    /* 报名表样式 */
+    /* 字体 */
+    /* 字体大小 */
+    --registrasion-from-font-size: 27px;
+    --registrasion-from-font-weight: 800;
+    --registrasion-from-input-font-size: 16px;
+    /* 字体颜色 */
+    --registrasion-from-input-border-color: #9284a3;
+    /* 报名表的边框阴影配置 */
+    --registrasion-from-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* 边框 */
+    --registrasion-from-border: 2px solid rgba(64, 41, 41, 0.1);
+    /* 报名表的样式配置 */
+    --registrasion-from-bg-color: #ffffff38;
+}
+
+/* 黑暗模式 */
+[data-theme="dark"] {
+    --bg-color: #000;
+    /* 导航栏的阴影配置 */
+    --nav-box-shadow: 0 0 10px rgba(245, 239, 239, 0.909);
+    /* 超链接字体 */
+    --font-family: Georgia, serif;
+    /* 其他一些表单数据字体 */
+    --font-family-secondary: Helvetica, sans-serif;
+    /* 字体颜色为黑色 */
+    --font-color: #fff;
+    /* 字体颜色为白色 */
+    /* 链接的鼠标经过配置 */
+    --box-mouseenter-background-color: #000;
+    /* 鼠标经过链接的颜色 */
+    --box-mouseenter-color: #fff;
+    /* 鼠标经过链接的边框宽度 */
+    --box-mouseenter-border-width: 1px;
+    /* 鼠标经过链接的边框样式 */
+    --box-mouseenter-border-style: solid;
+    /* 鼠标经过链接的边框圆角 */
+    --box-mouseenter-border-radius: 10px;
+    /* 鼠标经过链接的动态变化 */
+    --box-mouseenter-margin-right: 20px;
+    --box-mouseenter-padding-right: 20px;
+    /* 动态阴影 */
+    --box-mouseenter-box-shadow: 0 0 25px rgba(209, 194, 194, 0.563);
+    /* 导航栏的border */
+    --box-border: 1px solid #000;
+    /* 字体变化 */
+    --font-size: 20px;
+    --font-weight: bold;
+    /* 动态变化的transition */
+    --transition-timing-settings: all 0.5s;
+    /* 输入框配置 */
+    /* 鼠标点击的颜色 */
+    --input-color: #424140;
+    /* 输入框的边框配置 */
+    /* 输入框颜色 */
+    --input-border-color: #7868686f;
+}
+
+.button-theme {
+    --button-color-first: red;
+    --button-color-second: blue;
+    --button-color-third: green;
+    --button-color-fourth: yellow;
+    color: rb;
+}
+
+/*  */
+.font-theme {
+    /* logo字体 */
+    --font-logo-family: 'Times New Roman',
+        Times,
+        serif;
+
+}
+
+/* 所有的输入框 */
