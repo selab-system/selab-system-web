@@ -1,5 +1,8 @@
 // VueX
+<<<<<<< HEAD
 import router from "@/router";
+=======
+>>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
 import Vue from "vue";
 import Vuex from "vuex"
 
@@ -11,8 +14,11 @@ const store = new Vuex.Store({
         return {
             // 存储token
             token: "",
+<<<<<<< HEAD
             // isLoggedIn: false,
             roleId: ""
+=======
+>>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
         }
     },
     getters: {
@@ -25,7 +31,11 @@ const store = new Vuex.Store({
         // 修改token，并将token存入localstorage和store
         setToken(state, token) {
             //  store里存储
+<<<<<<< HEAD
             state.token = token
+=======
+            state.token = token 
+>>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
             // localstorage存储
             localStorage.setItem("token", token)
             console.log("store,localstorage保存token成功");
@@ -36,6 +46,7 @@ const store = new Vuex.Store({
             state.token = ""
             localStorage.removeItem("token")
         },
+<<<<<<< HEAD
         // setLoggin(state, value) {
         //     state.isLoggedIn = value
         // },
@@ -53,6 +64,9 @@ const store = new Vuex.Store({
     //         commit("setLoggin", true)
     //     }
     // }
+=======
+    }
+>>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
 })
 
 export default store

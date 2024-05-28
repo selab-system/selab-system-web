@@ -79,6 +79,10 @@
     --table-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     /* 表格表头边框颜色 */
     --table-box-title-bgc-color: rgb(223, 223, 203);
+<<<<<<< HEAD
+=======
+    --table-box-title-bgc-color1:rgb(181, 217, 249);
+>>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
     /* 表格标头字体配置 */
     /* 颜色 */
     --table-box-title-font-color: rgb(0, 0, 0);

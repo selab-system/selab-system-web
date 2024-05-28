@@ -1,25 +1,7 @@
 <template>
-  <div>
+  <div class="main-card-component">
+    <!-- 显示所有已发布的任务 -->
     <div class="table">
-        <div class="table-search">
-            <div class="table-search-box">
-                <div class="table-search-name"><input type="text" placeholder="姓名" class="table-search-input"></div>
-                <div class="table-search-name"><input type="text" placeholder="班级" class="table-search-input"></div>
-                <div class="table-search-box-checkbox">
-                    <div class="table-search-title">
-                        <div class="table-search-title-name" @click="dropDown" @mouseleave="dropDownNone"><span>意向部门</span></div>
-                        <div class="table-search-content-box" v-show="tableSearchContentBoxActive" @mouseenter="dropDown" @mouseleave="dropDownNone">
-                            <div class="table-search-title-name">软件开发</div>
-                            <div class="table-search-title-name">网络安全</div>
-                            <div class="table-search-title-name">人工智能</div>
-                            <div class="table-search-title-name">虚拟现实</div>
-                        </div>
-                    </div>
-                </div>
-            <div class="table-search-button">
-                <button>查询</button>
-            </div>
-        </div>
         <div class="table-body-content">
             <table class="table-body">
                 <tr class="table-body-title">
@@ -31,8 +13,9 @@
                       {{ rowIndex < maxVisibleRows ? cellItem : '' }}
                     </td>
                     <td class="operation-column">
-                      <button v-if="rowIndex < maxVisibleRows ">查看</button>
-                      <button v-if="rowIndex < maxVisibleRows ">修改</button>
+                      <button v-if="rowIndex < maxVisibleRows " router-link="{ name: 'TaskDetail', params: { taskId: item.id } }">查看</button>
+                      <button v-if="rowIndex < maxVisibleRows ">更新</button>
+                      <button v-if="rowIndex < maxVisibleRows ">查看汇报</button>
                       <button v-if="rowIndex < maxVisibleRows ">删除</button>
                     </td>
                 </tr>
@@ -61,96 +44,77 @@
         </div>
         </div>
         </div>
-    </div>
   </div>
 </template>
 
 <script>
-
 export default {
-    data() {
-        return {
-            // 单页面表框数量 size
-            size: 10,
-            // 当前页面
-            currentPage: 1,
-            // 显示页面数
-            currentIndexs: 3,
-            // 隐藏页面数
-            currentIndexsUnShown:5,
-            // 省略页面数
-            currentIndexs_: 9,
-            // 表格标头
-            tableTitle: ["姓名", "年级", "班级", "联系方式", "邮箱", "意向部门", "面试时间", "备注",],
-            tableData: ["cc", "大一", "软件2346", "17200543160", "123@gmail.com", "软件开发", "2021-05-01", "备注信息"],
-            // 意向部门下拉框是否展示
-            tableSearchContentBoxActive: false,
-            // 分页是否展示
-            pageChangeBoxActive: false,
-            // 分页按钮是否展示
-            ShowButtonIsShown: true,
-        }
-    },
-    methods: {
-        dropDown() {
-            // 鼠标移入，显示
-            this.tableSearchContentBoxActive = true;
-        },
-        dropDownNone() {
-            // 鼠标移出，隐藏
-            this.tableSearchContentBoxActive = false;
-        },
-        // 分页按钮
-        ShowPagesChangeBox() {
-            this.pageChangeBoxActive = !this.pageChangeBoxActive;
-            this.ShowButtonIsShown = !this.ShowButtonIsShown;
-        },
+  data() {
+      return {
+          // 单页面表框数量 size
+          size: 10,
+          // 当前页面
+          currentPage: 1,
+          // 显示页面数
+          currentIndexs: 3,
+          // 隐藏页面数
+          currentIndexsUnShown:5,
+          // 省略页面数
+          currentIndexs_: 9,
+          // 表格标头
+          tableTitle: ["任务名称","发布者", "任务对象",  "完成情况","截止时间",],
+          tableData: ["name","publisherIdajasbf", "groupsId", "30%", "deadTime"],
+          // 分页是否展示
+          pageChangeBoxActive: false,
+          // 分页按钮是否展示
+          ShowButtonIsShown: true,
+      }
+  },
+  methods: {
+      // 分页按钮
+      ShowPagesChangeBox() {
+          this.pageChangeBoxActive = !this.pageChangeBoxActive;
+          this.ShowButtonIsShown = !this.ShowButtonIsShown;
+      },
 
-    },
-    created() {
-        // 测试输出
-        console.log(this.tableTitle);
-    },
-    computed: {
-        rowHeight() {
-            // 每一行的高度
-          return 91; 
-        },
-    
-        // 计算表格最大可显示的行数
-        maxVisibleRows() {
-            // 表格总高度
-          const availableHeight = 1000;
-          return Math.floor(availableHeight / this.rowHeight);
-        },
-    },
+  },
+  created() {
+      // 测试输出
+      console.log(this.tableTitle);
+  },
+  computed: {
+      rowHeight() {
+          // 每一行的高度
+        return 91; 
+      },
+  
+      // 计算表格最大可显示的行数
+      maxVisibleRows() {
+          // 表格总高度
+        const availableHeight = 600;
+        return Math.floor(availableHeight / this.rowHeight);
+      },
+  },
 }
 </script>
 
-<style scoped>
+<style>
+.main-card-component{
+  margin-top: 5px;
+  height: 600px;
+}
+
 .table{
-    margin-top: 0px;
-    height: 900px;
+    height: 600px;
     padding: 20px 50px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 95%;
+    width: 70%;
     box-shadow: var(--nav-box-shadow);
     margin: 0 auto;
 }
-.table-search{
-    width: 95%;
-    border: 0.5px solid var(--table-border-color);
-    padding: 10px;
-    border-top: 0px;
-}
-.table-search-box{
-    display: flex;
-    justify-content: flex-start;
-    position: relative;
-    flex: 1;
-}
+
 .table-search-name{
     margin-top: 20px;
     margin-right: 30px;
@@ -170,11 +134,7 @@ export default {
     left:300px;
     margin-left: 60px;
     margin-right: 60px;
-<<<<<<< HEAD
-    z-index: 999;
-=======
     /* z-index: 999; */
->>>>>>> d35f9e4eede873defeda18d693c8d67c6f74faa6
 }
 .table-search-title-name{
     font-size: 17px;
