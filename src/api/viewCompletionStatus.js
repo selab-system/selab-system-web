@@ -31,3 +31,16 @@ export function deletetask (params) {
     params
   })
 }
+// 更新任务
+export const update = (id, name, groupIds, publisherId, updaterId, dealTime, content) => {
+  const url = `/task/save/${id}`
+  const body = {
+
+    updaterId,
+    groupIds,
+    name,
+    content,
+    dealTime
+  }
+  return requests.post(url, body)
+}
