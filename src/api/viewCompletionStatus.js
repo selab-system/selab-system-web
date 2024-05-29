@@ -44,3 +44,11 @@ export const update = (id, name, groupIds, publisherId, updaterId, dealTime, con
   }
   return requests.post(url, body)
 }
+// 查看任务信息
+export function queryById (params) {
+  return requests({
+    url: '/task/queryById',
+    method: 'get',
+    params
+  })
+}
