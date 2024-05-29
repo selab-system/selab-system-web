@@ -127,7 +127,7 @@ const routes = [
         component: changeBookInformation
       },
       {
-        path: '/ queryBorrowingRecords',
+        path: '/queryBorrowingRecords',
         name: ' queryBorrowingRecords',
         component: queryBorrowingRecords
       },
