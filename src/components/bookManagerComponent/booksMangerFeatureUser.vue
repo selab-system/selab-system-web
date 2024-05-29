@@ -1,21 +1,18 @@
-<script>
-export default {
-  name: "booksMangerFeature",
-}
-</script>
-
 <template>
-<!--  背景-->
   <div class="backDrop">
-<!--    盒子-->
     <div class="allSize" ref="allSize">
       <div><router-link to="/book/queryAllBooks">查询书籍</router-link></div>
       <div><router-link to="/book/checkBorrowing">查询借阅记录</router-link></div>
       <div><router-link to="/book/personalBooks">查询本人书籍</router-link></div>
     </div>
   </div>
-
 </template>
+
+<script>
+export default {
+  name: "booksMangerFeature",
+}
+</script>
 
 <style scoped lang="scss">
   @use "sass:math";

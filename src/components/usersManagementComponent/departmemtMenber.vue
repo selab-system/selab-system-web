@@ -1,3 +1,19 @@
+<template>
+  <div class="backDrop">
+    <div class="allDepartment"><strong>全部部门：</strong></div>
+    <div class="departmentList">
+      <ul class="departmentItem">
+        <!-- <template v-for="(item, index) in department">
+          <li>{{ index + 1 }}.{{ item.name }}({{ item.member }})</li>
+          <button>查看</button>
+          <button>修改</button>
+          <br><br>
+        </template> -->
+      </ul>
+      <button class="checkAllMember"><router-link to="/user/manageMembers">查看所有成员</router-link></button>
+    </div>
+  </div>
+</template>
 <script>
 export default {
   name: "departmentMember",
@@ -21,24 +37,6 @@ export default {
   }
 }
 </script>
-
-<template>
-  <div class="backDrop">
-    <div class="allDepartment"><strong>全部部门：</strong></div>
-    <div class="departmentList">
-      <ul class="departmentItem">
-        <!-- <template v-for="(item, index) in department">
-          <li>{{ index + 1 }}.{{ item.name }}({{ item.member }})</li>
-          <button>查看</button>
-          <button>修改</button>
-          <br><br>
-        </template> -->
-      </ul>
-      <button class="checkAllMember"><router-link to="/user/manageMembers">查看所有成员</router-link></button>
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
 .backDrop {
   width: 100%;
