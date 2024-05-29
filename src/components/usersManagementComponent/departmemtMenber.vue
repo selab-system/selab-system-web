@@ -3,20 +3,27 @@
     <div class="allDepartment"><strong>全部部门：</strong></div>
     <div class="departmentList">
       <ul class="departmentItem">
-        <!-- <template v-for="(item, index) in department">
-          <li>{{ index + 1 }}.{{ item.name }}({{ item.member }})</li>
-          <button>查看</button>
-          <button>修改</button>
-          <br><br>
-        </template> -->
+         <template v-for="(item, index) in department">
+            <li :key="index">{{ index + 1 }}.{{ item.name }}({{ item.member }})</li>
+            <button :key="index">查看</button>
+            <button :key="index">修改</button>
+            <br><br>
+        </template>
       </ul>
       <button class="checkAllMember"><router-link to="/user/manageMembers">查看所有成员</router-link></button>
     </div>
   </div>
 </template>
 <script>
+// import {items} from "yarn/lib/cli";
+
 export default {
   name: "departmentMember",
+  methods: {
+    // items() {
+    //   return items
+    // }
+  },
   data() {
     return {
       department: [
@@ -95,7 +102,7 @@ export default {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    background-color: white;
+    //background-color: white;
     border-radius: 30px;
     top: 580px;
     left: 500px;
