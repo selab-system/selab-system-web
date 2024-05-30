@@ -27,7 +27,7 @@
             <el-input v-model="form.publisherId"></el-input>
           </el-form-item>
           <!-- 更新者 -->
-          <el-form-item label="更新者">
+          <el-form-item label="更新者" prop="updaterId">
             <el-input v-model="form.updaterId"></el-input>
           </el-form-item>
           <!-- 截止时间 -->
@@ -47,7 +47,7 @@
           <!-- 发布取消 -->
           <el-form-item>
             <el-button type="primary" @click="onSubmit">立即发布</el-button>
-            <el-button >取消</el-button>
+            <el-button @click="resetForm('form')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -60,6 +60,7 @@ export default {
   name: 'ReleaseTasks',
   data () {
     return {
+      // 表单绑定内容
       form: {
         name: '',
         groupIds: [],
@@ -73,6 +74,7 @@ export default {
         { id: 2, name: '小组B' },
         { id: 3, name: '小组C' }
       ],
+      // 前端校验规则
       rules: {
         name: [
           { required: true, message: '请输入任务名称', trigger: 'blur' }
@@ -92,54 +94,54 @@ export default {
       }
     }
   },
-  // async created () {
-  //   this.save()
-  // },
   methods: {
+    // 发布任务
     async onSubmit () {
       console.log('submit!')
       const res = await save(this.form.publisherId, this.form.updaterId, this.form.groupIds, this.form.name, this.form.content, this.form.dealTime)
       console.log(res)
       alert('任务发布成功')
+    },
+    // 重置表单
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
     }
   }
 }
 </script>
 
-  <style scoped>
-  * {
-    margin: 0%;
-    padding: auto;
-  }
-  .main{
-    width: 1600px;
-    height: 800px;
-    /* background-color: skyblue; */
-  }
-
-  /* 标题 */
-  .title{
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
-    width: 1600px;
-    height: 70px;
-    /* background-color: wheat; */
-    border-radius: 20px;
-    padding: 15px;
-  }
-  .title p{
-    font-size: 30px;
-    font-weight: 700;
-  }
-
-  /* 内容 */
-  .content{
-    width: 800px;
-    height: 730px;
-    /* background-color: silver; */
-  }
-  el-upload{
-    margin: 15px;
-  }
-  </style>
+<style scoped>
+* {
+  margin: 0%;
+  padding: auto;
+}
+.main{
+  width: 1600px;
+  height: 800px;
+  /* background-color: skyblue; */
+}
+/* 标题 */
+.title{
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  width: 1600px;
+  height: 70px;
+  /* background-color: wheat; */
+  border-radius: 20px;
+  padding: 15px;
+}
+.title p{
+  font-size: 30px;
+  font-weight: 700;
+}
+/* 内容 */
+.content{
+  width: 800px;
+  height: 730px;
+  /* background-color: silver; */
+}
+el-upload{
+  margin: 15px;
+}
+</style>

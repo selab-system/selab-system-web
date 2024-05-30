@@ -11,7 +11,7 @@
           :data="tableData"
           style="width: 100%">
           <el-table-column type="expand">
-            <template >
+            <template v-if="tableData1>0">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-table
                   :data="tableData1"
@@ -67,24 +67,27 @@
                 </el-pagination>
               </div>
             </template>
-            </el-table-column>
-            <el-table-column
-              label="发布者"
-              prop="publisherName">
-            </el-table-column>
-            <el-table-column
-              label="任务名称"
-              prop="name">
-            </el-table-column>
-            <el-table-column
-              label="任务状态"
-              prop="status">
-            </el-table-column>
-            <el-table-column
-              label="截止时间"
-              prop="dealTime">
-            </el-table-column>
-          </el-table>
+            <div v-else>
+              <el-empty :image-size="200"></el-empty>
+            </div>
+          </el-table-column>
+          <el-table-column
+            label="发布者"
+            prop="publisherName">
+          </el-table-column>
+          <el-table-column
+            label="任务名称"
+            prop="name">
+          </el-table-column>
+          <el-table-column
+            label="任务状态"
+            prop="status">
+          </el-table-column>
+          <el-table-column
+            label="截止时间"
+            prop="dealTime">
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </template>
