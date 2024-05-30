@@ -1,12 +1,12 @@
 <template>
   <div>
-   <span>hahah</span>
-   <i class="el-icon-edit"></i>
+    查询部门
   </div>
 </template>
+
 <script>
 export default {
-  name: 'testIndex'
+
 }
 </script>
 

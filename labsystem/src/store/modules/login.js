@@ -10,7 +10,7 @@ const state = {
   // 注意token的获取
   userName: '',
   groupId: '',
-  roleId: '',
+  roleId: 'jjj',
   useId: '',
   msgNotice: ''
 }
@@ -43,6 +43,9 @@ const actions = {
     state.roleId = data.roleId// 角色id
     state.useId = data.useId// 用户id
     // console.log(result)
+    // localStorage.setItem('groupId', 'hhh')
+    localStorage.setItem('roleId', JSON.stringify(state.roleId))
+    // localStorage.setItem('useId')
   }
 
 }

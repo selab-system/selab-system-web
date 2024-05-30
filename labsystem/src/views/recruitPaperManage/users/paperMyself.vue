@@ -1,12 +1,13 @@
 <template>
   <div>
-   <span>hahah</span>
-   <i class="el-icon-edit"></i>
+    <!--  -->
+    hhh
   </div>
 </template>
+
 <script>
 export default {
-  name: 'testIndex'
+
 }
 </script>
 

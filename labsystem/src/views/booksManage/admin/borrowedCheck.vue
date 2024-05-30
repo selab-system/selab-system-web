@@ -1,10 +1,10 @@
 <template>
-  <div></div>
+<div>查看借阅记录</div>
 </template>
 
 <script>
 export default {
-  name: 'testIndex'
+
 }
 </script>
 

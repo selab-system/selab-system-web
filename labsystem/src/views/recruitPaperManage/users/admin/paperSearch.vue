@@ -1,12 +1,12 @@
 <template>
   <div>
-   <span>hahah</span>
-   <i class="el-icon-edit"></i>
+    所有已经提交的报名表的列表
   </div>
 </template>
+
 <script>
 export default {
-  name: 'testIndex'
+
 }
 </script>
 
