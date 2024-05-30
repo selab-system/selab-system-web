@@ -26,6 +26,7 @@ import viewReportRecords from '@/views/viewReportRecords.vue'
 import viewTasks from '@/views/viewTasks.vue'
 import adUserChange from '@/views/adUserChange.vue'
 import register from '../views/Register.vue'
+import adDepartInformation from '@/views/adDepartInformation.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -165,7 +166,12 @@ const routes = [
         path: '/viewReportRecords',
         name: 'viewReportRecords',
         component: viewReportRecords
-      }
+      },
+      {
+        path: '/adDepartInformation',
+        name: 'adDepartInformation',
+        component: adDepartInformation
+      },
 
     ]
 

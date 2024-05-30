@@ -91,6 +91,7 @@ export default {
     },
     // 添加图书
     async addBook(addform){
+      console.log();
       if(addform.bookName && addform.bookAuthor && addform.bookDetails && addform.price && addform.owner && addform.remark && addform.bookRef){
         const str = await AddBook(addform)
         console.log(str);
@@ -207,7 +208,7 @@ export default {
       <el-form-item>
         <el-button
           type="primary"
-          @click="modi(this.form.select, this.form.context)"
+          @click="modi(form.select, form.context)"
           >提交</el-button
         >
       </el-form-item>
@@ -231,7 +232,7 @@ export default {
       <el-form-item label="书籍编号"><el-input v-model="addform.bookRef"></el-input></el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="addBook(this.addform)">立即创建</el-button>
+        <el-button type="primary" @click="addBook(addform)">立即创建</el-button>
         <el-button @click="clean">取消</el-button>
       </el-form-item>
     </el-form>

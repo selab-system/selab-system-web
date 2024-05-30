@@ -34,7 +34,7 @@ export default {
             <el-submenu index="1-1">
               <template  slot="title" >用户管理</template>
               <el-menu-item index="1-1-1"><router-link to="/adUserChange" class="active">用户信息修改</router-link>></el-menu-item>
-              <el-menu-item index="1-1-2"><router-link to="/departInformation" class="active">部门信息</router-link>></el-menu-item>
+              <el-menu-item index="1-1-2"><router-link to="/adDepartInformation" class="active">部门信息</router-link>></el-menu-item>
             </el-submenu>
             <el-submenu index="1-2">
               <template slot="title" >图书管理</template>
