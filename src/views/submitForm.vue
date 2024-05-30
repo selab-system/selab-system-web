@@ -7,13 +7,13 @@ export default {
       interviewees: '',
         email: '',
         interviewTime: '',
-        phone: '',
+        phone: 0,
         intentDepartment: '',
         classroom: '',
         introduce: '',
         purpose: '',
         remark: '',
-        grade: ''
+        grade: 0
     }
       }
     }

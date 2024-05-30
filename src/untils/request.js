@@ -3,7 +3,10 @@ import axios from 'axios'
 // 创建axios对象
 const requests = axios.create({
   baseURL: 'http://dev-cn.your-api-server.com',
-  timeout: 5000
+  timeout: 5000,
+  headers:{
+    Authorization:'string'
+  }
 })
 // 请求拦截器
 requests.interceptors.request.use(function (config) {

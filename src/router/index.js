@@ -19,7 +19,7 @@ import serachOwnBooks from '@/views/serachOwnBooks.vue'
 import submissionRecord from '@/views/submissionRecord.vue'
 import submitForm from '@/views/submitForm.vue'
 import submittedForm from '@/views/submittedForm.vue'
-import userinformationchange from '@/views/userinformationchange.vue'
+import userInformationChange from '@/views/UserInformationChange.vue'
 import viewCompletionStatus from '@/views/viewCompletionStatus.vue'
 import viewOwnForm from '@/views/viewOwnForm.vue'
 import viewReportRecords from '@/views/viewReportRecords.vue'
@@ -27,6 +27,10 @@ import viewTasks from '@/views/viewTasks.vue'
 import adUserChange from '@/views/adUserChange.vue'
 import register from '../views/Register.vue'
 import changeMassage from '../views/changeMassage.vue'
+import idSearch from "@/views/idSearch.vue";
+import NameSearch from "@/views/nameSearch.vue";
+import departmentSearch from "@/views/departmentSearch.vue"
+import gradeSearch from "@/views/gradeSearch.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,7 +46,7 @@ const routes = [
       {
         path: '/userinformationchange',
         name: 'userinformationchange',
-        component: userinformationchange
+        component: userInformationChange
       },
       {
         path: '/departInformation',
@@ -145,7 +149,29 @@ const routes = [
       {
         path: '/submittedForm',
         name: 'submittedForm',
-        component: submittedForm
+        component: submittedForm,
+        children:[
+          {
+        path:'/idSearch',
+        name:'idSearch',
+        component:idSearch
+          },
+          {
+            path:'/nameSearch',
+            name:'NameSearch',
+            component: NameSearch
+          },
+          {
+            path: '/departmentSearch',
+            name:'departmentSearch',
+            component: departmentSearch
+          },
+          {
+            path:'/gradeSearch',
+            name:'gradeSearch',
+            component: gradeSearch
+          }
+      ]
       },
       {
         path: '/myRmarks',
@@ -171,10 +197,9 @@ const routes = [
         path: '/viewReportRecords',
         name: 'viewReportRecords',
         component: viewReportRecords
-      }
+      },
 
     ]
-
   }]
 const router = new VueRouter({
   routes

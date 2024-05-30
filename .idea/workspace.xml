@@ -5,23 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a35c98e-bf55-4f3e-bb3b-2c62270c7261" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/submitForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/changeMassage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/departmentSearch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/gradeSearch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/idSearch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/nameSearch.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-demo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/submitForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/submitForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/untils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/untils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/adHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/adHome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/countNumberOfForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/countNumberOfForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/submissionRecord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/submissionRecord.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/submitForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/submitForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/submittedForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/submittedForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/viewOwnForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/viewOwnForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/userinformationchange.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/UserInformationChange.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +108,9 @@
       <workItem from="1716808336182" duration="36000" />
       <workItem from="1716808373585" duration="7960000" />
       <workItem from="1716816409194" duration="1969000" />
+      <workItem from="1716895319896" duration="9322000" />
+      <workItem from="1716982434840" duration="4286000" />
+      <workItem from="1717052313691" duration="622000" />
     </task>
     <servers />
   </component>

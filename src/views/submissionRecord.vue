@@ -1,9 +1,11 @@
-<script setup>
+<script >
 
 </script>
 
 <template>
-<div></div>
+<div>
+  123456jkluio
+</div>
 </template>
 
 <style scoped>
