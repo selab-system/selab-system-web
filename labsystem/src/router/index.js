@@ -5,6 +5,11 @@ import register from '../views/register.vue'
 import registerCheck from '../views/registerCheck.vue'
 import tasks from '@/views/tasks/firstTasks.vue'
 import setTasks from '@/views/tasks/setTasks.vue'
+import checkTasks from '@/views/tasks/checkTasks.vue'
+import tasksDetails from '@/views/tasks/tasksDetails.vue'
+import reportRecord from '@/views/tasks/reportRecord.vue'
+import taskDetails from '@/views/tasks/taskDetails.vue'
+import testTasks from '@/views/tasks/testTasks.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -35,6 +40,26 @@ const router = new VueRouter({
     {
       path: '/setTasks',
       component: setTasks
+    },
+    {
+      path: '/checkTasks',
+      component: checkTasks
+    },
+    {
+      path: '/taskDetails',
+      component: taskDetails
+    },
+    {
+      path: '/reportRecord',
+      component: reportRecord
+    },
+    {
+      path: '/tasksDetails',
+      component: tasksDetails
+    },
+    {
+      path: '/testTasks',
+      component: testTasks
     }
   ]
 })
