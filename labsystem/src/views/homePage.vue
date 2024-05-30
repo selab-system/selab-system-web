@@ -37,7 +37,6 @@
        <el-submenu index="4">
        <template slot="title"><i class="el-icon-setting"></i>招新报名表管理</template>
        <el-menu-item index="/paperSearch" v-if="this.infos.roleId=='admin'"><i class="el-icon-s-claim"></i>查看报名表</el-menu-item>
-
        <!-- 以下为用户功能 -->
        <el-menu-item index="/paperFillIn"><i class="el-icon-tickets"></i>报名表填写</el-menu-item>
       <el-menu-item index="/paperMyself"><i class="el-icon-s-claim"></i>我的报名表</el-menu-item>
@@ -99,7 +98,7 @@ export default {
       isCollapsed: true,
       infos: {
         username: '',
-        roleId: ''
+        roleId: 'admin'
       }
     }
   },

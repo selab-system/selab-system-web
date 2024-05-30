@@ -13,45 +13,38 @@
   <el-form-item label="手机号" prop="phonenumber">
     <el-input v-model="paperForm.phonenumber"></el-input>
   </el-form-item>
-
+  <el-form-item label="班级" prop="class">
+    <el-input v-model="paperForm.class" size="small"></el-input>
+  </el-form-item>
   <el-form-item label="年级" prop="grade">
     <el-select v-model="paperForm.grade" placeholder="请选择所在年级">
-      <el-option label="大一" value="grade1"></el-option>
-      <el-option label="大二" value="grade2"></el-option>
-      <el-option label="大三" value="grade3"></el-option>
-      <el-option label="大四" value="grade4"></el-option>
+      <el-option label="大一" value="1">大一</el-option>
+      <el-option label="大二" value="2">大二</el-option>
+      <el-option label="大三" value="3">大三</el-option>
+      <el-option label="大四" value="4">大四</el-option>
     </el-select>
   </el-form-item>
-  <!-- <el-form-item label="活动时间" required>
+  <!-- 补充所属班级 -->
+  <el-form-item label="面试时间" required>
     <el-col :span="11">
       <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+        <el-date-picker @change="date1()" type="date" placeholder="选择日期" v-model="paperForm.date1" style="width: 100%;"></el-date-picker>
       </el-form-item>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
       <el-form-item prop="date2">
-        <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+        <el-time-picker @change="date2()" placeholder="选择时间" v-model="paperForm.date2" style="width: 100%;"></el-time-picker>
       </el-form-item>
-    </el-col> -->
-  <!-- </el-form-item> -->
-  <!-- <el-form-item label="即时配送" prop="delivery">
-    <el-switch v-model="ruleForm.delivery"></el-switch>
-  </el-form-item> -->
-  <!-- <el-form-item label="活动性质" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-      <el-checkbox label="地推活动" name="type"></el-checkbox>
-      <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-      <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item> -->
+    </el-col>
+  </el-form-item>
+
   <el-form-item label="意向部门" prop="group">
     <el-radio-group v-model="paperForm.group">
-      <el-radio label="网络安全"></el-radio>
-      <el-radio label="软件开发"></el-radio>
-      <el-radio label="虚拟现实"></el-radio>
-      <el-radio label="人工智能"></el-radio>
+      <el-radio label='2' :value='2'>网络安全</el-radio>
+      <el-radio label="1" :value="1">软件开发</el-radio>
+      <el-radio label="4" :value='4'>虚拟现实</el-radio>
+      <el-radio label="3" :value="3">人工智能</el-radio>
     </el-radio-group>
   </el-form-item>
 
@@ -76,18 +69,33 @@
 </template>
 
 <script>
+import { postPaperData } from '@/api/recruit'
 export default {
   data () {
     return {
       paperForm: {
         name: '',
+        // string
+        phonenumber: '',
+        // int
+        email: '',
+        // string
         grade: '',
-        // date1: '',
-        // date2: '',
+        //  int
+        date1: '',
+        // string
+        date2: '',
+        date: this.date1 + this.date2,
+        // string
+        class: '',
         group: '',
+        // int
         introduce: '',
+        // string
         purpose: '',
+        //  string
         notes: ''
+      // string
       },
       rules: {
         name: [
@@ -102,15 +110,19 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 11, message: '长度为11个字符', trigger: 'blur' }
         ],
+        class: [
+          { required: true, message: '请输入班级', trigger: 'blur' }
+        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
         grade: [
           { required: true, message: '请选择年级', trigger: 'change' }
         ],
-        // date1: [
-        //   { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        // ],
-        // date2: [
-        //   { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-        // ]
+        date1: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        date2: [
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+        ],
         group: [
           { required: true, message: '请选择意向部门', trigger: 'change' }
         ],
@@ -128,10 +140,19 @@ export default {
     }
   },
   methods: {
+    date1 () {
+      console.log(this.date1)
+    },
+    date2 () {
+      console.log(this.date2)
+    },
+    // 此函数设置在表单的提交按钮上 参数为表单标签名 ref  validate？是啥大致用于判断
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
+        // 点击后执行函数在没有错误时进行请求的发送 没有错误如何判断？关键是vaildate函数？
         if (valid) {
-          alert('submit!')
+          alert('提交成功')
+          postPaperData()
         } else {
           console.log('error submit!!')
           return false
@@ -140,6 +161,11 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    async postPaperMessage () {
+      const { msg } = await postPaperData(this.name, this.phonenumber, this.email, this.class, parseInt(this.grade), this.date, parseInt(this.group), this.introduce, this.purpose, this.notes)
+      alert(msg)
+      // 暂时使用弹框进行信息提示
     }
   }
 }
@@ -156,16 +182,16 @@ export default {
 padding: 0;
 }
 .body{
-width: 1800px;
-height: 1300px;
+width: 90%;
+height: 100%;
 background-color: #f3f5f5;
 padding: 20px;
 }
 .main{
-    background-color: #b4d7e8;
+    background-color: #bce0fc;
      border-radius: 20px;
      padding: 20px;
-     height: 95%;
+     height: 100%;
 
 }
 .container

@@ -90,8 +90,10 @@ import {
   Backtop,
   PageHeader,
   CascaderPanel,
-  Loading
-
+  Loading,
+  Empty,
+  Descriptions,
+  DescriptionsItem
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -167,6 +169,8 @@ Vue.use(Calendar)
 Vue.use(Backtop)
 Vue.use(PageHeader)
 Vue.use(CascaderPanel)
-
+Vue.use(Empty)
 Vue.use(Loading.directive)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
 // messagebox 样式未引入 message notify

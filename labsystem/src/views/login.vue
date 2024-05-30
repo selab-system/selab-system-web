@@ -12,17 +12,26 @@
     <el-input v-model="ruleForm.name"></el-input>
     </el-form-item> -->
     <li><h1>欢迎登录实验室管理系统</h1></li>
-    <li><span id="first">用户名：</span>
-    <el-input placeholder="请输入用户名或邮箱" prefix-icon="el-icon-s-custom" v-model=postMessage clearable @change="changepostMessage(postMessage);judgePostMessage();noticeDisplay()">
-    </el-input></li>
-    <div class="alter1" v-show="noticeMessge1">{{ noticeMessge1 }}</div>
-    <li><span id="second">密码：</span>
-    <el-input placeholder="请输入密码" prefix-icon="el-icon-key" v-model=password show-password @change="changepassWord(password);judgePassWord();noticeDisplay()"></el-input>
-    </li>
-    <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div>
-        <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore(),getDatabypassword()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li>
+    <el-form :model="logininfos" :rules="rules" ref="logininfos" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="用户名/邮箱" prop="postMessage">
+        <el-input v-model="logininfos.postMessage"></el-input>
+      </el-form-item>
+       <el-form-item label="密码" prop="password">
+
+       <el-input v-model="logininfos.password"></el-input>
+     </el-form-item>
+
+    <el-form-item>
+    <el-button type="primary" @click="submitForm('logininfos')">登录</el-button>
+    <el-button @click="resetForm('logininfos')">重置</el-button>
+    </el-form-item>
+    <li class="button_register"><span>还没有账号?</span><router-link to="/register">前往注册</router-link></li>
+    </el-form>
+
+  </ul>
+    <!-- <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div> -->
+        <!-- <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore(),getDatabypassword()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li> -->
 <!-- 此处都需要设置为表单项进行自主校验 -->
-    </ul>
   </div>
 
         <!-- 登录框需要进行输入验证 -->
@@ -36,27 +45,46 @@
         登录成功了  接收返回的用户的信息（对axios返回数据进行存储）
         实现页面跳转 -->
 <!-- </div> -->
-
 </div>
 </template>
 
 <script>
 // 使用映射引入库中数据 简化写法
-
+import { judgeLogin } from '@/api/enter'
 import { mapActions, mapMutations } from 'vuex'
 export default {
   data () {
     // 对于在组件内部输入内容的绑定可以实现 现在尝试仅使用vuex的方法
     return {
-      password: '',
-      postMessage: '',
-      roleId: 'user',
-      groupId: '111',
       noticeMessge1: '',
-      noticeMessge2: ''
-
+      noticeMessge2: '',
+      msgNotice: '',
+      logininfos: {
+        password: '',
+        postMessage: '',
+        userName: '',
+        // 用户名
+        groupId: '',
+        // 小组id
+        roleId: '',
+        // 角色id 1,2,3
+        userid: '',
+        // 用户id
+        token: ''
+        // 权限token
+      },
+      rules: {
+        postMessage: [
+          { required: true, message: '请输入用户名或邮箱', trigger: 'blur' },
+          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      }
     }
   },
+
   name: 'IndexLogin',
   computed: {
     // ...mapState('login', ['postMessagex']),
@@ -71,82 +99,113 @@ export default {
     ...mapMutations('login', ['changepassWord']),
     ...mapMutations('login', ['changepostMessage']),
     // 注意此时的用户名与密码的校验 可以在组件中实现：
-    judgePostMessage () {
-      let str1 = RegExp()
-      str1 = /@/g
-      let str2 = RegExp()
-      str2 = /@qq.com$/g
-      const judge1 = str1.test(this.postMessage)
-      // 输入为用户名时：判断输入字数
-      if (judge1) {
-        // 当输入为邮箱号时
-        if (this.postMessage.length === 0) {
-          this.noticeMessge1 = '输入为空'
-        }
-        if (!str2.test(this.postMessage)) {
-          console.log('执行了')
-          this.noticeMessge1 = '输入格式错误'
-        }
-      } else {
-        // 输入为账号时
-        console.log(122)
-        if (this.postMessage.length > 8) {
-          this.noticeMessge1 = '输入位数应小于等于8位'
-          console.log(this.postMessage1)
-        }
-        if (this.postMessage.length === 0) {
-          this.noticeMessge1 = '输入为空'
-        }
-      }
-    },
-    // 判断密码的输入
-    judgePassWord () {
-      if (this.password === '') {
-        this.noticeMessge2 = '输入为空'
-      }
-      if (this.password.length > 8) {
-        this.noticeMessge2 = '输入位数应小于等于8位'
-      }
-    },
-    // 提示框显示
-    noticeDisplay () {
-      if (this.noticeMessge1) {
-        setTimeout(() => {
-          this.postMessage1 = ''
-          this.noticeMessge1 = ''
-        }, 2000)
-        console.log(this.noticeMessge1)
-      }
-      if (this.noticeMessge2) {
-        setTimeout(() => {
-          this.postMessage2 = ''
-          this.noticeMessge2 = ''
-        }, 2000)
-        console.log(this.noticeMessge2)
-      }
-    },
+    // judgePostMessage () {
+    //   let str1 = RegExp()
+    //   str1 = /@/g
+    //   let str2 = RegExp()
+    //   str2 = /@qq.com$/g
+    //   const judge1 = str1.test(this.postMessage)
+    //   // 输入为用户名时：判断输入字数
+    //   if (judge1) {
+    //     // 当输入为邮箱号时
+    //     if (this.postMessage.length === 0) {
+    //       this.noticeMessge1 = '输入为空'
+    //     }
+    //     if (!str2.test(this.postMessage)) {
+    //       console.log('执行了')
+    //       this.noticeMessge1 = '输入格式错误'
+    //     }
+    //   } else {
+    //     // 输入为账号时
+    //     console.log(122)
+    //     if (this.postMessage.length > 8) {
+    //       this.noticeMessge1 = '输入位数应小于等于8位'
+    //       console.log(this.postMessage1)
+    //     }
+    //     if (this.postMessage.length === 0) {
+    //       this.noticeMessge1 = '输入为空'
+    //     }
+    //   }
+    // },
+    // // 判断密码的输入
+    // judgePassWord () {
+    //   if (this.password === '') {
+    //     this.noticeMessge2 = '输入为空'
+    //   }
+    //   if (this.password.length > 8) {
+    //     this.noticeMessge2 = '输入位数应小于等于8位'
+    //   }
+    // },
+    // // 提示框显示
+    // noticeDisplay () {
+    //   if (this.noticeMessge1) {
+    //     setTimeout(() => {
+    //       this.postMessage1 = ''
+    //       this.noticeMessge1 = ''
+    //     }, 2000)
+    //     console.log(this.noticeMessge1)
+    //   }
+    //   if (this.noticeMessge2) {
+    //     setTimeout(() => {
+    //       this.postMessage2 = ''
+    //       this.noticeMessge2 = ''
+    //     }, 2000)
+    //     console.log(this.noticeMessge2)
+    //   }
+    // },
     // 前往注册界面
-    toRegister () {
-      this.$router.push('/register')
+
+    // 一下是对修改后的登录页面的检验函数的绑定以及在检验后对数据的请求;
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+          // 在下面设置函数的请求 获取的数据与组件中data变量的绑定
+          // 同时将获取到的数据传入到本地存储中
+          this.postData_login()
+          // 暂时将返回信息进行替代
+          this.stataStore()
+          alert('登录成功')
+          this.tohomePage()
+          alert('前往主页面')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    // 前往主页
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
+    // axios获取页面登录数据
+    async postData_login () {
+      const { data, msg } = await judgeLogin(this.postMessage, this.password)
+      this.logininfos.userName = data.userName// 用户名
+      this.logininfos.groupId = data.groupId// 小组id
+      this.msgNotice = msg
+      this.logininfos.roleId = data.roleId// 角色id
+      this.logininfos.userId = data.useId// 用户id
+      this.logininfos.token = data.token
+      // 以上需要吗？
+    },
+    // 前往主页面
     tohomePage () {
       this.$router.push('./homePage')
     },
     // 数据的本地存储
     stataStore () {
-      localStorage.setItem('username', JSON.stringify(this.postMessage))
-      localStorage.setItem('password', JSON.stringify(this.password))
+      localStorage.setItem('password', JSON.stringify(this.logininfos.password))
+      localStorage.setItem('postmessage', JSON.stringify(this.logininfos.postmessage))
       // localStorage.setItem('roleId', JSON.stringify(this.roleId))
-    },
-    // 使用axios进行数据的获取不再使用vuex中的actions 较难 进行数据的保存与沟通；
-    getDatabypassword () {
-      // const { data, msg } = await axios.get({})
-      localStorage.setItem('roleId', JSON.stringify(this.roleId))
-      localStorage.setItem('groupId', JSON.stringify(this.groupId))
+      localStorage.setItem('roleid', JSON.stringify(this.logininfos.roleId))
+      localStorage.setItem('groupid', JSON.stringify(this.logininfos.groupid))
+      localStorage.setItem('userid', JSON.stringify(this.logininfos.userId))
+      localStorage.setItem('token', JSON.stringify(this.logininfos.token))
+      localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
+      console.log('执行了')
     }
   },
-  // 对用户名与密码本地存数据的获取
+
   mounted () {
     this.postMessage = JSON.parse(localStorage.getItem('username'))
     this.password = JSON.parse(localStorage.getItem('password'))
@@ -158,8 +217,8 @@ export default {
 
 <style lang="less" scoped>
 *{
-margin: 0 auto;
-padding: 0 auto;
+margin: 0 0;
+padding: 0 0;
 }
 
 .main{
@@ -251,9 +310,19 @@ background-size: 100% 100%;
     }
     .el-button
     {
-width: 120px;
-height: 60px;
+width: 110px;
+height: 50px;
 margin-left: 30px;
-font-size: 25px;
+font-size: 20px;
+padding: 10px;
     }
-</style>
+    //一以下为对登录页面修改后的样式添加
+.button_register a{
+margin-left: 10px;
+text-decoration: none;
+color: #2fa15b;
+font-size: 20px;
+}
+// 了解a标签与router-link的关系：
+
+    </style>
