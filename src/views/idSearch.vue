@@ -45,6 +45,7 @@ export default {
 
 <template>
   <div>
+
   <input type="number" placeholder="请输入你的id" v-model="registrationid">
   <button @click="open">查询</button>
 <!--{{person.id}}-->

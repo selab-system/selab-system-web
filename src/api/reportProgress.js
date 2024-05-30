@@ -24,3 +24,11 @@ export function queryForUser (params) {
     params
   })
 }
+// 删除汇报记录
+export function del (params) {
+  return requests({
+    url: '/task/report/delete',
+    method: 'get',
+    params
+  })
+}

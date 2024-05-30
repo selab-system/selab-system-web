@@ -11,7 +11,7 @@
           :data="tableData"
           style="width: 100%">
           <el-table-column type="expand">
-            <template >
+            <template v-if="tableData1>0">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-table
                   :data="tableData1"
@@ -67,24 +67,27 @@
                 </el-pagination>
               </div>
             </template>
-            </el-table-column>
-            <el-table-column
-              label="发布者"
-              prop="publisherName">
-            </el-table-column>
-            <el-table-column
-              label="任务名称"
-              prop="name">
-            </el-table-column>
-            <el-table-column
-              label="任务状态"
-              prop="status">
-            </el-table-column>
-            <el-table-column
-              label="截止时间"
-              prop="dealTime">
-            </el-table-column>
-          </el-table>
+            <div v-else>
+              <el-empty :image-size="200"></el-empty>
+            </div>
+          </el-table-column>
+          <el-table-column
+            label="发布者"
+            prop="publisherName">
+          </el-table-column>
+          <el-table-column
+            label="任务名称"
+            prop="name">
+          </el-table-column>
+          <el-table-column
+            label="任务状态"
+            prop="status">
+          </el-table-column>
+          <el-table-column
+            label="截止时间"
+            prop="dealTime">
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </template>
@@ -98,110 +101,9 @@ export default {
       currentPage: 1,
       totalCount: 1,
       dialogVisible: false,
-      tableData: [
-        // {
-        //   id: '12987122',
-        //   name: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   shopId: '10333'
-        // }, {
-        //   id: '12987123',
-        //   name: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   shopId: '10333'
-        // }, {
-        //   id: '12987125',
-        //   name: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   shopId: '10333'
-        // }, {
-        //   id: '12987126',
-        //   name: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   shopId: '10333'
-        // }
-      ],
+      tableData: [],
       tableData1: [],
-      allTableData1: [
-        // {
-        //   name: '12987122',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987123',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987125',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987126',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987126',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987126',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987126',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }, {
-        //   name: '12987126',
-        //   publisherName: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   date: '10333'
-        // }
-      ]
-
+      allTableData1: []
     }
   },
   created () {

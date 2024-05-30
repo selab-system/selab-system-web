@@ -1,5 +1,5 @@
 import requests from '@/untils/request'
-// 得到表格中书籍信息
+// 得到表格中本人书籍信息
 export const getBookList = (userId) => {
     return requests.get('/book/queryOne',
         { userId },
@@ -7,10 +7,16 @@ export const getBookList = (userId) => {
         {headers: { Authorization: 'string' }}
     )
 }
-// 用书名查id
-export const getBookId = (bookName) => {
-  return requests.get('/book/queryOne', {
-      bookName: 'bookName'
+// 得到表格中本人借阅书籍信息
+export const getSearchBookList = () => {
+  return requests.get('/borrow/my',
+      {headers: { Authorization: 'string' }}
+  )
+}
+// 用id求用户信息
+export const textUserId = (userId) => {
+  return requests.get('/user/query', {
+      userId
     }, {
     headers: { Authorization: 'string' }
   })

@@ -5,10 +5,12 @@
         <div class="title">
           <p>我的任务列表</p>
         </div>
+        <!-- 搜索框 -->
         <div class="search">
           <input type="text" placeholder="请输入你的姓名" v-model="username">
           <el-button type="primary" @click="search()">搜索你的任务</el-button>
         </div>
+        <!-- 主体内容 -->
         <div class="content">
           <div v-if="tableData.length>0">
             <el-table
@@ -78,43 +80,14 @@ export default {
     return {
       username: '',
       dialogVisible: false,
-      tableData: [
-        // {
-        //   date: '2016-05-02',
-        //   name: '王小虎',
-        //   publisherName: '上海',
-        //   city: '普陀区',
-        //   address: '上海市普陀区金沙江路 1518 弄',
-        //   zip: 200333
-        // }, {
-        //   date: '2016-05-04',
-        //   name: '王小虎',
-        //   publisherName: '上海',
-        //   city: '普陀区',
-        //   address: '上海市普陀区金沙江路 1517 弄',
-        //   zip: 200333
-        // }, {
-        //   date: '2016-05-01',
-        //   name: '王小虎',
-        //   publisherName: '上海',
-        //   city: '普陀区',
-        //   address: '上海市普陀区金沙江路 1519 弄',
-        //   zip: 200333
-        // }, {
-        //   date: '2016-05-03',
-        //   name: '王小虎',
-        //   publisherName: '上海',
-        //   city: '普陀区',
-        //   address: '上海市普陀区金沙江路 1516 弄',
-        //   zip: 200333
-        // }
-      ]
+      tableData: []
     }
   },
   created () {
     // this.search()
   },
   methods: {
+    // 对话框
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -122,6 +95,7 @@ export default {
         })
         .catch(_ => {})
     },
+    // 搜索自己的任务列表
     search () {
       const data = { username: this.username }
       queryForUser(data).then((res) => {
@@ -130,7 +104,6 @@ export default {
           // 转换对象为数组，每个元素是一个包含 key 和 value 的对象
           this.tableData = Object.values(res.data)
         }
-        // this.tableData = res.data
       }
 
       )

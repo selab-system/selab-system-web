@@ -60,7 +60,8 @@ export default {
 
 <template>
   <div>
-    <input type="text" placeholder="请输入你的姓名" v-model="person.grade">
+    123456
+    <input type="text" placeholder="请输入你的年级" v-model="person.grade">
     <button @click="gradesearch">查询</button>
     <el-table
       :data="person.slice((currentpage-1)*pagesize,currentpage*pagesize)"

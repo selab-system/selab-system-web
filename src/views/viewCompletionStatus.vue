@@ -7,7 +7,8 @@
       </div>
       <!-- 主体内容 -->
       <div>
-        <input type="text" v-model="publisherName" @input="search" placeholder="搜索发布者...">
+        <!-- 根据发布者名字搜索任务 -->
+        <input type="text" v-model="publisherName" @input="search" placeholder="请输入发布者的名字...">
         <el-button type="primary" @click="search()">搜索任务</el-button>
         <div v-if="tableData.length>0">
           <el-table class="table"
@@ -55,7 +56,7 @@
             <el-table-column
               fixed="right"
               label="操作"
-              width="300">
+              width="500">
               <template slot-scope="scope">
                 <el-button type="text" @click="dialogTableVisible = true">查看所有需要汇报人员信息</el-button>
 
@@ -69,8 +70,76 @@
                   @click.native.prevent="deleteRow(scope.$index, tableData)"
                   type="text"
                   size="small">
-                  删除任务
+                  &nbsp;&nbsp;&nbsp;删除任务
                 </el-button>
+                <el-button type="text" @click="dialogVisible = true">查看任务信息&nbsp;</el-button>
+                <el-dialog
+                  title="提示"
+                  :visible.sync="dialogVisible"
+                  width="30%"
+                  :before-close="handleClose"
+                  :modal-append-to-body='false'>
+                  <p>发布者：{{ row.publisherName }}</p>
+                  <p>任务名：{{ row.name }}</p>
+                  <p>任务内容：{{ row.content }}</p>
+                  <p>任务发布范围小组名称：{{ row.groupNames }}</p>
+                  <p>截止时间：{{ row.dealTime }}</p>
+                  <p>发布时间：{{ row.publishTime }}</p>
+                  <p>任务状态：{{ row.status }}</p>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                  </span>
+                </el-dialog>
+                <!-- 可以更新任务 -->
+                <el-button type="text" @click="dialogFormVisible = true">修改任务</el-button>
+
+                <el-dialog title="更新任务" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
+                  <el-form :model="form">
+                    <!-- 任务名称 -->
+                    <el-form-item label="任务名称" prop="name">
+                      <el-input v-model="form.name"></el-input>
+                    </el-form-item>
+                    <!-- 发布任务范围小组 -->
+                    <el-form-item label="选择部门" prop="groupIds">
+                      <el-select v-model="form.groupIds" multiple placeholder="请选择小组">
+                        <el-option
+                          v-for="group in groups"
+                          :key="group.id"
+                          :label="group.name"
+                          :value="group.id">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <!-- 发布者 -->
+                    <el-form-item label="发布者" prop="publisherId">
+                      <el-input v-model="form.publisherId"></el-input>
+                    </el-form-item>
+                    <!-- 更新者 -->
+                    <el-form-item label="更新者">
+                      <el-input v-model="form.updaterId"></el-input>
+                    </el-form-item>
+                    <!-- 截止时间 -->
+                    <el-form-item label="截止时间" prop="dealTime">
+                      <el-date-picker
+                        v-model="form.dealTime"
+                        type="datetime"
+                        placeholder="选择截止时间"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        style="width: 100%;">
+                      </el-date-picker>
+                    </el-form-item>
+                    <!-- 任务内容 -->
+                    <el-form-item label="任务内容" prop="content">
+                      <el-input type="textarea" v-model="form.content"></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
+                    <el-button type="primary" @click="update()">确认更新</el-button>
+                  </div>
+                </el-dialog>
               </template>
             </el-table-column>
           </el-table>
@@ -94,7 +163,7 @@
   </template>
 
 <script>
-import { queryMyTask, queryAllNeedReportUser, queryCount, deletetask } from '@/api/viewCompletionStatus'
+import { queryMyTask, queryAllNeedReportUser, queryCount, deletetask, update, queryById } from '@/api/viewCompletionStatus'
 export default {
   name: 'ViewProgress',
   data () {
@@ -103,88 +172,40 @@ export default {
       currentPage: 1,
       totalCount: 1,
       // 全部表格数据
-      allTableData: [
-        // {
-        //   date: '2016-05-03',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   deadline: '普陀区',
-        //   state: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-02',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-04',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-01',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-08',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-06',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }, {
-        //   date: '2016-05-07',
-        //   publisherName: '王小虎',
-        //   name: '上海',
-        //   state: '普陀区',
-        //   deadline: '上海市普陀区金沙江路 1518 弄',
-        //   number: 200333
-        // }
-      ],
+      allTableData: [],
+      // 分页表格数据
       tableData: [],
-      gridData: [
-        // {
-        //   date: '2016-05-02',
-        //   userName: '王小虎',
-        //   isReport: '上海市普陀区金沙江路 1518 弄'
-        // }, {
-        //   date: '2016-05-04',
-        //   userName: '王小虎',
-        //   isReport: '上海市普陀区金沙江路 1518 弄'
-        // }, {
-        //   date: '2016-05-01',
-        //   userName: '王小虎',
-        //   isReport: '上海市普陀区金沙江路 1518 弄'
-        // }, {
-        //   date: '2016-05-03',
-        //   userName: '王小虎',
-        //   isReport: '上海市普陀区金沙江路 1518 弄'
-        // }
-      ],
+      // 所有需要汇报的人员信息
+      gridData: [],
       dialogTableVisible: false,
+      dialogVisible: false,
       // formLabelWidth: '120px',
-      numberData: []
-
+      numberData: [],
+      dialogFormVisible: false,
+      // 更新表单数据
+      form: {
+        name: '',
+        groupIds: [],
+        dealTime: '',
+        publisherId: '',
+        updaterId: '',
+        content: ''
+      },
+      // 任务信息
+      row: [],
+      // 示例数据，实际情况可能需要从服务器获取
+      groups: [
+        { id: 1, name: '小组A' },
+        { id: 2, name: '小组B' },
+        { id: 3, name: '小组C' }
+      ]
     }
   },
   created () {
     // this.search()
     this.details()
     this.number()
+    this.query()
   },
   methods: {
     // 删除任务（逻辑删除）
@@ -211,6 +232,7 @@ export default {
         }
       })
     },
+    // 搜索任务
     search () {
       // 获取用户在文本框中输入的内容
       console.log(this.publisherName)
@@ -228,7 +250,7 @@ export default {
     },
     // 查询出所有需要汇报任务的用户信息
     details () {
-      const id = { taskId: this.allTableData.id }
+      const id = { taskId: this.tableData.id }
       queryAllNeedReportUser(id).then((res) => {
         console.log(res)
         this.gridData = Object.values(res.data)
@@ -237,16 +259,41 @@ export default {
     },
     // 查询当前汇报数量
     number () {
-      const id = { taskId: this.allTableData.id }
+      const id = { taskId: this.tableData.id }
       queryCount(id).then((res) => {
         console.log(res)
         this.numberData.data = res
       }
 
       )
+    },
+    // 更新任务
+    async update () {
+      console.log('submit!')
+      const id = this.tableData.id
+      const res = await update(id, this.form.name, this.form.groupIds, this.form.publisherId, this.form.updaterId, this.form.dealTime, this.form.content)
+      console.log(res)
+      alert('任务更新成功')
+    },
+    // 查看任务信息
+    query () {
+      const id = { taskId: this.allTableData.id }
+      queryById(id).then((res) => {
+        this.row = Object.values(res.data)
+      }
+
+      )
+    },
+    handleClose (done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     }
   }
 }
+
 </script>
 
   <style scoped>

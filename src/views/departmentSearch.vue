@@ -60,6 +60,7 @@ export default {
 
 <template>
 <div>
+  123456
   <input type="text" placeholder="请输入你的姓名" v-model="person.intentDepartment">
   <button @click="DepartmentSearch">查询</button>
   <el-table
