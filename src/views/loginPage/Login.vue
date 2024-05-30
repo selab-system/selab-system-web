@@ -13,7 +13,7 @@
             </div>
             <div class="form-submit">
               <button @click.prevent="loginButton">登录</button>
-              <button><router-link to="/register">注册</router-link></button>
+              <router-link to="/register"><button>注册</button></router-link>
             </div>
           </form>
       </div>

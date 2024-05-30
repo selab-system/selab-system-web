@@ -11,8 +11,21 @@
           <div class="form-password">
             <input type="password" placeholder="请输入密码" v-model="password" />
           </div>
+          <div class="form-password">
+            <input type="text" placeholder="请输入邮箱" v-model="email" />
+          </div>
+          <div class="form-password">
+            <input type="text" placeholder="请输入手机号" v-model="phone" />
+          </div>
+          <div class="form-password">
+            <input type="text" placeholder="请输入性别" v-model="sex" />
+          </div>
+          <div class="form-password">
+            <input type="text" placeholder="请输入验证码" v-model="code" />
+          </div>
           <div class="form-submit">
             <button @click.prevent="registerButton">确认</button>
+            <button>发送验证码</button>
           </div>
         </form>
       </div>
@@ -21,8 +34,9 @@
 </template>
 
 <script>
+
 export default {
-    name:"register"
+    name:"register",
 }
 </script>
 
