@@ -12,7 +12,8 @@
               <input type="password" placeholder="请输入密码" v-model="password" /> 
             </div>
             <div class="form-submit">
-              <button @click.prevent="loginButton">登录</button> 
+              <button @click.prevent="loginButton">登录</button>
+              <button><router-link to="/register">注册</router-link></button>
             </div>
           </form>
       </div>
@@ -116,7 +117,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 button {
-  width: 60%;
+  width: 30%;
   padding: 10px;
   border: none;
   text-align: center;
