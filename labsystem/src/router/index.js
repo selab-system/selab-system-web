@@ -13,7 +13,7 @@ import borrowedCheck from '@/views/booksManage/admin/borrowedCheck.vue'
 import homePageInner from '@/views/home.vue'
 import paperFillIn from '@/views/recruitPaperManage/users/paperFillIn.vue'
 import paperMyself from '@/views/recruitPaperManage/users/paperMyself.vue'
-import CheckTasks from '@/views/tasksManage/user/checkTasks.vue'
+import checkTasks from '@/views/tasksManage/user/checkTasks.vue'
 import tasksDetails from '@/views/tasksManage/user/tasksDetails.vue'
 import testTasks from '@/views/tasksManage/user/testTasks.vue'
 import setTasks from '@/views/tasksManage/admin/setTasks.vue'
@@ -96,7 +96,7 @@ const router = new VueRouter({
         // 任务管理路由配置
         {
           path: '/checkTasks',
-          component: CheckTasks
+          component: checkTasks
         },
         {
           path: '/tasksDetails',
@@ -140,6 +140,30 @@ const router = new VueRouter({
     {
       path: '*',
       component: notFound
+    },
+    {
+      path: '/setTasks',
+      component: setTasks
+    },
+    {
+      path: '/checkTasks',
+      component: checkTasks
+    },
+    {
+      path: '/taskDetails',
+      component: taskDetails
+    },
+    {
+      path: '/reportRecord',
+      component: reportRecord
+    },
+    {
+      path: '/tasksDetails',
+      component: tasksDetails
+    },
+    {
+      path: '/testTasks',
+      component: testTasks
     }
   ]
 })
