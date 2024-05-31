@@ -2,12 +2,6 @@
 // bookservice
 import request from '@/utils/request'
 
-// 我所有的封装都是直接简单的request封装
-// 然后之后的判断根据各自的逻辑完成
-// 尽量都用异步 我封装这个函数返回Promise，完了直接await
-// 去设置一个变量 const response 去接后端的数据
-// 我的请求需要带的参数我封装时写明白，然后具体返回什么样的数据自己看文档
-
 
 // borrow-noReturn
 // 查询所有已借阅未归还书籍的借阅信息
@@ -112,7 +106,7 @@ export function getBookList(params = {}) {
 // 传入参数Query参数
 // {cur,size,userid,bookid,bookname}
 // userid,bookid,bookname三选一，也可以都传
-export function getBookInfo(params = {}) {
+export function getBookInfo(query) {
     return request({
         url: '/book/queryOne',
         method: 'get',
@@ -123,9 +117,6 @@ export function getBookInfo(params = {}) {
 // update
 // 修改书籍信息
 // 传入参数Body参数
-// 这个模块就是修改书籍信息
-// 这个后端写的有问题
-// 自己看文档要传什么
 export function updateBookInfo(data) {
     return request({
         url: '/book/update',
@@ -135,7 +126,7 @@ export function updateBookInfo(data) {
 }
 
 // save
-// 保存修改的信息？？？？？
+// 添加图书信息
 export function saveBookInfo(data) {
     return request({
         url: '/book/save',

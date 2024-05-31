@@ -6,7 +6,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://hinbn4.natappfree.cc',
+        target: 'http://4nskux.natappfree.cc',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'

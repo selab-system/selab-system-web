@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import request from '@/utils/request';
+import { register, sendEmail } from '@/api/Login/login';
 export default {
   name: "register",
   data() {
@@ -55,7 +55,7 @@ export default {
   methods: {
     async registerButton() {
       try {
-        const data = {
+        const registerData = {
           userName: this.userName,
           email: this.email,
           phone: this.phone,
@@ -63,12 +63,8 @@ export default {
           password: this.password,
           identify: this.identify
         }
-        console.log("要提交的数据",data);
-        await request.post({
-          url: '/register',
-          methods: 'post',
-          data: data
-        }).then(res => { 
+        console.log("要提交的数据",registerData);
+        register(registerData).then(res => { 
           if (res.code == 200) {
             alert("注册成功")
             this.$router.push('/login')
@@ -90,16 +86,18 @@ export default {
           if (this.timess === 0) {
             this.getcode = true
           }
+          const emailData = {
+            email: this.email
+          }
           console.log(this.email);
-         await request.post({
-            url: '/sendEmail',
-            methods: 'post',
-            data: {
-              email: this.email
-            }
-          }).then(res => { 
+          sendEmail(emailData).then(res => { 
+            console.log('ooooooo', res);
             if (res.code == 200) {
               alert("请输入验证码 ")
+            }
+            else {
+              console.log(res.code);
+              alert("发送失败")
             }
           }
       )

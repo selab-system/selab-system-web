@@ -15,7 +15,7 @@ export function queryAllNeedReportUser() {
 // delete
 // 应该是删除User
 // 这个不知道干嘛的，文档妹写🤣
-export function deleteUser(params = {}) {
+export function deleteUser(params) {
     return request({
         url: "/task/delete",
         method: "get",

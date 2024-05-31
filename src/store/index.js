@@ -41,9 +41,6 @@ const store = new Vuex.Store({
             state.token = ""
             localStorage.removeItem("token")
         },
-        // setLoggin(state, value) {
-        //     state.isLoggedIn = value
-        // },
         setUser(state, roleId) {
 
             state.roleId = roleId

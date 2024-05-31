@@ -68,7 +68,6 @@
 <script>
 import request from '@/utils/request';
 
-
 export default {
     data() {
         return {
@@ -115,30 +114,7 @@ export default {
         }
     },
     created() {
-        // //  先发送请求分页查询
-        // // tableData 放到这个里面
-        // const allData = request({
-        //     url: '/registration/selectList',
-        //     methods: 'get'
-        //     // query: {
-        //     //     cur: this.currentPage,
-        //     //     size:this.currentIndexs
-        //     // }
-        // }).then(res => {
-        //     try {
-        //         console.log(res);
-        //         if (res.code == 200) {
-                    
-        //             this.tableData = res.data.data;
-        //         }
-        //         else {
-        //             // console.error(res.data.msg);
-        //             console.log("123");
-        //         }
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // })
+
     },
     computed: {
         rowHeight() {
