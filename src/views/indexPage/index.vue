@@ -3,7 +3,8 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
-        <router-view></router-view>
+        <div class="body"></div>
+        <!-- <router-view></router-view> -->
       </div>
       <div class="content">
       </div>
@@ -38,5 +39,9 @@ export default {
   border-bottom:var(--box-border);
   box-shadow: var(--nav-box-shadow);
   overflow: hidden;
+}
+.body{
+  height: 600px;
+  background-color: pink;
 }
 </style>

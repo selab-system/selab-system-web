@@ -8,8 +8,8 @@ import router from "@/router";
 // 自定义配置发送请求
 const request = axios.create({
     // URL配置
-    baseURL: '/api',
-    timeout: 10000
+    baseURL: 'https://fe36-101-7-141-191.ngrok-free.app/api',
+    timeout: 10000,
 })
 
 // 请求拦截器配置

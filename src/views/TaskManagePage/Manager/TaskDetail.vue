@@ -28,12 +28,6 @@
   import axios from 'axios';
   
   export default {
-    props: {
-      taskId: {
-        type: String,
-        required: true
-      }
-    },
     data() {
       return {
         task: {
@@ -73,7 +67,6 @@
     /* background-color: pink; */
 }
 .task-detail-container{
-    background-color: #fff;
     height: 100%;
     width: 60%;
     margin: 0 auto;
@@ -99,7 +92,7 @@
     width: 120px;
     height: 60px;
     box-shadow: var(--table-box-shadow);
-    background-color: var(--table-box-title-bgc-color1);
+    background-color: var(--table-action-bg-color);;
     border: 0.5px solid var(--table-border-grey);
     border-radius: var(--table-action-radius);
     margin-left: 20px;
