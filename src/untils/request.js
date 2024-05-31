@@ -2,7 +2,7 @@
 import axios from 'axios'
 // 创建axios对象
 const requests = axios.create({
-  baseURL: 'http://dev-cn.your-api-server.com',
+  baseURL: 'http://10.0.0.159:8080/task/',
   timeout: 1000
 })
 // 请求拦截器
