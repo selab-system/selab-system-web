@@ -6,10 +6,7 @@
         <form action="">
           <h1 class="register-title">注册</h1>
           <div class="form-username">
-            <input type="text" placeholder="请输入用户名" v-model="username" />
-          </div>
-          <div class="form-password">
-            <input type="password" placeholder="请输入密码" v-model="password" />
+            <input type="text" placeholder="请输入用户名" v-model="userName" />
           </div>
           <div class="form-password">
             <input type="text" placeholder="请输入邮箱" v-model="email" />
@@ -21,11 +18,16 @@
             <input type="text" placeholder="请输入性别" v-model="sex" />
           </div>
           <div class="form-password">
-            <input type="text" placeholder="请输入验证码" v-model="code" />
+            <input type="text" placeholder="请输入密码" v-model="password" />
+          </div>
+          <div class="form-password">
+            <input type="text" placeholder="请输入验证码" v-model="identify" />
           </div>
           <div class="form-submit">
             <button @click.prevent="registerButton">确认</button>
-            <button>发送验证码</button>
+            <button @click.prevent="sentTheemail" v-show="getcode">获取验证码
+            </button>
+            <span class="time" v-show="timeisshowed"><span>{{ timess }}</span></span>
           </div>
         </form>
       </div>
@@ -34,13 +36,85 @@
 </template>
 
 <script>
-
+import request from '@/utils/request';
 export default {
-    name:"register",
+  name: "register",
+  data() {
+    return {
+      userName: "",
+      email: "",
+      phone: "",
+      sex: "",
+      password: "",
+      identify: "",
+      timeisshowed: false,
+      getcode:true,
+      timess:60
+    }
+  },
+  methods: {
+    async registerButton() {
+      try {
+        const data = {
+          userName: this.userName,
+          email: this.email,
+          phone: this.phone,
+          sex: this.sex,
+          password: this.password,
+          identify: this.identify
+        }
+        console.log("要提交的数据",data);
+        await request.post({
+          url: '/register',
+          methods: 'post',
+          data: data
+        }).then(res => { 
+          if (res.code == 200) {
+            alert("注册成功")
+            this.$router.push('/login')
+          }
+        })
+      } catch (error) {
+        alert("注册失败")
+        console.log(error)
+      }
+      },
+      async sentTheemail() {
+        // 向后端发送获取验证码的请求
+        try {
+          this.getcode = false
+          this.timeisshowed = true
+          setInterval(() => {
+            this.timess--
+          }, 1000);
+          if (this.timess === 0) {
+            this.getcode = true
+          }
+          console.log(this.email);
+         await request.post({
+            url: '/sendEmail',
+            methods: 'post',
+            data: {
+              email: this.email
+            }
+          }).then(res => { 
+            if (res.code == 200) {
+              alert("请输入验证码 ")
+            }
+          }
+      )
+        } catch (error) {
+          console.log(error);
+        }
+      }
+  },
+  computed: {
+    
+  }
 }
 </script>
 
-<style>
+<style scoped>
 /* 表单的一些设置 */
 .register-title{
   color: white;
@@ -114,4 +188,5 @@ button:hover {
   transform: scale(1.05);
   border: 1px solid black;
 }
+
 </style>

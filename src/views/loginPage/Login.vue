@@ -37,7 +37,7 @@ export default {
 
   },  
   methods: {  
-    loginButton() {
+    async loginButton() {
       try {
         if (!this.username || !this.password) {
           this.$message.error("请输入用户名或密码")
@@ -46,12 +46,14 @@ export default {
           username: this.username,
           password:this.password,
         }
-        login(data).then(res => {
+         await login(data).then(res => {
           if (res.code === 200) {
             console.log("登录成功", res);
             console.log(res.data.roleId);
             this.$store.commit('setToken', res.data.token)
             this.$store.commit("setUser", res.data.roleId)
+            this.$store.commit("setUserId", res.data.UserId)
+            this.$store.commit("setGroupId", res.data.groupId)
             this.$router.push('/index')
           } else {
            console.log(res.msg)
