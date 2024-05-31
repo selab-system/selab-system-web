@@ -41,6 +41,7 @@ export function addUser(addform) {
             sex,
             password
         },
+        // {timeout:5000},
         { headers: { Authorization: 'string' } }
     )
 }

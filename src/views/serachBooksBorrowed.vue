@@ -52,6 +52,7 @@ export default {
         this.tableData=str.data
         // console.log(str);
         alert("申请成功")
+        this.control=true
       }
       else{
         alert("用户id不存在")

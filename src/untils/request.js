@@ -2,7 +2,7 @@
 import axios from 'axios'
 // 创建axios对象
 const requests = axios.create({
-  baseURL: 'http://dev-cn.your-api-server.com',
+  baseURL: 'http://dev-cn.8jm6ib.natappfree.cc',
   timeout: 1000
 })
 // 请求拦截器

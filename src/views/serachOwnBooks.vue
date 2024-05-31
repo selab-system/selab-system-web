@@ -50,6 +50,7 @@ export default {
         const str = await getBookList(userid)
         console.log(str);
         this.tableData=str.data
+        this.control=true
         // console.log(str);
         alert("申请成功")
       }
