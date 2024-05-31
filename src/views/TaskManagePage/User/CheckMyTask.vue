@@ -12,7 +12,7 @@
                         {{ rowIndex < maxVisibleRows ? cellItem : '' }}
                       </td>
                       <td class="operation-column">
-                        <button v-if="rowIndex < maxVisibleRows " router-link="{ name: 'TaskDetail', params: { taskId: item.id } }">查看</button>
+                        <button v-if="rowIndex < maxVisibleRows ">查看</button>
                         <button v-if="rowIndex < maxVisibleRows ">汇报</button>
                       </td>
                   </tr>

@@ -8,7 +8,7 @@ import router from "@/router";
 // 自定义配置发送请求
 const request = axios.create({
     // URL配置
-    baseURL: 'https://deff-101-7-161-230.ngrok-free.app/api',
+    baseURL: 'https://fe36-101-7-141-191.ngrok-free.app/api',
     timeout: 10000,
 })
 
