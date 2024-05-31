@@ -1,18 +1,23 @@
 <script>
 import {register} from "@/api/login";
+import {subAuth} from "@/api/login";
 
 export default {
 
  name: 'MyRegister',
   data () {
     return {
+      change:true,
+
      form: {
       userName:'',
         email: '',
        phone: '',
        password:'',
-       sex:''
-      }
+       sex:'',
+       identify:'',
+
+     }
    }
   },
  methods: {
@@ -20,7 +25,27 @@ export default {
    register(this.form).then(res=>{
        console.log(res)
      })
-   }}}
+   },
+   handleRegister1(){
+
+   },
+  submitAuth() {
+    subAuth(this.form.email).then(res => {
+        console.log(res)
+
+      },
+    )
+
+  },
+  ifChange(){
+   this.change=!this.change
+    console.log(1)
+  },
+
+}}
+
+
+
 </script>
 
 <template>
@@ -30,9 +55,11 @@ export default {
                  :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push" ref="particles">
   </vue-particles>
   <div class="register">
-  <form id="registerform" @submit.prevent="handleReigster">
+  <form id="registerform" @submit.prevent="handleRegister1">
     <label for="usermailbox">邮箱</label>
-    <input type="text" placeholder="请输入你的qq邮箱" id="usermailbox" v-model=form.email class="active">
+    <input type="text" placeholder="请输入你的qq邮箱" id="usermailbox" v-model=form.email class="active" @keydown.enter="ifChange" >
+    <button @click="submitAuth" v-if="change"  >发送验证码</button>
+    <input type="text" placeholder="请输入你的验证码" id="usermailmessage" v-model=form.identify class="active" v-if="change">
     <br>
     <label for="useraccount">姓名</label>
     <input type="text" placeholder="请输入你的用户名" id="useraccount" v-model="form.userName" class="active">
@@ -46,7 +73,7 @@ export default {
     <label for="userpassword">性别</label>
     <input type="password" placeholder="请输入你的性别(0为女1为男)" id="usersex" v-model="form.sex" class="active">
     <br>
-    <button @submit="handleReigster">注册</button>
+    <button @click="handleReigster">注册</button>
   </form>
   </div>
 </div>

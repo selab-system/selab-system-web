@@ -216,6 +216,6 @@ const router = new VueRouter({
 //       '/login'
 //     );
 //   }
-//    else if()
-  //如果token数据为null则跳转到指定路
+
+
 export default router

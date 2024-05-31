@@ -11,3 +11,11 @@ export function login () {
     methods: 'post'
   })
 }
+export function subAuth(params){
+  return requests({
+    url:'/login/sendEmail',
+    method:'post',
+    params:{params}
+
+  })
+}

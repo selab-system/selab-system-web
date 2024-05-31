@@ -11,31 +11,32 @@ export default {
       intervieweesName:'',
       cur:'',
       size:'',
-      person: {
-        id: 0,
-        interviewees: {
-          userName: " ",
-          groupId: 0,
-          groupName: " ",
-          roleId: 0,
-          roleName: " ",
-          email: " ",
-          phone: " ",
-          sex: 0,
-          userId: 0,
-          createTime: " ",
-          updateTime: " "
-        },
-        email: " ",
-        phone: 0,
-        intentDepartment: 0,
-        classroom: " ",
-        interviewTime: " ",
-        introduce: " ",
-        purpose: " ",
-        remark: " ",
-        grade: " "
-      }
+      person:[],
+    //   person: {
+    //     id: 0,
+    //     interviewees: {
+    //       userName: " ",
+    //       groupId: 0,
+    //       groupName: " ",
+    //       roleId: 0,
+    //       roleName: " ",
+    //       email: " ",
+    //       phone: " ",
+    //       sex: 0,
+    //       userId: 0,
+    //       createTime: " ",
+    //       updateTime: " "
+    //     },
+    //     email: " ",
+    //     phone: 0,
+    //     intentDepartment: 0,
+    //     classroom: " ",
+    //     interviewTime: " ",
+    //     introduce: " ",
+    //     purpose: " ",
+    //     remark: " ",
+    //     grade: " "
+    //   }
     }
 
   },
@@ -54,13 +55,12 @@ export default {
     }
 
   }
-
 }
 </script>
 
 <template>
 <div>
-123456
+
   <input type="text" placeholder="请输入你的姓名" v-model="intervieweesName">
   <button @click="search">查询</button>
   <el-table
