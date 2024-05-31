@@ -29,6 +29,7 @@ import ReportMyTask from "@/views/TaskManagePage/User/ReportMyTask.vue";
 import CheckMyTask from "@/views/TaskManagePage/User/CheckMyTask.vue";
 //引入查看我的汇报组件
 import CheckMyReport from "@/views/TaskManagePage/User/QueryMyReport.vue";
+import register from "@/views/loginPage/register.vue";
 // 引入报名表组件
 // 把vuerouter安装成vue的插件
 Vue.use(VueRouter)
@@ -43,6 +44,11 @@ let routes = [
         path: "/login",
         name: "login",
         component: Login
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: register
     },
     // 主页路由
     {

@@ -31,7 +31,7 @@
                       {{ rowIndex < maxVisibleRows ? cellItem : '' }}
                     </td>
                     <td class="operation-column">
-                      <button v-if="rowIndex < maxVisibleRows ">查看</button>
+                      <button v-if="rowIndex < maxVisibleRows " @click="visonal">查看</button>
                       <button v-if="rowIndex < maxVisibleRows ">修改</button>
                       <button v-if="rowIndex < maxVisibleRows ">删除</button>
                     </td>
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import request from '@/utils/request';
+
 
 export default {
     data() {
@@ -89,6 +91,7 @@ export default {
             pageChangeBoxActive: false,
             // 分页按钮是否展示
             ShowButtonIsShown: true,
+            isformed: false,
         }
     },
     methods: {
@@ -105,11 +108,37 @@ export default {
             this.pageChangeBoxActive = !this.pageChangeBoxActive;
             this.ShowButtonIsShown = !this.ShowButtonIsShown;
         },
-
+        visonal() {
+            this.$emit("senttosee",
+                true
+            )
+        }
     },
     created() {
-        // 测试输出
-        console.log(this.tableTitle);
+        // //  先发送请求分页查询
+        // // tableData 放到这个里面
+        // const allData = request({
+        //     url: '/registration/selectList',
+        //     methods: 'get'
+        //     // query: {
+        //     //     cur: this.currentPage,
+        //     //     size:this.currentIndexs
+        //     // }
+        // }).then(res => {
+        //     try {
+        //         console.log(res);
+        //         if (res.code == 200) {
+                    
+        //             this.tableData = res.data.data;
+        //         }
+        //         else {
+        //             // console.error(res.data.msg);
+        //             console.log("123");
+        //         }
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // })
     },
     computed: {
         rowHeight() {
@@ -124,6 +153,12 @@ export default {
           return Math.floor(availableHeight / this.rowHeight);
         },
     },
+    mounted() {
+        //  先发送请求分页查询
+        // 发送query请求
+        // /registration/selectList
+
+    }
 }
 </script>
 

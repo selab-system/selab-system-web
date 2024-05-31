@@ -12,7 +12,12 @@ const store = new Vuex.Store({
             // 存储token
             token: "",
             // isLoggedIn: false,
-            roleId: ""
+            roleId: "",
+            // 存入userId
+            userId: "",
+            // groupId 小组Id
+            groupId:"",
+
         }
     },
     getters: {
@@ -46,13 +51,22 @@ const store = new Vuex.Store({
         },
         deleteUser(state, roleId) {
             state.roleId = ""
+        },
+        setUserId(state, userId) {
+            state.userId = userId
+            console.log(userId);
+        },
+        deleteUserId(state, userId) {
+            state.userId = ""
+        },
+        setGroupId(state, groupId) {
+            state.groupId = groupId
+            console.log(groupId);
+        },
+        deleteGroupId(state, groupId) {
+            state.groupId = ""
         }
     },
-    // actions: {
-    //     loginSuccess({ commit }) {
-    //         commit("setLoggin", true)
-    //     }
-    // }
 })
 
 export default store

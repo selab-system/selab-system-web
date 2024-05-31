@@ -15,7 +15,7 @@
                                 <input type="text" placeholder="请输入年级(大一/大二)"  v-model="grade">
                             </div>
                             <div class="registrasion-form-main-content-input-title-item-title class-input">
-                               <input type="text" placeholder="请输入班级"  v-model="classname">
+                               <input type="text" placeholder="请输入班级"  v-model="classroom">
                             </div>
                             <div class="registrasion-form-main-content-input-title-item-title email-input" >
                                 <input type="text" placeholder="请输入您的QQ邮箱"  v-model="email">
@@ -64,8 +64,8 @@
                         </div>
                     </div>
                     <div class="registrasion-form-main-content-commit">
-                        <button class="not-vip-commit-btn" v-show="!isVipChange" @click="commitRegistrasionForm">提交</button>
-                        <button class="vip-chaneg" v-show="isVipChange">确定</button>
+                        <button class="not-vip-commit-btn" v-show="isVipChange" @click="commitRegistrasionForm">提交</button>
+                        <button class="vip-chaneg" v-show="!isVipChange" @click="visonal">确定</button>
                         <button class="not-vip-commit-btn" @click="redirectIndex">
                             返回首页
                         </button>
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import request from '@/utils/request';
+
 export default {
     data() {
         return {
@@ -89,26 +91,23 @@ export default {
                 "面试时间",
             ],
             departments: [
-                { name: '软件开发', isActive: false },
-                { name: '网络安全', isActive: false },
-                { name: '人工智能', isActive: false },
-                { name: '虚拟现实', isActive: false },
+                { name: '软件开发', isActive: false ,id:1},
+                { name: '网络安全', isActive: false ,groupId:2},
+                { name: '人工智能', isActive: false ,groupId:3},
+                { name: '虚拟现实', isActive: false,groupId:4 },
             ],
             name: '',
             grade: '',
-            classname: '', // 注意这里应该是 classname 而不是 class，因为class是保留字
+            classroom: '', 
             email: '',
             phone: '',
             interviewDate: '', // 添加面试时间的data属性
             // 加入目的
-            registrasionPurpose: "做有趣的项目",
+            registrasionPurpose: "",
             // 自我介绍
-            registrasionOwnProduction: "snaiodqweeeeeeeeeeeeenononooasnsaonod nasondnasondsonoasndonasoindonaosidns a",
+            registrasionOwnProduction: "",
             // 自我介绍备注
-            registrasionOwnProductionRemark: "你已经被内定了",
-            // 是否是vip的按钮
-            isVipChange: false,
-
+            registrasionOwnProductionRemark: "",
         }
     },
     methods: {
@@ -120,28 +119,56 @@ export default {
         },
         // 收集表单数据
         commitRegistrasionForm() {
-            const formData = {
-                name: this.name, // 直接从data中获取
+            const registrationDto = {
+                interviewees: this.name, 
                 grade: this.grade,
-                class: this.classname, // 注意这里的变量名是 classname 而不是 class
+                classroom: this.classroom, 
                 email: this.email,
                 phone: this.phone,
-                department: this.departments.find(department => department.isActive)?.name || '未选择',
-                interviewTime: this.interviewDate, // 确保 interviewDate 在 data 中已定义
+                intentDepartment: this.departments.find(department => department.isActive)?.groupId || '未选择',
+                interviewTime: this.interviewDate, 
+                introduce: this.registrasionOwnProduction,
                 purpose: this.registrasionPurpose,
-                ownProduction: this.registrasionOwnProduction,
-                productionRemark: this.registrasionOwnProductionRemark,
+                remark: this.registrasionOwnProductionRemark
             };
-
-            console.log('提交的数据:', formData);
-
+            console.log('提交的数据:', registrationDto)
+            
             // 这里可以添加提交数据到服务器的逻辑
+            // 增加报名表
+            const  addRegister =  request({  // 增加报名表
+                url: '/registration/insertRegistration',
+                method: 'post',
+                data: registrationDto
+            }).then(res => {
+                console.log(res)
+                if(res.code == 200){
+                    alert('报名成功')
+                }
+                else {
+                    alert('报名失败')
+                }
+            })
         },
         // 返回首页按钮
         redirectIndex() {
             this.$router.push("/index")
+        },
+        visonal() {
+            this.$emit("senttosee",
+                false
+            )
         }
     },
+    computed: {
+        isVipChange() {
+            if (this.$store.state.roleId != 3) {
+                return false
+            }
+            else {
+                return true
+            }
+        }
+    }
 }
 </script>
 
