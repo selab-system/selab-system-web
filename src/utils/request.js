@@ -7,7 +7,7 @@ import router from "@/router";
 
 // 自定义配置发送请求
 const request = axios.create({
-    // URL配置
+    // URL配置s
     baseURL: '/api',
     timeout: 10000,
 })
@@ -36,7 +36,6 @@ request.interceptors.response.use(response => {
     return response.data;
 }, error => {
     const { status } = error.response || {}; // 解构错误响应中的状态码
-
     if (status === 401) {
         // 处理token过期
         alert("登录过期，请重新登录");
@@ -54,6 +53,7 @@ request.interceptors.response.use(response => {
         // 服务器错误或网络异常
         // console.log(status);
         alert("服务器错误或网络异常，请稍后再试");
+        console.log(status)
         return Promise.reject("服务器错误或网络异常");
     } else {
         console.log(error);

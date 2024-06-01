@@ -20,9 +20,9 @@ export default {
 *{
   margin: 0;
   padding: 0;
-  background-color: var(--bg-color);
-  font-family: var(--font-family-secondary);
-  color: var(--font-color);
+  //background-color: var(--bg-color);
+  //font-family: var(--font-family-secondary);
+  //color: var(--font-color);
 }
 a {  
     text-decoration: none;  

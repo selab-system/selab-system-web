@@ -30,6 +30,13 @@ import CheckMyTask from "@/views/TaskManagePage/User/CheckMyTask.vue";
 //引入查看我的汇报组件
 import CheckMyReport from "@/views/TaskManagePage/User/QueryMyReport.vue";
 import register from "@/views/loginPage/register.vue";
+import queryAllBooks from "@/components/bookManagerComponent/queryAllBooks.vue";
+import personalBooks from "@/components/bookManagerComponent/personalBooks.vue";
+import checkBorrowing from "@/components/bookManagerComponent/checkBorrowing.vue";
+import modifyPersonalInformation from "@/components/usersManagementComponent/modifyPersonalInformation.vue";
+import departmemtMenber from "@/components/usersManagementComponent/departmemtMenber.vue";
+import manageMembers from "@/components/usersManagementComponent/manageMembers.vue";
+import indexStyleMain from "@/components/indexStyle/indexStyleMain.vue";
 // 引入报名表组件
 // 把vuerouter安装成vue的插件
 Vue.use(VueRouter)
@@ -56,17 +63,43 @@ let routes = [
         name: "index",
         component: index,
         children: [
+            //首页样式
+            {
+                path: "/indexStyleMain",
+                name: "indexStyleMain",
+                component: indexStyleMain
+            },
             // 用户管理路由
             {
-                path: "/user",
-                name: "user",
-                component: UserHome
+                path: "/modifyPersonalInformation",
+                name: "modifyPersonalInformation",
+                component: modifyPersonalInformation
+            },
+            {
+                path: "/departmemtMenber",
+                name: "departmemtMenber",
+                component: departmemtMenber
+            },
+            {
+                path: "/manageMembers",
+                name: "manageMembers",
+                component: manageMembers
             },
             // 图书管理路由
             {
-                path: "/book",
-                name: "book",
-                component: BookManage
+                path: "/queryAllBooks",
+                name: "queryAllBooks",
+                component: queryAllBooks
+            },
+            {
+                path: "/personalBooks",
+                name: "personalBooks",
+                component: personalBooks
+            },
+            {
+                path: "/checkBorrowing",
+                name: "checkBorrowing",
+                component: checkBorrowing
             },
             // 任务管理路由
             {

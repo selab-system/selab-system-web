@@ -52,7 +52,7 @@ export default {
             console.log(res.data.roleId);
             this.$store.commit('setToken', res.data.token)
             this.$store.commit("setUser", res.data.roleId)
-            this.$store.commit("setUserId", res.data.UserId)
+            this.$store.commit("setUserId", res.data.userId)
             this.$store.commit("setGroupId", res.data.groupId)
             this.$router.push('/index')
           } else {
