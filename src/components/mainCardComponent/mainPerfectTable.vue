@@ -227,7 +227,27 @@ export default {
             } catch (error) {
                 console.log(error);
             }  
-        }
+        },
+                async toselectList() {
+            try {
+                // 假设 selectList 是一个 API 方法，返回数据
+                const params = {
+                    pageNum: this.currentPage,
+                    pageSize: this.size,
+                };
+                const response = await selectList(params);
+                if (response && response.code === 200) {
+                    // 假设返回的数据包含在 res.data 中
+                    this.tableData = response.data.records;
+                    // 假设返回的数据还包括总记录数，用于分页
+                    this.totalRecords = response.data.total;
+                } else {
+                    console.error('API 返回了错误码:', response.code);
+                }
+            } catch (error) {
+                console.error('请求列表数据失败:', error);
+            }
+        },
     },
     created() {
 
@@ -251,18 +271,7 @@ export default {
         // /registration/selectList
     },
     created() {
-        // selectList
-        async function toselectList(){
-            try {
-                const params = {
-                    pageNum: this.currentPage,
-                    pageSize: this.size,
-                }
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        this.toselectList();
     }
 }
 

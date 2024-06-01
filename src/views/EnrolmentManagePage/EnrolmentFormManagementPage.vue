@@ -13,7 +13,7 @@
 <script>
 import navBasicComponent from '@/components/navComponent/navBasicComponent.vue';
 import mainPerfectTable from '@/components/mainCardComponent/mainPerfectTable.vue';
-import RegistrasionForm from '@/components/mainCardComponent/RegistrasionForm.vue';
+import RegistrasionForm from '@/views/EnrolmentManagePage/RegistrasionForm.vue';
 export default {
   components: {
     navBasicComponent,

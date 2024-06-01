@@ -15,8 +15,8 @@
         <div class="nav-selection" @mouseleave="showDropdownE = false " v-if="readRoleId!==3">
           <span @click="toggleDropdownE"> <a href="javascript:;">招新报名表管理</a> </span>
           <div class="dropdown-content-Long" v-if="this.showDropdownE">
-            <div><router-link to="/enroll">查看报名表</router-link></div>
-            <div><router-link to="/"></router-link></div>
+            <div><router-link to="/enroll" v-if="!taskIsShowed">查看报名表</router-link></div>
+            <div><router-link to="/registrasionForm" v-if="taskIsShowed">报名</router-link></div>
           </div>
         </div>
         <div class="nav-selection" @mouseleave="showDropdownB = false" v-if="readRoleId!==3">
@@ -132,6 +132,7 @@ export default {
     color: var(--font-logo-color);
     margin-left: 20px;
     margin-right: 15px;
+    z-index: 999;
 }
 .nav-right-changestylebutton{
     margin-right: 20px;

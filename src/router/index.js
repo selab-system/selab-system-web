@@ -31,7 +31,9 @@ import CheckMyTask from "@/views/TaskManagePage/User/CheckMyTask.vue";
 import CheckMyReport from "@/views/TaskManagePage/User/QueryMyReport.vue";
 import register from "@/views/loginPage/register.vue";
 // 引入报名表组件
+import RegistrasionForm from "@/views/EnrolmentManagePage/RegistrasionForm.vue";
 // 把vuerouter安装成vue的插件
+
 Vue.use(VueRouter)
 
 let routes = [
@@ -96,31 +98,31 @@ let routes = [
             {
                 path: "/TaskUpdate",
                 name: "TaskUpdate",
-                component:TaskUpdate
+                component: TaskUpdate
             },
             //查看任务汇报
             {
-                path:"/TaskReport",
-                name:"TaskReport",
-                component:TaskReport
+                path: "/TaskReport",
+                name: "TaskReport",
+                component: TaskReport
             },
             //汇报任务组件
             {
-                path:"/ReportMyTask",
-                name:"ReportMyTask",
-                component:ReportMyTask
+                path: "/ReportMyTask",
+                name: "ReportMyTask",
+                component: ReportMyTask
             },
             // 查看我的任务
             {
-                path:"/CheckMyTask",
-                name:"CheckMyTask",
-                component:CheckMyTask
+                path: "/CheckMyTask",
+                name: "CheckMyTask",
+                component: CheckMyTask
             },
             // 查看我的汇报
             {
-                path:"/CheckMyReport",
-                name:"CheckMyReport",
-                component:CheckMyReport
+                path: "/CheckMyReport",
+                name: "CheckMyReport",
+                component: CheckMyReport
             },
             // 招新报名表管理路由
             {
@@ -128,7 +130,13 @@ let routes = [
                 name: "enroll",
                 component: EnrolmentFormManagementPage
             },
-]},
+            {
+                path: "/registrasionForm",
+                name: "registrasionForm",
+                component: RegistrasionForm
+            }
+        ]
+    },
 ]
 let router = new VueRouter({
     routes,
