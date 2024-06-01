@@ -18,17 +18,20 @@ import serachBooksBorrowed from '@/views/serachBooksBorrowed.vue'
 import serachOwnBooks from '@/views/serachOwnBooks.vue'
 import submissionRecord from '@/views/submissionRecord.vue'
 import submitForm from '@/views/submitForm.vue'
-import submittedForm from '@/views/submittedForm.vue'
-import userinformationchange from '@/views/userinformationchange.vue'
+import userInformationChange from '@/views/UserInformationChange.vue'
 import viewCompletionStatus from '@/views/viewCompletionStatus.vue'
 import viewOwnForm from '@/views/viewOwnForm.vue'
 import viewReportRecords from '@/views/viewReportRecords.vue'
 import viewTasks from '@/views/viewTasks.vue'
 import adUserChange from '@/views/adUserChange.vue'
 import register from '../views/Register.vue'
+import changeMassage from '../views/changeMassage.vue'
 import adDepartInformation from '@/views/adDepartInformation.vue'
+import idSearch from "@/views/idSearch.vue";
+import NameSearch from "@/views/nameSearch.vue";
+import departmentSearch from "@/views/departmentSearch.vue"
+import gradeSearch from "@/views/gradeSearch.vue";
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
@@ -42,7 +45,7 @@ const routes = [
       {
         path: '/userinformationchange',
         name: 'userinformationchange',
-        component: userinformationchange
+        component: userInformationChange
       },
       {
         path: '/departInformation',
@@ -104,7 +107,8 @@ const routes = [
   {
     path: '/register',
     name: 'MyRegister',
-    component: register
+    component: register,
+    meta: { requiresAuth: true }
   },
   {
     path: '/adhome',
@@ -143,14 +147,34 @@ const routes = [
         component: submissionRecord
       },
       {
-        path: '/submittedForm',
-        name: 'submittedForm',
-        component: submittedForm
+        path:'/idSearch',
+        name:'idSearch',
+        component:idSearch
+      },
+      {
+        path:'/nameSearch',
+        name:'NameSearch',
+        component: NameSearch
+      },
+      {
+        path: '/departmentSearch',
+        name:'departmentSearch',
+        component: departmentSearch
+      },
+      {
+        path:'/gradeSearch',
+        name:'gradeSearch',
+        component: gradeSearch
       },
       {
         path: '/myRmarks',
         name: 'myRemarks',
         component: myRemarks
+      },
+      {
+        path:'/changeMassage',
+        name:'changeMassage',
+        component: changeMassage
       },
       {
         path: '/publishTask',
@@ -167,26 +191,31 @@ const routes = [
         name: 'viewReportRecords',
         component: viewReportRecords
       },
+
+
       {
         path: '/adDepartInformation',
         name: 'adDepartInformation',
         component: adDepartInformation
       },
 
-    ]
 
+    ]
   }]
 const router = new VueRouter({
   routes
 })
 // router.beforeEach((to, from, next) => {
-//   if (to.path === '/login') {
-//     return next()
+//   // 如果访问的是登录界面则直接放行
+//   let token = window.sessionStorage.getItem('token');
+//   if (to.path==='/login'||to.path==='/register') {
+//     next()
 //   }
-//   const tokenStr = window.sessionStorage.getItem('token')
-//   if (!tokenStr) {
-//     return next('/login')
+//    else if (!token) {
+//     next(
+//       '/login'
+//     );
 //   }
-//   next()
-// })
+
+
 export default router

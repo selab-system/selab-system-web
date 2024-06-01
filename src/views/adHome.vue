@@ -45,9 +45,12 @@ export default {
             <el-submenu index="1-3">
               <template slot="title" >招新报名表管理</template>
               <el-menu-item index="1-3-1"><router-link to="/countNumberOfForm" class="active">统计报名表数量</router-link>></el-menu-item>
-              <el-menu-item index="1-3-2"><router-link to="/submissionRecord" class="active">查看提交记录</router-link>></el-menu-item>
-              <el-menu-item index="1-3-3"><router-link to="/submittedForm" class="active">查看已提交的报名表</router-link>></el-menu-item>
-              <el-menu-item index="1-3-3"><router-link to="/myRmarks" class="active">添加备注信息</router-link>></el-menu-item>
+<!--              <el-menu-item index="1-3-2"><router-link to="/submissionRecord" class="active">查看提交记录</router-link>></el-menu-item>-->
+              <el-menu-item index="1-3-2"><router-link to="/idSearch" class="active">id查询的报名表</router-link>></el-menu-item>
+              <el-menu-item index="1-3-3"><router-link to="/nameSearch" class="active">用户名查询报名表</router-link>></el-menu-item>
+              <el-menu-item index="1-3-4"><router-link to="/departmentSearch" class="active">部门报名表</router-link>></el-menu-item>
+              <el-menu-item index="1-3-5"><router-link to="/gradeSearch" class="active">年级查询报名表</router-link>></el-menu-item>
+              <el-menu-item index="1-3-6"><router-link to="/changeMassage" class="active">修改提交信息</router-link>></el-menu-item>
             </el-submenu>
             <el-submenu index="1-4">
               <template slot="title" >任务管理</template>
@@ -66,6 +69,10 @@ export default {
 </template>
 
 <style scoped>
+router-view{
+  position: absolute;
+  height: 880px;
+}
 /deep/ .el-col{
   width: 250px
 }
@@ -76,7 +83,8 @@ export default {
 .homeview{
   width: 87%;
   height: 880px;
-  /* background-color: blue; */
+  position: relative;
+
 }
 .active{
   color: white;

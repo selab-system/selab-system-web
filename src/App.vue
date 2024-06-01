@@ -7,7 +7,9 @@
 </template>
 
 <style >
-
+template{
+  cursor:pointer
+}
 </style>
 <script>
 

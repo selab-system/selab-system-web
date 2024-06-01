@@ -2,13 +2,16 @@
 import axios from 'axios'
 // 创建axios对象
 const requests = axios.create({
-  baseURL: 'http://dev-cn.8jm6ib.natappfree.cc',
-  timeout: 1000
+  baseURL: '/api',
+  timeout: 5000,
+  headers:{
+    Authorization:'string'
+  }
 })
 // 请求拦截器
 requests.interceptors.request.use(function (config) {
   if (localStorage.getItem('token')) {
-    requests.headers.common.token = localStorage.getItem('token')
+    config.headers.Authorization = localStorage.getItem('token')
   }
   return config
 })

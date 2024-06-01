@@ -1,13 +1,21 @@
 import requests from '@/untils/request'
-export function login () {
+export function register () {
   return requests({
     url: '/register',
     methods: 'post'
   })
 }
-export function register () {
+export function login () {
   return requests({
     url: '/login',
     methods: 'post'
+  })
+}
+export function subAuth(params){
+  return requests({
+    url:'/login/sendEmail',
+    method:'post',
+    params:{params}
+
   })
 }

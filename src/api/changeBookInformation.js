@@ -4,8 +4,7 @@ export const  getMsgByName = (bookName) => {
     return requests.get('/book/queryOne',
     {
         bookName,
-    },
-        {headers: { Authorization: 'string' }}
+    }
     )
   }
 // 获取书籍信息id
@@ -13,8 +12,7 @@ export const  getMsgByName = (bookName) => {
     return requests.get('/book/queryOne',
     {
         bookId,
-    },
-        {headers: { Authorization: 'string' }}
+    }
     )
   }
 // 提交修改请求
@@ -33,8 +31,7 @@ export const  getMsgByName = (bookName) => {
       createTime: createTime,
       updateTime: updateTime,
       bookRef: bookRef
-    },
-        {headers: { Authorization: 'string' }}
+    }
     )
   }
   
@@ -43,8 +40,7 @@ export const  getMsgByName = (bookName) => {
     return requests.get('/book/delete',
     {
         bookId,
-    },
-        {headers: { Authorization: 'string' }}
+    }
     )
   }
 
@@ -60,7 +56,6 @@ export const  getMsgByName = (bookName) => {
       owner,
       remark,
       bookRef
-    },
-        {headers: { Authorization: 'string' }}
+    }
     )
   }
