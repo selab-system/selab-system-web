@@ -3,21 +3,18 @@
     <div class="table">
         <div class="table-search">
             <div class="table-search-box">
-                <div class="table-search-name"><input type="text" placeholder="姓名" class="table-search-input"></div>
-                <div class="table-search-name"><input type="text" placeholder="班级" class="table-search-input"></div>
+                <div class="table-search-name"><input type="text" placeholder="姓名" class="table-search-input" v-model="theName"></div>
+                <div class="table-search-name"><input type="text" placeholder="年级" class="table-search-input" v-model="theGrade"></div>
                 <div class="table-search-box-checkbox">
                     <div class="table-search-title">
                         <div class="table-search-title-name" @click="dropDown" @mouseleave="dropDownNone"><span>意向部门</span></div>
                         <div class="table-search-content-box" v-show="tableSearchContentBoxActive" @mouseenter="dropDown" @mouseleave="dropDownNone">
-                            <div class="table-search-title-name">软件开发</div>
-                            <div class="table-search-title-name">网络安全</div>
-                            <div class="table-search-title-name">人工智能</div>
-                            <div class="table-search-title-name">虚拟现实</div>
+                            <div v-for="(item,index) in department" :key="index" class="table-search-title-name" @click="getTheDepartment(index)">{{ item }}</div>
                         </div>
                     </div>
                 </div>
             <div class="table-search-button">
-                <button>查询</button>
+                <button @click="select">查询</button>
             </div>
         </div>
         <div class="table-body-content">
@@ -67,7 +64,7 @@
 
 <script>
 import request from '@/utils/request';
-
+import { selectByName, selectByGradeId, selectByIntentDepartment, selectByIntervieweesName, selectRegistrationById, selectList, updateRegistration } from '@/api/Enrolment/Enrolment';
 export default {
     data() {
         return {
@@ -83,7 +80,7 @@ export default {
             currentIndexs_: 9,
             // 表格标头
             tableTitle: ["姓名", "年级", "班级", "联系方式", "邮箱", "意向部门", "面试时间", "备注",],
-            tableData: ["cc", "大一", "软件2346", "17200543160", "123@gmail.com", "软件开发", "2021-05-01", "备注信息"],
+            tableData: ["cc", "大一", "软件2346", "17200543160", "123@gmail.com", "软件开发","2021-05-01", "备注信息"],
             // 意向部门下拉框是否展示
             tableSearchContentBoxActive: false,
             // 分页是否展示
@@ -91,6 +88,14 @@ export default {
             // 分页按钮是否展示
             ShowButtonIsShown: true,
             isformed: false,
+            // 输入要查询的名字
+            theName: '',
+            // 输入要查询的年级
+            theGrade: '',
+            // 部门数组
+            department: ["软件开发", "网络安全", "人工智能", "虚拟现实"],
+            // 选择的部门id
+            theDepartmentId: 0,
         }
     },
     methods: {
@@ -111,6 +116,117 @@ export default {
             this.$emit("senttosee",
                 true
             )
+        },
+        // 获取部门信息
+        getTheDepartment(index) {
+            this.theDepartmentId = index
+            this.theDepartmentId++
+            console.log(this.theDepartmentId);
+        },
+        // selectByIntervieweesName
+        select() {
+            // 分页查询
+            // 可以根据三个来查询
+            // 1.姓名
+            // 2.年级
+            // 3.意向部门
+            // 有哪个输哪个
+            console.log("查询");
+            console.log("获取到的参数有", {
+                cur: this.currentPage,
+                size: this.size,
+                intervieweesName: this.theName,
+                grade: this.theGrade,
+                intentDepartment: this.theDepartmentId
+            });
+            try {
+                // 如果名字不为空
+                if (this.theName != '') {
+                    const params = {
+                        intervieweesName: this.theName,
+                        cur: this.currentPage,
+                        size: this.size
+                    }
+                    selectByIntervieweesName(params).then(res => {
+                        try {
+                            console.log(res);
+                            if (res.code == 200) {
+                                console.log("查询成功", res);
+                                this.tableData = [
+                                    res.data.interviewees.userNamem,
+                                    res.data.grade,
+                                    res.data.classroom,
+                                    res.data.phone,
+                                    res.data.email,                            
+                                    this.department[res.data.intentDepartment++],
+                                    res.data.interviewTime,
+                                    res.data.remark
+                            ]
+                            }
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        })
+                }
+                else if (this.theClass != '') {
+                    const params = {
+                        gradeId: this.theGrade,
+                        cur: this.currentPage,
+                        size: this.size
+                    }
+                    selectByGradeId(params).then(res => {
+                        try {
+                            console.log(params);
+                            console.log(res);
+                            if (res.code == 200) {
+                                console.log("查询成功", res);
+                                this.tableData = [
+                                    res.data.interviewees.userNamem,
+                                    res.data.grade,
+                                    res.data.classroom,
+                                    res.data.phone,
+                                    res.data.email,                            
+                                    this.department[res.data.intentDepartment++],
+                                    res.data.interviewTime,
+                                    res.data.remark
+                            ]
+                            }
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        })
+                }
+                else if (this.theDepartmentId != "") {
+                    const params = {
+                        intentDepartment: this.theDepartmentId,
+                        cur: this.currentPage,
+                        size: this.size
+                    }
+                    selectByIntentDepartment(params).then(res => {
+                        try {
+                            console.log(params);
+                            console.log(res);
+                            if (res.code == 200) {
+                                console.log("查询成功", res);
+                                this.tableData = [
+                                    res.data.interviewees.userNamem,
+                                    res.data.grade,
+                                    res.data.classroom,
+                                    res.data.phone,
+                                    res.data.email,                            
+                                    this.department[res.data.intentDepartment++],
+                                    res.data.interviewTime,
+                                    res.data.remark
+                            ]
+                            }
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        })
+                }
+            } catch (error) {
+                console.log(error);
+            }  
         }
     },
     created() {
@@ -125,7 +241,7 @@ export default {
         // 计算表格最大可显示的行数
         maxVisibleRows() {
             // 表格总高度
-          const availableHeight = 1000;
+          const availableHeight = 850;
           return Math.floor(availableHeight / this.rowHeight);
         },
     },
@@ -133,9 +249,23 @@ export default {
         //  先发送请求分页查询
         // 发送query请求
         // /registration/selectList
-
+    },
+    created() {
+        // selectList
+        async function toselectList(){
+            try {
+                const params = {
+                    pageNum: this.currentPage,
+                    pageSize: this.size,
+                }
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 }
+
 </script>
 
 <style scoped>

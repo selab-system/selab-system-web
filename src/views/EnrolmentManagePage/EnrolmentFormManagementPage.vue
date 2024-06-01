@@ -2,7 +2,7 @@
 <template>
   <div title="招新报名表">
     <!-- 导航栏组件 -->
-    <navBasicComponent/>
+    <!-- <navBasicComponent/> -->
     <!-- 主体业务组件 -->
     <mainPerfectTable/>
     <!-- 报名表组件 -->

@@ -12,11 +12,11 @@ const store = new Vuex.Store({
             // 存储token
             token: "",
             // isLoggedIn: false,
-            roleId: "",
+            roleId: "1",
             // 存入userId
             userId: "",
             // groupId 小组Id
-            groupId:"",
+            groupId: "",
 
         }
     },

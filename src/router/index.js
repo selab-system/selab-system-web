@@ -68,12 +68,6 @@ let routes = [
                 name: "book",
                 component: BookManage
             },
-            // 招新报名表管理路由
-            {
-                path: "/enroll",
-                name: "enroll",
-                component: EnrolmentFormManagementPage
-            },
             // 任务管理路由
             {
                 path: "/task",
@@ -127,6 +121,12 @@ let routes = [
                 path:"/CheckMyReport",
                 name:"CheckMyReport",
                 component:CheckMyReport
+            },
+            // 招新报名表管理路由
+            {
+                path: "/enroll",
+                name: "enroll",
+                component: EnrolmentFormManagementPage
             },
 ]},
 ]

@@ -17,8 +17,8 @@ request.interceptors.request.use(config => {
     const token = store.getters.getToken
     console.log('Request URL:', config.url); // 打印请求URL
     if (token) {
-        // config.headers.Authorization = `Bearer ${token}`
-        config.headers.Authorization = `${token}`
+        config.headers.Authorization = `Bearer ${token}`
+        // config.headers.Authorization = `${token}`
     }
 
     return config

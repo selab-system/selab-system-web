@@ -68,11 +68,11 @@ export function selectRegistrationById(query) {
 // 分页查询所有的报名表
 // 参数
 // {cur,size}
-export function selectList(query) {
+export function selectList(params) {
     return request({
         url: "/registration/selectList",
         method: "get",
-        query: query
+        params: params
     });
 }
 
