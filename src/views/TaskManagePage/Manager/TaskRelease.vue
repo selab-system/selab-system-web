@@ -23,16 +23,11 @@
                     <div class="release-form-main-content-input-title">
                         <div class="release-form-main-content-input-title-item">
                             <div class="release-form-main-content-input-title-item-title name-input" >                               
-                                <div style="width: 112px;">对象 Id:</div>
-                                <input type="text" id="taskObjectId" placeholder="请输入小组Id" v-model="groupId">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="release-form-main-content-input-title">
-                        <div class="release-form-main-content-input-title-item">
-                            <div class="release-form-main-content-input-title-item-title name-input" >                               
                                 <div style="width: 112px;">截止时间：</div>
-                                <input type="text" id="taskTime" placeholder="请输入任务天数" v-model="dealTime">
+                                <div class="date-time-input">
+                                    <input type="date" id="taskDate" placeholder="请选择日期" v-model="deallDate">
+                                    <input type="time" id="taskTime" placeholder="请输入任务时间" v-model="deallTime">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,71 +63,61 @@ export default {
                 "截止时间",
             ],
             name: '',
-            deadline: '', // 添加截止时间的data属性
+            deallTime: '', // 添加截止时间的data属性
+            deallDate: '',
             // 任务内容
-            taskContent: "",
-            groupName:'',
-            groupId:'',
-            isPublishing: false,
+            content: "",
+            groupIds: '',
             lastSubmitTime: null,
             formData: {},
         }
     },
     methods:{        
         // 收集表单数据
-        async commitreleaseForm() {
+        commitreleaseForm() {
                 // 检查是否在10秒内提交过
             if (this.lastSubmitTime && Date.now() - this.lastSubmitTime < 10000) {
             alert("请等待10秒后再发布");
             return;
             }
-
+            const publisgerId = Date.now();
             const formData = {
-                publisherId: this.$store.state.roleID,
-                publisherName: this.$store.state.roleId,
+                publisherId: publisgerId,
                 name: this.name, // 直接从data中获取
-                groupId: this.groupId,
-                groupName: this.groupName,
-                deadTime: this.deadline, // 确保 deadline 在 data 中已定义
-                taskContent: this.taskContent,//任务内容
+                groupIds: this.groupIds,
+                dealTime: this.deallDate + " "+this.deallTime, // 确保 deadline 在 data 中已定义
+                content: this.content,//任务内容
             };
-            this.formData = formData
             //防止数据为空
             if(this.name==""){
                 alert("请输入任务名称")
                 return;
             }
-            if(this.groupName==''){
-                alert("请输入任务对象")
-                return;
-            }
-            if (this.groupId=='') {
-            alert("请选择至少一个任务对象");
+            if (this.groupIds=='') {
+            alert("请输入任务对象");
             return; // 阻止表单提交
             }            
-            if(this.taskContent==""){
+            if(this.content==""){
                 alert("请输入任务内容")
                 return;
             }            
             console.log('提交的数据:', formData);
             this.lastSubmitTime = Date.now();
-
+            saveTask(formData).then((response) => {
+                try {
+                    console.log(response);
+                    if(response=== 200){
+                        alert("发布成功");
+                    }else{
+                        alert("发布失败")
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+)
         },
-            // async submitData() {
-            //     try {
-            //     // 使用axios发送POST请求
-            //     const response = await axios.post('/save', this.formData).then(res =>{
-            //         if(res.data.code==200){
-            //             alert("发布成功")
-            //         }
-            //     });
-            //     console.log('Server response:', response.data);
-            //     // 处理成功的情况，比如显示成功信息
-            //     } catch (error) {
-            //     console.error('Error sending data:', error);
-            //     // 处理错误情况，比如显示错误信息
-            //     }
-            // },
+            
         redirectIndex() {
             this.$router.push("/index")
         },

@@ -68,6 +68,7 @@ export default {
           pageChangeBoxActive: false,
           // 分页按钮是否展示
           ShowButtonIsShown: true,
+          taskData:[],
       }
   },
   methods: {
@@ -76,11 +77,34 @@ export default {
           this.pageChangeBoxActive = !this.pageChangeBoxActive;
           this.ShowButtonIsShown = !this.ShowButtonIsShown;
       },
+    //   async fetchTaskData() {
+    //      try {
+    //        // 发送GET请求
+    //        const response = await this.$axios.get('http://10.0.0.159:8080//task/queryMyTask');
+    //        // 将获取的数据保存到data属性中
+    //        this.taskData = response.data;
+    //        console.log(this.taskData);
+    //      } catch (error) {
+    //        console.error("Error fetching data:", error);
+    //      }
+    //    },
 
   },
   created() {
       // 测试输出
       console.log(this.tableTitle);
+  },
+  mounted() {
+      // 获取数据
+    //   this.$axios.get('http://10.0.0.159:8080/task')
+    //   .then(res => {
+    //       this.getData = res.data;
+    //       console.log(this.getData);
+    //   })
+    //   .catch(err => {
+    //       console.log(err);
+    //   })
+    // this.fetchTaskData();
   },
   computed: {
       rowHeight() {

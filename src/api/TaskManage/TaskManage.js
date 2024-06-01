@@ -129,7 +129,7 @@ export function saveTask(data) {
     return request({
         url: "/task/save",
         method: "post",
-        data,
+        data
     });
 }
 
