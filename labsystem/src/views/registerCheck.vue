@@ -20,7 +20,7 @@
 
          </el-form-item>
          <el-form-item>
-         <el-button type="primary" @click="submitForm('checkEmail')">立即创建</el-button>
+         <el-button type="primary" @click="submitForm('checkEmail')" >立即创建</el-button>
             <el-button @click="resetForm('checkEmail')">重置</el-button>
            </el-form-item>
         </el-form>
@@ -73,6 +73,7 @@ export default {
         if (valid) {
           this.register()
           alert('submit!')
+          this.tologin()
         } else {
           console.log('error submit!!')
           return false
@@ -92,10 +93,30 @@ export default {
       console.log(result1)
       alert(result1.msg)
     },
+    // try {
+    //   const response = await fetch('https://api.example.com/data');
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   const user = await response.json();
+    //   console.log(user);
+    // } catch (error) {
+    //   console.error('Error fetching user data:', error);
+    // }
     async register () {
-      const result2 = await registerPost(this.registerinfos.username, this.registerinfos.password, this.registerinfos.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.checkEmail.checkinfo)
-      console.log(result2)
-      alert(result2.msg)
+      try {
+        const result2 = await registerPost(this.registerinfos.username, this.registerinfos.password, this.registerinfos.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.checkEmail.checkinfo)
+        if (!result2.ok) {
+          throw new Error('Network response was not ok')
+        }
+        console.log(result2)
+        alert(result2.msg)
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    },
+    tologin () {
+      this.$router.push('/login')
     }
   }
 

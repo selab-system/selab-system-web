@@ -66,7 +66,7 @@ export default {
         // 用户名
         groupId: '',
         // 小组id
-        roleId: '',
+        roleId: '2',
         // 角色id 1,2,3
         userid: '',
         // 用户id
@@ -184,7 +184,7 @@ export default {
       this.logininfos.groupId = data.groupId// 小组id
       this.msgNotice = msg
       this.logininfos.roleId = data.roleId// 角色id
-      this.logininfos.userId = data.useId// 用户id
+      this.logininfos.userid = data.useId// 用户id
       this.logininfos.token = data.token
       // 以上需要吗？
     },
@@ -194,14 +194,15 @@ export default {
     },
     // 数据的本地存储
     stataStore () {
-      localStorage.setItem('password', JSON.stringify(this.logininfos.password))
-      localStorage.setItem('postmessage', JSON.stringify(this.logininfos.postmessage))
+      // localStorage.setItem('password', JSON.stringify(this.logininfos.password))
+      // localStorage.setItem('postmessage', JSON.stringify(this.logininfos.postMessage))
       // localStorage.setItem('roleId', JSON.stringify(this.roleId))
       localStorage.setItem('roleid', JSON.stringify(this.logininfos.roleId))
-      localStorage.setItem('groupid', JSON.stringify(this.logininfos.groupid))
-      localStorage.setItem('userid', JSON.stringify(this.logininfos.userId))
+      localStorage.setItem('groupid', JSON.stringify(this.logininfos.groupId))
+      localStorage.setItem('userid', JSON.stringify(this.logininfos.userid))
       localStorage.setItem('token', JSON.stringify(this.logininfos.token))
       localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
+      // 存储时仅仅使用小写字母
       console.log('执行了')
     }
   },

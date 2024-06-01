@@ -4,7 +4,7 @@
 // 创建实例 添加配置（url基础地址 ，响应请求拦截器）
 import axios from 'axios'
 const instance = axios.create({
-  baseURL: 'http://hinbn4.natappfree.cc',
+  baseURL: '/api',
   timeout: 3000
 })
 
@@ -25,7 +25,6 @@ instance.interceptors.response.use(function (response) {
   const res = response.data
   if (res !== 0) {
   // 设置提示信息
-
     // 抛出错误
     return Promise.reject(res.message)
   }

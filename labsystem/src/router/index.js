@@ -169,7 +169,7 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   const routes = ['/bookinfosCheckandChange', '/borrowedCheck', '/setTasks', '/taskDetails', '/reportRecord', '/paperSearch']
-  if (JSON.parse(localStorage.getItem('roleId')) !== 'admin' && routes.includes(to.path)) { alert('没有权限') } else {
+  if (JSON.parse(localStorage.getItem('roleid')) !== '2' && routes.includes(to.path)) { alert('没有权限') } else {
     next()
   }
 })

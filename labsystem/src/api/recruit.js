@@ -19,3 +19,10 @@ export const postPaperData = (name, phonenumber, email, classroom, grade, date, 
     }
   })
 }
+export const getPaperData = (userid) => {
+  return recruit.get('/registration/queryMyRecruit', {
+    params: {
+      userid
+    }
+  })
+}

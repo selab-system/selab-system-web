@@ -121,7 +121,7 @@ export default {
           alert('前往邮箱验证')
           this.toregisterCheck()
           // this.registerData()
-          alert('注册成功')
+          // alert('注册成功')
           this.stataStore()
           alert('数据已经保存')
         } else {
