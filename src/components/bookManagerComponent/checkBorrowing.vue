@@ -1,5 +1,6 @@
 <script>
 import TopBar from "@/components/usersManagementComponent/topBar.vue";
+import {getBookInfo, getBookList} from "@/api/Book/BookManage";
 
 export default {
   name: "checkBorrowing",
@@ -36,6 +37,28 @@ export default {
           state: "已归还"
         }
       ]
+    }
+  },
+  methods: {
+    getBorrow() {
+      try {
+        const params = {
+          bookId: 1
+        }
+        getBookInfo(params).then(res =>{
+          console.log(res.data)
+          if(res.code === 200){
+            for(let i in res.data) {
+              console.log(res.data[i]);
+              this.borrowingBooksData.push(res.data[i]);
+            }
+          } else {
+            console.log(111);
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

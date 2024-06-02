@@ -2,7 +2,7 @@
   <div class="backDrop">
     <div class="allSize" ref="allSize">
       <div><router-link to="/book/queryAllBooks">查询书籍</router-link></div>
-      <div><router-link to="/book/checkBorrowing">查询借阅记录</router-link></div>
+      <div><router-link to="/book/checkBorrowing" v-if="bookRecord">查询借阅记录</router-link></div>
       <div><router-link to="/book/personalBooks">查询本人书籍</router-link></div>
     </div>
   </div>
@@ -11,6 +11,14 @@
 <script>
 export default {
   name: "booksMangerFeature",
+  computed: {
+    bookRecord() {
+      if (this.$store.state.readRoleId === 3) {
+        return false
+      } else {
+        return true
+      }
+  }
 }
 </script>
 
