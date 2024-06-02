@@ -11,13 +11,23 @@ export const judgeLogin = (username, password) => {
     }
   })
 }
-export const registerPost = (userName, passWord, Email, phoneNumber) => {
+export const registerPost = (userName, passWord, Email, phoneNumber, gender, checkinfo) => {
   return enter.post('/register', {
     params: {
       userName,
       passWord,
       Email,
-      phoneNumber
+      phoneNumber,
+      gender,
+      checkinfo
+
+    }
+  })
+}
+export const PostInfo = (email) => {
+  return enter.post('/login/sendEmail', {
+    params: {
+      email
     }
   })
 }

@@ -1,5 +1,6 @@
 <template>
   <div class="todo-header">
+    <!-- 管理员首页 -->
     <header>
       <h1 class="el-icon-s-order">任务管理</h1>
       <nav>
@@ -20,7 +21,7 @@
 
 <script>
 export default {
-  name: 'todosFirst'
+
 }
 </script>
 

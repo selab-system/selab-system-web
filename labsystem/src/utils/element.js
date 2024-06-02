@@ -90,7 +90,14 @@ import {
   Backtop,
   PageHeader,
   CascaderPanel,
+<<<<<<< HEAD
   Loading
+=======
+  Loading,
+  Empty,
+  Descriptions,
+  DescriptionsItem
+>>>>>>> c662f0a5a2f8cf28ce4463df66447c4238a708e4
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -115,6 +122,7 @@ Vue.use(Switch)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(OptionGroup)
+Vue.use(RadioGroup)
 Vue.use(Button)
 Vue.use(ButtonGroup)
 Vue.use(Table)
@@ -166,6 +174,15 @@ Vue.use(Calendar)
 Vue.use(Backtop)
 Vue.use(PageHeader)
 Vue.use(CascaderPanel)
-
+Vue.use(Empty)
 Vue.use(Loading.directive)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
 // messagebox 样式未引入 message notify
+Vue.use(DatePicker)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Row)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(FormItem)
