@@ -4,6 +4,7 @@ import { getBookList, searchBookMsg,getBookId } from '@/api/searchAllBooks'
 export default {
   data () {
     return {
+      bookName:'',
       inputbookname: '',
       bookAuthor: '',
       bookDetails: '',
