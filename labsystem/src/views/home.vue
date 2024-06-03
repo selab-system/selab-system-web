@@ -9,6 +9,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+img{
+width: 1200px;
+height: 900px;
+}
 </style>

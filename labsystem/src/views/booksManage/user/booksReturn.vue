@@ -1,79 +1,98 @@
 <template>
-    <span>
-      <div
-        style="
-          width: 100%;
-          padding-left: 23%;
-          box-sizing: border-box;
-          font-size: 30px;
-        "
-      >
-        RETURN
-      </div>
-      <el-form
-        ref="form"
-        :model="sizeForm"
-        label-width="80px"
-        style="width: 50%; margin-top: 20px"
-      >
-        <el-form-item label="书名">
-          <el-input v-model="sizeForm.name" @change="getbookname"></el-input>
-        </el-form-item>
-        <el-form-item label="书籍编号">
-          <el-input v-model="sizeForm.id" @change="getbookid"></el-input>
-        </el-form-item>
-        <el-form-item label="起止时间">
-          <el-date-picker
-            v-model="sizeForm.value"
-            type="daterange"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :default-time="['00:00:00', '23:59:59']"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item size="large">
-          <el-button type="primary" @click="onSubmit">确认归还</el-button>
-          <el-button>取消</el-button>
-        </el-form-item>
-      </el-form>
-    </span>
-  </template>
+  <span >
+    <div
+      style="width:70%; padding-left: 25%; box-sizing: border-box; padding-left: 25%; box-sizing: border-box;
+      font-size:30px; margin:20px 25%;"
+    >
+      Return
+    </div>
+    <el-form
+      ref="form"
+      :model="sizeForm"
+      label-width="80px"
+      style="width:75%; padding-left: 25%; box-sizing: border-box;"
+    >
+      <el-form-item label="借阅编号" class="borrow-borrowId">
+        <el-input v-model="sizeForm.borrowId" @input="getborrowId"></el-input>
+      </el-form-item>
+      <el-form-item size="large">
+        <el-button type="primary" @click="onSubmit" style="width:18%; height:30%">确认归还</el-button>
+        <el-button style="width:18%; height:30%" @click="offSubmit">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </span>
+</template>
 
 <script>
+import { Message } from 'element-ui'
+import axios from 'axios'
 export default {
-  name: 'returnBooks',
+  name: 'ReturnBooks',
   data () {
     return {
       sizeForm: {
-        name: '',
-        id: '',
-        value: '',
-        delivery: false,
-        desc: ''
+        borrowId: ''
       }
     }
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
+      const a = confirm('请再次确认是否归还？')
+      if (a === true) {
+        axios({
+          method: 'GET',
+          url: `http://localhost:8080/#/booksReturn/book/return/${this.sizeForm.borrowId}`,
+          headers: {
+            Authorization: ''
+          }
+        }).then((response) => {
+          Message({
+            message: '还书成功！',
+            type: 'success'
+          })
+        }, function (result) {
+          Message({
+            showClose: true,
+            message: '还书失败！',
+            type: 'error'
+          })
+          console.log(result.message)
+        })
+      } else {
+        Message({
+          showClose: true,
+          message: '取消还书！',
+          type: 'error'
+        })
+      }
+      this.sizeForm.name = ''
+      this.sizeForm.value = ''
     },
-    getbookname (value) {
-      console.log(value)
+    offSubmit () {
+      this.sizeForm.borrowId = ''
+      this.sizeForm.value = ''
     },
-    getbookid (value) {
-      console.log(value)
+    getborrowId (value) {
+      this.sizeForm.borrowId = value
+    },
+    getDate () {
+      for (let i = 0; i < 2; i++) {
+        const year = this.sizeForm.value[i].getFullYear()
+        const month = this.sizeForm.value[i].getMonth() + 1
+        const date = this.sizeForm.value[i].getDate()
+        this.borrowtime[i] = String(year) + '-' + String(month) + '-' + String(date)
+      }
     }
   }
 }
 </script>
 
-  <style scoped>
-  span {
-    width: 100%;
-    padding-top: 20px;
-    padding-left: 100px;
-    box-sizing: border-box;
-    border-left: 2px solid #EBEEF5;
-  }
-  </style>
+<style scoped>
+span {
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 100px;
+  box-sizing: border-box;
+  border-left: 2px solid #EBEEF5;
+}
+</style>

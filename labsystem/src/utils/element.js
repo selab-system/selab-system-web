@@ -90,7 +90,13 @@ import {
   Backtop,
   PageHeader,
   CascaderPanel,
-  Loading
+  Loading,
+  Empty,
+  Descriptions,
+  DescriptionsItem,
+  MessageBox,
+  Message,
+  Avatar
 
 } from 'element-ui'
 
@@ -168,8 +174,10 @@ Vue.use(Calendar)
 Vue.use(Backtop)
 Vue.use(PageHeader)
 Vue.use(CascaderPanel)
-
+Vue.use(Empty)
 Vue.use(Loading.directive)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
 // messagebox 样式未引入 message notify
 Vue.use(DatePicker)
 Vue.use(Select)
@@ -178,3 +186,9 @@ Vue.use(Row)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(FormItem)
+Vue.use(MessageBox)
+Vue.use(Message)
+Vue.use(Avatar)
+// Vue.use($Confirm)
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
