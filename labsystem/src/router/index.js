@@ -23,6 +23,8 @@ import SearchUser from '@/views/usersManage/SearchUser.vue'
 import SearchDepartment from '@/views/usersManage/SearchDepartment.vue'
 import paperSearch from '@/views/recruitPaperManage/users/admin/paperSearch'
 import notFound from '@/views/notFound.vue'
+import PaperDetail from '@/views/recruitPaperManage/users/admin/paperDetail.vue'
+import paperDetaillist from '@/views/recruitPaperManage/users/admin/paperDetaillist.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -132,6 +134,15 @@ const router = new VueRouter({
         {
           path: '/paperSearch',
           component: paperSearch
+        },
+        {
+          path: '/paperDetail',
+          component: PaperDetail
+        }, {
+          // 路由命名不可以使用_下划线
+          path: '/paperDetaillist',
+          component: paperDetaillist
+
         }
       ]
     },
@@ -164,11 +175,19 @@ const router = new VueRouter({
       path: '/testTasks',
       component: testTasks
     }
+
   ]
 })
 router.beforeEach((to, from, next) => {
   const routes = ['/bookinfosCheckandChange', '/borrowedCheck', '/setTasks', '/taskDetails', '/reportRecord', '/paperSearch']
   if (JSON.parse(localStorage.getItem('roleid')) !== '2' && routes.includes(to.path)) { alert('没有权限') } else {
+    next()
+  }
+})
+//  路由守卫：当个人已经登录时保存有token时可以访问除登录面……外路由否则将提示前往登录
+router.beforeEach((to, from, next) => {
+  const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
+  if (!JSON.parse(localStorage.getItem('token')) && !routes.includes(to.path)) { alert('请先前往登录') } else {
     next()
   }
 })

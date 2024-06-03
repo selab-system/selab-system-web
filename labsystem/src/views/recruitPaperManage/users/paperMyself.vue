@@ -36,6 +36,7 @@ import { getpaperData } from '@/api/recruit'
 export default {
   data () {
     return {
+      // 此处存在错误：仅设置Datalist对象用来接收传输回来的data数据
       Datalist:
         {
           username: '12321',
@@ -95,6 +96,7 @@ export default {
   },
   mounted () {
     this.userid = JSON.parse(localStorage.getItem('userid'))
+    this.getpaperData()
   }
 }
 </script>

@@ -35,7 +35,7 @@
       </el-submenu>
 
        <el-submenu index="4">
-       <template slot="title"><i class="el-icon-setting"></i>招新报名表管理</template>
+       <template slot="title"><i class="el-icon-document-copy"></i>招新报名表管理</template>
        <el-menu-item index="/paperSearch" v-if="this.infos.roleId=='2'"><i class="el-icon-s-claim"></i>查看报名表</el-menu-item>
        <!-- 以下为用户功能 -->
        <el-menu-item index="/paperFillIn"><i class="el-icon-tickets"></i>报名表填写</el-menu-item>
@@ -55,9 +55,8 @@
   </el-menu>
 </el-aside>
 <el-container>
-    <el-header style="text-align: right; font-size: 12px; height: 100px ;">
-
-        <el-dropdown>
+    <el-header style="text-align: right; font-size: 18px; height: 90px ;">
+ <!-- <el-dropdown>
   <span class="el-dropdown-link">
     下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
@@ -68,8 +67,14 @@
     <el-dropdown-item disabled>双皮奶</el-dropdown-item>
     <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
   </el-dropdown-menu>
-</el-dropdown>
-
+</el-dropdown> -->
+    <div class="img">
+    </div>
+    <!-- 头像 -->
+    <!-- 用户名 -->
+    <div class="username">
+      {{name}}
+    </div>
     </el-header>
 
     <el-main>
@@ -89,6 +94,7 @@
 </template>
 
 <script>
+
 // import { Collapse } from 'element-ui'
 
 export default {
@@ -99,7 +105,8 @@ export default {
       infos: {
         username: '',
         roleId: ''
-      }
+      },
+      name: 'sadasd'
     }
   },
   methods: {},
@@ -115,6 +122,7 @@ export default {
     this.infos.roleId = JSON.parse(localStorage.getItem('roleid'))
     console.log(this.infos.roleId)
     this.infos.username = JSON.parse(localStorage.getItem('username'))
+    this.userName = this.infos.username
   }
 }
 
@@ -153,4 +161,21 @@ export default {
    height: 50px;
    line-height: 50px;
   }
+.img{
+  position: absolute;
+width: 70px;
+height: 60px;
+background-color: #b11a1a;
+right: 120px;
+border-radius: 30px;
+background-color: #fff;
+background: url(../assets/拿杯子的男人.jpeg);
+background-size: 100% 100%;
+margin-top: 15px;
+}
+.username{
+  font-size: 25px;
+  margin-top: 10px;
+}
+
 </style>
