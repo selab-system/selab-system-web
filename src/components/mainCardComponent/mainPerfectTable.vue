@@ -230,10 +230,9 @@ export default {
         },
                 async toselectList() {
             try {
-                // 假设 selectList 是一个 API 方法，返回数据
                 const params = {
-                    pageNum: this.currentPage,
-                    pageSize: this.size,
+                    cur: this.currentPage,
+                    size: this.size,
                 };
                 const response = await selectList(params);
                 if (response && response.code === 200) {
@@ -255,7 +254,7 @@ export default {
     computed: {
         rowHeight() {
             // 每一行的高度
-          return 91; 
+          return 80; 
         },
     
         // 计算表格最大可显示的行数

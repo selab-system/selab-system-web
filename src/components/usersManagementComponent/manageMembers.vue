@@ -1,5 +1,6 @@
 <script>
 import TopBar from "@/components/usersManagementComponent/topBar.vue";
+import {groupQueryAll, userQuery} from "@/api/UserHome/UserHome";
 
 export default {
   name: "manageMembers",
@@ -10,8 +11,13 @@ export default {
           "序号",
           "ID",
           "姓名",
-          "部门",
+          "小组",
           "小组ID",
+          "邮箱",
+          "手机号",
+          "性别",
+          "创建时间",
+          "更新时间",
           "是否为管理员",
           "操作"
       ],
@@ -42,13 +48,34 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    getAllUser() {
+      try {
+        userQuery().then(res =>{
+          console.log(res.data)
+          if(res.code === 200){
+            for(let i in res.data) {
+              console.log(res.data[i]);
+            }
+          } else {
+            console.log('错了')
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  created() {
+    // this.getAllUser();
   }
 }
 </script>
 
 <template>
   <div class="backDrop">
-    <top-bar></top-bar>
+<!--    <top-bar></top-bar>-->
     <div class="tableTopTitle">成员列表：</div>
     <button class="addUserButton">增加用户</button>
     <div>
@@ -61,6 +88,11 @@ export default {
           <div>{{ data.id }}</div>
           <div>{{ data.name }}</div>
           <div>{{ data.department }}</div>
+          <div>{{ data.departmentId }}</div>
+          <div>{{ data.departmentId }}</div>
+          <div>{{ data.departmentId }}</div>
+          <div>{{ data.departmentId }}</div>
+          <div>{{ data.departmentId }}</div>
           <div>{{ data.departmentId }}</div>
           <div>{{ data.isManager ? '是' : '否' }}{{ data.isSuperManager ? '(super)' : '' }}</div>
           <div>
@@ -93,7 +125,7 @@ export default {
   font-family: fangsong;
   font-size: 16px;
 }
-$titleCount: 7;
+$titleCount: 12;
 .tableTitle {
   width:95%;
   height:50px;

@@ -1,5 +1,11 @@
 <script>
 
+// import {getBookList} from "@/api/Book/BookManage";
+// import request from "@/utils/request";
+
+import axios from "axios";
+import {getBookList} from "@/api/Book/BookManage";
+
 export default {
   name: "queryAllBooksTable",
   data() {
@@ -11,8 +17,11 @@ export default {
         "书籍作者",
         "价格",
         "书籍拥有者ID",
+        "书籍拥有者名称",
         "图书介绍",
-        "备注信息",
+        "添加时间",
+        "修改时间",
+        "书籍状态",
         "操作"
       ],
       tableData: [
@@ -53,6 +62,15 @@ export default {
         borrowAsk3.style.display = 'none';
       }, 1000);
     }
+  },
+  created() {
+    async function takeTableData() {
+      try {
+        this.tableData = await getBookList();
+      } catch(error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
@@ -70,6 +88,9 @@ export default {
         <div>{{ data.author }}</div>
         <div>{{ data.money }}</div>
         <div>{{ data.requireId}}</div>
+        <div>{{ data.id }}</div>
+        <div>{{ data.id }}</div>
+        <div>{{ data.id }}</div>
         <div class="booksIntroduce">
           <span @mouseenter="touchContent(item)" @mouseleave="touchLeaveContent">轻触展开</span>
           <span class="booksIntroduceContent" v-show="dataItem === item">我是介绍{{ item }}</span>
@@ -88,7 +109,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-  $titleCount: 9;
+  $titleCount: 12;
   .tableTitle {
     width:95%;
     height:50px;

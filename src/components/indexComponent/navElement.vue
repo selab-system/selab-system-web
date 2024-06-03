@@ -8,8 +8,8 @@
         <div class="nav-selection" @mouseleave="showDropdownU = false" v-if="readRoleId!==3">
           <span @click="toggleDropdownU"> <a href="javascript:;">用户管理</a></span>
           <div class="dropdown-content" v-if="this.showDropdownU">
-            <div class="menuDown"><router-link to="/user">个人信息</router-link></div>
-            <div class="menuDown"><router-link to="/user">部门信息</router-link></div>
+            <div class="menuDown"><router-link to="/modifyPersonalInformation">个人信息</router-link></div>
+            <div class="menuDown"><router-link to="/departmemtMenber">部门信息</router-link></div>
           </div>
         </div>
         <div class="nav-selection" @mouseleave="showDropdownE = false " v-if="readRoleId!==3">
@@ -22,9 +22,9 @@
         <div class="nav-selection" @mouseleave="showDropdownB = false" v-if="readRoleId!==3">
           <span @click="toggleDropdownB"><a herf="javascript:;">图书管理</a></span>
           <div class="dropdown-content" v-if="this.showDropdownB">
-            <div class="menuDown"><router-link to="/book">查询书籍</router-link></div>
-            <div class="menuDown"><router-link to="/book">个人书籍</router-link></div>
-            <div class="menuDown"><router-link to="/book" v-if="bookRecord">查询借阅记录</router-link></div>
+            <div class="menuDown"><router-link to="/queryAllBooks">查询书籍</router-link></div>
+            <div class="menuDown"><router-link to="/personalBooks">个人书籍</router-link></div>
+            <div class="menuDown"><router-link to="/checkBorrowing" v-if="bookRecord">查询借阅记录</router-link></div>
           </div>
         </div>
         <div class="nav-selection dropdown" @mouseleave="showDropdownT = false" v-if="!taskIsShowed">

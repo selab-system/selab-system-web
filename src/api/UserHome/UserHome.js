@@ -26,10 +26,11 @@ export function userQueryByid() {
 // group-queryAll
 // 应该是展示各部门成员
 // Query参数 (当前页面和每页数量)
-export function groupQueryAll() {
+export function groupQueryAll(params) {
   return request({
     url: "/group/queryAll",
     method: "get",
+    params
   });
 }
 

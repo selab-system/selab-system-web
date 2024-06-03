@@ -43,7 +43,7 @@ export default {
 
 <template>
   <div class="backDrop">
-    <top-bar></top-bar>
+<!--    <top-bar></top-bar>-->
     <div class="checkBorrowingTitle">查询借阅记录：<hr></div>
     <div class="checkBorrowingList">
       <div>
@@ -69,21 +69,22 @@ export default {
 
 <style scoped lang="scss">
   .backDrop {
+    width: 100%;
+    height: 1000px;
     position: relative;
     .checkBorrowingTitle {
       position: absolute;
-      top: 100px;
+      top: 50px;
       left: 50px;
       font-family: fangsong;
       font-size: 30px;
     }
     .checkBorrowingList {
       width: 80%;
-      //height: 100px;
       border: 1px black solid;
       border-radius: 50px;
       position: absolute;
-      top: 150px;
+      top: 120px;
       left: 80px;
       padding: 20px;
       .tableTopTitle {

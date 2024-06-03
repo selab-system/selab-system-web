@@ -50,7 +50,7 @@ export default {
 
 <template>
   <div class="backDrop">
-    <top-bar></top-bar>
+<!--    <top-bar></top-bar>-->
     <div class="personalBooksTitle"><strong>个人书籍管理：</strong><hr></div>
     <div class="personalTitle">本人书籍：</div>
     <div class="personalList">
@@ -97,6 +97,7 @@ export default {
 
 <style scoped lang="scss">
   .backDrop {
+    height: 1000px;
     position: relative;
     .personalBooksTitle {
       position: absolute;

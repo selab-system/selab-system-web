@@ -64,7 +64,7 @@ export default {
           identify: this.identify
         }
         console.log("要提交的数据",registerData);
-        register(registerData).then(res => { 
+        register(registerData).then(res => {
           if (res.code == 200) {
             alert("注册成功")
             this.$router.push('/login')
@@ -90,7 +90,7 @@ export default {
             email: this.email
           }
           console.log(this.email);
-          sendEmail(emailData).then(res => { 
+          sendEmail(emailData).then(res => {
             console.log('ooooooo', res);
             if (res.code == 200) {
               alert("请输入验证码 ")
