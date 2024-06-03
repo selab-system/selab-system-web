@@ -1,8 +1,10 @@
 <template>
   <div class="backDrop">
     <div class="allDepartment"><strong>全部部门：</strong></div>
+    <button @click="addGroup">添加小组</button>
     <div class="departmentList">
       <ul class="departmentItem">
+<<<<<<< HEAD
         <!-- 使用 v-for 来渲染每个部门 -->
         <li v-for="(item, index) in department" :key="index">
           {{ item.groupId }}.({{ item.groupName }}) {{ item.createTime }}
@@ -11,6 +13,15 @@
           <button :key="`edit-${index}`">修改</button>
           <button :key="`delete-${index}`">删除</button>
         </li>
+=======
+         <template v-for="item in department" >
+            <li :key="item">{{ item.groupId }}.({{ item.groupName }}) {{ item.createTime}}</li>
+            <button :key="item">查看</button>
+            <button :key="item" @click="updateGroup" v-if="manage">修改</button>
+            <button :key="item" @click="deleteGroup" v-if="manage">删除</button>
+            <br><br>
+        </template>
+>>>>>>> 3eae07a31f0a734689318226934f4a54bdae373e
       </ul>
       <button class="checkAllMember"><router-link to="/manageMembers">查看所有成员</router-link></button>
     </div>
@@ -18,7 +29,7 @@
 </template>
 <script>
 // import {items} from "yarn/lib/cli";
-import {groupQueryAll, userQuery} from "@/api/UserHome/UserHome";
+import {deleteGroup, groupQueryAll, logOutUser, saveGroup, updateGroup, userQuery} from "@/api/UserHome/UserHome";
 
 export default {
   name: "departmentMember",
@@ -30,7 +41,7 @@ export default {
           size:5
         }
         groupQueryAll(params).then(res =>{
-          console.log(res.data)
+          console.log(res.data);
           if(res.code === 200){
             for(let i in res.data) {
               console.log(res.data[i]);
@@ -45,14 +56,81 @@ export default {
         console.log(err)
       }
     },
+    addGroup() {
+      try {
+        const params = {
+          groupName: this.addDepartName
+        }
+        saveGroup(params).then(res =>{
+          console.log(res.data);
+          if(res.code === 200){
+            for(let i in res.data) {
+              console.log(res.data[i]);
+              this.department.push(res.data[i]);
+            }
+            console.log(this.department)
+          } else {
+            console.log(111)
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    updateGroup() {
+      try {
+        const params = {
+          groupId: this.groupId,
+          groupName: this.groupName,
+          createTime: this.createTime
+        }
+        updateGroup(params).then(res =>{
+          console.log(res.data);
+          if(res.code === 200){
+            for(let i in res.data) {
+              console.log(res.data[i]);
+              this.department.push(res.data[i]);
+            }
+            console.log(this.department)
+          } else {
+            console.log(111)
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    deleteGroup() {
+      try{
+      deleteGroup().then(res =>{
+          console.log(res.data);
+          if(res.code === 200){
+            console.log(res)
+          } else {
+            console.log(111)
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
   },
   data() {
     return {
-      department: []
+      department: [],
+      addDepartName: '',
+      groupId: 0,
+      groupName: '',
+      createTime: ''
     }
   },
   created() {
     this.getAllGroup();
+  },
+  computed: {
+    manage() {
+      return this.$store.state.roleId !== 0;
+    }
   }
 }
 </script>

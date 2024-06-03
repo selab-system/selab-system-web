@@ -1,10 +1,54 @@
 <script>
 import TopBar from "@/components/bookManagerComponent/topBar.vue";
 import QueryAllBooksTable from "@/components/bookManagerComponent/queryAllBooksTable.vue";
+import {getBookList, saveBookInfo} from "@/api/Book/BookManage";
 
 export default {
   name: "queryAllBooks",
-  components: {QueryAllBooksTable, TopBar},
+  components: {QueryAllBooksTable},
+  data() {
+    return {
+      saveBookName: '',
+      saveBookAuthor: '',
+      saveBookInfo: '',
+      saveBookMon: '',
+      saveBookOwenId: '',
+      saveBookOther: '',
+      saveBookRef: 0,
+    }
+  },
+  methods: {
+    saveBookDate() {
+      try {
+        const params = {
+          bookName: this.saveBookName,
+          bookAuthor: this.saveBookAuthor,
+          bookDetails: this.saveBookInfo,
+          price: this.saveBookMon,
+          owner: this.saveBookOwenId,
+          remark: this.saveBookOther,
+          bookRef: this.saveBookRef
+        }
+        saveBookInfo(params).then(res =>{
+          if(res.code === 200){
+            console.log(res)
+          } else {
+            console.log(111);
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  computed: {
+    editBooks() {
+      if (this.$store.state.readRoleId === 3) {
+        return false
+      } else {
+        return true
+      }
+  }
 }
 </script>
 
@@ -14,13 +58,18 @@ export default {
     <div class="allBooksTitle">书籍列表：</div>
     <div class="selectInput">
       <div>
-        书籍ID：<input type="text" placeholder="请输入书籍ID">
-        书籍名称：<input type="text" placeholder="请输入书籍名称">
-        书籍拥有者：<input type="text" placeholder="请输入书籍拥有者">
+        书籍名称：<input type="text" placeholder="请输入书籍名称" v-model="saveBookName">
+        书籍作者：<input type="text" placeholder="请输入书籍作者" v-model="saveBookAuthor">
+        书籍介绍：<input type="text" placeholder="请输入书籍介绍" v-model="saveBookInfo">
+        书籍价格：<input type="text" placeholder="请输入书籍价格" v-model="saveBookMon">
+        书籍拥有者id：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenId">
+        备注：<input type="text" placeholder="请输入备注信息" v-model="saveBookOther">
+        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
         <button>查询</button>
+        <button @click="saveBookDate">增加</button>
       </div>
     </div>
-    <div class="editInput">
+    <div class="editInput" v-if="editBooks">
       <div>
         <input type="text" placeholder="请输入修改后的内容">
         <button>确认</button>

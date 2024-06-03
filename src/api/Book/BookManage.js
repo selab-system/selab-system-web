@@ -93,10 +93,11 @@ export function DeleteBook(params = {}) {
 // 传入参数Query参数
 // 应该是必须的
 // {cur: 当前页,size: 每页数量}
-export function getBookList() {
+export function getBookList(params) {
     return request({
         url: '/book/list',
         method: 'get',
+        params
     })
 }
 
