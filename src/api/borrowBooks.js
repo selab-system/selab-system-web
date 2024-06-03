@@ -5,15 +5,11 @@ export const borrowBook = (bookId,borrowDuration,returnTime) => {
         bookId,
         borrowDuration,
         returnTime
-    },{
-      headers: { Authorization: 'string' }
     })
   }
   // 根据书名得id
   export const getBookId = (bookName) => {
     return requests.get('/book/queryOne', {
         bookName
-    },{
-      headers: { Authorization: 'string' }
     })
   }

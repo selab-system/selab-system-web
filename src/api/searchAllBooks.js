@@ -2,24 +2,17 @@ import requests from '@/untils/request'
 // searchAllBooks--查询所有书籍
 // 得到表格中书籍信息
 export const getBookList = () => {
-  return requests.get('/book/list', { timeout: 3000 },
-    {
-      headers: { Authorization: 'string' }
-    })
+  return requests.get('/book/list', { timeout: 3000 })
 }
 // 用书名查id
 export const getBookId = (bookName) => {
   return requests.get('/book/queryOne', {
-      bookName: 'bookName'
-    }, {
-    headers: { Authorization: 'string' }
+    bookName: 'bookName'
   })
 }
 // 通过书名查询书籍消息
 export const searchBookMsg = (bookname) => {
   return requests.get('/book/queryOne', {
-    headers: { Authorization: 'string' }
-  }, {
     bookName: 'bookname'
   })
 }
@@ -35,9 +28,5 @@ export const pushTableData = (userName, groupId, roleId, email, phone, sex) => {
     ownerName: 'String',
     remark: 'String',
     bookRef: 'String'
-  }, {
-    headers: {
-      Authorization: 'string'
-    }
   })
 }

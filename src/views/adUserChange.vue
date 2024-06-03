@@ -35,9 +35,14 @@ export default {
         return;
       }
       const str = await getUserMsg(this.inputUserId);
-      console.log(str);
+      if(str){
+        console.log(str);
       this.list = str;
       alert("已获取到用户信息");
+      }
+      else{
+        alert("未获取到用户信息")
+      }
     },
     // 修改用户信息
     async modi(name, context) {
@@ -208,6 +213,7 @@ export default {
       </el-form-item>
     </el-form>
     <!-- 添加用户完成 -->
+    <!-- 修改用户权限 -->
     
   </div>
 </template>

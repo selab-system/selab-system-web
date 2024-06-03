@@ -293,7 +293,7 @@ export default {
 </template>
 
 
-<style>
+<style >
 .el-aside {
   background-color: #d3dce6;
   color: #333;

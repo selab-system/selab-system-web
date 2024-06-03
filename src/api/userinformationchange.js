@@ -4,8 +4,7 @@ export const getUserMsg = (UserId) => {
     return requests.get('/user/query',
         {
             UserId
-        },
-        { headers: { Authorization: 'string' } }
+        }
     )
 }
 //   修改信息
@@ -16,22 +15,20 @@ export function changeMsg(list) {
             userName,
             groupId,
             groupName, roleId, roleName, email, phone, sex, userId, createTime, updateTime
-        },
-        { headers: { Authorization: 'string' } }
+        }
     )
 }
 // 删除人员
 export const userDelete = (userId) => {
     return requests.get('/user/logout',
-        { userId },
-        { headers: { Authorization: 'string' } }
+        { userId }
     )
 }
 
 // 添加人员
 export function addUser(addform) {
     const { userName, groupId, roleId, email, phone, sex, password } = addform
-    return requests.get('/user/save',
+    return requests.post('/user/save',
         {
             userName,
             groupId,
@@ -40,7 +37,7 @@ export function addUser(addform) {
             phone,
             sex,
             password
-        },
-        { headers: { Authorization: 'string' } }
+        }
+        // {timeout:5000},
     )
 }
