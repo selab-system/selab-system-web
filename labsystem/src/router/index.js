@@ -68,7 +68,6 @@ const router = new VueRouter({
           path: '/bookselfCheck',
           component: bookselfCheck
         },
-
         {
           path: '/booksBorrow',
           component: booksBorrow
