@@ -98,8 +98,6 @@ import {
   Message,
   Avatar
 
-  DescriptionsItem
->>>>>>> c662f0a5a2f8cf28ce4463df66447c4238a708e4
 } from 'element-ui'
 
 Vue.use(Pagination)
