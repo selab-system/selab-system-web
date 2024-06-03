@@ -1,5 +1,5 @@
 <script >
-import { getBookList, searchBookMsg,getBookId } from '@/api/searchAllBooks'
+import { getBookList,textUserId} from '@/api/searchOwnBooks'
 export default {
   data () {
     return {
@@ -10,6 +10,7 @@ export default {
       status: '',
       createTime: '',
       control: false,
+      userid:'',
       tableData: [{
         bookId: 0,
         bookName: 'leihou',
@@ -37,43 +38,24 @@ export default {
       }]
     }
   },
-  async created () {
-    this.getBookList()
-  },
   methods: {
-    // 获取书单
-    async getBookList () {
-      const str = await getBookList()
-      // this.tableData = str.data
-      console.log(str)
-    },
-    // 点击事件searchbook
-    async searchbook () {
-      if(this.inputbookname.trim()===''){
-        alert("书名不能为空")
-        return
-      }
-      // 用书名查id
-      const res = await getBookId(this.inputbookname)
-      if(res.data.bookId){
-        this.searchBookMsg(this.inputbookname)
-        this.control = true
-        // alert("wow")
+    async searchownbook(userid){
+      if(userid.trim()===''){
+                alert("本人id不能为空")
+                return
+            }
+      const res=await textUserId(userid)
+      console.log(res);
+      if(res){
+        const str = await getBookList(userid)
+        console.log(str);
+        this.tableData=str.data
+        // console.log(str);
+        alert("申请成功")
       }
       else{
-        alert("此书名不存在")
-        this.control = true
-        return
-      }
-    },
-    async  searchBookMsg (data) {
-      const str = await searchBookMsg(data)
-      // this.bookName = str.bookName
-      // this.bookAuthor = str.bookAuthor
-      // this.bookDetails = str.bookDetails
-      // this.owner = str.owner
-      // this.status = str.status
-      // this.createTime = str.createTime
+        alert("用户id不存在")
+      } 
     }
   }
 }
@@ -85,17 +67,16 @@ export default {
     <el-container>
       <!-- 头部 -->
       <el-header>
-        <!-- 输入图书名称 -->
+        <!-- 输入本人名称 -->
         <el-input
-          placeholder="请输入图书名称"
-          v-model="inputbookname"
-          @keyup.enter="searchbook"
+          placeholder="请输入本人id获取本人书单"
+          v-model="userid"
           clearable
         >
         </el-input>
         <!-- 一个提交按钮 -->
         <el-row>
-          <el-button type="success" plain @click="searchbook" >查询</el-button>
+          <el-button type="success" plain @click='searchownbook(userid)' >查询</el-button>
         </el-row>
       </el-header>
       <!-- 查询到的信息 -->

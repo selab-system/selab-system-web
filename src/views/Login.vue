@@ -14,6 +14,11 @@ export default {
     handlesubmit () {
       login(this.form).then(res => {
         console.log(res)
+        if(res.data.status==1){
+          localStorage.setItem("token",res.data.token);
+          this.$router.push("/home")
+
+        }
       })
     }
   }
@@ -39,8 +44,8 @@ export default {
       <br>
     <input type="password" placeholder="请输入你的密码" id="userpassword" v-model="form.userpassword" style="width:250px ;height: 30px">
       <br>
-    <router-link to="/home"  class="active">用户登录</router-link>
-      <router-link to="/adhome" class="active">管理登录</router-link>
+    <button class="active" @click="handlesubmit">用户登录</button>
+      <router-link to="/adhome" class="active" >管理登录</router-link>
     <router-link to="/register" class="active">注册</router-link>
     </form>
   </div>

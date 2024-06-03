@@ -36,7 +36,7 @@
               v-model="form.dealTime"
               type="datetime"
               placeholder="选择截止时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="12:00:00"
               style="width: 100%;">
             </el-date-picker>
           </el-form-item>
@@ -96,9 +96,9 @@ export default {
   },
   methods: {
     // 发布任务
-    async onSubmit () {
+    onSubmit () {
       console.log('submit!')
-      const res = await save(this.form.publisherId, this.form.updaterId, this.form.groupIds, this.form.name, this.form.content, this.form.dealTime)
+      const res = save(this.form.publisherId, this.form.updaterId, this.form.groupIds, this.form.name, this.form.content, this.form.dealTime)
       console.log(res)
       alert('任务发布成功')
     },
