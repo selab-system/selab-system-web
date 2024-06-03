@@ -283,7 +283,7 @@ export default {
         Authorization: ''
       }
     }).then((response) => {
-      const data = JSON.parse(response)
+      const data = JSON.parse(Object.values(response))
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           this.tableData.splice(i)
@@ -314,7 +314,7 @@ export default {
       method: 'GET',
       url: `http://localhost:8080/#/SearchUser/user/queryById/${localStorage.getItem('userId')}`
     }).then(response => {
-      const data = JSON.parse(response)
+      const data = JSON.parse(Object.values(response))
       this.myData[0].email = data.data.email
       this.myData[0].phonenumber = data.data.phone
       this.myData[0].sex = data.data.sex === 1 ? '男' : '女'
@@ -527,7 +527,7 @@ export default {
         method: 'GET',
         url: `http://localhost:8080/#/SearchUser/user/query?cur=${page}&size=5`
       }).then((response) => {
-        const data = JSON.parse(response)
+        const data = JSON.parse(Object.values(response))
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)

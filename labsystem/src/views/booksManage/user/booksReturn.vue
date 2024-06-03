@@ -72,8 +72,8 @@ export default {
       this.sizeForm.borrowId = ''
       this.sizeForm.value = ''
     },
-    getbookname (value) {
-      this.sizeForm.name = value
+    getborrowId (value) {
+      this.sizeForm.borrowId = value
     },
     getDate () {
       for (let i = 0; i < 2; i++) {

@@ -87,7 +87,7 @@ export default {
         Authorization: ''
       }
     }).then(response => {
-      const data = JSON.parse(response)
+      const data = JSON.parse(Object.values(response))
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           return
@@ -234,7 +234,7 @@ export default {
         url: `http://localhost:8080/#/booksSearch/book/list?cur=${page}&size=5`
       }).then(
         (response) => {
-          const data = JSON.parse(response)
+          const data = JSON.parse(Object.values(response))
           for (let i = 0; i < 5; i++) {
             // 不够五本书籍
             if (data.data[i] === undefined) {

@@ -87,7 +87,7 @@ export default {
       this.sizeForm.bookId = ''
       this.sizeForm.value = ''
     },
-    getbookbookId (value) {
+    getbookId (value) {
       this.sizeForm.bookId = parseInt(value)
     },
     getDate () {

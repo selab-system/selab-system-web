@@ -52,7 +52,7 @@ export default {
       }
     }).then((response) => {
       console.log(typeof (response))// 格式到底是json还是对象？
-      const data = JSON.parse(response)
+      const data = JSON.parse(Object.values(response))
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           this.tableData.splice(i, 1)
@@ -93,7 +93,7 @@ export default {
         }
       }).then((response) => {
         console.log(typeof (response))// 格式到底是json还是对象？
-        const data = JSON.parse(response)
+        const data = JSON.parse(Object.values(response))
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)

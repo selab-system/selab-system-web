@@ -131,7 +131,7 @@
           style="margin:2% 0 0 92%;"
           >增加</el-button>
           <el-input placeholder="输入用户id"  v-model="newmemid" v-show="changegroup" style="margin-top:2%; margin-bottom:2%;"></el-input>
-          <el-input placeholder="输入新的小组id" v-model="newmemgroupid" v-show="changegroup"></el-input>
+          <el-input placeholder="输入新的小组id" v-model="newmemgroup" v-show="changegroup"></el-input>
              <el-button
           size="mini"
           type="primary"
@@ -151,7 +151,8 @@ export default {
       method: 'GET',
       url: 'http://localhost:8080/#/SearchDepartment/group/queryAll?cur=1&szie=5'
     }).then((response) => {
-      const data = JSON.parse(response)
+      const data = JSON.parse(Object.values(response))
+      // const data = Object(response)
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           return
@@ -291,7 +292,7 @@ export default {
         method: 'GET',
         url: `http://localhost:8080/#/SearchDepartment/group/queryAll?cur=${page}&szie=5`
       }).then((response) => {
-        const data = JSON.parse(response)
+        const data = JSON.parse(Object.values(response))
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)
