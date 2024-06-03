@@ -1,10 +1,10 @@
 <template>
-  <div style="width:100%; padding-left: 15%; box-sizing: border-box; margin: 20px 0">
+  <div style="width:100%; padding-left: 5%; box-sizing: border-box; margin: 20px 0; ">
     <span
       style="
         font-size: 18px;
         line-height: 50px;
-        margin: 0 29%;
+        margin: 0 39%;
         background-color: #ebeef5;
         padding: 10px 10px;
         border-radius: 30px;
@@ -21,7 +21,7 @@
               !search || data.name.toLowerCase().includes(search.toLowerCase())
           )
         "
-        style="width: 80%"
+        style="width: 95%"
       >
         <el-table-column label="书名" prop="bookName"> </el-table-column>
         <el-table-column label="作者" prop="bookAuthor"> </el-table-column>
@@ -65,9 +65,9 @@
       layout="prev, pager, next"
       :total="50"
       style="
-        width: 70%;
+        width: 100%;
         box-sizing: border-box;
-        padding-left: 23%;
+        padding-left: 34%;
         margin-top: 20px;
       "
       @current-change="change"
@@ -128,7 +128,7 @@ export default {
       // 编辑按钮是否起作用
       btnclick: true,
       // 用户身份
-      user: localStorage.getItem('roleId') === '"3"' ? 0 : 1
+      user: localStorage.getItem('roleid') === '"3"' ? 0 : 1
     }
   },
   methods: {

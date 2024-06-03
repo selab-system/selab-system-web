@@ -197,7 +197,7 @@ export default {
       btnclick: true,
       showgroup: true,
       showmember: false,
-      user: localStorage.getItem('roleId') === '"3"' ? 0 : 1,
+      user: localStorage.getItem('roleid') === '"3"' ? 0 : 1,
       addinput: false,
       newgroupname: '',
       // newid: '',

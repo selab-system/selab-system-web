@@ -1,7 +1,7 @@
 <template>
-  <div style="padding-left:10%; box-sizing:border-box; margin:20px 0">
+  <div style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); padding-left:2%; box-sizing:border-box; margin:20px 0; padding-bottom:20px;">
     <br>
-    <span style="font-size: 18px; line-height: 50px; margin:0 29%; background-color: #EBEEF5; padding:10px 10px; border-radius: 30px; color:#606266;">查询借阅记录</span>
+    <span style="font-size: 18px; line-height: 50px; margin:0 41%; background-color: #EBEEF5; padding:10px 10px; border-radius: 30px; color:#606266;">查询借阅记录</span>
     <br><br>
     <div>
       <el-table
@@ -58,9 +58,9 @@
       layout="prev, pager, next"
       :total="50"
       style="
-        width: 70%;
+        width: 100%;
         box-sizing: border-box;
-        padding-left: 9%;
+        padding-left: 36%;
         margin-top: 20px;
       "
       @current-change="change"
@@ -116,7 +116,7 @@ export default {
       finishbutton: false,
       // 编辑按钮是否起作用
       btnclick: true,
-      user: localStorage.getItem('roleId') === '"2"'
+      user: localStorage.getItem('roleid') === '"2"'
     }
   },
   methods: {

@@ -141,19 +141,7 @@ export default {
   },
   data () {
     return {
-      tableData: [{
-        bookName: '123',
-        bookAuthor: '123',
-        bookId: '123',
-        status: '123',
-        bookDetails: '123',
-        price: '123',
-        owner: '123',
-        ownerName: '123',
-        createTime: '123',
-        updateTime: '123',
-        bookRef: '123'
-      }],
+      tableData: [],
       search: '',
       // 编辑按钮的下标
       index: undefined,

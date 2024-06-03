@@ -1,8 +1,10 @@
 <template>
-  <span >
+  <span style="padding-top: 20px;
+  padding-left: 25%;
+  box-sizing: border-box;">
     <div
       style="width:70%; padding-left: 25%; box-sizing: border-box; padding-left: 25%; box-sizing: border-box;
-      font-size:30px; margin:20px 25%;"
+      font-size:30px; margin:20px 25%; "
     >
       Borrow
     </div>
@@ -110,10 +112,5 @@ export default {
 }
 </script>
 
-<style scoped>
-span {
-  padding-top: 20px;
-  padding-left: 25%;
-  box-sizing: border-box;
-}
+<style >
 </style>

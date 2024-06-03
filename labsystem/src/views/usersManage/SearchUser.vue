@@ -27,8 +27,8 @@
       ></el-input>
     </div>
     <el-button type="primary" style="width:7%; height:40px; margin-top:25px;" @click="blur">回到首页</el-button>
-    <el-button type="primary" style="width:7%; height:40px; margin-top:25px;" @click="adduser">添加用户</el-button>
-    <el-button type="primary" style="width:10%; height:40px; margin-top:25px;" @click="editroleid = !editroleid">修改用户权限</el-button>
+    <el-button type="primary" v-show="user" style="width:7%; height:40px; margin-top:25px;" @click="adduser">添加用户</el-button>
+    <el-button type="primary" v-show="user" style="width:10%; height:40px; margin-top:25px;" @click="editroleid = !editroleid">修改用户权限</el-button>
     <div class="show-user" v-show="showall" style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); margin-top:2%; margin-bottom:2%; padding-left:2%; box-sizing:border-box;">
       <el-table
         ref="multipleTable"
@@ -124,13 +124,13 @@
               style="width:50%; height:20%"
               >完成编辑</el-button
             >
-            <el-button
+            <!-- <el-button
               size="mini"
               @click="handleEdit(scope.$index, scope.row)"
               v-show="user"
               style="width:50%; height:20%"
               >Edit</el-button
-            >
+            > -->
             <el-button
               size="mini"
               type="danger"
@@ -228,6 +228,46 @@
     <span style="color:#909399; margin-top:2%; margin-right:1%;">角色id:</span><el-input  v-model="roleid" placeholder="请输入角色id ( 1 超级管理员 2管理员 3 用户 )" style="width:60%; margin:1% 0; margin-right:35%;"></el-input>
     <el-button type="primary" style="width:7%; height:35px; margin-left:25px; margin-top:2%;"  @click="editRole">确认修改</el-button>
    </div>
+     <el-input style="outline:none;
+      border: 1px solid #C0C4CC;
+      margin:20px 0;
+      width:80%;"
+      placeholder="请输入用户编号"
+      v-model="myuserid"
+      v-show="changemyself"
+      class="inputs"></el-input>
+       <el-input style="outline:none;
+      border: 1px solid #C0C4CC;
+      margin:20px 0;
+      width:80%;"
+      v-show="changemyself"
+      placeholder="请输入用户名称"
+      v-model="myusername"
+      class="inputs"></el-input>
+      <el-input style="outline:none;
+      border: 1px solid #C0C4CC;
+      margin:20px 0;
+      width:80%;"
+      placeholder="请输入邮箱"
+      v-model="myemail"
+      v-show="changemyself"
+      class="inputs"></el-input>
+       <el-input style="outline:none;
+      border: 1px solid #C0C4CC;
+      margin:20px 0;
+      width:80%;"
+      placeholder="请输入手机号码"
+      v-model="myphone"
+      v-show="changemyself"
+      class="inputs"></el-input>
+      <el-input style="outline:none;
+      border: 1px solid #C0C4CC;
+      margin:20px 0;
+      width:80%;"
+      placeholder="请输入性别"
+      v-model="mysex"
+      v-show="changemyself"
+      class="inputs"></el-input>
   </div>
 </template>
 
@@ -325,7 +365,7 @@ export default {
       // 编辑按钮是否起作用
       btnclick: true,
       // 用户身份
-      user: localStorage.getItem('roleId') === '"3"' ? 0 : 1,
+      user: localStorage.getItem('roleid') === '"3"' ? 0 : 1,
       username: '',
       groupId: '',
       roleId: '',
@@ -338,7 +378,14 @@ export default {
       ifadduser: false,
       editroleid: false,
       userid: '',
-      roleid: ''
+      roleid: '',
+      changemyself: false,
+      // my
+      myuserid: '',
+      myusername: '',
+      myphone: '',
+      mysex: '',
+      myemail: ''
     }
   },
   methods: {
@@ -449,7 +496,7 @@ export default {
     },
     handleEdit (index, row) {
       if (row.roleId === 3) {
-        if (localStorage.getItem('roleId') === '"2"') {
+        if (localStorage.getItem('roleid') === '"2"') {
           return
         }
       }
@@ -468,7 +515,7 @@ export default {
     },
     handleDelete (index, row) {
       if (row.roleId === 3) {
-        if (localStorage.getItem('roleId') === '"2"') {
+        if (localStorage.getItem('roleid') === '"2"') {
           return
         }
       }
@@ -525,29 +572,42 @@ export default {
       })
     },
     myhandleEdit (index, row) {
-      for (let i = 0; i < 5; i++) {
-        document.getElementsByClassName('cell')[
-          index + 16 + i
-        ].innerHTML = `<input style=" outline:none; 
-      border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`
-      }
+      // for (let i = 0; i < 5; i++) {
+      //   document.getElementsByClassName('cell')[
+      //     index + 8 + i
+      //   ].innerHTML = `<input style=" outline:none;
+      // border: 1px solid #C0C4CC;"
+      // class="inputs">`
+      // }
+      this.changemyself = true
       this.myfinishbutton = true
     },
     myfinish (index, row) {
-      for (let i = 0; i < 5; i++) {
-        if (document.getElementsByClassName('inputs')[0].value === '') {
-          document.getElementsByClassName('cell')[
-            index + 16 + i
-          ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
-        } else {
-          row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
-          document.getElementsByClassName('cell')[
-            index + 16 + i
-          ].innerHTML = `<span>${
-              document.getElementsByClassName('inputs')[0].value
-            }</span>`
-        }
+      // if (document.getElementsByClassName('inputs')[0].value === '') {
+      //   document.getElementsByClassName('cell')[
+      //     index + 8 + i
+      //   ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
+      // } else {
+      //   row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
+      //   document.getElementsByClassName('cell')[
+      //     index + 8 + i
+      //   ].innerHTML = `<span>${
+      //       document.getElementsByClassName('inputs')[0].value
+      //     }</span>`
+      if (this.myusername !== '') {
+        this.myData[0].username = this.myusername
+      }
+      if (this.myuserid !== '') {
+        this.myData[0].userId = this.myuserid
+      }
+      if (this.myphone !== '') {
+        this.myData[0].phonenumber = this.myphone
+      }
+      if (this.myemail !== '') {
+        this.myData[0].email = this.myemail
+      }
+      if (this.mysex !== '') {
+        this.myData[0].sex = this.mysex
       }
       axios({
         method: 'POST',
@@ -577,6 +637,7 @@ export default {
         })
       })
       this.myfinishbutton = false
+      this.changemyself = false
     },
     adduser () {
       this.ifadduser = !this.ifadduser
