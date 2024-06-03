@@ -27,22 +27,32 @@
 </template>
 
 <script>
+import { queryMyTask } from '@/api/task'
+
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
       tableData: [{
-        date: '2016-05-02',
-        publisherId: '王小虎',
-        name: '上海',
-        dealTime: '任务截止时间',
-        zip: 200333,
-        tag: '家'
+        publisherId: '',
+        name: '',
+        dealTime: ''
       }]
     }
   },
   methods: {
+
     indexMethod (index) {
       return index + 1
+    },
+
+    queryMyTask () {
+      queryMyTask().then(res => {
+        this.tableData = res.data
+        this.tableDate.forEach(item => {
+          item.dealTime = dayjs(item.dealTime).format('YYYY-MM-DD HH:mm:ss')
+        })
+      })
     }
   }
 }

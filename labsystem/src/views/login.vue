@@ -50,7 +50,7 @@ export default {
     return {
       password: '',
       postMessage: '',
-      roleId: 'user',
+      roleId: 'admin',
       groupId: '111',
       noticeMessge1: '',
       noticeMessge2: ''
@@ -142,7 +142,7 @@ export default {
     // 使用axios进行数据的获取不再使用vuex中的actions 较难 进行数据的保存与沟通；
     getDatabypassword () {
       // const { data, msg } = await axios.get({})
-      localStorage.setItem('roleId', JSON.stringify(this.roleId))
+      localStorage.setItem('roleid', JSON.stringify(this.roleId))
       localStorage.setItem('groupId', JSON.stringify(this.groupId))
     }
   },
