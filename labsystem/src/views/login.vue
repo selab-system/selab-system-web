@@ -66,11 +66,11 @@ export default {
         // 用户名
         groupId: '',
         // 小组id
-        roleId: '2',
+        roleId: '1',
         // 角色id 1,2,3
         userid: '',
         // 用户id
-        token: ''
+        token: '123'
         // 权限token
       },
       rules: {
@@ -165,7 +165,7 @@ export default {
           this.postData_login()
           // 暂时将返回信息进行替代
           this.stataStore()
-          alert('登录成功')
+          this.logined()
           this.tohomePage()
           alert('前往主页面')
         } else {
@@ -204,9 +204,18 @@ export default {
       localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
       // 存储时仅仅使用小写字母
       console.log('执行了')
+    },
+    // 设置提示框（弹框假消息）
+    logined () {
+      this.$message({
+        type: 'success',
+        message: '登录成功!'
+      })
+      // 弹框的单独使用？
     }
-  },
 
+  },
+  // 加载注册时输入的保存到本地的用户名与密码
   mounted () {
     this.postMessage = JSON.parse(localStorage.getItem('username'))
     this.password = JSON.parse(localStorage.getItem('password'))

@@ -195,7 +195,7 @@ padding: 20px;
 
 }
 .container
-{width: 1200px;
+{width: 90%;
  height: 85%;
  margin: 0 auto;
 margin-top: 50px;
