@@ -12,11 +12,11 @@ const store = new Vuex.Store({
             // 存储token
             token: "",
             // isLoggedIn: false,
-            roleId: "",
+            roleId: "1",
             // 存入userId
             userId: "",
             // groupId 小组Id
-            groupId:"",
+            groupId: "",
 
         }
     },
@@ -41,9 +41,6 @@ const store = new Vuex.Store({
             state.token = ""
             localStorage.removeItem("token")
         },
-        // setLoggin(state, value) {
-        //     state.isLoggedIn = value
-        // },
         setUser(state, roleId) {
 
             state.roleId = roleId

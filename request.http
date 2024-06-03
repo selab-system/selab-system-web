@@ -1,0 +1,21 @@
+# POST http://10.0.0.160:8080/task/save HTTP/1.1
+# Content-Type: application/json
+
+# GET http://10.0.0.160:8080/task/queryMyTask?cur=1&size=2 HTTP/1.1
+# GET http://10.0.0.160:8080/task/report/queryAllResport?taskId=1&cur=1&size=2 HTTP/1.1
+
+# POST http://10.0.0.160:8080/task/save HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "publisherId":"1",
+#     "updaterId":"2",
+#     "groupIds":"3",
+#     "name":"完成项目",
+#     "content":"你真得写完",
+#     "dealTime":"2025-01-01 00:00:00"
+# }
+
+# GET http://10.0.0.160:8080/task/queryMyTask HTTP/1.1
+
+GET http://192.168.137.1:8080/task/report/queryAllResport HTTP/1.1

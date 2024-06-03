@@ -17,10 +17,12 @@ import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
 import TaskRelease from "@/views/TaskManagePage/Manager/TaskRelease.vue";
 //引入查看全部任务组件
 import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask.vue";
-//引入查看任务详情组件
-import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
+// //引入查看任务详情组件
+// import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
 //引入任务更新组件
 import TaskUpdate from "@/views/TaskManagePage/Manager/TsakUpdate.vue";
+// 引入查看用户详情组件
+import CheckUserMsg from "@/views/TaskManagePage/Manager/CheckUserMsg.vue";
 //引入查看任务汇报组件
 import TaskReport from "@/views/TaskManagePage/Manager/TaskReport.vue";
 //引入汇报任务组件
@@ -68,12 +70,6 @@ let routes = [
                 name: "book",
                 component: BookManage
             },
-            // 招新报名表管理路由
-            {
-                path: "/enroll",
-                name: "enroll",
-                component: EnrolmentFormManagementPage
-            },
             // 任务管理路由
             {
                 path: "/task",
@@ -92,11 +88,11 @@ let routes = [
                 name: "CheckAllTask",
                 component: CheckAllTask
             },
-            //查看任务详情
+            //查看用户详情
             {
-                path: "/TaskDetail",
-                name: "TaskDetail",
-                component: TaskDetail
+                path: "/CheckUserMsg",
+                name: "CheckUserMsg",
+                component: CheckUserMsg
             },
             //更新任务
             {
@@ -127,6 +123,12 @@ let routes = [
                 path:"/CheckMyReport",
                 name:"CheckMyReport",
                 component:CheckMyReport
+            },
+            // 招新报名表管理路由
+            {
+                path: "/enroll",
+                name: "enroll",
+                component: EnrolmentFormManagementPage
             },
 ]},
 ]

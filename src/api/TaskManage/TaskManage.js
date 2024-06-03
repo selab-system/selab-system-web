@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 
-// queryAllNeedReportUser
+// queryAllNeedReportUser  已完成
 // 查询所有需要汇报的用户信息
 export function queryAllNeedReportUser() {
     return request({
@@ -12,10 +12,18 @@ export function queryAllNeedReportUser() {
     });
 }
 
+// 查询自己要汇报的任务的信息
+export function queryForUser() {
+    return request({
+        url: "/task/queryForUser",
+        method: "get",
+    });
+}
+
 // delete
 // 应该是删除User
 // 这个不知道干嘛的，文档妹写🤣
-export function deleteUser(params = {}) {
+export function deleteUser(params) {
     return request({
         url: "/task/delete",
         method: "get",
@@ -23,16 +31,15 @@ export function deleteUser(params = {}) {
     });
 }
 
-// queryAllReport
+// queryAllReport    已完成
 // 就是report，他写的resport写错了
 // 通过id查询任务所有的汇报记录
 // 请求参数
 // 任务id 
-export function queryAllReportByTaskId(params = {}) {
+export function queryAllReport() {
     return request({
         url: "/task/report/queryAllResport",
-        method: "get",
-        params,
+        method: "get"
     });
 }
 
@@ -42,7 +49,7 @@ export function queryAllReportByTaskId(params = {}) {
 // {taskid,cur,size}
 export function queryMyReportByTaskId(params = {}) {
     return request({
-        url: "/task/report/queryMyReport",
+        url: "/task/queryMyReport",
         method: "get",
         params,
     });
@@ -92,7 +99,7 @@ export function queryById(params = {}) {
 
 // queryMyTask
 // 根据发布者名称查询其发布的所有任务
-export function queryMyTask(params = {}) {
+export function queryMyTask(params) {
     return request({
         url: "/task/queryMyTask",
         method: "get",
@@ -100,30 +107,21 @@ export function queryMyTask(params = {}) {
     });
 }
 
-// queryAll
-// 应该当前页面查询所有任务
-// {cur,size}
-export function queryAll(params = {}) {
-    return request({
-        url: "/task/queryAll",
-        method: "get",
-        params,
-    });
-}
 
 // update
 // 更新任务
 // post请求
 // data参数
-export function updateTask(data) {
+export function updateTask(data, id) {
+    const url = `/task/update/${id}`;
     return request({
-        url: "/task/update",
+        url,
         method: "post",
         data,
     });
 }
 
-// save
+// save  已完成
 // 添加任务
 export function saveTask(data) {
     return request({

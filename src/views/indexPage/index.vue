@@ -3,10 +3,6 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
-        <div class="body"></div>
-        <!-- <router-view></router-view> -->
-      </div>
-      <div class="content">
       </div>
     </div>
   </div>
@@ -33,7 +29,7 @@ export default {
 }
 .head {
   width: 100%;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   z-index: 100;
   border-bottom:var(--box-border);
@@ -41,7 +37,7 @@ export default {
   overflow: hidden;
 }
 .body{
-  height: 600px;
+  /* height: 600px; */
   background-color: pink;
 }
 </style>

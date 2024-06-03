@@ -41,10 +41,10 @@
           </div>
           </div>
       </div>
-  </template>
+</template>
   
   <script>
-  
+import { queryMyReportByTaskId } from '@/api/TaskManage/TaskManage';
   export default {
       data() {
           return {
@@ -73,12 +73,28 @@
               this.pageChangeBoxActive = !this.pageChangeBoxActive;
               this.ShowButtonIsShown = !this.ShowButtonIsShown;
           },
+          fetchData(){
+            try {
+                const params = {
+                    taskId:1,
+                    cur:1,
+                    size:2
+                }
+                queryAllResport(params).then(res=>{
+                    if(res.code==200){
+                        console.log(res)
+                        console.log("我中了");
+                    }else{
+                        console.log(res.code)
+                        console.log("hhahahah不是我的问题");
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
+          }
   
-      },
-      created() {
-          // 测试输出
-          console.log(this.tableTitle);
-      },
+         },
       computed: {
           rowHeight() {
               // 每一行的高度
@@ -92,7 +108,11 @@
             return Math.floor(availableHeight / this.rowHeight);
           },
       },
+      created() {
+          this.fetchData()
+      }
   }
+
   </script>
   
   <style scoped>

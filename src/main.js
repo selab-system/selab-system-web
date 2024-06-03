@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 // 引入 饿了么ui组件
-// import ElementUI from 'element-ui'
-// import "element-ui/lib/theme-chalk/index.css"
+import ElementUI from 'element-ui'
+import "element-ui/lib/theme-chalk/index.css"
 
 // 导入路由模块
 import router from './router'
@@ -14,7 +14,7 @@ import './assets/css/global.css'
 Vue.config.productionTip = false
 
 // 使用
-// Vue.use(ElementUI);
+Vue.use(ElementUI);
 
 
 new Vue({

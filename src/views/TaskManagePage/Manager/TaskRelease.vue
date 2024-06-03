@@ -53,7 +53,6 @@
 
 <script>
 import {saveTask} from '@/api/TaskManage/TaskManage.js'
-import axios from 'axios'
 export default {
     data() {
         return {
@@ -82,10 +81,11 @@ export default {
             }
             const publisgerId = Date.now();
             const formData = {
-                publisherId: publisgerId,
+                publisherId: "2",
+                updaterId:"2",
                 name: this.name, // 直接从data中获取
                 groupIds: this.groupIds,
-                dealTime: this.deallDate + " "+this.deallTime, // 确保 deadline 在 data 中已定义
+                dealTime: this.deallDate + " "+this.deallTime+":00", // 确保 deadline 在 data 中已定义
                 content: this.content,//任务内容
             };
             //防止数据为空
@@ -106,7 +106,7 @@ export default {
             saveTask(formData).then((response) => {
                 try {
                     console.log(response);
-                    if(response=== 200){
+                    if(response.code=== 200){
                         alert("发布成功");
                     }else{
                         alert("发布失败")

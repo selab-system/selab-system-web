@@ -1,5 +1,6 @@
 <template>
-    <div class="task-release-component">
+    <div class="taskRelease">
+      <div class="task-release-component">
       <div class="release-form-main">
               <div class="release-form-main-title">更新任务</div>
               <div class="release-form-main-content">
@@ -11,41 +12,47 @@
                               </div>
                           </div>
                       </div>
-                      <div class="release-form-main-content-checkbuttons">
-                          <p>任务对象:</p>
-                          <div class="release-form-main-content-checkbutton" 
-                              v-for="(item, index) in groupIds" 
-                              :key="index" 
-                              @click="selectGroupIds(item)">
-                              <button :class="{ active: item.isActive }"></button>
-                              <span>{{ item.name }}</span>
+                      <div class="release-form-main-content-input-title">
+                          <div class="release-form-main-content-input-title-item">
+                              <div class="release-form-main-content-input-title-item-title name-input" >                               
+                                  <div style="width: 112px;">任务对象：</div>
+                                  <input type="text" id="taskObject" placeholder="请输入任务对象小组" v-model="groupIds">
+                              </div>
                           </div>
                       </div>
-                      <div>
-                          <span>截止时间：</span>
-                          <input type="date" v-model="dealTime" placeholder="截止时间">
+                      <div class="release-form-main-content-input-title">
+                          <div class="release-form-main-content-input-title-item">
+                              <div class="release-form-main-content-input-title-item-title name-input" >                               
+                                  <div style="width: 112px;">截止时间：</div>
+                                  <div class="date-time-input">
+                                      <input type="date" id="taskDate" placeholder="请选择日期" v-model="deallDate">
+                                      <input type="time" id="taskTime" placeholder="请输入任务时间" v-model="deallTime">
+                                  </div>
+                              </div>
+                          </div>
                       </div>
                       <div class="release-own-production">
                           <div class="release-own-production-purpose">
                               <div>
                                   <span>任务内容：</span>
-                                  <textarea name="message" rows="10" cols="30" v-model="content" required></textarea>
+                                  <textarea name="message" rows="10" cols="30" v-model="content"></textarea>
                               </div>
                           </div>
                       </div>
                       <div class="release-form-main-content-commit">
-                          <button class="not-vip-commit-btn" @click="commitreleaseForm">更新</button>
-                          <button class="not-vip-commit-btn" @click="redirectIndex">
-                              返回首页
+                          <button class="bottom" @click="commitreleaseForm">发布</button>
+                          <button class="bottom" @click="redirectIndex">
+                              返回
                           </button>
                       </div>
               </div>
           </div>
     </div>
+    </div>
   </template>
   
   <script>
-  // import axios from 'axios'
+  import {updateTask} from '@/api/TaskManage/TaskManage.js'
   export default {
       data() {
           return {
@@ -54,31 +61,31 @@
                   "任务对象",
                   "截止时间",
               ],
-              groupIds: [
-                  { name: '软件开发', isActive: false },
-                  { name: '网络安全', isActive: false },
-                  { name: '人工智能', isActive: false },
-                  { name: '虚拟现实', isActive: false },
-              ],
               name: '',
-              dealTime: '', // 添加截止时间的data属性
+              deallTime: '', // 添加截止时间的data属性
+              deallDate: '',
               // 任务内容
               content: "",
-              isPublishing: false,
+              groupIds: '',
+              lastSubmitTime: null,
+              formData: {},
+              taskId:""
           }
       },
-      methods: {        
-          selectGroupIds(clickedItem) {
-              this.groupIds.forEach(item => {
-                  item.isActive = item === clickedItem;
-              });
-          },
+      methods:{        
           // 收集表单数据
           commitreleaseForm() {
+                  // 检查是否在10秒内提交过
+              if (this.lastSubmitTime && Date.now() - this.lastSubmitTime < 10000) {
+              alert("请等待10秒后再发布");
+              return;
+              }
               const formData = {
+                  publisherId: "2",
+                  updaterId:"2",
                   name: this.name, // 直接从data中获取
-                  groupIds: this.groupIds.find(groupIds => groupIds.isActive)?.name || '未选择',
-                  dealTime: this.dealTime, // 确保 deadline 在 data 中已定义
+                  groupIds: this.groupIds,
+                  dealTime: this.deallDate + " "+this.deallTime+":00", // 确保 deadline 在 data 中已定义
                   content: this.content,//任务内容
               };
               //防止数据为空
@@ -86,55 +93,49 @@
                   alert("请输入任务名称")
                   return;
               }
-  
-              if (!this.groupIds.some(groupId => groupId.isActive)) {
-              alert("请选择至少一个任务对象");
+              if (this.groupIds=='') {
+              alert("请输入任务对象");
               return; // 阻止表单提交
-              }
-              
+              }            
               if(this.content==""){
                   alert("请输入任务内容")
                   return;
-              }
+              }            
               console.log('提交的数据:', formData);
-              // 这里可以添加提交数据到服务器的逻辑
-              //给后端发送数据
-          //     if (this.isPublishing) {
-          //         alert('请勿重复发布');
-          //         return;
-          //     }
-  
-          //     this.isPublishing = true;
-  
-          //     axios.post('/task/save', { // 替换为你的实际API URL
-          //     // 这里放置你要发送的数据
-          //     data: {
-          //         formData
-          //     },
-          // })
-          // .then((response) => {
-          //   console.log('发布成功:', response);
-          //   this.isPublishing = false;
-          //   // 在这里处理成功的逻辑
-          // })
-          // .catch((error) => {
-          //   console.error('发布失败:', error);
-          //   this.isPublishing = false;
-            // 在这里处理错误逻辑
-          // });
-          // 返回首页按钮
-              },
-          redirectIndex() {
-              this.$router.push("/")
+              this.lastSubmitTime = Date.now();
+              updateTask(formData,this.taskId).then((response) => {
+                  try {
+                      console.log(response);
+                      if(response.code=== 200){
+                          alert("更新成功");
+                      }else{
+                          alert("更新失败")
+                      }
+                  } catch (error) {
+                      console.log(error);
+                  }
+              }
+  )
           },
-      }
-  }
+              
+          redirectIndex() {
+              this.$router.push("/CheckAllTask")
+          },
+         
+      },
+      created() {
+        this.taskId = this.$route.query.taskId;
+      },
+    }
+  
   </script>
   
   <style>
+  .taskRelease{
+      margin-top: 5px;
+  }
   .task-release-component{
       height: 600px;
-      margin-top: 5px;
       background-color: #fff;
   }
   
@@ -215,7 +216,7 @@
       background-color: var(--table-box-title-bgc-color);
   }
   .release-form-main-content-checkbutton button.active {
-      background-color: var(--table-box-title-bgc-color1); /* 或者你喜欢的颜色 */
+      background-color: var(--table-box-title-bgc-color); /* 或者你喜欢的颜色 */
   }
   /* 直接针对date类型的输入框设置基础样式 */
   input[type="date"] {
@@ -266,7 +267,7 @@
       width: 120px;
       height: 60px;
       box-shadow: var(--table-box-shadow);
-      background-color: var(--table-box-title-bgc-color1);
+      background-color: var(--table-box-title-bgc-color);
       border: 0.5px solid var(--table-border-grey);
       border-radius: var(--table-action-radius);
       margin-left: 20px;
@@ -276,7 +277,8 @@
       color: var(--table-action-hover-color);
   }
   .release-form-main-content-commit button:active{
-      box-shadow: var(--table-action-active-box-shadow);
+      background-color: var(--table-action-active-box-shadow);
       transform: scale(0.95);
   }
+  
   </style>
