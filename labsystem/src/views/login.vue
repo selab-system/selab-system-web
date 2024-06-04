@@ -22,16 +22,13 @@
      </el-form-item>
 
     <el-form-item>
-    <el-button type="primary" @click="submitForm('logininfos')">登录</el-button>
+    <el-button type="primary" :loading="loading" @click="submitForm('logininfos')">登录</el-button>
     <el-button @click="resetForm('logininfos')">重置</el-button>
     </el-form-item>
     <li class="button_register"><span>还没有账号?</span><router-link to="/register">前往注册</router-link></li>
     </el-form>
 
   </ul>
-    <!-- <div class="alter2" v-show="noticeMessge2">{{ noticeMessge2 }}</div> -->
-        <!-- <li><el-button type="primary" plain @click="judgeLogin,tohomePage(),stataStore(),getDatabypassword()">登录</el-button><el-button type="success" plain  @click="toRegister()">注册</el-button></li> -->
-<!-- 此处都需要设置为表单项进行自主校验 -->
   </div>
 
         <!-- 登录框需要进行输入验证 -->
@@ -56,23 +53,24 @@ export default {
   data () {
     // 对于在组件内部输入内容的绑定可以实现 现在尝试仅使用vuex的方法
     return {
-      noticeMessge1: '',
-      noticeMessge2: '',
-      msgNotice: '',
+      msgNotice: '登录成功',
       logininfos: {
         password: '',
         postMessage: '',
+
+        // 以下为接收到的数据
         userName: '',
         // 用户名
         groupId: '',
         // 小组id
-        roleId: '1',
+        roleId: '2',
         // 角色id 1,2,3
         userid: '',
         // 用户id
         token: '123'
         // 权限token
       },
+      loading: false,
       rules: {
         postMessage: [
           { required: true, message: '请输入用户名或邮箱', trigger: 'blur' },
@@ -90,6 +88,11 @@ export default {
     // ...mapState('login', ['postMessagex']),
     // ...mapState('login', ['passwordx'])
   },
+  // 加载注册时输入的保存到本地的用户名与密码
+  mounted () {
+    this.logininfos.postMessage = JSON.parse(localStorage.getItem('username'))
+    this.logininfos.password = JSON.parse(localStorage.getItem('password'))
+  },
   // 函数实现功能
   methods: {
     ...mapActions('login', ['judgeLogin']),
@@ -98,74 +101,31 @@ export default {
     // ...mapMutations('login', ['changepostMessage'])
     ...mapMutations('login', ['changepassWord']),
     ...mapMutations('login', ['changepostMessage']),
-    // 注意此时的用户名与密码的校验 可以在组件中实现：
-    // judgePostMessage () {
-    //   let str1 = RegExp()
-    //   str1 = /@/g
-    //   let str2 = RegExp()
-    //   str2 = /@qq.com$/g
-    //   const judge1 = str1.test(this.postMessage)
-    //   // 输入为用户名时：判断输入字数
-    //   if (judge1) {
-    //     // 当输入为邮箱号时
-    //     if (this.postMessage.length === 0) {
-    //       this.noticeMessge1 = '输入为空'
-    //     }
-    //     if (!str2.test(this.postMessage)) {
-    //       console.log('执行了')
-    //       this.noticeMessge1 = '输入格式错误'
-    //     }
-    //   } else {
-    //     // 输入为账号时
-    //     console.log(122)
-    //     if (this.postMessage.length > 8) {
-    //       this.noticeMessge1 = '输入位数应小于等于8位'
-    //       console.log(this.postMessage1)
-    //     }
-    //     if (this.postMessage.length === 0) {
-    //       this.noticeMessge1 = '输入为空'
-    //     }
-    //   }
-    // },
-    // // 判断密码的输入
-    // judgePassWord () {
-    //   if (this.password === '') {
-    //     this.noticeMessge2 = '输入为空'
-    //   }
-    //   if (this.password.length > 8) {
-    //     this.noticeMessge2 = '输入位数应小于等于8位'
-    //   }
-    // },
-    // // 提示框显示
-    // noticeDisplay () {
-    //   if (this.noticeMessge1) {
-    //     setTimeout(() => {
-    //       this.postMessage1 = ''
-    //       this.noticeMessge1 = ''
-    //     }, 2000)
-    //     console.log(this.noticeMessge1)
-    //   }
-    //   if (this.noticeMessge2) {
-    //     setTimeout(() => {
-    //       this.postMessage2 = ''
-    //       this.noticeMessge2 = ''
-    //     }, 2000)
-    //     console.log(this.noticeMessge2)
-    //   }
-    // },
-    // 前往注册界面
 
     // 一下是对修改后的登录页面的检验函数的绑定以及在检验后对数据的请求;
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.loading = true
           alert('submit!')
           // 在下面设置函数的请求 获取的数据与组件中data变量的绑定
           // 同时将获取到的数据传入到本地存储中
           this.postData_login()
-          // 暂时将返回信息进行替代
           this.stataStore()
+          // 如果登录/注册失败后应显示错误信息并阻止跳转
           this.logined()
+
+          // 在此处进行判断
+          if (this.msgNotice !== '登录成功') {
+            return false
+          } else {
+            this.stataStore()
+            // 进行跳转
+            this.tohomePage()
+          }
+          // 同时将获取到的数据传入到本地存储中
+          this.stataStore()
+          // 进行跳转
           this.tohomePage()
           alert('前往主页面')
         } else {
@@ -179,14 +139,20 @@ export default {
     },
     // axios获取页面登录数据
     async postData_login () {
-      const { data, msg } = await judgeLogin(this.postMessage, this.password)
-      this.logininfos.userName = data.userName// 用户名
-      this.logininfos.groupId = data.groupId// 小组id
-      this.msgNotice = msg
-      this.logininfos.roleId = data.roleId// 角色id
-      this.logininfos.userid = data.useId// 用户id
-      this.logininfos.token = data.token
+      try {
+        console.log(this.logininfos.password)
+        const { data, msg } = await judgeLogin(this.logininfos.postMessage, this.logininfos.password)
+        this.loading = false
+        this.logininfos.userName = data.userName// 用户名
+        this.logininfos.groupId = data.groupId// 小组id
+        this.msgNotice = msg
+        this.logininfos.roleId = data.roleId// 角色id
+        this.logininfos.userid = data.useId// 用户id
+        this.logininfos.token = data.token
       // 以上需要吗？
+      } catch (error) {
+        console.error(error)
+      }
     },
     // 前往主页面
     tohomePage () {
@@ -205,24 +171,17 @@ export default {
       // 存储时仅仅使用小写字母
       console.log('执行了')
     },
-    // 设置提示框（弹框假消息）
+    // 设置提示框（弹框显示返回消息）
     logined () {
       this.$message({
         type: 'success',
-        message: '登录成功!'
+        message: this.msgNotice
       })
       // 弹框的单独使用？
     }
 
-  },
-  // 加载注册时输入的保存到本地的用户名与密码
-  mounted () {
-    this.postMessage = JSON.parse(localStorage.getItem('username'))
-    this.password = JSON.parse(localStorage.getItem('password'))
   }
-
 }
-
 </script>
 
 <style lang="less" scoped>

@@ -4,7 +4,7 @@
 // 创建实例 添加配置（url基础地址 ，响应请求拦截器）
 import axios from 'axios'
 const instance = axios.create({
-  baseURL: '/',
+  baseURL: '/api',
   timeout: 3000
 })
 

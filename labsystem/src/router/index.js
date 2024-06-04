@@ -150,32 +150,7 @@ const router = new VueRouter({
     {
       path: '*',
       component: notFound
-    },
-    {
-      path: '/setTasks',
-      component: setTasks
-    },
-    {
-      path: '/checkTasks',
-      component: checkTasks
-    },
-    {
-      path: '/taskDetails',
-      component: taskDetails
-    },
-    {
-      path: '/reportRecord',
-      component: reportRecord
-    },
-    {
-      path: '/tasksDetails',
-      component: tasksDetails
-    },
-    {
-      path: '/testTasks',
-      component: testTasks
     }
-
   ]
 })
 router.beforeEach((to, from, next) => {
