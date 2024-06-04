@@ -17,8 +17,6 @@ Vue.config.productionTip = false
 // 使用
 Vue.use(ElementUI);
 
-// $message
-Vue.prototype.$message = ElementUI.Message
 
 new Vue({
   render: h => h(App),

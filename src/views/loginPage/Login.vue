@@ -1,17 +1,15 @@
 <template>
   <div class="content">
-        <form class="form">
+      <form class="form">
        <p class="form-title">请登录</p>
         <div class="input-container">
-          <input type="username" placeholder="username" v-model="username">
-          <span>
-          </span>
+        <input type="username" placeholder="username" v-model="username">
       </div>
       <div class="input-container">
-          <input type="password" placeholder="password" v-model="password"> 
+        <input type="password" placeholder="password" v-model="password"> 
         </div>
-         <button type="submit" class="submit" @click="loginButton">
-            登录
+         <button type="submit" class="submit" @click.prevent="loginButton">
+            <span>登录</span>
          </button>
       <p class="signup-link">
         还没有账户?
@@ -23,6 +21,7 @@
 
 <script>
 // 引入登录接口
+import messageService from '@/utils/messageService';
 import { login } from '../../api/Login/login'
 export default {  
   data() {
@@ -39,31 +38,28 @@ export default {
   methods: {  
     async loginButton() {
       try {
-        if (!this.username || !this.password) {
-          this.$message.error("请输入用户名或密码")
-        }
-        const data = {
+        const formdata = {
           username: this.username,
-          password:this.password,
+          password: this.password
         }
-         await login(data).then(res => {
-          if (res.code === 200) {
-            console.log("登录成功", res);
-            console.log(res.data.roleId);
+        await login(formdata).then(res => {
+          console.log(res);
+          if (res.code == 200) {
+            alert("登录成功")
             this.$store.commit('setToken', res.data.token)
             this.$store.commit("setUser", res.data.roleId)
             this.$store.commit("setUserId", res.data.userId)
             this.$store.commit("setGroupId", res.data.groupId)
             this.$router.push('/index')
           } else {
-           console.log(res.msg)
+            messageService.error("登录失败")
+            console.log(res.code)
           }
         })
       } catch (error) {
-        this.$message.error("登录失败")
-        console.log(error);
+        messageService.error(error)
       }
-    },
+    }
   },  
 };  
 </script>  

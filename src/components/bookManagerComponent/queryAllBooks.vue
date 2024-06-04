@@ -5,7 +5,7 @@ import {getBookList, saveBookInfo} from "@/api/Book/BookManage";
 
 export default {
   name: "queryAllBooks",
-  components: {QueryAllBooksTable},
+  components: { QueryAllBooksTable },
   data() {
     return {
       saveBookName: '',
@@ -29,8 +29,8 @@ export default {
           remark: this.saveBookOther,
           bookRef: this.saveBookRef
         }
-        saveBookInfo(params).then(res =>{
-          if(res.code === 200){
+        saveBookInfo(params).then(res => {
+          if (res.code === 200) {
             console.log(res)
           } else {
             console.log(111);
@@ -48,6 +48,7 @@ export default {
       } else {
         return true
       }
+    }
   }
 }
 </script>

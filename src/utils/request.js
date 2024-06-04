@@ -8,7 +8,7 @@ import messageService from "./messageService";
 
 // 自定义配置发送请求
 const request = axios.create({
-    // URL配置s
+    // URL配置
     baseURL: '/api',
     timeout: 10000,
 })

@@ -1,190 +1,250 @@
-<!-- 注册页 -->
 <template>
-  <div title="注册">
-    <div class="register-cotainer">
-      <div class="register-form">
-        <form action="">
-          <h1 class="register-title">注册</h1>
-          <div class="form-username">
-            <input type="text" placeholder="请输入用户名" v-model="userName" />
+  <div class="content">
+      <form class="form">
+          <p class="form-title">注册</p>
+          <div class="input-container">
+              <input type="text" placeholder="请输入用户名" v-model="userName"> 
           </div>
-          <div class="form-password">
-            <input type="text" placeholder="请输入邮箱" v-model="email" />
+          <div class="input-container">
+              <input type="text" placeholder="请输入手机号" v-model="phone"> 
           </div>
-          <div class="form-password">
-            <input type="text" placeholder="请输入手机号" v-model="phone" />
+          <div class="input-container">
+              <input type="text" placeholder="请输入性别(男/女)" v-model="sex"> 
           </div>
-          <div class="form-password">
-            <input type="text" placeholder="请输入性别" v-model="sex" />
+          <div class="input-container">
+              <input type="password" placeholder="请输入密码" v-model="password"> 
           </div>
-          <div class="form-password">
-            <input type="text" placeholder="请输入密码" v-model="password" />
+          <div class="input-container">
+              <input type="password" placeholder="请确认密码" v-model="repassword"> 
           </div>
-          <div class="form-password">
-            <input type="text" placeholder="请输入验证码" v-model="identify" />
+          <div class="input-container">
+              <input type="email" placeholder="请输入邮箱" v-model="email"> 
           </div>
-          <div class="form-submit">
-            <button @click.prevent="registerButton">确认</button>
-            <button @click.prevent="sentTheemail" v-show="getcode">获取验证码
-            </button>
-            <span class="time" v-show="timeisshowed"><span>{{ timess }}</span></span>
-          </div>
-        </form>
-      </div>
-    </div>
+          <div class="emails input-container">
+              <input type="text" placeholder="请输入验证码" v-model="identify"> 
+              <button @click="sentTheemail" class="sendEmail" :disabled="!getcode">
+                  <span v-if="getcode">获取验证码</span>
+                  <span v-else>{{ timess }}</span>
+              </button>
+          </div>    
+         <button type="submit" class="submit">
+            <router-link to="/login"><span>已有账号？登录</span></router-link>
+         </button>
+      </form>
   </div>
 </template>
 
 <script>
 import { register, sendEmail } from '@/api/Login/login';
+import messageService from '@/utils/messageService';
 export default {
   name: "register",
   data() {
     return {
-      userName: "",
-      email: "",
-      phone: "",
-      sex: "",
-      password: "",
-      identify: "",
-      timeisshowed: false,
-      getcode:true,
-      timess:60
-    }
+        userName: "",
+        email: "",
+        phone: "",
+        sex: "",
+        password: "",
+        repassword:"",
+        identify: "",
+        getcode: true, 
+        timess: 60, 
+        countdownInterval: null, 
+        title: ""
+  }
   },
   methods: {
     async registerButton() {
+      if (this.userName === "") {
+        messageService.error("请输入用户名")
+        return
+      }
+      if (this.email === "") {
+        messageService.error("请输入邮箱")
+        return
+      }
+      if (this.phone === "") {
+        messageService.error("请输入手机号")
+        return
+      }
+      if (this.sex === "") {
+        messageService.error("请输入性别")
+        return
+      }
+      if (this.password === "") {
+        messageService.error("请输入密码")
+        return
+      }                                                                                                                                
+      if (this.password !== this.repassword) {
+        messageService.error("两次密码不一致")
+        return
+      }
+      if(this.password == this.repassword){
+        messageService.success("验证成功")
+        return
+      }
+      if (this.identify === "") {
+        messageService.error("请输入验证码")
+        return
+      }
       try {
         const registerData = {
           userName: this.userName,
-          email: this.email,
           phone: this.phone,
-          sex: this.sex,
+          sex: this.sexNum,
+          email: this.email,
           password: this.password,
           identify: this.identify
         }
         console.log("要提交的数据",registerData);
-        register(registerData).then(res => {
+        await register(registerData).then(res => {
           if (res.code == 200) {
-            alert("注册成功")
+            this.$message("注册成功")
             this.$router.push('/login')
           }
         })
       } catch (error) {
-        alert("注册失败")
+        messageService.error("注册失败")
         console.log(error)
       }
       },
-      async sentTheemail() {
-        // 向后端发送获取验证码的请求
-        try {
-          this.getcode = false
-          this.timeisshowed = true
-          setInterval(() => {
-            this.timess--
-          }, 1000);
-          if (this.timess === 0) {
-            this.getcode = true
-          }
-          const emailData = {
-            email: this.email
-          }
-          console.log(this.email);
-          sendEmail(emailData).then(res => {
-            console.log('ooooooo', res);
-            if (res.code == 200) {
-              alert("请输入验证码 ")
-            }
-            else {
-              console.log(res.code);
-              alert("发送失败")
-            }
-          }
-      )
-        } catch (error) {
-          console.log(error);
+    async sentTheemail() {
+    try {
+      this.getcode = false; 
+      const emailData = {
+        email: this.email
+      };
+      console.log(this.email);
+      await sendEmail(emailData).then(res => {
+        this.$message("请输入验证码")
+        console.log('ooooooo', res);
+        if (res.code == 200) {
+          console.log(res);
+          this.startCountdown();
+        } else {
+          console.log(res.code);
+          console.log("一般错");
+          messageService.error("发送失败");
         }
+      });
+    } catch (error) {
+      console.log("完全错");
+      console.log(error);
+    }
+  },
+  startCountdown() {
+    let countdownTime = this.timess;
+    this.countdownInterval = setInterval(() => {
+      countdownTime -= 1;
+      this.timess = countdownTime; 
+      if (countdownTime <= 0) {
+        clearInterval(this.countdownInterval); 
+        this.getcode = true; 
+        this.timess = 60; 
       }
+    }, 1000);
+  }
   },
   computed: {
-    
+    sexNum() {
+      return this.sex === "男" ? 1 : 0;
+    }
   }
 }
 </script>
 
 <style scoped>
-/* 表单的一些设置 */
-.register-title{
-  color: white;
-  text-align: center;
-  margin: 2em;
-  color: rgb(255, 255, 255);
-  font-size: 1.2em;
-}
-.register-cotainer {
+.content{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  border-radius: 25px;
-  text-align: center;
+  flex-direction: column;
+  align-content: center;
+  /* justify-content: center; */
+}
+.form {
+  background-color: #fff;
+  display: block;
+  padding: 1rem;
+  max-width: 500px;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin: 7% auto;
+
 }
 
-.register-form {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-  border-radius: 25px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
-  padding: 20px;
+.form-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #000;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-container input, .form button {
+  outline: none;
+  border: 1px solid #e5e7eb;
+  margin: 8px 0;
+}
+
+.input-container input {
+  background-color: #fff;
+  padding: 1rem;
+  padding-right: 3rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   width: 300px;
-  color: white;
-  background-color: #171717;
-  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.emails{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+.emails input{
+  margin-right: 40px;
+  width: 150px;
+}
+.submit {
+  display: block;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: #4F46E5;
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  width: 100%;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
 }
 
-.form-username, .form-password {
-  margin-bottom: 15px;
-}
-
-input[type="text"], input[type="password"] {
-  width: 80%;
-  padding: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-  border: none;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-input[type="text"]:focus, input[type="password"]:focus {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-button {
-  width: 30%;
-  padding: 10px;
-  border: none;
+.signup-link {
+  color: #6B7280;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   text-align: center;
-  border-radius: 10px;
-  /* background-color: dodgerblue; */
-  background-color: #252525;
-  color: white;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: black;
-  color: white;
+.signup-link a {
+  text-decoration: underline;
+}
+.sendEmail{
+  margin-left: 40px;
+  background-color: #4F46E5;
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  width: 30%;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
 
 }
-.register-cotainer:hover {
-  transform: scale(1.05);
-  border: 1px solid black;
-}
-
 </style>

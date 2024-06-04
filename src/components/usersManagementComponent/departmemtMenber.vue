@@ -4,7 +4,6 @@
     <button @click="addGroup">添加小组</button>
     <div class="departmentList">
       <ul class="departmentItem">
-<<<<<<< HEAD
         <!-- 使用 v-for 来渲染每个部门 -->
         <li v-for="(item, index) in department" :key="index">
           {{ item.groupId }}.({{ item.groupName }}) {{ item.createTime }}
@@ -13,15 +12,6 @@
           <button :key="`edit-${index}`">修改</button>
           <button :key="`delete-${index}`">删除</button>
         </li>
-=======
-         <template v-for="item in department" >
-            <li :key="item">{{ item.groupId }}.({{ item.groupName }}) {{ item.createTime}}</li>
-            <button :key="item">查看</button>
-            <button :key="item" @click="updateGroup" v-if="manage">修改</button>
-            <button :key="item" @click="deleteGroup" v-if="manage">删除</button>
-            <br><br>
-        </template>
->>>>>>> 3eae07a31f0a734689318226934f4a54bdae373e
       </ul>
       <button class="checkAllMember"><router-link to="/manageMembers">查看所有成员</router-link></button>
     </div>
