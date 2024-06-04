@@ -25,22 +25,4 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 0 auto;
-  text-align: center;
-  background-color: var(--bg-color);
-}
-.head {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  border-bottom:var(--box-border);
-  box-shadow: var(--nav-box-shadow);
-  overflow: hidden;
-}
-.body{
-  height: 600px;
-  background-color: pink;
-}
 </style>
