@@ -20,16 +20,7 @@ export function queryForUser() {
     });
 }
 
-// delete
-// 应该是删除User
-// 这个不知道干嘛的，文档妹写🤣
-export function deleteUser(params) {
-    return request({
-        url: "/task/delete",
-        method: "get",
-        params,
-    });
-}
+
 
 // queryAllReport    已完成
 // 就是report，他写的resport写错了
@@ -103,7 +94,7 @@ export function queryMyTask(params) {
     return request({
         url: "/task/queryMyTask",
         method: "get",
-        params,
+        params:params
     });
 }
 

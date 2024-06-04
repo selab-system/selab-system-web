@@ -10,14 +10,13 @@
       ></el-input>
       <!-- 按钮 -->
       <el-row>
-        <!-- 怎么实现？ -->
-        <el-button type="primary" @click="queryTaskByPublisher(input)">查询</el-button>
+        <el-button type="primary" @click="queryTaskByPublisher()">查询</el-button>
       </el-row>
     </div>
 
     <!--显示所有任务的表格  -->
     <el-table :data="tableData" border>
-      <el-table-column prop="name" label="任务名称" width="100"/>
+      <el-table-column prop="name" label="任务名称" width="120"/>
       <el-table-column prop="id" label="任务Id" width="100"/>
       <el-table-column prop="dealTime" label="截止时间" width="200"/>
       <el-table-column prop="publisherName" label="发布者姓名" width="120"/>
@@ -28,9 +27,9 @@
           <!-- 未完成更新 -->
           <el-button type="text" size="small"><router-link to="/TaskUpdate?taskId=`${scope.row.id}`">更新</router-link> </el-button>
           <!--未完成查看汇报 -->
-          <el-button type="text" size="small" >查看汇报</el-button>
+          <el-button type="text" size="small" ><router-link to="/TaskReport?taskId=`${scope.row.id}`">查看汇报</router-link></el-button>
           <!--未完成删除-->
-          <el-button type="text" size="small" @click="deleteTask(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="deleteTask(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,28 +41,15 @@
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage2"
       :page-sizes="[5, 10, 15, 20]"
-      :page-size="100"
+      :page-size="size"
       layout="sizes, prev, pager, next"
-      :total="500">
+      :total="total">
     </el-pagination>
-
-    <!--  -->
-    <el-dialog
-   title="提示"
-  :visible.sync="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <span>这是一段信息</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog>
   </div>
 </template>
 
 <script>
-import { queryMyTask } from "@/api/TaskManage/TaskManage.js";
+import { queryMyTask,deleteTask } from "@/api/TaskManage/TaskManage.js";
 import dayjs from "dayjs";
 export default {
   data() {
@@ -71,38 +57,13 @@ export default {
       dialogVisible: false,
       // 查询框
       input: "",
+      publisherName: "zhangsan",
+      size:3,
+      total: 200,
       tableData: [
         {
           date: "2016-05-02",
           name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333,
         },
       ],
       // 分页是否展示
@@ -115,7 +76,8 @@ export default {
       currentPage3: 5,
       currentPage4: 4,
       // 查询后的数据
-      filteredTableData:[]
+      filteredTableData:[],
+      currentPage:"",
     };
   },
   methods: {
@@ -128,17 +90,24 @@ export default {
       },
     handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        this.size = val;
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+        this.cur = val;
       },
     handleClick(row) {
         this.dialogVisible=true
       console.log(row);
     },
-
-    queryTask() {
-      queryMyTask().then((res) => {
+// 查询全部任务
+    async queryTask() {
+      const params = {
+        publisherName: this.publisherName,
+        cur: this.cur,
+        size: this.size,
+      };
+      await queryMyTask(params).then((res) => {
         this.tableData = res.data;
         this.tableData.forEach(item => {
             item.dealTime = dayjs(item.dealTime).format('YYYY-MM-DD HH:mm:ss');
@@ -146,11 +115,26 @@ export default {
       });
     },
     // 根据发布者名查询任务
-    queryTaskByPublisher(Publisher){
-      if(this.tableData.PublisherName!==Publisher){
-        this.filteredTableData = this.tableData.filter(item => item.PublisherName === Publisher);
+    queryTaskByPublisher(){
+      queryMyTask({
+        publisherName: this.input,
+
+      }).then((res) => {
+        this.tableData = res.data;
+        // this.total = res.data.length || 0;
+        if (res.data === null && typeof res.data === 'undefined') {
+        // 如果没有数据，不需要转换日期格式
+      } else {
+        this.tableData.forEach((item) => {
+          item.dealTime = dayjs(item.dealTime).format('YYYY-MM-DD HH:mm:ss');
+        })
       }
+    });
     },
+    // 删除任务
+    deleteTask(taskId){
+      deleteTask(taskId)
+    }
   },
   created() {
     this.queryTask();

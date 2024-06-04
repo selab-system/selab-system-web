@@ -72,7 +72,7 @@ export default {
     //调用接口
     queryMyReport() {
       queryAllReport().then((res) => {
-        this.tableData = res.data;
+        // this.tableData = res.data;
         this.tableData.forEach((item) => {
           item.reportTime = dayjs(item.reportTime).format(
             "YYYY-MM-DD HH:mm:ss"

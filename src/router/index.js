@@ -20,7 +20,7 @@ import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask.vue";
 // //引入查看任务详情组件
 // import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
 //引入任务更新组件
-import TaskUpdate from "@/views/TaskManagePage/Manager/TsakUpdate.vue";
+import TaskUpdate from "@/views/TaskManagePage/Manager/TaskUpdate.vue";
 // 引入查看用户详情组件
 import CheckUserMsg from "@/views/TaskManagePage/Manager/CheckUserMsg.vue";
 //引入查看任务汇报组件

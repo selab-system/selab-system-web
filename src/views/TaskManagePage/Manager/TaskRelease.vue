@@ -66,7 +66,7 @@ export default {
             deallDate: '',
             // 任务内容
             content: "",
-            groupIds: '',
+            groupIds: "",
             lastSubmitTime: null,
             formData: {},
         }
@@ -79,15 +79,15 @@ export default {
             alert("请等待10秒后再发布");
             return;
             }
-            const publisgerId = Date.now();
             const formData = {
                 publisherId: "2",
                 updaterId:"2",
                 name: this.name, // 直接从data中获取
-                groupIds: this.groupIds,
+                groupIds:[this.groupIds],
                 dealTime: this.deallDate + " "+this.deallTime+":00", // 确保 deadline 在 data 中已定义
                 content: this.content,//任务内容
             };
+            console.log(formData);
             //防止数据为空
             if(this.name==""){
                 alert("请输入任务名称")
