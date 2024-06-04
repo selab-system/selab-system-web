@@ -31,14 +31,15 @@
                     fixed
                     prop="reportTime"
                     label="汇报时间"
-                    width="300">
+                    width="300"
+                    :formatter="formatTimestamp">
                   </el-table-column>
                   <el-table-column
                     fixed="right"
                     label="操作"
                     width="100">
                     <template>
-                      <el-button type="text" @click="dialogVisible = true">查看</el-button>
+                      <el-button type="text" @click="showDialog(scope.row)">查看</el-button>
 
                       <el-dialog
                         title="汇报信息"
@@ -46,7 +47,7 @@
                         width="30%"
                         :before-close="handleClose"
                         :append-to-body='true'>
-                        <span>{{tableData1.datails}}</span>
+                        <span>{{dialogRow.datails}}</span>
                         <span slot="footer" class="dialog-footer">
                           <el-button @click="dialogVisible = false">取 消</el-button>
                           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -85,7 +86,8 @@
           </el-table-column>
           <el-table-column
             label="截止时间"
-            prop="dealTime">
+            prop="dealTime"
+            :formatter="formatTimestamp">
           </el-table-column>
         </el-table>
       </div>
@@ -103,7 +105,8 @@ export default {
       dialogVisible: false,
       tableData: [],
       tableData1: [],
-      allTableData1: []
+      allTableData1: [],
+      dialogRow: ''
     }
   },
   created () {
@@ -131,20 +134,28 @@ export default {
     // 查询所有任务信息
     search () {
       queryMyTask().then((res) => {
-        console.log(res)
-        this.tableData = Object.values(res.data)
+        console.log(res.data.data)
+        this.tableData = res.data.data
       })
     },
     // 查询汇报记录
     details () {
       const id = { taskId: this.tableData.id }
       queryAllResport(id).then((res) => {
-        console.log(res)
+        console.log(res.data)
         this.allTableData1 = Object.values(res.data)
         if (!this.currentPage || this.currentPage === 1) {
           this.handleCurrentChange(1)
         }
       })
+    },
+    showDialog (row) {
+      this.dialogVisible = true
+      this.dialogRow = row
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     }
   }
 

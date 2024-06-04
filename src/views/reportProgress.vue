@@ -30,7 +30,8 @@
               <el-table-column
                 prop="dealTime"
                 label="截止时间"
-                width="200">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 fixed="right"
@@ -91,12 +92,14 @@
                 fixed
                 prop="dealTime"
                 label="截止时间"
-                width="150">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="publishTime"
                 label="发布时间"
-                width="150">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="publisherName"
@@ -122,24 +125,24 @@
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="200">
+                width="250">
                 <template slot-scope="scope">
                   <!-- 任务内容 -->
-                  <el-button type="text" @click="dialogVisible = true">任务内容&nbsp;&nbsp;</el-button>
+                  <el-button type="text" @click="showDialog(scope.row)">任务内容&nbsp;&nbsp;</el-button>
                   <el-dialog
                     title="提示"
                     :visible.sync="dialogVisible"
                     width="30%"
                     :before-close="handleClose"
                     :append-to-body="true">
-                    <span>{{tableData.content}}</span>
+                    <span>{{dialogRow.content}}</span>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
                     </span>
                   </el-dialog>
                    <!-- 汇报信息 -->
-                  <el-button type="text" @click="dialogVisible1 = true">汇报信息</el-button>
+                  <el-button type="text" @click="showDialog1(scope.row)">汇报信息</el-button>
 
                   <el-dialog
                     title="提示"
@@ -147,7 +150,7 @@
                     width="30%"
                     :before-close="handleClose"
                     :append-to-body="true">
-                    <span>{{tableData1.taskReportVo}}</span>
+                    <span>{{tableData2}}</span>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible1 = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
@@ -186,6 +189,7 @@ export default {
   name: 'ReportingTasks',
   data () {
     return {
+      dialogRow: '',
       username: '',
       dialogVisible: false,
       dialogVisible1: false,
@@ -205,6 +209,7 @@ export default {
       tableData: [],
       allTableData: [],
       tableData1: [],
+      tableData2: '',
       rules: {
         name: [
           { required: true, message: '请输入汇报人名称', trigger: 'blur' },
@@ -249,9 +254,9 @@ export default {
       const data = { username: this.username }
       // 传用户id
       queryForUser(data).then((res) => {
-        console.log(res)
+        console.log(res.data.data)
         // 将数据渲染给tableData
-        this.allTableData = Object.values(res.data)
+        this.allTableData = res.data.data
         // this.totalCount = res.allTableData.length
         this.handleCurrentChange(this.currentPage)
         // 返回一个任务id
@@ -285,6 +290,22 @@ export default {
       }
 
       )
+    },
+    showDialog (row) {
+      this.dialogVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
+    },
+    showDialog1 (row) {
+      this.dialogVisible1 = true
+      const id = { taskId: row.id }
+      queryMyReport(id).then((res) => {
+        console.log(res.data)
+        this.tableData2 = res.data.data
+      })
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     }
 
   }

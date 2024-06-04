@@ -220,10 +220,10 @@ export default {
     },
     // 根据发布者查询用户信息
     querymytaskByname (obj) {
-      queryMyTask(obj).then(response => {
-        console.log(response)
+      queryMyTask(obj).then(res => {
+        console.log(res.data)
         // 多条件查询的数据
-        this.allTableData = Object.values(response.data)
+        this.allTableData = Object.values(res.data)
         // 总数量
         // this.totalCount = response.data.length
         // 取第一页数据
@@ -279,6 +279,7 @@ export default {
     query () {
       const id = { taskId: this.allTableData.id }
       queryById(id).then((res) => {
+        console.log(res)
         this.row = Object.values(res.data)
       }
 
