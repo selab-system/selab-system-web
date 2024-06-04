@@ -1,5 +1,12 @@
 <script>
 
+// import {getBookList} from "@/api/Book/BookManage";
+// import request from "@/utils/request";
+
+import axios from "axios";
+import {getBookList} from "@/api/Book/BookManage";
+import {groupQueryAll} from "@/api/UserHome/UserHome";
+
 export default {
   name: "queryAllBooksTable",
   data() {
@@ -11,13 +18,14 @@ export default {
         "书籍作者",
         "价格",
         "书籍拥有者ID",
+        "书籍拥有者名称",
         "图书介绍",
-        "备注信息",
+        "添加时间",
+        "修改时间",
+        "书籍状态",
         "操作"
       ],
       tableData: [
-        { id: 3, name: '水浒传', author: '施耐庵', money: 100, requireId: 2 },
-        { id: 7, name: '三国演义', author: '罗贯中', money: 90, requireId: 6 }
       ],
       dataItem: -1
     }
@@ -52,6 +60,36 @@ export default {
       setTimeout(() => {
         borrowAsk3.style.display = 'none';
       }, 1000);
+    },
+    getAllBooks() {
+      try {
+        const params = {
+          cur:1,
+          size:10
+        }
+        getBookList(params).then(res =>{
+          console.log(res.data)
+          if(res.code === 200){
+            for(let i in res.data) {
+              console.log(res.data[i]);
+              this.tableData.push(res.data[i]);
+            }
+          } else {
+            console.log(111);
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+  },
+  created() {
+    this.getAllBooks();
+  },
+  computed: {
+    // eslint-disable-next-line vue/no-dupe-keys
+    edit() {
+      return this.$store.state.roleId !== 0;
     }
   }
 }
@@ -64,20 +102,24 @@ export default {
     </div>
     <div class="tableBody">
       <div v-for="(data, item) in tableData" :key="data">
-        <div>{{ item + 1 }}</div>
-        <div>{{ data.id }}</div>
-        <div>{{ data.name }}</div>
-        <div>{{ data.author }}</div>
-        <div>{{ data.money }}</div>
-        <div>{{ data.requireId}}</div>
+        <div>{{ bookRef }}</div>
+          <div>{{ data.bookId }}</div>
+        <div>{{ data.bookName }}</div>
+        <div>{{ data.bookAuthor }}</div>
+        <div>{{ data.price }}</div>
+        <div>{{ data.owner}}</div>
+        <div>{{ data.ownerName }}</div>
+        <div>{{ data.createTime }}</div>
+        <div>{{ data.updateTime }}</div>
+        <div>{{ data.status === 2 ? '不可借阅' : '可借阅'}}</div>
         <div class="booksIntroduce">
           <span @mouseenter="touchContent(item)" @mouseleave="touchLeaveContent">轻触展开</span>
-          <span class="booksIntroduceContent" v-show="dataItem === item">我是介绍{{ item }}</span>
+          <span class="booksIntroduceContent" v-show="dataItem === item">{{ data.bookDetails }}</span>
         </div>
         <div>无</div>
         <div class="booksFunction">
           <button @click="borrow" class="borrowButton">借阅</button>
-          <button @click="edit">修改</button>
+          <button @click="edit" v-if="edit">修改</button>
         </div>
       </div>
       <div class="borrowAsk1">借阅成功</div>
@@ -88,7 +130,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-  $titleCount: 9;
+  $titleCount: 12;
   .tableTitle {
     width:95%;
     height:50px;

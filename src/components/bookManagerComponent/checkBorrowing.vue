@@ -1,5 +1,6 @@
 <script>
 import TopBar from "@/components/usersManagementComponent/topBar.vue";
+import {getBookInfo, getBookList} from "@/api/Book/BookManage";
 
 export default {
   name: "checkBorrowing",
@@ -8,11 +9,13 @@ export default {
     return {
       tableTitleData: [
         "序号",
-        "书籍编号",
+        "借阅ID",
+        "书籍ID",
         "书籍名称",
-        "借阅时间",
         "借阅者ID",
+        "借阅者名称",
         "借阅时长",
+        "借阅时间",
         "归还时间",
         "状态"
       ],
@@ -35,15 +38,50 @@ export default {
           returnTime: "2024.3.16",
           state: "已归还"
         }
-      ]
+      ],
+      borrowId: 0,
+      bookId: 0,
+      bookName: '',
+      borrowUser: '',
+      borrowUserName: '',
+      borrowDuration: 0,
+      status: 0,
+      borrowTime: '',
+      returnTime: ''
     }
+  },
+  methods: {
+    getBorrow() {
+      try {
+        const params = {
+          cur: 1,
+          size: 10
+        }
+        getBookInfo(params).then(res =>{
+          console.log(res.data)
+          if(res.code === 200){
+            console.log(res.data);
+            for(let i in res.data) {
+              this.borrowingBooksData.push(res.data[i]);
+            }
+          } else {
+            console.log('错误');
+          }
+        })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  },
+  created() {
+    this.getBorrow();
   }
 }
 </script>
 
 <template>
   <div class="backDrop">
-    <top-bar></top-bar>
+<!--    <top-bar></top-bar>-->
     <div class="checkBorrowingTitle">查询借阅记录：<hr></div>
     <div class="checkBorrowingList">
       <div>
@@ -53,13 +91,15 @@ export default {
         <div class="tableBody">
           <div v-for="(data, item) in borrowingBooksData" :key="data">
             <div>{{ item + 1 }}</div>
-            <div>{{ data.id }}</div>
-            <div>{{ data.name }}</div>
-            <div>{{ data.borrowingTime }}</div>
             <div>{{ data.borrowId }}</div>
-            <div>{{ data.borrowTiming + "天"}}</div>
+            <div>{{ data.bookId }}</div>
+            <div>{{ data.bookName }}</div>
+            <div>{{ data.borrowUser }}</div>
+            <div>{{ data.borrowUserName }}</div>
+            <div>{{ data.borrowDuration + '天'}} </div>
+            <div>{{ data.status ? '已归还' : '未归还' }}</div>
+            <div>{{ data.borrowTime }}</div>
             <div>{{ data.returnTime }}</div>
-            <div>{{ data.state }}</div>
           </div>
         </div>
       </div>
@@ -69,21 +109,22 @@ export default {
 
 <style scoped lang="scss">
   .backDrop {
+    width: 100%;
+    height: 1000px;
     position: relative;
     .checkBorrowingTitle {
       position: absolute;
-      top: 100px;
+      top: 50px;
       left: 50px;
       font-family: fangsong;
       font-size: 30px;
     }
     .checkBorrowingList {
       width: 80%;
-      //height: 100px;
       border: 1px black solid;
       border-radius: 50px;
       position: absolute;
-      top: 150px;
+      top: 120px;
       left: 80px;
       padding: 20px;
       .tableTopTitle {
@@ -97,7 +138,7 @@ export default {
         //padding-top: 20px;
         display: inline-block;
       }
-      $titleCount: 8;
+      $titleCount: 10;
       .tableTitle {
         width: 100%;
         height: 50px;

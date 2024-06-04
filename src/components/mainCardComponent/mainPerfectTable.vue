@@ -23,16 +23,22 @@
                     <td v-for="(item,index) in tableTitle" :key="index">{{ item }}</td>
                     <td class="operation-column">操作</td>
                 </tr>
-                <tr v-for="(item, rowIndex) in maxVisibleRows" :key="rowIndex">
-                    <td v-for="(cellItem, cellIndex) in tableData" :key="cellIndex">
-                      {{ rowIndex < maxVisibleRows ? cellItem : '' }}
-                    </td>
+                <tbody>
+                <tr v-for="(item, index) in tableData" :key="index">
+                    <td>{{ item.userName }}</td>
+                    <td>{{ item.grade }}</td>
+                    <td>{{ item.classroom }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.intentDepartment }}</td>
+                    <td>{{ item.interviewTime }}</td>
+                    <td>{{ item.remark }}</td>
+                    <td>{{ item.purpose }}</td>
                     <td class="operation-column">
-                      <button v-if="rowIndex < maxVisibleRows " @click="visonal">查看</button>
-                      <button v-if="rowIndex < maxVisibleRows ">修改</button>
-                      <button v-if="rowIndex < maxVisibleRows ">删除</button>
+                        <router-link to=""><button class="findhisform">查看他的报名表</button></router-link>
                     </td>
                 </tr>
+                </tbody>
             </table>
             <div class="page-change-box">
                 <div class="page-box">
@@ -79,8 +85,106 @@ export default {
             // 省略页面数
             currentIndexs_: 9,
             // 表格标头
-            tableTitle: ["姓名", "年级", "班级", "联系方式", "邮箱", "意向部门", "面试时间", "备注",],
-            tableData: ["cc", "大一", "软件2346", "17200543160", "123@gmail.com", "软件开发","2021-05-01", "备注信息"],
+            tableTitle: ["姓名", "年级", "班级", "联系方式", "邮箱", "意向部门", "面试时间", "备注","加入目的"],
+            tableData: [
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+   
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+                {
+                    userName: "cc",
+                    grade: "大一",
+                    classroom: "软件2346",
+                    phone: "17200543160",
+                    email: "123@gmail.com",
+                    intentDepartment: "软件开发",
+                    interviewTime: "2021-05-01",
+                    remark: "备注信息",
+                    purpose:"学习",
+                    id: 1,
+                },
+            ],
             // 意向部门下拉框是否展示
             tableSearchContentBoxActive: false,
             // 分页是否展示
@@ -227,42 +331,35 @@ export default {
             } catch (error) {
                 console.log(error);
             }  
-        }
+        },
+        async toselectList() {
+            try {
+                const params = {
+                    cur: this.currentPage,
+                    size: this.size,
+                };
+                const response = await selectList(params);
+                if (response && response.code === 200) {
+                    // 假设返回的数据包含在 res.data 中
+                    this.tableData = response.data.records;
+                    // 假设返回的数据还包括总记录数，用于分页
+                    this.totalRecords = response.data.total;
+                } else {
+                    console.error('API 返回了错误码:', response.code);
+                }
+            } catch (error) {
+                console.error('请求列表数据失败:', error);
+            }
+        },
     },
     created() {
 
     },
     computed: {
-        rowHeight() {
-            // 每一行的高度
-          return 91; 
-        },
-    
-        // 计算表格最大可显示的行数
-        maxVisibleRows() {
-            // 表格总高度
-          const availableHeight = 850;
-          return Math.floor(availableHeight / this.rowHeight);
-        },
-    },
-    mounted() {
-        //  先发送请求分页查询
-        // 发送query请求
-        // /registration/selectList
+
     },
     created() {
-        // selectList
-        async function toselectList(){
-            try {
-                const params = {
-                    pageNum: this.currentPage,
-                    pageSize: this.size,
-                }
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        this.toselectList();
     }
 }
 
@@ -354,27 +451,6 @@ export default {
 .table-search-button button:active {
   transform: scale(0.85);
 }
-/* 表格 */
-.table-body-content{
-    width: 100%;
-}
-.table-body{
-    width: 100%;
-    box-sizing: border-box;
-}
-.table-body tr{
-    display: flex;
-    /* flex: 1; */
-}
-.table-body td {
-    border: var(--table-border-grey);
-    border-collapse: collapse;
-    height: calc(30px + 2 * 15px);
-    line-height: calc(30px + 2 * 15px);
-    box-sizing: border-box;
-    text-align: center;
-    flex: 1;
-}
 .table-body-title td{
     /* 表格标头 */
     background-color: var(--table-box-title-bgc-color);
@@ -382,27 +458,30 @@ export default {
     font-weight: var(--table-box-title-font-width);
     color: var(--table-box-title-font-color);
 }
-.operation-column {
-    min-width: 300px;
-    text-align: center;
+@media (max-width: 768px) {
+    .table-body, .table-body-title, .table-body td {
+        display: block;
+    }
+
+    .table-body-title {
+        display: none;
+    }
+
+    .table-body td {
+        position: relative;
+        padding-left: 50%; 
+    }
+
+    .table-body td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 20%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
 }
-.operation-column button {
-    height: 35px;
-    width: 60px;
-    margin: 0 5px;
-    box-shadow: var(--table-box-shadow);
-    background-color: var(--table-action-bg-color);
-    border: 0.5px solid var(--table-border-grey);
-    border-radius: var(--table-action-radius);
-}
-.operation-column button:hover{
-    background-color: var(--table-action-hover-bg-color);
-    color: var(--table-action-hover-color);
-}
-.operation-column button:active{
-    box-shadow: var(--table-action-active-box-shadow);
-    transform: scale(0.85);
-}
+
 .page-change-box{
     /* text-align: center; */
     margin: 25px auto;
@@ -442,5 +521,8 @@ export default {
 .page-box-item-page-box-not-show{
     display: flex;
     justify-content: space-around;
+}
+.findhisform{
+    width: 60%;
 }
 </style>

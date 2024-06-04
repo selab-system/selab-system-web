@@ -23,10 +23,11 @@ export function BorrowNoReturn(params = {}) {
 // 这里的userid通过后端来获取
 // Query参数  可选
 // {cur: 当前页,size: 每页数量}
-export function BorrowMy() {
+export function BorrowMy(params) {
     return request({
         url: '/borrow/my',
         method: 'get',
+        params
         // 这里要带params参数,params参数来源于后端
     })
 }
@@ -93,11 +94,11 @@ export function DeleteBook(params = {}) {
 // 传入参数Query参数
 // 应该是必须的
 // {cur: 当前页,size: 每页数量}
-export function getBookList(params = {}) {
+export function getBookList(params) {
     return request({
         url: '/book/list',
         method: 'get',
-        params: {}
+        params
     })
 }
 
@@ -106,11 +107,11 @@ export function getBookList(params = {}) {
 // 传入参数Query参数
 // {cur,size,userid,bookid,bookname}
 // userid,bookid,bookname三选一，也可以都传
-export function getBookInfo(query) {
+export function getBookInfo(params) {
     return request({
         url: '/book/queryOne',
         method: 'get',
-        params: {}
+        params
     })
 }
 

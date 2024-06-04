@@ -135,7 +135,7 @@ export default {
             
             // 这里可以添加提交数据到服务器的逻辑
             // 增加报名表
-            const  addRegister =  request({  // 增加报名表
+            const addRegister =  request({  // 增加报名表
                 url: '/registration/insertRegistration',
                 method: 'post',
                 data: registrationDto
