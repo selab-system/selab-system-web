@@ -291,7 +291,7 @@ export default {
 .editDiv {
   width: 400px;
   height: 270px;
-  background: wheat;
+  //background: wheat;
   border: 1px black solid;
   z-index: 3;
   //margin: 10px auto;
@@ -303,7 +303,7 @@ export default {
 .addUserDiv {
   width: 400px;
   height: 200px;
-  background: wheat;
+  //background: wheat;
   border: 1px black solid;
   z-index: 3;
   //margin: 10px auto;
