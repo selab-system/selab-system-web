@@ -88,7 +88,7 @@ export default {
 <style scoped lang="scss">
   .backDrop {
     width: 100%;
-    height: 700px;
+    height: 1000px;
     background-color: whitesmoke;
     position: relative;
     div {

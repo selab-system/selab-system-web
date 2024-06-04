@@ -9,7 +9,7 @@ import router from "@/router";
 const request = axios.create({
     // URL配置s
     baseURL: '/api',
-    timeout: 10000,
+    timeout: 1000,
 })
 
 // 请求拦截器配置

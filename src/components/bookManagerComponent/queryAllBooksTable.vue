@@ -102,7 +102,7 @@ export default {
     </div>
     <div class="tableBody">
       <div v-for="(data, item) in tableData" :key="data">
-        <div>{{ ibookRef }}</div>
+        <div>{{ bookRef }}</div>
           <div>{{ data.bookId }}</div>
         <div>{{ data.bookName }}</div>
         <div>{{ data.bookAuthor }}</div>

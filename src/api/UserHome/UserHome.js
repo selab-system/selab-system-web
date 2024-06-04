@@ -42,7 +42,7 @@ export function deleteGroup(params) {
   return request({
     url: "/group/delete",
     method: "get",
-
+    params
   });
 }
 

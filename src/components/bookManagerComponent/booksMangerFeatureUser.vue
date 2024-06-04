@@ -13,11 +13,8 @@ export default {
   name: "booksMangerFeature",
   computed: {
     bookRecord() {
-      if (this.$store.state.readRoleId === 3) {
-        return false
-      } else {
-        return true
-      }
+      return this.$store.state.readRoleId !== 3;
+    }
   }
 }
 </script>
