@@ -92,7 +92,7 @@
                   </span>
                 </el-dialog>
                 <!-- 可以更新任务 -->
-                <el-button type="text" @click="dialogFormVisible = true">修改任务</el-button>
+                <el-button type="text" @click="showDialog(scope.row)">更新任务</el-button>
 
                 <el-dialog title="更新任务" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
                   <el-form :model="form">
@@ -137,7 +137,7 @@
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
-                    <el-button type="primary" @click="update()">确认更新</el-button>
+                    <el-button type="primary" @click="newupdate">确认更新</el-button>
                   </div>
                 </el-dialog>
               </template>
@@ -171,6 +171,7 @@ export default {
       publisherName: '',
       currentPage: 1,
       totalCount: 1,
+      dialogRow: '',
       // 全部表格数据
       allTableData: [],
       // 分页表格数据
@@ -214,9 +215,7 @@ export default {
       const id = { taskId: this.allTableData.id }
       deletetask(id).then((res) => {
         console.log(res)
-      }
-
-      )
+      })
     },
     // 根据发布者查询用户信息
     querymytaskByname (obj) {
@@ -267,10 +266,17 @@ export default {
 
       )
     },
+    // 获取当前行数据
+    showDialog (row) {
+      this.dialogFormVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
+      console.log(this.dialogRow)
+    },
     // 更新任务
-    async update () {
+    async newupdate () {
       console.log('submit!')
-      const id = this.tableData.id
+      const id = this.dialogRow.id
+      console.log(this.dialogRow.id)
       const res = await update(id, this.form.name, this.form.groupIds, this.form.publisherId, this.form.updaterId, this.form.dealTime, this.form.content)
       console.log(res)
       alert('任务更新成功')

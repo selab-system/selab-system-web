@@ -37,8 +37,8 @@
                 fixed="right"
                 label="操作"
                 width="150">
-                <template>
-                  <el-button type="text" @click="dialogFormVisible = true">我要汇报</el-button>
+                <template slot-scope="scope">
+                  <el-button type="text" @click="showDialog2(scope.row)">我要汇报</el-button>
 
                   <el-dialog title="汇报任务" :visible.sync="dialogFormVisible" :append-to-body="true">
                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -236,10 +236,14 @@ export default {
   methods: {
     // 汇报任务
     async submitForm () {
-      const id = { taskId: this.allTableData.id }
+      const id = this.dialogRow.id
       const res = await report(id, this.ruleForm.reportStatus, this.ruleForm.details)
       console.log(res)
       alert('恭喜你又完成了一项任务')
+    },
+    showDialog2 (row) {
+      this.dialogFormVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
     },
     // 对话框
     handleClose (done) {
