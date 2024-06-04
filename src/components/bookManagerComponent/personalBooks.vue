@@ -46,9 +46,10 @@ export default {
         BorrowMy(params).then(res =>{
           if(res.code === 200){
             console.log(res.data);
-            for(let i in res.data) {
-              this.borrowingBooks.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   this.borrowingBooks.push(res.data[i]);
+            // }
+            this.borrowingBooks = res.data;
           } else {
             console.log('错误');
           }
@@ -87,6 +88,7 @@ export default {
         ReturnBook(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
+            this.getMyBorrow();
             console.log('归还成功');
           } else {
             console.log(111);

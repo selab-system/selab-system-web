@@ -1,20 +1,17 @@
 <script>
-import TopBar from "@/components/bookManagerComponent/topBar.vue";
-import QueryAllBooksTable from "@/components/bookManagerComponent/queryAllBooksTable.vue";
-import {BorrowBook, getBookInfo, getBookList, saveBookInfo} from "@/api/Book/BookManage";
+import {BorrowBook, getBookInfo, getBookList, saveBookInfo, updateBookInfo} from "@/api/Book/BookManage";
 
 export default {
   name: "queryAllBooks",
-  components: {QueryAllBooksTable},
   data() {
     return {
       saveBookName: '',
       saveBookAuthor: '',
       saveBookInfo: '',
-      saveBookMon: '',
-      saveBookOwenId: '',
+      saveBookMon: 0,
+      saveBookOwenId: 0,
       saveBookOther: '',
-      saveBookRef: 0,
+      saveBookRef: '',
       bookId: 0,
       borrowBookId: 0,
       borrowDuration: 0,
@@ -33,9 +30,13 @@ export default {
         "书籍状态",
         "操作"
       ],
-      tableData: [
-      ],
-      dataItem: -1
+      tableData: [],
+      dataItem: -1,
+      saveBookId: 0,
+      saveBookOwenName: '',
+      bookStatus: '',
+      createTime: '',
+      updateTime: ''
     }
   },
   methods: {
@@ -45,7 +46,7 @@ export default {
           bookName: this.saveBookName,
           bookAuthor: this.saveBookAuthor,
           bookDetails: this.saveBookInfo,
-          price: this.saveBookMon,
+          price: parseInt(this.saveBookMon),
           owner: this.saveBookOwenId,
           remark: this.saveBookOther,
           bookRef: this.saveBookRef
@@ -53,6 +54,7 @@ export default {
         saveBookInfo(params).then(res =>{
           if(res.code === 200){
             console.log(res);
+            this.getAllBooks();
             const selectDiv = document.querySelector('.selectDiv');
             selectDiv.style.display = 'none';
           } else {
@@ -62,6 +64,8 @@ export default {
       } catch (err) {
         console.log(err)
       }
+      console.log(typeof parseInt(this.saveBookMon))
+      console.log('')
     },
     queryData() {
       try {
@@ -70,6 +74,7 @@ export default {
         }
         getBookInfo(params).then(res =>{
           if(res.code === 200){
+            this.tableData = res.data.data;
             console.log(res)
           } else {
             console.log(111);
@@ -79,18 +84,20 @@ export default {
         console.log(err)
       }
     },
-    borrowBook(borrowBookId) {
+    borrowBook() {
       const borrowDiv = document.querySelector('.borrowDiv');
       borrowDiv.style.display = 'block';
       try {
         const params = {
-          borrowBook: borrowBookId,
+          borrowBook: this.borrowBookId,
           borrowDuration: this.borrowDuration,
           returnTime: this.returnTime
         }
         BorrowBook(params).then(res =>{
           if(res.code === 200){
-            console.log(res);
+            const borrowDiv = document.querySelector('.borrowDiv');
+            borrowDiv.style.display = 'none';
+            this.getAllBooks();
           } else {
             console.log(111);
           }
@@ -138,10 +145,12 @@ export default {
         getBookList(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.tableData.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   console.log(res.data[i]);
+            //   this.tableData.push(res.data[i]);
+            // }
+            this.tableData = res.data.data;
+            console.log(this.tableData)
           } else {
             console.log(111);
           }
@@ -153,9 +162,47 @@ export default {
     selectDivHava() {
       const selectDiv = document.querySelector('.selectDiv');
       selectDiv.style.display = 'block';
+    },
+    borrowDivHave() {
+      const borrowDiv = document.querySelector('.borrowDiv');
+      borrowDiv.style.display = 'block';
+    },
+    editDivHave() {
+      const editDiv = document.querySelector('.editDiv');
+      editDiv.style.display = 'block';
+    },
+    editBooks() {
+      try {
+        const params = {
+          bookId: this.saveBookId,
+          bookName: this.saveBookName,
+          bookAuthor: this.saveBookAuthor,
+          bookDetails: this.saveBookInfo,
+          price: parseInt(this.saveBookMon),
+          owner: this.saveBookOwenId,
+          ownerName: this.saveBookOwenName,
+          status: this.bookStatus,
+          createTime: this.createTime,
+          updateTime: this.updateTime,
+          bookRef: this.saveBookRef
+        }
+        updateBookInfo(params).then(res =>{
+          console.log(res.data)
+          if(res.code === 200){
+            this.getAllBooks();
+            const editDiv = document.querySelector('.editDiv');
+            editDiv.style.display = 'none';
+          } else {
+            console.log(111);
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   computed: {
+    // eslint-disable-next-line vue/no-dupe-keys
     editBooks() {
       return this.$store.state.readRoleId !== 3;
     },
@@ -214,10 +261,9 @@ export default {
             <span @mouseenter="touchContent(item)" @mouseleave="touchLeaveContent">轻触展开</span>
             <span class="booksIntroduceContent" v-show="dataItem === item">{{ data.bookDetails }}</span>
           </div>
-          <div>无</div>
           <div class="booksFunction">
-            <button class="borrowButton" @click="borrowBook(data.bookId)">借阅</button>
-            <button @click="edit" v-if="edit">修改</button>
+            <button class="borrowButton" @click="borrowDivHave">借阅</button>
+            <button @click="editDivHave" v-if="edit">修改</button>
           </div>
         </div>
         <div class="borrowAsk1">借阅成功</div>
@@ -227,13 +273,16 @@ export default {
     </div>
     <div class="borrowDiv">
       <div>
+        书籍id：<input type="text" placeholder="请输入书籍id" v-model="borrowBookId">
+      </div>
+      <div>
         借阅时长：<input type="text" placeholder="请输入借阅时长" v-model="borrowDuration">天
       </div>
       <div>
         归还时间：<input type="text" placeholder="请输入归还时间" v-model="returnTime">
       </div>
       <div>
-        <button>确认</button>
+        <button @click="borrowBook">确认</button>
       </div>
     </div>
     <div class="selectDiv">
@@ -260,6 +309,47 @@ export default {
       </div>
       <div>
         <button @click="saveBookDate">增加</button>
+      </div>
+    </div>
+    <div class="editDiv">
+      <div>
+        书籍id：<input type="text" placeholder="请输入书籍id" v-model="saveBookId">
+      </div>
+      <div>
+        书籍名称：<input type="text" placeholder="请输入书籍名称" v-model="saveBookName">
+      </div>
+      <div>
+        书籍作者：<input type="text" placeholder="请输入书籍作者" v-model="saveBookAuthor">
+      </div>
+      <div>
+        书籍介绍：<input type="text" placeholder="请输入书籍介绍" v-model="saveBookInfo">
+      </div>
+      <div>
+        书籍价格：<input type="text" placeholder="请输入书籍价格" v-model="saveBookMon">
+      </div>
+      <div>
+        书籍拥有者id：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenId">
+      </div>
+      <div>
+        书籍拥有者名称：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenName">
+      </div>
+      <div>
+        书籍状态：<input type="text" placeholder="请输入书籍状态" v-model="bookStatus">
+      </div>
+      <div>
+        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
+      </div>
+      <div>
+        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
+      </div>
+      <div>
+        添加时间：<input type="text" placeholder="请输入添加时间" v-model="createTime">
+      </div>
+      <div>
+        修改时间：<input type="text" placeholder="请输入修改时间" v-model="updateTime">
+      </div>
+      <div>
+        <button @click="editBooks">确定</button>
       </div>
     </div>
   </div>
@@ -352,8 +442,11 @@ export default {
     width: 500px;
     height: 400px;
     background: wheat;
-    margin: 10px auto;
+    position: absolute;
+    top: 200px;
+    left: 40%;
     border: 1px black solid;
+    z-index: 3;
     div {
       width: 100%;
       height: 50px;
@@ -368,6 +461,32 @@ export default {
       }
     }
     display: none;
+  }
+  .editDiv {
+    width: 500px;
+    height: 500px;
+    background: wheat;
+    position: absolute;
+    top: 200px;
+    left: 40%;
+    border: 1px black solid;
+    z-index: 3;
+    display: none;
+    div {
+      width: 100%;
+      height: 50px;
+      padding-top: 2px;
+
+      input {
+        border-radius: 40px;
+        text-indent: 10px;
+      }
+
+      button {
+        width: 50px;
+        height: 20px
+      }
+    }
   }
   .borrowDiv {
     width: 400px;
@@ -494,7 +613,7 @@ export default {
       }
       .booksFunction {
         button {
-          width: 80px;
+          width: 30px;
           height: 70%;
           color: black;
           font-size: 16px;

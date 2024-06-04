@@ -25,8 +25,7 @@ export default {
         "书籍状态",
         "操作"
       ],
-      tableData: [
-      ],
+      tableData: [],
       dataItem: -1
     }
   },
@@ -70,10 +69,11 @@ export default {
         getBookList(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.tableData.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   console.log(res.data[i]);
+            //   this.tableData.push(res.data[i]);
+            // }
+            this.tableData = res.data;
           } else {
             console.log(111);
           }
@@ -102,8 +102,8 @@ export default {
     </div>
     <div class="tableBody">
       <div v-for="(data, item) in tableData" :key="data">
-        <div>{{ bookRef }}</div>
-          <div>{{ data.bookId }}</div>
+        <div>{{ data.bookRef }}</div>
+        <div>{{ data.bookId }}</div>
         <div>{{ data.bookName }}</div>
         <div>{{ data.bookAuthor }}</div>
         <div>{{ data.price }}</div>
@@ -116,11 +116,10 @@ export default {
           <span @mouseenter="touchContent(item)" @mouseleave="touchLeaveContent">轻触展开</span>
           <span class="booksIntroduceContent" v-show="dataItem === item">{{ data.bookDetails }}</span>
         </div>
-        <div>无</div>
-        <div class="booksFunction">
-          <button @click="borrow" class="borrowButton">借阅</button>
-          <button @click="edit" v-if="edit">修改</button>
-        </div>
+<!--        <div class="booksFunction">-->
+<!--          <button @click="borrow" class="borrowButton">借阅</button>-->
+<!--          <button @click="edit" v-if="edit">修改</button>-->
+<!--        </div>-->
       </div>
       <div class="borrowAsk1">借阅成功</div>
       <div class="borrowAsk2">该图书已被借阅</div>

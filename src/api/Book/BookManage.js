@@ -69,11 +69,11 @@ export function ReturnBook() {
 //         "borrowDuration": 0,
 //             "returnTime": "string"
 // }
-export function BorrowBook(params = {}) {
+export function BorrowBook(params) {
     return request({
-        url: '/borrow/borrow/{bookId}',
+        url: '/book/borrow',
         method: 'post',
-        params: {}
+        params
     })
 }
 
