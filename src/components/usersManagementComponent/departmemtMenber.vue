@@ -8,7 +8,7 @@
     <div class="departmentList">
       <ul class="departmentItem">
          <template v-for="item in department" >
-            <li :key="item">{{ item.groupId }}.({{ item.groupName }}) {{ item.createTime}}</li>
+            <li :key="item">{{ item.groupId  }}.({{ item.groupName }}) {{ item.createTime}}</li>
             <button :key="item" @click="updateDivHave" v-if="manage">修改</button>
             <button :key="item" @click="deleteGroup(item.groupId)" v-if="manage" >删除</button>
             <br><br>
@@ -40,10 +40,11 @@ export default {
         groupQueryAll(params).then(res =>{
           console.log(res.data);
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.department.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   console.log(res.data[i]);
+            //   this.department.push(res.data[i]);
+            // }
+            this.department = res.data;
             console.log(this.department)
           } else {
             console.log(111)
@@ -89,6 +90,7 @@ export default {
             //   this.department.push(res.data[i]);
             // }
             // console.log(this.department)
+            this.getAllGroup();
             const updateDiv = document.querySelector('.updateDiv');
             updateDiv.style.display = 'none';
           } else {
@@ -104,6 +106,7 @@ export default {
       deleteGroup({groupId}).then(res =>{
           console.log(res.data);
           if(res.code === 200){
+            this.getAllGroup();
             console.log(res)
           } else {
             console.log(111)
@@ -121,6 +124,7 @@ export default {
         saveGroup(params).then(res =>{
           console.log(res.data);
           if(res.code === 200){
+            this.getAllGroup();
             console.log(res)
           } else {
             console.log(111)
