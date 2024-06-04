@@ -171,7 +171,7 @@ export default {
       const editDiv = document.querySelector('.editDiv');
       editDiv.style.display = 'block';
     },
-    editBooks() {
+    editBook() {
       try {
         const params = {
           bookId: this.saveBookId,
@@ -349,7 +349,7 @@ export default {
         修改时间：<input type="text" placeholder="请输入修改时间" v-model="updateTime">
       </div>
       <div>
-        <button @click="editBooks">确定</button>
+        <button @click="editBook">确定</button>
       </div>
     </div>
   </div>
