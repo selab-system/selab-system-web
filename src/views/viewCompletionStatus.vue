@@ -58,7 +58,7 @@
               label="操作"
               width="500">
               <template slot-scope="scope">
-                <el-button type="text" @click="dialogTableVisible = true">查看所有需要汇报人员信息</el-button>
+                <el-button type="text" @click="showDialog1(scope.row)">查看所有需要汇报人员信息</el-button>
 
                 <el-dialog title="查看所有汇报人员信息" :visible.sync="dialogTableVisible" :modal-append-to-body='false'>
                   <el-table :data="gridData">
@@ -172,6 +172,7 @@ export default {
       currentPage: 1,
       totalCount: 1,
       dialogRow: '',
+      dialogRow1: '',
       // 全部表格数据
       allTableData: [],
       // 分页表格数据
@@ -297,6 +298,15 @@ export default {
           done()
         })
         .catch(_ => {})
+    },
+    showDialog1 (row) {
+      this.dialogTableVisible = true
+      this.dialogRow1 = row
+      const id = row.id
+      queryAllNeedReportUser(id).then((res) => {
+        console.log(res.data.data)
+        this.gridData = res.data.data
+      })
     }
   }
 }

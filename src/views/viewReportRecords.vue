@@ -9,12 +9,14 @@
       <div class="content">
         <el-table
           :data="tableData"
-          style="width: 100%">
+          style="width: 100%"
+          @expand-change="handleRowExpandChange">
           <el-table-column type="expand">
-            <template v-if="tableData1>0">
+            <template v-if="tableData1>0" slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-table
-                  :data="tableData1"
+                  v-if="expandedRowsData[props.row.id]"
+                  :data="expandedRowsData[props.row.id]"
                   border
                   style="width: 100%">
                   <el-table-column
@@ -106,23 +108,24 @@ export default {
       tableData: [],
       tableData1: [],
       allTableData1: [],
-      dialogRow: ''
+      dialogRow: '',
+      expandedRowsData: {}
     }
   },
   created () {
     this.search()
-    this.details()
-    this.handleCurrentChange()
+    // this.details()
+    // this.handleCurrentChange()
   },
   methods: {
     // 显示当前页数据
-    handleCurrentChange (currentPage) {
-      // 更新当前页数据
-      this.currentPage = currentPage
-      this.tableData1 = []
-      // 获取当前页数据范围
-      this.tableData1 = this.allTableData1.slice((((currentPage - 1) * 5)), (currentPage * 5))
-    },
+    // handleCurrentChange (currentPage) {
+    // 更新当前页数据
+    // this.currentPage = currentPage
+    // this.tableData1 = []
+    // 获取当前页数据范围
+    //   this.tableData1 = this.allTableData1.slice((((currentPage - 1) * 5)), (currentPage * 5))
+    // },
     // 对话框
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -139,16 +142,17 @@ export default {
       })
     },
     // 查询汇报记录
-    details () {
-      const id = { taskId: this.tableData.id }
-      queryAllResport(id).then((res) => {
-        console.log(res.data)
-        this.allTableData1 = Object.values(res.data)
-        if (!this.currentPage || this.currentPage === 1) {
-          this.handleCurrentChange(1)
-        }
-      })
-    },
+    // 下拉框下的小细节
+    // details () {
+    //   const id = { taskId: this.tableData.id }
+    //   queryAllResport(id).then((res) => {
+    //     console.log(res.data.data)
+    //     this.allTableData1 = res.data.data
+    //     if (!this.currentPage || this.currentPage === 1) {
+    //       this.handleCurrentChange(1)
+    //     }
+    //   })
+    // },
     showDialog (row) {
       this.dialogVisible = true
       this.dialogRow = row
@@ -156,6 +160,20 @@ export default {
     formatTimestamp (row, column, cellValue) {
       const date = new Date(cellValue)
       return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
+    },
+    // 下拉框渲染
+    handleRowExpandChange (row, expandedRows) {
+      const id = row.id
+      // console.log(id)
+      queryAllResport(id).then((res) => {
+        console.log(res.data.data)
+        this.allTableData1 = res.data.data
+        this.$set(this.expandedRowsData, id, this.allTableData1)
+        console.log(this.expandedRowsData[id])
+        // if (!this.currentPage || this.currentPage === 1) {
+        //   this.handleCurrentChange(1)
+        // }
+      })
     }
   }
 
