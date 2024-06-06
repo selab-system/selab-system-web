@@ -73,7 +73,7 @@ export function BorrowBook(params) {
     return request({
         url: `/book/borrow`,
         method: 'post',
-        params
+        data: params
     })
 }
 
@@ -81,11 +81,11 @@ export function BorrowBook(params) {
 // 删除书籍
 // Query参数
 // {bookid: (number)}
-export function DeleteBook(param) {
+export function DeleteBook(params) {
     return request({
         url: '/book/delete',
         method: 'get',
-        param
+        params: params
     })
 }
 
@@ -122,7 +122,7 @@ export function updateBookInfo(data) {
     return request({
         url: '/book/update',
         method: 'post',
-        data:data
+        data: data
     })
 }
 
@@ -132,6 +132,6 @@ export function saveBookInfo(data) {
     return request({
         url: '/book/save',
         method: 'post',
-        data:data
+        data: data
     })
 }   

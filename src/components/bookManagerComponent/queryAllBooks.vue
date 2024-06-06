@@ -58,7 +58,7 @@ export default {
               this.getAllBooks();
               const selectDiv = document.querySelector('.selectDiv');
               selectDiv.style.display = 'none';
-              this.add();
+              this.addOne();
             } else {
               console.log(111);
             }
@@ -122,38 +122,43 @@ export default {
     touchLeaveContent() {
       this.dataItem = -1;
     },
-    borrow(e) {
-      if(e.target.textContent === '借阅') {
-        const borrowAsk1 = document.querySelector('.borrowAsk1');
-        borrowAsk1.style.display = 'block';
-        setTimeout(() => {
-          borrowAsk1.style.display = 'none';
-        }, 1000);
-      }
-      if(e.target.textContent === '已被借阅') {
-        const borrowAsk2 = document.querySelector('.borrowAsk2');
-        borrowAsk2.style.display = 'block';
-        setTimeout(() => {
-          borrowAsk2.style.display = 'none';
-        }, 1000);
-      }
-      e.target.textContent = '已被借阅';
+    borrow() {
+      const borrowAsk1 = document.querySelector('.borrowAsk1');
+      borrowAsk1.style.display = 'block';
+      setTimeout(() => {
+        borrowAsk1.style.display = 'none';
+      }, 1000);
+      // if(e.target.textContent === '借阅') {
+      //   const borrowAsk1 = document.querySelector('.borrowAsk1');
+      //   borrowAsk1.style.display = 'block';
+      //   setTimeout(() => {
+      //     borrowAsk1.style.display = 'none';
+      //   }, 1000);
+      // }
+      // if(e.target.textContent === '已被借阅') {
+      //   const borrowAsk2 = document.querySelector('.borrowAsk2');
+      //   borrowAsk2.style.display = 'block';
+      //   setTimeout(() => {
+      //     borrowAsk2.style.display = 'none';
+      //   }, 1000);
+      // }
+      // e.target.textContent = '已被借阅';
     },
-    edit() {
+    editOne() {
       const borrowAsk3 = document.querySelector('.borrowAsk3');
       borrowAsk3.style.display = 'block';
       setTimeout(() => {
         borrowAsk3.style.display = 'none';
       }, 1000);
     },
-    add() {
+    addOne() {
       const addSuccess = document.querySelector('.addSuccess');
       addSuccess.style.display = 'block';
       setTimeout(() => {
         addSuccess.style.display = 'none';
       }, 1000);
     },
-    delete() {
+    deleteOne() {
       const deleteSuccess = document.querySelector('.deleteSuccess');
       deleteSuccess.style.display = 'block';
       setTimeout(() => {
@@ -171,7 +176,7 @@ export default {
       try {
         const params = {
           cur:1,
-          size:12
+          size:100
         }
         getBookList(params).then(res =>{
           console.log(res.data)
@@ -217,14 +222,14 @@ export default {
           updateTime: this.updateTime,
           bookRef: this.saveBookRef
         }
-        if(this.saveBookId !== '' && typeof this.saveBookId === 'number' && this.saveBookName !== '' && typeof this.saveBookName === 'string' && this.saveBookAuthor !== '' && typeof this.saveBookAuthor === 'string' && this.saveBookInfo !== '' && typeof this.saveBookInfo === 'string' && this.saveBookMon !== '' && typeof this.saveBookMon === 'number' && this.saveBookOwenId !== '' && typeof this.saveBookOwenId === 'number' && this.saveBookOwenName !== '' && typeof this.saveBookOwenName === 'string' && this.bookStatus !== '' && typeof this.bookStatus === 'number' && this.saveBookRef !== '' && typeof this.saveBookRef === 'string' && this.createTime !== '' && typeof this.createTime === 'string' && this.updateTime !== '' && typeof this.updateTime === 'string') {
+        if(true) {
           updateBookInfo(params).then(res =>{
             console.log(res.data)
             if(res.code === 200){
               this.getAllBooks();
               const editDiv = document.querySelector('.editDiv');
               editDiv.style.display = 'none';
-              this.edit();
+              this.editOne();
             } else {
               console.log(111);
             }
@@ -244,7 +249,8 @@ export default {
         if(this.bookId !== '' && typeof this.bookId === 'number' ) {
           DeleteBook(param).then(res =>{
             if(res.code === 200){
-              this.delete();
+              this.deleteOne();
+              this.getAllBooks();
             } else {
               console.log(111);
             }
@@ -395,9 +401,6 @@ export default {
       </div>
       <div>
         书籍状态：<input type="text" placeholder="请输入书籍状态" v-model="bookStatus">
-      </div>
-      <div>
-        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
       </div>
       <div>
         书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
@@ -712,8 +715,8 @@ export default {
           width: 300px;
           height: 300px;
           position: absolute;
-          top: 30px;
-          left: 130px;
+          top: 40px;
+          left: 0;
           background-color: lightgoldenrodyellow;
           border-radius: 10px;
           color: black;
