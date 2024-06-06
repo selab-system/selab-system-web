@@ -35,6 +35,11 @@
                     :formatter="formatTimestamp">
                   </el-table-column>
                   <el-table-column
+                    prop="datails"
+                    label="汇报信息"
+                    width="300">
+                  </el-table-column>
+                  <!-- <el-table-column
                     fixed="right"
                     label="操作"
                     width="100">
@@ -54,7 +59,7 @@
                         </span>
                       </el-dialog>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                 </el-table>
               </el-form>
               <!-- 分页相关 -->
