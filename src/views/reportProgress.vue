@@ -112,12 +112,6 @@
                 width="300">
               </el-table-column>
               <el-table-column
-              :data="tableData1"
-                prop="judge"
-                label="是否汇报"
-                width="120">
-              </el-table-column>
-              <el-table-column
                 prop="status"
                 label="任务状态"
                 width="120">
@@ -150,7 +144,15 @@
                     width="30%"
                     :before-close="handleClose"
                     :append-to-body="true">
-                    <span>{{tableData2}}</span>
+                    <p>汇报信息：{{ tableData2.content }}</p>
+                    <p>截止时间：{{ tableData2.dealTime }}</p>
+                    <p>任务发布小组范围：{{ tableData2.id }}</p>
+                    <p>ID编号:{{ tableData2.id }}</p>
+                    <p>是否汇报：{{ tableData2.judge }}</p>
+                    <p>任务名：{{ tableData2.name }}</p>
+                    <p>发布时间：{{ tableData2.publishTime }}</p>
+                    <p>发布者：{{ tableData2.publisherName }}</p>
+                    <p>任务状态：{{ tableData2.status }}</p>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible1 = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
@@ -158,7 +160,7 @@
                   </el-dialog>
                   <!-- 删除任务 -->
                   <el-button
-                  @click.native.prevent="deleteRow(scope.$index, tableData)"
+                  @click.native.prevent="deleteRow(scope.$index, tableData,scope.row)"
                   type="text"
                   size="small">
                   &nbsp;&nbsp;删除任务
@@ -213,7 +215,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入汇报人名称', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         date1: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
@@ -285,10 +287,16 @@ export default {
       )
     },
     // 删除汇报记录
-    deleteRow (index, rows) {
+    deleteRow (index, rows, row) {
       rows.splice(index, 1)
-      const id = { reportId: this.tableData.id }
-      del(id).then((res) => {
+      console.log(row.id)
+      // const id = { reportId: this.tableData.id }
+      // del(id).then((res) => {
+      //   console.log('删除成功')
+      //   alert('删除成功')
+      // }
+      const reportId = { reportId: row.id }
+      del(reportId).then((res) => {
         console.log('删除成功')
         alert('删除成功')
       }
@@ -301,9 +309,9 @@ export default {
     },
     showDialog1 (row) {
       this.dialogVisible1 = true
-      const id = { taskId: row.id }
+      const id = { taskId: 32 }
       queryMyReport(id).then((res) => {
-        console.log(res.data)
+        console.log(res.data.data)
         this.tableData2 = res.data.data
       })
     },

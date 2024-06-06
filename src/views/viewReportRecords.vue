@@ -12,12 +12,10 @@
           style="width: 100%"
           @expand-change="handleRowExpandChange">
           <el-table-column type="expand">
-            <template v-if="tableData1>0" slot-scope="props">
+            <template >
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-table
-                  v-if="expandedRowsData[props.row.id]"
-                  :data="expandedRowsData[props.row.id]"
-                  border
+                  :data="tableData1"
                   style="width: 100%">
                   <el-table-column
                     prop="userName"
@@ -70,9 +68,9 @@
                 </el-pagination>
               </div>
             </template>
-            <div v-else>
+            <!-- <div v-else>
               <el-empty :image-size="200"></el-empty>
-            </div>
+            </div> -->
           </el-table-column>
           <el-table-column
             label="发布者"
@@ -115,17 +113,17 @@ export default {
   created () {
     this.search()
     // this.details()
-    // this.handleCurrentChange()
+    this.handleCurrentChange()
   },
   methods: {
     // 显示当前页数据
-    // handleCurrentChange (currentPage) {
+    handleCurrentChange (currentPage) {
     // 更新当前页数据
-    // this.currentPage = currentPage
-    // this.tableData1 = []
-    // 获取当前页数据范围
-    //   this.tableData1 = this.allTableData1.slice((((currentPage - 1) * 5)), (currentPage * 5))
-    // },
+      this.currentPage = currentPage
+      this.tableData1 = []
+      // 获取当前页数据范围
+      this.tableData1 = this.allTableData1.slice((((currentPage - 1) * 5)), (currentPage * 5))
+    },
     // 对话框
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -162,17 +160,18 @@ export default {
       return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     },
     // 下拉框渲染
-    handleRowExpandChange (row, expandedRows) {
+    handleRowExpandChange (row) {
       const id = row.id
-      // console.log(id)
+      console.log(id)
       queryAllResport(id).then((res) => {
         console.log(res.data.data)
         this.allTableData1 = res.data.data
-        this.$set(this.expandedRowsData, id, this.allTableData1)
-        console.log(this.expandedRowsData[id])
-        // if (!this.currentPage || this.currentPage === 1) {
-        //   this.handleCurrentChange(1)
-        // }
+        // this.$set(this.expandedRowsData, id, this.allTableData1)
+        // console.log(this.expandedRowsData[id])
+        console.log(this.allTableData1)
+        if (!this.currentPage || this.currentPage === 1) {
+          this.handleCurrentChange(1)
+        }
       })
     }
   }
