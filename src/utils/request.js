@@ -10,7 +10,7 @@ import messageService from "./messageService";
 const request = axios.create({
     // URL配置
     baseURL: '/api',
-    timeout: 10000,
+    timeout: 1000,
 })
 
 // 请求拦截器配置

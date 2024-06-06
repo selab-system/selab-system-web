@@ -1,6 +1,6 @@
 <script>
 import TopBar from "@/components/usersManagementComponent/topBar.vue";
-import {getBookInfo, getBookList} from "@/api/Book/BookManage";
+import {BorrowRecord, getBookInfo, getBookList} from "@/api/Book/BookManage";
 
 export default {
   name: "checkBorrowing",
@@ -9,57 +9,54 @@ export default {
     return {
       tableTitleData: [
         "序号",
-        "书籍编号",
+        "借阅ID",
+        "书籍ID",
         "书籍名称",
-        "借阅时间",
         "借阅者ID",
+        "借阅者名称",
         "借阅时长",
+        "借阅时间",
         "归还时间",
         "状态"
       ],
-      borrowingBooksData: [
-        {
-          id: 2,
-          name: '西游记',
-          borrowingTime: "2024.3.5",
-          borrowId: 4,
-          borrowTiming: 5,
-          returnTime: "未归还",
-          state: "借阅中"
-        },
-        {
-          id: 17,
-          name: '俄狄浦斯王',
-          borrowingTime: "2024.3.13",
-          borrowId: 26,
-          borrowTiming: 5,
-          returnTime: "2024.3.16",
-          state: "已归还"
-        }
-      ]
+      borrowingBooksData: [],
+      borrowId: 0,
+      bookId: 0,
+      bookName: '',
+      borrowUser: '',
+      borrowUserName: '',
+      borrowDuration: 0,
+      status: 0,
+      borrowTime: '',
+      returnTime: ''
     }
   },
   methods: {
     getBorrow() {
       try {
         const params = {
-          bookId: 1
+          cur: 1,
+          size: 10
         }
-        getBookInfo(params).then(res =>{
+        BorrowRecord(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.borrowingBooksData.push(res.data[i]);
-            }
+            console.log(res.data);
+            // for(let i in res.data) {
+            //   this.borrowingBooksData.push(res.data[i]);
+            // }
+            this.borrowingBooksData = res.data.data;
           } else {
-            console.log(111);
+            console.log('错误');
           }
         })
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     }
+  },
+  created() {
+    this.getBorrow();
   }
 }
 </script>
@@ -76,13 +73,15 @@ export default {
         <div class="tableBody">
           <div v-for="(data, item) in borrowingBooksData" :key="data">
             <div>{{ item + 1 }}</div>
-            <div>{{ data.id }}</div>
-            <div>{{ data.name }}</div>
-            <div>{{ data.borrowingTime }}</div>
             <div>{{ data.borrowId }}</div>
-            <div>{{ data.borrowTiming + "天"}}</div>
+            <div>{{ data.bookId }}</div>
+            <div>{{ data.bookName }}</div>
+            <div>{{ data.borrowUser }}</div>
+            <div>{{ data.borrowUserName }}</div>
+            <div>{{ data.borrowDuration + '天'}} </div>
+            <div>{{ data.status ? '已归还' : '未归还' }}</div>
+            <div>{{ data.borrowTime }}</div>
             <div>{{ data.returnTime }}</div>
-            <div>{{ data.state }}</div>
           </div>
         </div>
       </div>
@@ -121,7 +120,7 @@ export default {
         //padding-top: 20px;
         display: inline-block;
       }
-      $titleCount: 8;
+      $titleCount: 10;
       .tableTitle {
         width: 100%;
         height: 50px;

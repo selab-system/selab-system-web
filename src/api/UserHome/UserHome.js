@@ -16,9 +16,9 @@ export function updateUserRole(params = {}) {
 // 通过id来查询用户信息
 // 请求path参数
 // userId：用户id 必需
-export function userQueryByid() {
+export function userQueryByid(userId) {
     return request({
-      url: "/user/queryById/{userId}",
+      url: `/user/queryById/${userId}`,
       method: "get",
     });
 }
@@ -42,7 +42,7 @@ export function deleteGroup(params) {
   return request({
     url: "/group/delete",
     method: "get",
-
+    params
   });
 }
 
