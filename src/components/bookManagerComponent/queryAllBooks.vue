@@ -1,5 +1,5 @@
 <script>
-import {BorrowBook, getBookInfo, getBookList, saveBookInfo, updateBookInfo} from "@/api/Book/BookManage";
+import {BorrowBook, DeleteBook, getBookInfo, getBookList, saveBookInfo, updateBookInfo} from "@/api/Book/BookManage";
 
 export default {
   name: "queryAllBooks",
@@ -18,7 +18,7 @@ export default {
       returnTime: '',
       tableTitleData: [
         "序号",
-        "书籍编号",
+        "书籍id",
         "图书名称",
         "书籍作者",
         "价格",
@@ -46,21 +46,26 @@ export default {
           bookName: this.saveBookName,
           bookAuthor: this.saveBookAuthor,
           bookDetails: this.saveBookInfo,
-          price: parseInt(this.saveBookMon),
-          owner: this.saveBookOwenId,
+          price: this.saveBookMon,
+          owner: parseInt(this.saveBookOwenId),
           remark: this.saveBookOther,
           bookRef: this.saveBookRef
         }
-        saveBookInfo(params).then(res =>{
-          if(res.code === 200){
-            console.log(res);
-            this.getAllBooks();
-            const selectDiv = document.querySelector('.selectDiv');
-            selectDiv.style.display = 'none';
-          } else {
-            console.log(111);
-          }
-        })
+        if(this.saveBookName !== '' && typeof this.saveBookName === 'string' && this.saveBookAuthor !== '' && typeof this.saveBookAuthor === 'string' && this.saveBookInfo !== '' && typeof this.saveBookInfo === 'string' && this.saveBookMon !== '' && typeof this.saveBookMon === 'number' && this.saveBookOwenId !== '' && typeof this.saveBookOwenId === 'number' && this.saveBookOther !== '' && typeof this.saveBookOther === 'string' && this.saveBookRef !== '' && typeof this.saveBookRef === 'string') {
+          saveBookInfo(params).then(res =>{
+            if(res.code === 200){
+              console.log(res);
+              this.getAllBooks();
+              const selectDiv = document.querySelector('.selectDiv');
+              selectDiv.style.display = 'none';
+              this.add();
+            } else {
+              console.log(111);
+            }
+          })
+        }else {
+          this.inputError();
+        }
       } catch (err) {
         console.log(err)
       }
@@ -74,7 +79,8 @@ export default {
         }
         getBookInfo(params).then(res =>{
           if(res.code === 200){
-            this.tableData = res.data.data;
+            this.tableData = [];
+            this.tableData.push(res.data)
             console.log(res)
           } else {
             console.log(111);
@@ -85,23 +91,27 @@ export default {
       }
     },
     borrowBook() {
-      const borrowDiv = document.querySelector('.borrowDiv');
-      borrowDiv.style.display = 'block';
       try {
         const params = {
-          borrowBook: this.borrowBookId,
+          bookId: this.borrowBookId,
           borrowDuration: this.borrowDuration,
           returnTime: this.returnTime
         }
-        BorrowBook(params).then(res =>{
-          if(res.code === 200){
-            const borrowDiv = document.querySelector('.borrowDiv');
-            borrowDiv.style.display = 'none';
-            this.getAllBooks();
-          } else {
-            console.log(111);
-          }
-        })
+        console.log(params)
+        if(this.borrowBookId !== '' && typeof this.borrowBookId === 'number' && this.borrowDuration !== '' && typeof this.borrowDuration === 'number' && this.returnTime !== '' && typeof this.returnTime === 'string') {
+          BorrowBook(params).then(res =>{
+            if(res.code === 200){
+              const borrowDiv = document.querySelector('.borrowDiv');
+              borrowDiv.style.display = 'none';
+              this.getAllBooks();
+              this.borrow();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
       } catch (err) {
         console.log(err)
       }
@@ -136,11 +146,32 @@ export default {
         borrowAsk3.style.display = 'none';
       }, 1000);
     },
+    add() {
+      const addSuccess = document.querySelector('.addSuccess');
+      addSuccess.style.display = 'block';
+      setTimeout(() => {
+        addSuccess.style.display = 'none';
+      }, 1000);
+    },
+    delete() {
+      const deleteSuccess = document.querySelector('.deleteSuccess');
+      deleteSuccess.style.display = 'block';
+      setTimeout(() => {
+        deleteSuccess.style.display = 'none';
+      }, 1000);
+    },
+    inputError() {
+      const inputError = document.querySelector('.inputError');
+      inputError.style.display = 'block';
+      setTimeout(() => {
+        inputError.style.display = 'none';
+      }, 1000);
+    },
     getAllBooks() {
       try {
         const params = {
           cur:1,
-          size:10
+          size:12
         }
         getBookList(params).then(res =>{
           console.log(res.data)
@@ -178,7 +209,7 @@ export default {
           bookName: this.saveBookName,
           bookAuthor: this.saveBookAuthor,
           bookDetails: this.saveBookInfo,
-          price: parseInt(this.saveBookMon),
+          price: this.saveBookMon,
           owner: this.saveBookOwenId,
           ownerName: this.saveBookOwenName,
           status: this.bookStatus,
@@ -186,16 +217,41 @@ export default {
           updateTime: this.updateTime,
           bookRef: this.saveBookRef
         }
-        updateBookInfo(params).then(res =>{
-          console.log(res.data)
-          if(res.code === 200){
-            this.getAllBooks();
-            const editDiv = document.querySelector('.editDiv');
-            editDiv.style.display = 'none';
-          } else {
-            console.log(111);
-          }
-        })
+        if(this.saveBookId !== '' && typeof this.saveBookId === 'number' && this.saveBookName !== '' && typeof this.saveBookName === 'string' && this.saveBookAuthor !== '' && typeof this.saveBookAuthor === 'string' && this.saveBookInfo !== '' && typeof this.saveBookInfo === 'string' && this.saveBookMon !== '' && typeof this.saveBookMon === 'number' && this.saveBookOwenId !== '' && typeof this.saveBookOwenId === 'number' && this.saveBookOwenName !== '' && typeof this.saveBookOwenName === 'string' && this.bookStatus !== '' && typeof this.bookStatus === 'number' && this.saveBookRef !== '' && typeof this.saveBookRef === 'string' && this.createTime !== '' && typeof this.createTime === 'string' && this.updateTime !== '' && typeof this.updateTime === 'string') {
+          updateBookInfo(params).then(res =>{
+            console.log(res.data)
+            if(res.code === 200){
+              this.getAllBooks();
+              const editDiv = document.querySelector('.editDiv');
+              editDiv.style.display = 'none';
+              this.edit();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    deleteBook(bookId) {
+      try {
+        const param = {
+          bookId: bookId
+        }
+        if(this.bookId !== '' && typeof this.bookId === 'number' ) {
+          DeleteBook(param).then(res =>{
+            if(res.code === 200){
+              this.delete();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
       } catch (err) {
         console.log(err)
       }
@@ -264,11 +320,15 @@ export default {
           <div class="booksFunction">
             <button class="borrowButton" @click="borrowDivHave">借阅</button>
             <button @click="editDivHave" v-if="edit">修改</button>
+            <button @click="deleteBook(data.bookId)" v-if="edit">删除</button>
           </div>
         </div>
         <div class="borrowAsk1">借阅成功</div>
         <div class="borrowAsk2">该图书已被借阅</div>
         <div class="borrowAsk3">修改成功</div>
+        <div class="deleteSuccess">删除成功</div>
+        <div class="addSuccess">新增成功</div>
+        <div class="inputError">输入有误</div>
       </div>
     </div>
     <div class="borrowDiv">
@@ -387,6 +447,23 @@ export default {
       }
     }
   }
+  .inputError {
+    width: 20%;
+    height: 50px;
+    background-color: #e86868;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+    z-index: 5;
+  }
   .editInput {
     width: 250px;
     height:60px;
@@ -439,12 +516,12 @@ export default {
     left: 200px;
   }
   .selectDiv {
-    width: 500px;
+    width: 300px;
     height: 400px;
     background: wheat;
     position: absolute;
     top: 200px;
-    left: 40%;
+    left: 43%;
     border: 1px black solid;
     z-index: 3;
     div {
@@ -457,7 +534,7 @@ export default {
       }
       button {
         width: 50px;
-        height: 20px
+        height: 20px;
       }
     }
     display: none;
@@ -490,9 +567,11 @@ export default {
   }
   .borrowDiv {
     width: 400px;
-    height: 150px;
+    height: 200px;
     background: wheat;
-    margin: 10px auto;
+    position: absolute;
+    top: 200px;
+    left: 40%;
     border: 1px black solid;
     display: none;
     div {
@@ -564,6 +643,38 @@ export default {
       animation: askChange 0.5s linear;
     }
     .borrowAsk3 {
+      width: 20%;
+      height: 50px;
+      background-color: greenyellow;
+      color: black;
+      font-size: 20px;
+      font-family: fangsong;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      position: absolute;
+      top: -90px;
+      left: 40%;
+      display: none;
+      animation: askChange 0.5s linear;
+    }
+    .deleteSuccess {
+      width: 20%;
+      height: 50px;
+      background-color: greenyellow;
+      color: black;
+      font-size: 20px;
+      font-family: fangsong;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      position: absolute;
+      top: -90px;
+      left: 40%;
+      display: none;
+      animation: askChange 0.5s linear;
+    }
+    .addSuccess {
       width: 20%;
       height: 50px;
       background-color: greenyellow;

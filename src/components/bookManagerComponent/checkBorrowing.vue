@@ -45,7 +45,7 @@ export default {
             // for(let i in res.data) {
             //   this.borrowingBooksData.push(res.data[i]);
             // }
-            this.borrowingBooksData = res.data;
+            this.borrowingBooksData = res.data.data;
           } else {
             console.log('错误');
           }
