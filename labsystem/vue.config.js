@@ -9,7 +9,7 @@ module.exports = defineConfig({
       //  /api 表示拦截以/api开头的请求路径
       '/api': {
         // 跨域的域名（不需要写路径）
-        target: ' http://iwgtg8.natappfree.cc',
+        target: 'http://652tu6.natappfree.cc',
         // 是否代理websocked
         // ws:true
         // 是否开启跨域

@@ -32,7 +32,7 @@ import { registerPost, PostInfo } from '@/api/enter'
 export default {
   data () {
     return {
-      msg: '注册成功',
+      msg: '',
       registerinfos: {
         // 对radio进行判断
         // 定仓库中gender变量存储的特征值
@@ -62,7 +62,7 @@ export default {
     this.checkEmail.email = JSON.parse(localStorage.getItem('email'))
     this.registerinfos.username = JSON.parse(localStorage.getItem('username'))
     this.registerinfos.phonenumber = JSON.parse(localStorage.getItem('phonenumber'))
-    this.registerinfos.paaword = JSON.parse(localStorage.getItem('password'))
+    this.registerinfos.password = JSON.parse(localStorage.getItem('password'))
     this.registerinfos.gender = JSON.parse(localStorage.getItem('gender'))
     console.log()
   },
@@ -75,15 +75,16 @@ export default {
           this.register()
           alert('submit!')
           // 显示提示信息
-          this.registered()
-          // 此处进行判断登录是否成功
-          if (this.msg !== '注册成功') {
-            return false
-          } else {
-            setTimeout(() => {
-              this.tologin()
-            }, 3000)
-          }
+          // this.registered()
+          // // 此处进行判断登录是否成功
+          // if (this.msg !== '注册成功!') {
+          //   console.log(this.msg)
+          //   return false
+          // } else {
+          //   setTimeout(() => {
+          //     this.tologin()
+          //   }, 2000)
+          // }
           // 计时器时异步的下面的操作是同步的
 
           // 前往登录面
@@ -125,10 +126,23 @@ export default {
     //
     async register () {
       try {
-        const result2 = await registerPost(this.registerinfos.username, this.registerinfos.password, this.registerinfos.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.checkEmail.checkinfo)
-        console.log(result2)
-        this.msg = result2.msg
+        const result2 = await registerPost(this.registerinfos.username, this.checkEmail.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.registerinfos.password, this.checkEmail.checkinfo)
+        if (result2.data.msg === '') {
+          this.msg = '注册成功!'
+        } else {
+          this.msg = result2.data.msg
+        }
         this.loading = false
+        this.registered()
+        // 此处进行判断登录是否成功
+        if (this.msg !== '注册成功!') {
+          console.log(this.msg)
+          return false
+        } else {
+          setTimeout(() => {
+            this.tologin()
+          }, 2000)
+        }
         // alert(result2.msg)
       } catch (error) {
         console.error(error)
@@ -142,7 +156,7 @@ export default {
     registered () {
       this.$message({
         type: 'success',
-        message: '注册成功!'
+        message: this.msg
       })
       // 弹框的单独使用？
     }

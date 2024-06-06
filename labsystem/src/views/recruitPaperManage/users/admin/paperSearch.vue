@@ -1,32 +1,49 @@
 <template>
   <div>
-    <el-empty description="所有已经提交的报名表的列表" v-if="False"></el-empty>
+    <el-empty description="所有已经提交的报名表的列表" v-if="empty" ></el-empty>
     <!-- 如何为空的页面设置显示 -->
-    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
-      <el-form-item label="姓名" prop="userName">
-    <el-input v-model="Search.userName" placeholder="请输入姓名"></el-input>
-  </el-form-item>
-    <el-form-item>
-    <el-button type="primary" @click="submit1('Search')"><i class="el-icon-search"></i>   查询</el-button>
-  </el-form-item>
 
+    <el-form :model="Search1" :inline="true" :rules="rules1" ref="Search1" label-width="100px" class="ruleForm">
+      <el-form-item label="姓名" prop="userName">
+        <el-input v-model="Search1.userName" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submit1('Search1')"><i class="el-icon-search"></i>   查询</el-button>
+      </el-form-item>
     </el-form>
-    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
-  <el-form-item label="年级" prop="grade">
-    <el-select v-model="Search.grade" placeholder="请选择年级">
-      <el-option label="大一" value="1"></el-option>
-      <!-- 使用value进行与data的数据绑定常常 -->
-      <el-option label="大二" value="2"></el-option>
-    </el-select>
-  </el-form-item>
+
+    <el-form :model="Search2" :inline="true" :rules="rules2" ref="Search2" label-width="100px" class="ruleForm">
+      <el-form-item label="年级" prop="grade">
+       <el-select v-model="Search2.grade" placeholder="请选择年级">
+         <el-option label="大一" value="1"></el-option>
+         <!-- 使用value进行与data的数据绑定常常 -->
+         <el-option label="大二" value="2"></el-option>
+       </el-select>
+      </el-form-item>
     <el-form-item>
-    <el-button type="primary" @click="submit2('Search'),test()"><i class="el-icon-search"></i>   查询</el-button>
-  </el-form-item>
-    </el-form>
+      <el-button type="primary" @click="submit2('Search2')"><i class="el-icon-search"></i> 查询</el-button>
+    </el-form-item>
+   </el-form>
+
+   <el-form :model="Search3" :inline="true" :rules="rules3" ref="Search3" label-width="100px" class="ruleForm">
+
+    <el-form-item label="意向部门" prop="intentDepartment">
+      <el-radio-group v-model="Search3.intentDepartment">
+         <el-radio label=2 :value='2'>网络安全</el-radio>
+         <el-radio label=1 :value="3">软件开发</el-radio>
+         <el-radio label=4 :value='4'>虚拟现实</el-radio>
+         <el-radio label=3 :value='3'>人工智能</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submit3('Search3')"><i class="el-icon-search"></i> 查询</el-button>
+    </el-form-item>
+   </el-form>
+
     <el-table :data="tableData" border style="width: 100%">
 
-    <el-table-column label="姓名" width="200">
-    <template slot-scope="scope">
+    <!-- <el-table-column label="姓名" width="200"> -->
+    <!-- <template slot-scope="scope"> -->
         <!-- <el-popover trigger="hover" placement="top">
           <p>姓名: {{ scope.row.name }}</p>
           <p>住址: {{ scope.row.address }}</p>
@@ -34,10 +51,10 @@
             <el-tag size="medium">{{ scope.row.name }}</el-tag>
           </div>
         </el-popover> -->
-        <i class="el-icon-user"></i>
-        <span >{{ scope.row.interviewees.userName}}</span>
-      </template>
-    </el-table-column>
+        <!-- <i class="el-icon-user"></i> -->
+        <!-- <span >{{ scope.row.interviewees.userName}}</span> -->
+      <!-- </template> -->
+    <!-- </el-table-column> -->
 
     <el-table-column label="意向部门" width="220">
       <template slot-scope="scope">
@@ -46,10 +63,10 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="年级" width="180">
+    <el-table-column label="手机号" width="180">
       <template slot-scope="scope">
         <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.grade}}</span>
+        <span style="margin-left: 10px">{{ scope.row.phone}}</span>
       </template>
     </el-table-column>
 
@@ -81,52 +98,70 @@
 
 <script>
 import Bus from '@/utils/EventBus'
-import { getlistDetail, getDetailByName, getDetailBygrade } from '@/api/recruit'
+import { getlistDetail, getDetailByName, getDetailBygrade, getDetailByintentDepartment } from '@/api/recruit'
+
 export default {
 
   data () {
     return {
+      empty: false,
+      // tableData中每一个数组代表一个row
       tableData: [
-        {
-          id: 0,
-          interviewees: {
-            userName: 'string',
-            groupId: 0,
-            groupName: 'string',
-            roleId: 0,
-            roleName: 'string',
-            email: 'string',
-            phone: 'string',
-            sex: 0,
-            userId: 0,
-            createTime: 'string',
-            updateTime: 'string'
-          },
-          email: 'string',
-          phone: 0,
-          intentDepartment: 0,
-          classroom: 'string',
-          interviewTime: 'string',
-          introduce: 'string',
-          purpose: 'string',
-          remark: 'string',
-          grade: 'string'
-        }
+        // {
+        //   id: 1,
+        //   interviewees: {
+        //     userName: 'string',
+        //     groupId: 0,
+        //     groupName: 'string',
+        //     roleId: 0,
+        //     roleName: 'string',
+        //     email: 'string',
+        //     phone: 'string',
+        //     sex: 0,
+        //     userId: 0,
+        //     createTime: 'string',
+        //     updateTime: 'string'
+        //   },
+        //   email: 'string',
+        //   phone: 0,
+        //   intentDepartment: 0,
+        //   classroom: 'string',
+        //   interviewTime: 'string',
+        //   introduce: 'string',
+        //   purpose: 'string',
+        //   remark: 'string',
+        //   grade: 'string'
+        // }
 
       ],
-      Search: {
-        userName: '',
+      Search1: {
+        userName: ''
+      },
+      Search2: {
         grade: ''
       },
-      rules: {
+      Search3: {
+        intentDepartment: ''
+      },
+      rules1: {
         userName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-        ],
+          { min: 1, max: 5, message: '长度在 0 到 5 个字符', trigger: 'blur' }
+        ]
+
+      },
+      rules2: {
+
         grade: [
-          { required: true, message: '请选择年级', trigger: 'change' }
+          { required: true, message: '请选择年级', trigger: 'blur' }
+        ]
+      },
+      rules3: {
+        intentDepartment: [
+          { required: true, message: '请选择意向部门', trigger: 'blur' }
         ]
       }
+
     }
   },
 
@@ -151,7 +186,9 @@ export default {
         if (valid) {
           alert('submit!')
           // 进行数据的请求
-          this.nameSearch()
+          console.log(this.Search1.userName)
+          this.nameSearch(this.Search1.userName)
+          //  一定注意请求时是异步不可以在此函数中将输入框中数据设置为空，之后的请求操作会读到空数据
         } else {
           console.log('error submit!!')
           return false
@@ -164,7 +201,21 @@ export default {
         if (valid) {
           alert('submit!')
           // 进行数据的请求
-          this.gradeidSearch()
+          this.gradeidSearch(this.Search2.grade)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    submit3 (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+          // 进行数据的请求
+          console.log(this.Search3.intentDepartment)
+          this.intentDepartmentSearch(this.Search3.intentDepartment)
+          // 对输入框进行清空
         } else {
           console.log('error submit!!')
           return false
@@ -188,22 +239,34 @@ export default {
     // 第一页展示时进行的请求
     async firstlist () {
       const { data } = await getlistDetail(1, 10)
-      this.tableData = data
+      console.log(data)
+      this.tableData = data.data
     },
     // 点击不同页面进行数据的更新
     async curslist (cur) {
       const { data } = await getlistDetail(cur, 10)
-      this.tableData = data
+      // this.tableData = data
+      console.log(data)
+      this.tableData = data.data
     },
     // 通过用户姓名进行查询
     async nameSearch (userName) {
       const { data } = await getDetailByName(userName, 1, 20)
-      this.tableData = data
+      console.log(data)
+      this.tableData = data.data
+      this.Search1.userName = ''
     },
     // 通过用户年级进行查询
     async  gradeidSearch (grade) {
       const { data } = await getDetailBygrade(parseInt(grade), 1, 20)
-      this.tableData = data
+      console.log(data)
+      this.tableData = data.data
+      this.Search2.grade = ''
+    },
+    async  intentDepartmentSearch (intentDepartment) {
+      const { data } = await getDetailByintentDepartment(parseInt(intentDepartment), 1, 20)
+      this.tableData = data.data
+      this.Search3.intentDepartment = ''
     }
   }, // 获取paperlist的所有数据并渲染
   mounted () {

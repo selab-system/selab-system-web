@@ -48,12 +48,13 @@
 <script>
 // 使用映射引入库中数据 简化写法
 import { judgeLogin } from '@/api/enter'
+
 import { mapActions, mapMutations } from 'vuex'
 export default {
   data () {
     // 对于在组件内部输入内容的绑定可以实现 现在尝试仅使用vuex的方法
     return {
-      msgNotice: '登录成功',
+      msgNotice: '',
       logininfos: {
         password: '',
         postMessage: '',
@@ -61,13 +62,13 @@ export default {
         // 以下为接收到的数据
         userName: '',
         // 用户名
-        groupId: '',
+        groupId: 1,
         // 小组id
-        roleId: '2',
+        roleId: 2,
         // 角色id 1,2,3
-        userid: '',
+        userid: 3,
         // 用户id
-        token: '123'
+        token: ''
         // 权限token
       },
       loading: false,
@@ -111,23 +112,18 @@ export default {
           // 在下面设置函数的请求 获取的数据与组件中data变量的绑定
           // 同时将获取到的数据传入到本地存储中
           this.postData_login()
-          this.stataStore()
           // 如果登录/注册失败后应显示错误信息并阻止跳转
-          this.logined()
-
           // 在此处进行判断
-          if (this.msgNotice !== '登录成功') {
-            return false
-          } else {
-            this.stataStore()
-            // 进行跳转
-            this.tohomePage()
-          }
+          // if (this.msgNotice !== '登录成功') {
+          //   console.log(this.msgNotice)
+          //   return false
+          // } else {
+          //   console.log('asdsad')
+          //   this.stataStore()
+          //   // 进行跳转
+          //   this.tohomePage()
+          // }
           // 同时将获取到的数据传入到本地存储中
-          this.stataStore()
-          // 进行跳转
-          this.tohomePage()
-          alert('前往主页面')
         } else {
           console.log('error submit!!')
           return false
@@ -140,16 +136,28 @@ export default {
     // axios获取页面登录数据
     async postData_login () {
       try {
-        console.log(this.logininfos.password)
-        const { data, msg } = await judgeLogin(this.logininfos.postMessage, this.logininfos.password)
+        const result = await judgeLogin(this.logininfos.postMessage, this.logininfos.password)
+        console.log(result)
+        if (result.data.msg === '') { this.msgNotice = '登录成功' } else { this.msgNotice = result.data.msg }
         this.loading = false
-        this.logininfos.userName = data.userName// 用户名
-        this.logininfos.groupId = data.groupId// 小组id
-        this.msgNotice = msg
-        this.logininfos.roleId = data.roleId// 角色id
-        this.logininfos.userid = data.useId// 用户id
-        this.logininfos.token = data.token
-      // 以上需要吗？
+        console.log(this.loading)
+        this.logininfos.userName = result.data.data.userName// 用户名
+        this.logininfos.groupId = result.data.data.groupId// 小组id
+        this.logininfos.roleId = result.data.data.roleId// 角色id
+        this.logininfos.userid = result.data.data.useId// 用户id
+        this.logininfos.token = result.data.data.token
+        // 点击按钮后发送请求 loading变为true
+        // 在请求函数中对返回数据做处理
+        if (this.msgNotice !== '登录成功') {
+          console.log(this.msgNotice)
+          return false
+        } else {
+          console.log('asdsad')
+          this.logined()
+          this.stataStore()
+          // 进行跳转
+          this.tohomePage()
+        }
       } catch (error) {
         console.error(error)
       }
@@ -169,13 +177,12 @@ export default {
       localStorage.setItem('token', JSON.stringify(this.logininfos.token))
       localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
       // 存储时仅仅使用小写字母
-      console.log('执行了')
     },
     // 设置提示框（弹框显示返回消息）
     logined () {
       this.$message({
         type: 'success',
-        message: this.msgNotice
+        message: '登录成功'
       })
       // 弹框的单独使用？
     }

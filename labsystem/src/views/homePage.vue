@@ -36,7 +36,7 @@
 
        <el-submenu index="4">
        <template slot="title"><i class="el-icon-document-copy"></i>招新报名表管理</template>
-       <el-menu-item index="/paperSearch" v-if="this.infos.roleId=='2'"><i class="el-icon-s-claim"></i>查看报名表</el-menu-item>
+       <el-menu-item index="/paperSearch"><i class="el-icon-s-claim"></i>查看报名表</el-menu-item>
        <!-- 以下为用户功能 -->
        <el-menu-item index="/paperFillIn"><i class="el-icon-tickets"></i>报名表填写</el-menu-item>
       <el-menu-item index="/paperMyself"><i class="el-icon-s-claim"></i>我的报名表</el-menu-item>
@@ -44,7 +44,7 @@
        <el-submenu index="5">
         <template slot="title"><i class="el-icon-setting"></i>任务管理</template>
         <!--以下为管理员功能 -->
-        <el-menu-item index="/reportRecord" v-if="this.infos.roleId=='2'"><i class="el-icon-s-claim"></i>查看汇报记录</el-menu-item>
+        <el-menu-item index="/reportRecord" v-if="infos.roleId=='2'"><i class="el-icon-s-claim"></i>查看汇报记录</el-menu-item>
         <el-menu-item index="/setTasks" v-if="this.infos.roleId=='2'"><i class="el-icon-s-claim"></i>发布任务</el-menu-item>
         <el-menu-item index="/taskDetails" v-if="this.infos.roleId=='2'"><i class="el-icon-s-claim"></i>查看任务详细</el-menu-item>
 <!-- 以下为用户功能 -->

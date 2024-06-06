@@ -10,7 +10,7 @@
         <h1 class="title">招新报名表</h1>
         <el-form :model="Detail" :rules="rules" ref="Detail" label-width="100px" class="ruleForm">
   <el-form-item label="姓名" prop="name">
-    <el-input v-model="Detail.interviewees.userName" size="medium"></el-input>
+    <el-input v-model="Detail.userName" size="medium"></el-input>
   </el-form-item>
   <el-form-item label="邮箱" prop="email">
     <el-input v-model="Detail.email"></el-input>
@@ -81,23 +81,24 @@ import { getDetail, postUpdate } from '@/api/recruit'
 export default {
   data () {
     return {
-      id: '',
+      iid: '18',
       Detail: {
         // 此处的参数仅用于设置使用 用于占位 实际Detail将是get来的整个大对象
         id: 0,
         interviewees: {
-          userName: 'string',
-          sex: 0
+          // userName: 'string',
+          // sex: 0
         },
-        email: 'string',
-        phone: 'sad',
-        intentDepartment: 0,
-        classroom: 'string',
-        interviewTime: 'string',
-        introduce: 'string',
-        purpose: 'string23234',
-        remark: 'string',
-        grade: 'string'
+        userName: '',
+        email: '',
+        phone: 1,
+        intentDepartment: 1,
+        classroom: '',
+        interviewTime: '',
+        introduce: '',
+        purpose: '',
+        remark: '',
+        grade: 1
       },
       rules: {
         name: [
@@ -142,12 +143,28 @@ export default {
 
     }
   },
+  // 接收到列表页面传来的姓名
+
+  // 在页面渲染后对详细数据进行获取并进行保存展示
+  mounted () {
+    Bus.$on('id', (id) => {
+      console.log(id)
+      this.iid = id
+      console.log(this.iid)
+    })
+    console.log(this.iid)
+    this.getDetail()
+  },
+  // 对更新后的数据进行提交
   methods: {
 
     // 在请求中添加id参数(用户id的详细了解)与
     async getDetail () {
-      const { data } = await getDetail(parseInt(this.id))
-      this.Detail = data
+      console.log(this.iid)
+      const { data } = await getDetail(this.iid)
+      // console.log(result)
+      this.Detail = data.data
+      console.log(this.Detail)
     // 直接接收整个对象
     },
     // 点击更新提交按钮时进行提示框的弹出 同时进行数据的post
@@ -157,7 +174,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log('asdfsad')
+        console.log(this.iid)
         this.postUpdate()
         this.$message({
           type: 'success',
@@ -176,6 +193,7 @@ export default {
       console.log('go back')
       history.back()
     },
+    // 暂时不设置数据校验
     // submitForm (formName) {
     //   this.$refs[formName].validate((valid) => {
     //     if (valid) {
@@ -193,23 +211,10 @@ export default {
 
     // 上传更新后的数据
     async postUpdate () {
-      const { msg } = await postUpdate(this.Detail)
-      console.log(msg)
+      const result = await postUpdate('12', this.Detail.email, this.Detail.phone, this.Detail.intentDepartment, this.Detail.classroom, this.Detail.interviewTime, this.Detail.introduce, this.Detail.purpose, this.Detail.remark, this.Detail.grade)
+      console.log(result)
     }
-  },
-  // 接收到列表页面传来的姓名
-  created () {
-    Bus.$on('userName', (id) => {
-      console.log(id)
-      this.id = id
-    })
-    console.log(this.id)
-  },
-  // 在页面渲染后对详细数据进行获取并进行保存展示
-  mounted () {
-    this.getDetail()
   }
-  // 对更新后的数据进行提交
 
 }
 </script>

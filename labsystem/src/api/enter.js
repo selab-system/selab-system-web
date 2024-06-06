@@ -24,7 +24,7 @@ export const registerPost = (userName, email, phone, sex, password, identify) =>
   )
 }
 export const PostInfo = (email) => {
-  return enter.post('/sendEmail', {
+  return enter.post('/register/sendEmail', {
     email
   }
   )
