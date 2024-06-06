@@ -180,9 +180,6 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   const routes = ['/bookinfosCheckandChange', '/borrowedCheck', '/setTasks', '/taskDetails', '/reportRecord', '/paperSearch']
-<<<<<<< HEAD
-  if (JSON.parse(localStorage.getItem('roleid') !== 'admin' && routes.includes(to.path))) { alert('没有权限') } else {
-=======
   if (JSON.parse(localStorage.getItem('roleid')) !== '2' && routes.includes(to.path)) { alert('没有权限') } else {
     next()
   }
@@ -191,7 +188,6 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
   if (!JSON.parse(localStorage.getItem('token')) && !routes.includes(to.path)) { alert('请先前往登录') } else {
->>>>>>> f6f3303a88338e018243c93e0fcaf269ad5b36c9
     next()
   }
 })
