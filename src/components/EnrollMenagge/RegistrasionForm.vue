@@ -38,34 +38,34 @@
                     </div>
                     <div>
                         <span>面试时间：</span>
-                        <input type="date" v-model="interviewDate" placeholder="面试时间">
+                        <input type="date" v-model="interviewTime" placeholder="面试时间">
                     </div>
                     <div class="registrasion-own-production">
                         <div class="registrasion-own-production-purpose">
                             <div>
                                 <span>加入目的：</span>
-                                <textarea name="message" rows="10" cols="30" v-model="registrasionPurpose"></textarea>
+                                <textarea name="message" rows="10" cols="30" v-model="purpose"></textarea>
                             </div>
                         </div>
                         <br>
                         <div class="registrasion-own-production-showing">
                             <div>
                                 <span>个人介绍：</span>
-                                <textarea name="message" rows="10" cols="30" v-model="registrasionOwnProduction"></textarea>
+                                <textarea name="message" rows="10" cols="30" v-model="introduce"></textarea>
                             </div>
                         </div>
                         <br>
                         <div class="registrasion-own-production-remark">
                             <div>
                                 <span>备注：</span>
-                                <textarea name="message" rows="10" cols="30" v-model="registrasionOwnProductionRemark">
+                                <textarea name="message" rows="10" cols="30" v-model="remark">
                                 </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="registrasion-form-main-content-commit">
                         <button class="not-vip-commit-btn" v-show="isVipChange" @click="commitRegistrasionForm">提交</button>
-                        <button class="vip-chaneg" v-show="!isVipChange" @click="visonal">确定</button>
+                        <button class="vip-chaneg" v-show="!isVipChange" @click="changeTheForm">确定</button>
                         <button class="not-vip-commit-btn" @click="redirectIndex">
                             返回首页
                         </button>
@@ -73,11 +73,12 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script>
-import request from '@/utils/request';
-
+import messageService from '@/utils/messageService';
+import { insertRegistration,updateRegistration } from '@/api/Enrolment/Enrolment';
 export default {
     data() {
         return {
@@ -92,22 +93,25 @@ export default {
             ],
             departments: [
                 { name: '软件开发', isActive: false ,id:1},
-                { name: '网络安全', isActive: false ,groupId:2},
-                { name: '人工智能', isActive: false ,groupId:3},
-                { name: '虚拟现实', isActive: false,groupId:4 },
+                { name: '网络安全', isActive: false ,id:2},
+                { name: '人工智能', isActive: false ,id:3},
+                { name: '虚拟现实', isActive: false,id:4 },
             ],
-            name: '',
-            grade: '',
-            classroom: '', 
-            email: '',
+            name: '李辰',
+            grade: "",
+            classroom: '软件2346', 
+            email: '2095055676@qq.com',
             phone: '',
-            interviewDate: '', // 添加面试时间的data属性
+            interviewTime: '', // 添加面试时间的data属性
             // 加入目的
-            registrasionPurpose: "",
+            purpose: "",
             // 自我介绍
-            registrasionOwnProduction: "",
+            introduce: "",
             // 自我介绍备注
-            registrasionOwnProductionRemark: "",
+            remark: "",
+            userId: this.$router.userId,
+            // 部门id
+            intentDepartmentId:1,
         }
     },
     methods: {
@@ -116,47 +120,77 @@ export default {
             this.departments.forEach(department => {
                 department.isActive = department === selectedDepartment ? true : false;
             });
+            console.log(selectedDepartment.id)
+            // 选中收集id
+            this.intentDepartmentId = selectedDepartment.id;
+
         },
         // 收集表单数据
-        commitRegistrasionForm() {
+        async commitRegistrasionForm() {
             const registrationDto = {
-                interviewees: this.name, 
-                grade: this.grade,
-                classroom: this.classroom, 
+                interviewees: this.name,
                 email: this.email,
-                phone: this.phone,
-                intentDepartment: this.departments.find(department => department.isActive)?.groupId || '未选择',
-                interviewTime: this.interviewDate, 
-                introduce: this.registrasionOwnProduction,
-                purpose: this.registrasionPurpose,
-                remark: this.registrasionOwnProductionRemark
+                phone: Number(this.phone),
+                intentDepartment: this.intentDepartmentId,
+                classroom: this.classroom,
+                interviewTime: this.interviewTime,
+                introduce: this.introduce,
+                purpose: this.purpose,
+                remark: this.remark,
+                grade:this.isGrade
             };
             console.log('提交的数据:', registrationDto)
-            
             // 这里可以添加提交数据到服务器的逻辑
             // 增加报名表
-            const addRegister =  request({  // 增加报名表
-                url: '/registration/insertRegistration',
-                method: 'post',
-                data: registrationDto
-            }).then(res => {
+            try {
+                console.log(registrationDto);
+                await insertRegistration(registrationDto).then(res => {
                 console.log(res)
                 if(res.code == 200){
-                    alert('报名成功')
+                    messageService.success('报名成功')
                 }
                 else {
-                    alert('报名失败')
+                    messageService.error('报名失败')
                 }
-            })
+            }) 
+            } catch (error) {
+                messageService.error("??????")
+            }
+        },
+        async changeTheForm() {
+            try {
+                const changedForm = {
+                    id: 18,
+                    interviewees: {
+
+                    },
+                    email: this.email,
+                    phone: Number(this.phone),
+                    intentDepartment: this.intentDepartmentId,
+                    classroom: this.classroom,
+                    interviewTime: this.interviewTime,
+                    introduce: this.introduce,
+                    purpose: this.purpose,
+                    remark: this.remark,
+                    grade:String(this.isGrade)
+                }
+                console.log(changedForm);
+                await updateRegistration(changedForm).then(res => {
+                    console.log(res)
+                    if (res.code == 200) {
+                        messageService.success("修改成功")
+                    } else {
+                        messageService.error(500)
+                        console.log(res.code);
+                    }
+                })
+            } catch (error) {
+                messageService.error(error)
+            }
         },
         // 返回首页按钮
         redirectIndex() {
             this.$router.push("/index")
-        },
-        visonal() {
-            this.$emit("senttosee",
-                false
-            )
         }
     },
     computed: {
@@ -167,7 +201,21 @@ export default {
             else {
                 return true
             }
+        },
+        // 检测大一或大二
+        isGrade() {
+            if (this.grade == "大一") {
+                return 1
+            }
+            else if(this.grade == "大二") {
+                return 2
+            } else {
+                messageService.error("您输入的年级有误")
+            }
         }
+    },
+    mounted() {
+        console.log(this.userId);
     }
 }
 </script>

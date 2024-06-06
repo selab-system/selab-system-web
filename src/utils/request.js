@@ -21,10 +21,11 @@ request.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`
         // config.headers.Authorization = `${token}`
     }
-
+    messageService.success("成功发送请求")
     return config
 }, (error) => {
     // 错误处理
+    messageService.error("没有成功发送请求")
     console.log("没有成功发送请求");
     console.log(error);
     return Promise.reject(error)
