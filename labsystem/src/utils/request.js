@@ -35,8 +35,8 @@ instance.interceptors.response.use(
     } else if (status === 403) { // 没有权限
     } else if (status === 404) { // 资源不存在
       console.log('请求资源不存在')
-    } else if (status === 500) { // 服务端异常
-      console.log('服务器错误:请求参数错误')
+    } else if (status >= 500) { // 服务端异常
+      console.log('服务器错误，请求参数错误')
     }
 
     // 超出 2xx 范围的状态码都会触发该函数。

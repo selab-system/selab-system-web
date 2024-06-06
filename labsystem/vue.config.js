@@ -1,10 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+  lintOnSave: false,
+  // 配置代理
   devServer: {
-    client: {
-      overlay: false
-    },
     proxy: {
       //  /api 表示拦截以/api开头的请求路径
       '/api': {
@@ -16,8 +15,7 @@ module.exports = defineConfig({
         changeOrigin: true,
         // 是否将路径重写
         pathRewrite: {
-          '/api': ''
-          // 表示将路径中/api部分替换成''空字符串
+          '^/api': ''
         }
       }
     }
