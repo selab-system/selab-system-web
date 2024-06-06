@@ -20,7 +20,8 @@
               fixed
               prop="publishTime"
               label="发布时间"
-              width="150">
+              width="150"
+              :formatter="formatTimestamp">
             </el-table-column>
             <el-table-column
               prop="publisherName"
@@ -41,12 +42,6 @@
             <el-table-column
               prop="status"
               label="任务状态"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              :data="numberData"
-              prop="data"
-              label="未汇报数量"
               width="120">
             </el-table-column>
             <el-table-column
@@ -374,6 +369,7 @@ export default {
   .title p{
     font-size: 30px;
     font-weight: 700;
+    color: black;
   }
   input {
     width: 200px;

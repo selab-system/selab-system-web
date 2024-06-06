@@ -143,6 +143,7 @@ export default {
     .title p{
       font-size: 30px;
       font-weight: 700;
+      color: black;
     }
     /* 搜索框 */
     .search{

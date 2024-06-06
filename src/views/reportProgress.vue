@@ -351,6 +351,7 @@ export default {
 .title p{
   font-size: 30px;
   font-weight: 700;
+  color: black;
 }
 .title1{
     margin-top:0px ;

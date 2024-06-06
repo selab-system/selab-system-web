@@ -35,7 +35,7 @@
                     :formatter="formatTimestamp">
                   </el-table-column>
                   <el-table-column
-                    prop="datails"
+                    prop="details"
                     label="汇报信息"
                     width="300">
                   </el-table-column>
@@ -209,6 +209,7 @@ export default {
   .title p{
     font-size: 30px;
     font-weight: 700;
+    color: black;
   }
   .content{
     width: 900px;
