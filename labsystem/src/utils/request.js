@@ -5,7 +5,11 @@
 import axios from 'axios'
 const instance = axios.create({
   baseURL: '/api',
+<<<<<<< HEAD
   timeout: 500
+=======
+  timeout: 3000
+>>>>>>> bd96e1277deda7a26edef7002422fb6ceb04e994
 })
 
 // 添加请求拦截器

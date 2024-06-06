@@ -55,16 +55,15 @@ import { queryById } from '@/api/task'
 export default {
   data () {
     return {
-      tableData: []
-      // tableData: [{
-      //   updaterId: '汇报数量',
-      //   groupNames: '任务组ID',
-      //   publisherName: '发布者ID',
-      //   name: '任务名称',
-      //   content: '任务内容',
-      //   dealTime: '任务截止时间',
-      //   status: '状态'
-      // }]
+      tableData: [{
+        updaterId: '汇报数量',
+        groupNames: '任务组ID',
+        publisherName: '发布者ID',
+        name: '任务名称',
+        content: '任务内容',
+        dealTime: '任务截止时间',
+        status: '状态'
+      }]
     }
   },
   mounted () {
