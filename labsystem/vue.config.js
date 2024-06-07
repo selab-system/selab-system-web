@@ -6,6 +6,18 @@ module.exports = defineConfig({
       overlay: false
     },
     proxy: {
+      '/api': {
+        // 跨域的域名（不需要写路径）
+        target: 'http://652tu6.natappfree.cc',
+        // 是否代理websocked
+        // ws:true
+        // 是否开启跨域
+        changeOrigin: true,
+        // 是否将路径重写
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
       // 用户
       '/api1': {
         target: 'http://rdumrj.natappfree.cc',
