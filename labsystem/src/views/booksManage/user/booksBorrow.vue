@@ -10,16 +10,15 @@
     </div>
     <el-form
       ref="form"
-      :model="sizeForm"
       label-width="80px"
       style="width:75%; padding-left: 25%; box-sizing: border-box;"
     >
       <el-form-item label="书籍编号" class="borrow-bookid">
-        <el-input v-model="sizeForm.bookId" @input="getbookId"></el-input>
+        <el-input v-model="bookId"></el-input>
       </el-form-item>
       <el-form-item label="起止时间">
         <el-date-picker
-          v-model="sizeForm.value"
+          v-model="value"
           type="daterange"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -38,15 +37,14 @@
 
 <script>
 import { Message } from 'element-ui'
-import axios from 'axios'
+// import axios from 'axios'
+import { borrowbook } from '../../../api/book'
 export default {
   name: 'BorrowBooks',
   data () {
     return {
-      sizeForm: {
-        bookId: '',
-        value: ''
-      },
+      bookId: '',
+      value: '',
       borrowtime: [],
       borrowDuration: 0,
       bookid: ''
@@ -54,19 +52,13 @@ export default {
   },
   methods: {
     onSubmit () {
+      // return
       const a = confirm('请再次确认是否借阅？')
       if (a === true) {
-        axios({
-          method: 'POST',
-          url: 'http://localhost:8080/#/booksBorrow/book/queryOne',
-          data: {
-            bookId: this.bookid,
-            borrowDuration: this.borrowDuration,
-            returnTime: this.borrowtime[1]
-          },
-          headers: {
-            Authorization: ''
-          }
+        borrowbook({
+          bookId: this.bookId,
+          borrowDuration: this.borrowDuration,
+          returnTime: this.borrowtime[1]
         }).then((response) => {
           Message({
             message: '借阅成功！',
@@ -79,22 +71,19 @@ export default {
             type: 'error'
           })
         })
-        this.sizeForm.bookId = ''
-        this.sizeForm.value = ''
+        this.bookId = ''
+        this.value = ''
       }
     },
     offSubmit () {
-      this.sizeForm.bookId = ''
-      this.sizeForm.value = ''
-    },
-    getbookId (value) {
-      this.sizeForm.bookId = parseInt(value)
+      this.bookId = ''
+      this.value = ''
     },
     getDate () {
       for (let i = 0; i < 2; i++) {
-        const year = this.sizeForm.value[i].getFullYear()
-        const month = this.sizeForm.value[i].getMonth() + 1
-        const date = this.sizeForm.value[i].getDate()
+        const year = this.value[i].getFullYear()
+        const month = this.value[i].getMonth() + 1
+        const date = this.value[i].getDate()
         this.borrowtime[i] = String(year) + '-' + String(month) + '-' + String(date)
       }
       function calculateDateInterval (date1, date2) {

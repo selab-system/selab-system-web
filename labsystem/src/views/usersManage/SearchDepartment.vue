@@ -23,6 +23,10 @@
       prop="groupName">
     </el-table-column>
     <el-table-column
+      label="小组id"
+      prop="groupId">
+    </el-table-column>
+    <el-table-column
       label="创建时间"
       prop="createTime">
     </el-table-column>
@@ -143,52 +147,36 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import { Message } from 'element-ui'
+import {
+  savegroup,
+  updategroupinfos,
+  deletegroup,
+  queryAllgroup
+} from '../../api/user'
 export default {
   mounted () {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/#/SearchDepartment/group/queryAll?cur=1&szie=5'
-    }).then((response) => {
-      const data = JSON.parse(Object.values(response))
-      // const data = Object(response)
+    queryAllgroup({ cur: 1, size: 5 }).then((response) => {
+      const data = response.data
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           return
         }
         const k = {}
-        k.groupId = data.data.groupId
-        k.groupName = data.data.groupName
-        k.createTime = data.data.createTime
-        k.userVos = data.data.userVos
+        k.groupId = data.data[i].groupId
+        k.groupName = data.data[i].groupName
+        k.createTime = data.data[i].createTime
+        k.userVos = data.data[i].userVos
         this.tableData.push(k)
       }
     }, function (result) {
-      console.log(result.message)
+      console.log(result)
     })
   },
   data () {
     return {
       tableData: [],
-      // [{
-      //   groupname: '2016-05-02',
-      //   name: '王小虎'
-      // }, {
-      //   groupname: '2016-05-04',
-      //   name: '王小虎'
-      // }, {
-      //   groupname: '2016-05-01',
-      //   name: '王小亮'
-      // }, {
-      //   groupname: '2016-05-03',
-      //   name: '王小虎'
-      // }],
-      // tableData2:
-      // [{
-      //   groupName: '2016-05-02',
-      //   name: '王小虎'
-      // }],
       tableData2: [],
       search: '',
       index: undefined,
@@ -210,75 +198,52 @@ export default {
   methods: {
     handleEdit (index, row) {
       if (this.btnclick) {
-        for (let i = 0; i < 2; i++) {
-          document.getElementsByClassName('cell')[
-            index + index * 3 + 3 - (index === 0 ? 0 : 1 * index) + i
-          ].innerHTML = `<input style=" outline:none; 
+        document.getElementsByClassName('cell')[
+          index + index * 3 + 3 - (index === 0 ? 0 : 1 * index) + 1
+        ].innerHTML = `<input style=" outline:none; 
       border: 1px solid #C0C4CC;" 
       class="inputs" value="">`
-        }
+
         this.finishbutton = !this.finishbutton
         this.index = index
         this.btnclick = !this.btnclick
       }
     },
     handleDelete (index, row) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/SearchDepartment/group/delete${this.tableData[index].groupId}`
-      }).then(() => {
+      deletegroup({ groupId: parseInt(row.groupId) }).then(() => {
         Message({
           message: '删除成功！',
           type: 'success'
         })
+        this.tableData.splice(index, 1)
       }, () => {
         Message({
           message: '删除失败！',
           type: 'error'
         })
       })
-      this.tableData.splice(index, 1)
     },
     finish (index, row) {
       if (this.index === index) {
-        for (let i = 0; i < 2; i++) {
-          if (document.getElementsByClassName('inputs')[0].value === '') {
-            document.getElementsByClassName('cell')[
-              index + index * 3 + 3 - (index === 0 ? 0 : 1 * index) + i
-            ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
-          } else {
-            row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
-            document.getElementsByClassName('cell')[
-              index + index * 3 + 3 - (index === 0 ? 0 : 1 * index) + i
-            ].innerHTML = `<span>${
-              document.getElementsByClassName('inputs')[0].value
-            }</span>`
-          }
-          if (i === 2) {
-            axios({
-              method: 'POST',
-              url: 'http://localhost:8080/#/SearchDepartment/group/update',
-              data: {
-                groupId: this.tableData[index].groupId,
-                groupName: row.groupName,
-                createTime: row.createTime
-              }
-            }).then(response => {
-              Message({
-                message: '更新成功！',
-                type: 'success'
-              })
-            }, result => {
-              Message({
-                message: '更新失败！',
-                type: 'error'
-              })
-            })
-            this.finishbutton = !this.finishbutton
-            this.btnclick = !this.btnclick
-            return
-          }
-        }
+        row.groupName = document.getElementsByClassName('inputs')[0].value
+        document.getElementsByClassName('cell')[
+          index + index * 3 + 3 - (index === 0 ? 0 : 1 * index) + 1
+        ].innerHTML = `<span>${row.groupName}</span>`
+        updategroupinfos({
+          groupId: parseInt(this.tableData[index].groupId),
+          groupName: row.groupName,
+          createTime: row.createTime
+        }).then(response => {
+          Message({
+            message: '更新成功！',
+            type: 'success'
+          })
+        }, result => {
+          Message({
+            message: '更新失败！',
+            type: 'error'
+          })
+        })
         this.finishbutton = !this.finishbutton
         this.btnclick = !this.btnclick
       }
@@ -288,11 +253,14 @@ export default {
       this.showmember = false
     },
     changepage (page) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/SearchDepartment/group/queryAll?cur=${page}&szie=5`
-      }).then((response) => {
-        const data = JSON.parse(Object.values(response))
+      queryAllgroup({ cur: page, size: 5 }).then((response) => {
+        const data = response.data
+        if (data.data[0] === undefined) {
+          this.tableData.splice(0)
+          alert('已到达结尾')
+          return
+        }
+        this.tableData = []
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)
@@ -303,17 +271,20 @@ export default {
           k.groupName = data.data.groupName
           k.createTime = data.data.createTime
           k.userVos = data.data.userVos
-          this.tableData[i] = k
+          this.tableData.push(k)
         }
       }, function (result) {
-        console.log(result.message)
+        console.log(result)
       })
     },
     groupmember (index, row) {
-      // console.log(index, row)
-      // this.nowgroup = row.groupName
-      // this.nowgroupId = row.groupId
-      // this.nowcreatTime = row.creatTime
+      if (this.tableData[index].userVos.length === undefined) {
+        this.tableData2.splice(0)
+        Message({
+          message: '无小组成员！',
+          type: 'success'
+        })
+      }
       for (let i = 0; i < this.tableData[index].userVos.length; i++) {
         this.tableData2.push(this.tableData[index].userVos[i])
       }
@@ -324,13 +295,9 @@ export default {
       const a = confirm('删除组员需要输入新的小组，请再次确认是否删除？')
       if (a) {
         this.changegroup = true
-        axios({
-          method: 'GET',
-          url: 'http://localhost:8080/#/SearchDepartment/user/group/update',
-          data: {
-            userId: parseInt(this.newmemid),
-            groupId: parseInt(this.newmemgroup)
-          }
+        updategroupinfos({
+          userId: parseInt(this.newmemid),
+          groupId: parseInt(this.newmemgroup)
         }).then(() => {
           Message({
             message: '删除成功！',
@@ -349,17 +316,14 @@ export default {
       }
     },
     addgroup () {
-      axios({
-        method: 'POST',
-        url: 'http://localhost:8080/#/SearchDepartment/user/group/save',
-        data: {
-          groupName: this.newgroupname
-        }
+      savegroup({
+        groupName: this.newgroupname
       }).then((response) => {
         Message({
           message: '创建成功！',
           type: 'success'
         })
+        this.newgroupname = ''
       }, function (result) {
         Message({
           message: '创建失败！',

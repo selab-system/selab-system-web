@@ -41,41 +41,37 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import {
+  getmyborrowrecord
+} from '../../../api/book'
 export default {
   mounted () {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/#/bookselfCheck/borrow/my?cur=1&size=5',
-      headers: {
-        Authorization: ''
-      }
-    }).then((response) => {
-      console.log(typeof (response))// 格式到底是json还是对象？
-      const data = JSON.parse(Object.values(response))
+    getmyborrowrecord({ cur: 1, size: 5 }).then((response) => {
+      const data = response.data
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           this.tableData.splice(i, 1)
         }
         const k = {}
-        k.borrowId = data.data.borrowId
-        k.bookId = data.data.bookId
-        k.bookName = data.data.bookName
-        k.borrowUser = data.data.borrowUser
-        k.borrowUserName = data.data.borrowUserName
-        k.borrowDuration = data.data.borrowDuration
+        k.borrowId = data.data[i].borrowId
+        k.bookId = data.data[i].bookId
+        k.bookName = data.data[i].bookName
+        k.borrowUser = data.data[i].borrowUser
+        k.borrowUserName = data.data[i].borrowUserName
+        k.borrowDuration = data.data[i].borrowDuration
         if (data.data[i].status === 0) {
           k.status = '未归还'
         }
         if (data.data[i].status === 1) {
           k.status = '已归还'
         }
-        k.borrowTime = data.data.borrowTime
-        k.returnTime = data.data.returnTime
+        k.borrowTime = data.data[i].borrowTime
+        k.returnTime = data.data[i].returnTime
         this.tableData.push(k)
       }
     }, function (result) {
-      console.log(result.message)
+      console.log(result)
     })
   },
   data () {
@@ -85,15 +81,15 @@ export default {
   },
   methods: {
     changepagemy (page) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/bookselfCheck/borrow/my?cur=${page}&size=5`,
-        headers: {
-          Authorization: ''
+      console.log(page)
+      getmyborrowrecord({ cur: page, size: 5 }).then((response) => {
+        const data = response.data
+        if (data.data[0] === undefined) {
+          this.tableData.splice(0)
+          alert('已到达结尾')
+          return
         }
-      }).then((response) => {
-        console.log(typeof (response))// 格式到底是json还是对象？
-        const data = JSON.parse(Object.values(response))
+        this.tableData = []
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)
@@ -101,24 +97,24 @@ export default {
             return
           }
           const k = {}
-          k.borrowId = data.data.borrowId
-          k.bookId = data.data.bookId
-          k.bookName = data.data.bookName
-          k.borrowUser = data.data.borrowUser
-          k.borrowUserName = data.data.borrowUserName
-          k.borrowDuration = data.data.borrowDuration
+          k.borrowId = data.data[i].borrowId
+          k.bookId = data.data[i].bookId
+          k.bookName = data.data[i].bookName
+          k.borrowUser = data.data[i].borrowUser
+          k.borrowUserName = data.data[i].borrowUserName
+          k.borrowDuration = data.data[i].borrowDuration
           if (data.data[i].status === 0) {
             k.status = '未归还'
           }
           if (data.data[i].status === 1) {
             k.status = '已归还'
           }
-          k.borrowTime = data.data.borrowTime
-          k.returnTime = data.data.returnTime
-          this.tableData[i] = k
+          k.borrowTime = data.data[i].borrowTime
+          k.returnTime = data.data[i].returnTime
+          this.tableData.push(k)
         }
       }, function (result) {
-        console.log(result.message)
+        console.log(result)
       })
     }
   }
