@@ -4,8 +4,8 @@
 // 创建实例 添加配置（url基础地址 ，响应请求拦截器）
 import axios from 'axios'
 const instance = axios.create({
-  baseURL: '/api',
-  timeout: 5000
+  baseURL: '/',
+  timeout: 3000
 })
 // 添加请求拦截器
 instance.interceptors.request.use(
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
   // 添加对token失败的提示：
   // 先获取响应体中状态码
   // 之后设置提示框
-  (response) => response, //
+  (response) => response,
   (error) => {
     const { status } = error.response
     // 当token过期时后端常常返回的是401状态码
@@ -46,6 +46,8 @@ instance.interceptors.response.use(
     Promise.reject(error)
     console.log(error)
   }
+
 )
+
 // 以上函数的response和error都是响应对象
 export default instance

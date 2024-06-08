@@ -81,12 +81,11 @@ import { getDetail, postUpdate } from '@/api/recruit'
 export default {
   data () {
     return {
-      iid: '18',
+      id: '',
       Detail: {
         // 此处的参数仅用于设置使用 用于占位 实际Detail将是get来的整个大对象
         id: 0,
         interviewees: {
-
         },
         email: '',
         phone: '',
@@ -142,28 +141,12 @@ export default {
 
     }
   },
-  // 接收到列表页面传来的姓名
-
-  // 在页面渲染后对详细数据进行获取并进行保存展示
-  mounted () {
-    Bus.$on('id', (id) => {
-      console.log(id)
-      this.iid = id
-      console.log(this.iid)
-    })
-    console.log(this.iid)
-    this.getDetail()
-  },
-  // 对更新后的数据进行提交
   methods: {
 
     // 在请求中添加id参数(用户id的详细了解)与
     async getDetail () {
-      console.log(this.iid)
-      const { data } = await getDetail(this.iid)
-      // console.log(result)
-      this.Detail = data.data
-      console.log(this.Detail)
+      const { data } = await getDetail(parseInt(this.id))
+      this.Detail = data
     // 直接接收整个对象
     },
     // 点击更新提交按钮时进行提示框的弹出 同时进行数据的post
@@ -173,7 +156,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log(this.iid)
+        console.log('asdfsad')
         this.postUpdate()
         this.$message({
           type: 'success',
@@ -210,10 +193,23 @@ export default {
 
     // 上传更新后的数据
     async postUpdate () {
-      const result = await postUpdate(12, this.Detail.interviewees, this.Detail.email, this.Detail.phone, parseInt(this.Detail.intentDepartment), this.Detail.classroom, this.Detail.interviewTime, this.Detail.introduce, this.Detail.purpose, this.Detail.remark, this.Detail.grade)
-      console.log(result)
+      const { msg } = await postUpdate(this.Detail)
+      console.log(msg)
     }
+  },
+  // 接收到列表页面传来的姓名
+  created () {
+    Bus.$on('userName', (id) => {
+      console.log(id)
+      this.id = id
+    })
+    console.log(this.id)
+  },
+  // 在页面渲染后对详细数据进行获取并进行保存展示
+  mounted () {
+    this.getDetail()
   }
+  // 对更新后的数据进行提交
 
 }
 </script>

@@ -6,6 +6,29 @@
       <h1>账号注册</h1>
       <ul>
       <el-form :model="registerinfos" :rules="rules" ref="registerinfos" label-width="100px" class="demo-ruleForm">
+
+  <el-form-item label="用户名" prop="username">
+    <el-input v-model="registerinfos.username"></el-input>
+  </el-form-item>
+  <el-form-item label="密码" prop="password">
+    <el-input v-model="registerinfos.password"></el-input>
+  </el-form-item>
+  <el-form-item label="邮箱" prop="email">
+    <el-input v-model="registerinfos.email"></el-input>
+  </el-form-item>
+  <el-form-item label="手机号" prop="phonenumber">
+    <el-input v-model="registerinfos.phonenumber"></el-input>
+  </el-form-item>
+  <el-form-item label="性别" prop="gender">
+    <el-radio-group v-model="registerinfos.gender">
+      <el-radio label="0">男</el-radio>
+      <el-radio label="1">女</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="submitForm('registerinfos')">下一步</el-button>
+    <el-button @click="resetForm('registerinfos')">重置</el-button>
+  </el-form-item>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="registerinfos.username"  ></el-input>
         </el-form-item>
@@ -38,6 +61,7 @@
 
 <script>
 
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'IndexRegister',
   data () {
@@ -50,6 +74,15 @@ export default {
         email: '',
         phonenumber: '',
         gender: ''
+
+      },
+
+      noticeMessage: {
+        usernameNotice: '',
+        passwordNotice: '',
+        emailNotice: '',
+        phonenumberNotice: ''
+
       },
       rules: {
         username: [
@@ -80,16 +113,15 @@ export default {
     }
   },
   methods: {
-    // 提交验证函数
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           alert('submit!')
-          this.stataStore()
           alert('前往邮箱验证')
           this.toregisterCheck()
           // this.registerData()
           // alert('注册成功')
+          this.stataStore()
           alert('数据已经保存')
         } else {
           console.log('error submit!!')
@@ -100,7 +132,67 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    //  前往邮箱验证面
+    // async registerData () {
+    //   const { msg } = await registerPost(this.logininfos.username, this.logininfos.password, this.logininfos.email, this.logininfos.phonenumber, parseInt(this.logininfos.gender))
+    //   alert(msg)
+    // },
+    // usernameCheck () {
+    //   if (/\d/g.test(this.username)) {
+    //     this.noticeMessage.usernameNotice = '小组名称不可包含数字'
+    //     setTimeout(() => {
+    //       this.noticeMessage.usernameNotice = ''
+    //     }, 2000)
+    //   }
+    //   if (this.username.length > 11) {
+    //     this.noticeMessage.usernameNotice = '用户名小于等于11个字符'
+    //     setTimeout(() => {
+    //       this.noticeMessage.usernameNotice = ''
+    //     }, 2000)
+    //   }
+    // },
+    // passwordCheck () {
+    //   if (this.password.length > 11) {
+    //     this.noticeMessage.passwordNotice = '密码小于等于11个字符'
+    //     setTimeout(() => {
+    //       this.noticeMessage.passwordNotice = ''
+    //     }, 2000)
+    //   }
+    // },
+    // emailCheck () {
+    //   if (!/@qq.com$/.test(this.email)) {
+    //     // console.log('格式错误')
+    //     this.noticeMessage.emailNotice = '邮箱号码格式错误'
+    //     setTimeout(() => {
+    //       this.noticeMessage.emailNotice = ''
+    //     }, 2000)
+    //   }
+    // },
+    // phonenumberCheck () {
+    //   if (this.phonenumber.length > 11) {
+    //     this.noticeMessage.phonenumberNotice = '手机号格式错误'
+    //     setTimeout(() => {
+    //       this.noticeMessage.phonenumberNotice = ''
+    //     }, 2000)
+    //   }
+    // },
+    // // 针对性别数据进行判断并传递
+    // genderJudge () {
+    //   if (this.gender === '1') {
+    //     // console.log(this.radio)
+    //     this.gender = 0
+    //   } else {
+    //     // console.log(this.radio)
+    //     this.gender = 1
+    //   }
+    // }, // 以上是对输入的校验判断
+    // 将输入信息传输到仓库中
+    ...mapMutations('register', ['dataBind']),
+    // ...mapMutations('register', ['userNameInput']),
+    // ...mapMutations('register', ['groupIdInput']),
+    // ...mapMutations('register', ['EmailInput']),
+    // ...mapMutations('register', ['phoneNumberInput']),
+    ...mapActions('register', ['registerData']),
+
     toregisterCheck () {
       this.$router.push('/registerCheck')
     },
@@ -112,7 +204,6 @@ export default {
       localStorage.setItem('phonenumber', JSON.stringify(this.registerinfos.phonenumber))
       localStorage.setItem('gender', JSON.stringify(this.registerinfos.gender))
     }
-
   }
 }
 </script>

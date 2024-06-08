@@ -25,7 +25,7 @@
       >
         <el-table-column label="书名" prop="bookName"> </el-table-column>
         <el-table-column label="作者" prop="bookAuthor"> </el-table-column>
-        <el-table-column label="书籍编号" prop="bookRef"> </el-table-column>
+        <el-table-column label="书籍id" prop="bookId"> </el-table-column>
         <el-table-column label="状态" prop="status"> </el-table-column>
         <el-table-column label="书籍拥有者" prop="owner"> </el-table-column>
         <el-table-column label="书籍介绍" prop="bookDetails"> </el-table-column>
@@ -33,8 +33,13 @@
           <template slot="header" >
             <el-input v-model="search" size="mini" placeholder="输入书名搜索" />
           </template>
-          <!-- <template slot-scope="scope">
-            <el-button
+          <!-- <template>
+             <el-button
+              size="mini" @click="open"
+              style="width:80%; height:20%; margin:5% 0;"
+              >Edit</el-button
+            > -->
+            <!-- <el-button
               size="mini"
               @click="finish(scope.$index, scope.row)"
               v-show="finishbutton"
@@ -55,8 +60,8 @@
               v-show="user == 'admain'"
               style="width:50%; height:20%"
               >Delete</el-button
-            >
-          </template> -->
+            > -->
+          <!-- </template> -->
         </el-table-column>
       </el-table>
     </div>
@@ -77,17 +82,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import { getAllBook } from '../../../api/book'
 export default {
+  name: 'booksSearch',
   mounted () {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/#/booksSearch/book/list?cur=1&size=5',
-      headers: {
-        Authorization: ''
-      }
-    }).then(response => {
-      const data = JSON.parse(Object.values(response))
+    getAllBook({ cur: 1, size: 5 }).then(response => {
+      const data = response.data
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           return
@@ -113,8 +114,9 @@ export default {
         k.bookRef = data.data[i].bookRef
         this.tableData.push(k)
       }
+      alert('cheng')
     }, result => {
-      console.log(result, 'booksearch')
+      console.log(result)
     })
   },
   data () {
@@ -129,9 +131,11 @@ export default {
       btnclick: true,
       // 用户身份
       user: localStorage.getItem('roleid') === '"3"' ? 0 : 1
+
     }
   },
   methods: {
+
     // finish (index, row) {
     //   if (this.index === index) {
     //     for (let i = 0; i < 5; i++) {
@@ -229,12 +233,15 @@ export default {
     //   this.tableData.splice(index, 1)
     // },
     change (page) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/booksSearch/book/list?cur=${page}&size=5`
-      }).then(
+      getAllBook({ cur: page, size: 5 }).then(
         (response) => {
-          const data = JSON.parse(Object.values(response))
+          const data = response.data
+          if (data.data[0] === undefined) {
+            this.tableData.splice(0)
+            alert('已到达结尾')
+            return
+          }
+          this.tableData = []
           for (let i = 0; i < 5; i++) {
             // 不够五本书籍
             if (data.data[i] === undefined) {
@@ -261,7 +268,7 @@ export default {
             k.createTime = data.data[i].createTime
             k.updateTime = data.data[i].updateTime
             k.bookRef = data.data[i].bookRef
-            this.tableData[i] = k
+            this.tableData.push(k)
           }
         },
         function (result) {

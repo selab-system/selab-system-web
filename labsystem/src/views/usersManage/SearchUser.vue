@@ -17,11 +17,11 @@
         @input="recover"
         @blur="blur"
       ></el-input>
-      用户昵称
+      用户id
       <el-input
-        v-model="nickname"
-        placeholder="请输入用户昵称"
-        @change="searchnickname"
+        v-model="sroleId"
+        placeholder="请输入用户id"
+        @change="searchroleId"
         @input="recover"
         @blur="blur"
       ></el-input>
@@ -36,21 +36,19 @@
         tooltip-effect="dark"
         style="width: 100%;"
       >
-        <el-table-column label="用户编号" width="120">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
+        <el-table-column label="小组" width="120">
+          <template slot-scope="scope">{{ scope.row.groupName }}</template>
         </el-table-column>
         <el-table-column label="用户名称" width="120">
           <template slot-scope="scope">{{ scope.row.userName }}</template>
         </el-table-column>
-        <el-table-column prop="nickname" label="用户昵称" show-overflow-tooltip>
+        <el-table-column prop="userId" label="用户id" show-overflow-tooltip>
         </el-table-column>
-         <el-table-column label="邮箱" width="120">
+         <el-table-column label="邮箱" width="160">
           <template slot-scope="scope">{{ scope.row.email }}</template>
         </el-table-column>
-        <el-table-column prop="groupId" label="小组id" show-overflow-tooltip>
-        </el-table-column>
         <el-table-column
-          prop="phonenumber"
+          prop="phone"
           label="手机号码"
           show-overflow-tooltip
         >
@@ -64,79 +62,23 @@
               size="mini"
               @click="finish(scope.$index, scope.row)"
               v-show="finishbutton"
-              style="width:50%; height:20%"
+              style="width:30%; height:15%; margin:2px 0;"
               >完成编辑</el-button
             >
             <el-button
               size="mini"
               @click="handleEdit(scope.$index, scope.row)"
               v-show="user"
-              style="width:50%; height:20%"
+              style="width:30%; height:15%; margin:2px 0;"
               >Edit</el-button
             >
+            <el-button size="mini" @click="open(scope.$index, scope.row)" style="width:40%; height:15%; margin:2px 0;">更改小组</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
               v-show="user"
-              style="width:50%; height:20%"
-              >Delete</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-     <div class="show-user" v-show="showanswer" style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); margin-top:2%; margin-bottom:2%; padding-left:2%; box-sizing:border-box;">
-      <el-table
-        ref="multipleTable"
-        :data="tableData2"
-        tooltip-effect="dark"
-        style="width: 100%;"
-      >
-        <el-table-column label="用户编号" width="120">
-          <template slot-scope="scope">{{ scope.row.userId }}</template>
-        </el-table-column>
-        <el-table-column label="用户名称" width="120">
-          <template slot-scope="scope">{{ scope.row.userName }}</template>
-        </el-table-column>
-        <el-table-column prop="nickname" label="用户昵称" show-overflow-tooltip>
-        </el-table-column>
-         <el-table-column label="邮箱" width="120">
-          <template slot-scope="scope">{{ scope.row.email }}</template>
-        </el-table-column>
-        <el-table-column prop="groupId" label="小组id" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="phonenumber"
-          label="手机号码"
-          show-overflow-tooltip
-        >
-        </el-table-column
-        ><el-table-column prop="sex" label="性别" show-overflow-tooltip>
-        </el-table-column
-        >
-        <el-table-column align="right">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="finish(scope.$index, scope.row)"
-              v-show="finishbutton"
-              style="width:50%; height:20%"
-              >完成编辑</el-button
-            >
-            <!-- <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)"
-              v-show="user"
-              style="width:50%; height:20%"
-              >Edit</el-button
-            > -->
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              v-show="user"
-              style="width:50%; height:20%"
+              style="width:30%; height:15%; margin:2px 0;"
               >Delete</el-button
             >
           </template>
@@ -155,16 +97,9 @@
         "
         @current-change="changepage"
       >
-      </el-pagination>
-      <div class="show-user" v-show="showall" style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); margin-top:4%; padding-left:2%; box-sizing:border-box;">
-      <el-button type="info" style="margin:1% 0 2% 37%; width:10%;">我的信息</el-button>
-
-         <el-button
-              size="mini"
-              @click="logout"
-              style="width:7%; height:20%;"
-              >登出</el-button
-            >
+    </el-pagination>
+    <div class="show-user" v-show="showall" style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); margin-top:4%; padding-left:2%; box-sizing:border-box;">
+      <el-button type="info" style="margin:1% 0 2% 42%; width:10%;">我的信息</el-button>
       <el-table
         ref="multipleTable"
         :data="myData"
@@ -268,22 +203,39 @@
       v-model="mysex"
       v-show="changemyself"
       class="inputs"></el-input>
+      <div style="margin:3% 0 2% 44%; font-size:20px;" v-show="edituser">修改用户</div>
+    <div style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); padding-left:20px; box-sizing:borser-box; padding-top:10px; padding-bottom:20px;" v-show="edituser" >
+    <span style="color:#909399; margin-top:3%; margin-right:2%;">用户id:</span><el-input  v-model="userId2" placeholder="请输入用户名称" style="width:60%; margin:2% 34% 1% 0;"></el-input>
+    <span style="color:#909399; margin-top:2%; margin-right:1%;">小组id:</span><el-input v-model="groupId2" placeholder="请输入小组id" style="width:60%; margin:1% 0; margin-right:35%;"></el-input>
+    <span style="color:#909399; margin-top:2%; margin-right:1%;">邮箱:</span><el-input  v-model="email2" placeholder="请输入邮箱" style="width:60%; margin:1% 0; margin-right:35%;"></el-input>
+    <span style="color:#909399; margin-top:2%; margin-right:1%;">手机号码:</span><el-input  v-model="phone2" placeholder="请输入手机号码" style="width:60%; margin:1% 0; margin-right:33%;"></el-input>
+    <span style="color:#909399; margin-top:2%; margin-right:1%;">性别:</span><el-input  v-model="sex2" placeholder="请输入性别" style="width:60%; margin:1% 0; margin-right:35%;"></el-input>
+    <span style="color:#909399; margin-top:32%; margin-right:1%;">用户名称:</span><el-input v-model="userName2" placeholder="请输入用户名称" style="width:60%; margin:1% 0; margin-right:33%;"></el-input>
+    </div>
+    <div style="margin:3% 0 2% 44%; font-size:20px;" v-show="editgroup">修改用户小组</div>
+    <div style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); padding-left:20px; box-sizing:borser-box; padding-top:10px; padding-bottom:20px;" v-show="editgroup" >
+    <span style="color:#909399; margin-top:2%; margin-right:1%;">小组id:</span><el-input v-model="newgroupid" placeholder="请输入小组id" style="width:60%; margin:1% 0; margin-right:35%;"></el-input>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import { Message } from 'element-ui'
+// import axios from 'axios'
+import { Message, MessageBox } from 'element-ui'
+import {
+  saveuser,
+  updateinfos,
+  queryuser,
+  userlogout,
+  querybyId,
+  updaterole,
+  updateUserGroup
+} from '../../api/user'
 export default {
   mounted () {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/#/SearchUser/user/query?cur=1&size=5',
-      headers: {
-        Authorization: ''
-      }
-    }).then((response) => {
-      const data = JSON.parse(Object.values(response))
+    // 获取全部用户
+    queryuser({ cur: 1, size: 5 }).then(response => {
+      const data = response.data
       for (let i = 0; i < 5; i++) {
         if (data.data[i] === undefined) {
           this.tableData.splice(i)
@@ -294,6 +246,7 @@ export default {
           return
         }
         const k = {}
+        k.userId = data.data[i].userId
         k.userName = data.data[i].userName
         k.groupId = data.data[i].groupId
         k.groupName = data.data[i].groupName
@@ -302,19 +255,21 @@ export default {
         k.email = data.data[i].email
         k.phone = data.data[i].phone
         k.sex = data.data[i].sex
-        k.userId = data.data[i].userId
         k.createTime = data.data[i].createTime
         k.updateTime = data.data[i].updateTime
-        this.tableData.splice(k)
+        this.tableData.push(k)
       }
-    }, function (result) {
-      console.log(result.message)
+    }, result => {
+      console.log(result)
     })
-    axios({
-      method: 'GET',
-      url: `http://localhost:8080/#/SearchUser/user/queryById/${localStorage.getItem('userId')}`
-    }).then(response => {
-      const data = JSON.parse(Object.values(response))
+    // this.tableData = [{ userId: 24 }]
+    // 获取我的信息
+    querybyId(parseInt(localStorage.getItem('userid'))).then(response => {
+      const data = response.data
+      console.log(data)
+      this.myData[0].userName = data.data.userName
+      this.myData[0].groupId = data.data.groupId
+      this.myData[0].userId = data.data.userId
       this.myData[0].email = data.data.email
       this.myData[0].phonenumber = data.data.phone
       this.myData[0].sex = data.data.sex === 1 ? '男' : '女'
@@ -323,6 +278,7 @@ export default {
       this.myData[0].roleName = data.data.roleName
       this.myData[0].createTime = data.data.createTime
       this.myData[0].updateTime = data.data.updateTime
+      alert('a')
     }, result => {
       console.log(result)
     })
@@ -331,27 +287,13 @@ export default {
     return {
       userName: '',
       phonenumber: '',
-      nickname: '',
+      sroleId: '',
       value1: '',
       value2: '',
       // 表格
       tableData: [],
       tableData2: [],
-      myData: [
-        {
-          username: localStorage.getItem('username'),
-          groupId: localStorage.getItem('groupId'),
-          userId: localStorage.getItem('userId'),
-          phonenumber: '',
-          sex: '',
-          email: '',
-          groupName: '',
-          roleId: '',
-          createTime: '',
-          updateTime: '',
-          roleName: ''
-        }
-      ],
+      myData: [{}],
       // 开关
       valueswitch: true,
       // 展示搜索结果
@@ -385,7 +327,17 @@ export default {
       myusername: '',
       myphone: '',
       mysex: '',
-      myemail: ''
+      myemail: '',
+      edituser: false,
+      //
+      userName2: '',
+      userId2: '',
+      groupId2: '',
+      email2: '',
+      phone2: '',
+      sex2: '',
+      editgroup: false,
+      newgroupid: ''
     }
   },
   methods: {
@@ -394,9 +346,8 @@ export default {
       this.tableData2 = []
       for (let i = 0; i < this.tableData.length; i++) {
         num = 0
-        // console.log(this.tableData[i].name)
         for (let j = 0; j < name.length; j++) {
-          if (name[j] === this.tableData[i].name[j]) {
+          if (name[j] === this.tableData[i].userName[j]) {
             num++
           }
         }
@@ -417,7 +368,7 @@ export default {
       for (let i = 0; i < this.tableData.length; i++) {
         let num = 0
         for (let j = 0; j < phonenumber.length; j++) {
-          if (phonenumber[j] === this.tableData[i].phonenumber[j]) {
+          if (phonenumber[j] === this.tableData[i].phone[j]) {
             num++
           }
         }
@@ -428,16 +379,16 @@ export default {
       this.showall = false
       this.showanswer = true
     },
-    searchnickname (nickname) {
+    searchroleId (roleId) {
       this.tableData2 = []
       for (let i = 0; i < this.tableData.length; i++) {
         let num = 0
-        for (let j = 0; j < nickname.length; j++) {
-          if (nickname[j] === this.tableData[i].nickname[j]) {
+        for (let j = 0; j < roleId.length; j++) {
+          if (roleId[j] === this.tableData[i].roleId[j]) {
             num++
           }
         }
-        if (num === nickname.length) {
+        if (num === roleId.length) {
           this.tableData2 = this.tableData2.concat([this.tableData[i]])
         }
       }
@@ -449,69 +400,94 @@ export default {
       this.showall = true
       this.showanswer = false
     },
+    open (index, row) {
+      MessageBox.prompt('请输入新的小组id', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputErrorMessage: '请确保输入正确的小组id或检查网络设置'
+      }).then(({ value }) => {
+        if (value !== '') {
+          updateUserGroup({ userId: parseInt(row.userId), groupId: parseInt(value) }).then(response => {
+            Message({
+              message: '修改小组成功！',
+              type: 'success'
+            })
+          }, result => {
+            Message({
+              message: '修改小组失败！',
+              type: 'error'
+            })
+            alert('false')
+          })
+        }
+      }).catch(() => {
+        Message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
+    },
+    // finish2 () {
+    //   this.finishbutton2 = false
+    // },
     finish (index, row) {
       if (this.index === index) {
-        for (let i = 0; i < 6; i++) {
-          if (document.getElementsByClassName('inputs')[0].value === '') {
-            document.getElementsByClassName('cell')[
-              index + index * 8 + 8 - (index === 0 ? -1 : 1 * index - 1) + i
-            ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
-          } else {
-            row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
-            document.getElementsByClassName('cell')[
-              index + index * 8 + 8 - (index === 0 ? -1 : 1 * index - 1) + i
-            ].innerHTML = `<span>${
-              document.getElementsByClassName('inputs')[0].value
-            }</span>`
-          }
-          if (i === 5) {
-            axios({
-              method: 'POST',
-              url: 'http://localhost:8080/#/SearchUser/user/update',
-              data: {
-                userName: row.userName,
-                groupId: parseInt(row.groupId),
-                groupName: row.groupName,
-                roleId: parseInt(row.roleId),
-                roleName: row.roleName,
-                email: row.email,
-                phone: row.phonenumber,
-                sex: row.sex === '男' ? 1 : 0,
-                userId: parseInt(row.userId),
-                createTime: row.createTime,
-                updateTime: row.updateTime
-
-              }
-            }).then(response => {
-
-            }, result => {
-              console.log(result.message)
-            })
-            this.finishbutton = !this.finishbutton
-            this.btnclick = !this.btnclick
-            return
-          }
-        }
+        this.edituser = true
+        const now = new Date()
+        const year = now.getFullYear()
+        const month = now.getMonth() + 1
+        const day = now.getDate()
+        const time = String(year) + '-' + String(month) + '-' + String(day)
+        updateinfos({
+          userName: this.userName2,
+          groupId: parseInt(this.groupId2),
+          groupName: row.groupName,
+          roleId: parseInt(row.roleId),
+          roleName: row.roleName,
+          email: parseInt(this.email2),
+          phone: parseInt(this.phone2),
+          sex: row.sex === '男' ? 1 : 0,
+          userId: parseInt(this.userId2),
+          createTime: row.createTime,
+          updateTime: time
+        }).then(response => {
+          Message({
+            message: '修改成功！',
+            type: 'success'
+          })
+          this.userId2 = ''
+          this.groupId2 = ''
+          this.userName2 = ''
+          this.email2 = ''
+          this.sex2 = ''
+          this.phone2 = ''
+          this.edituser = false
+        }, result => {
+          Message({
+            message: '修改失败！',
+            type: 'error'
+          })
+        })
+        this.finishbutton = !this.finishbutton
+        this.btnclick = !this.btnclick
       }
     },
     handleEdit (index, row) {
-      if (row.roleId === 3) {
-        if (localStorage.getItem('roleid') === '"2"') {
-          return
-        }
-      }
-      if (this.btnclick) {
-        for (let i = 0; i < 6; i++) {
-          document.getElementsByClassName('cell')[
-            index + index * 9 + 9 - (index === 0 ? 0 : 1 * index + 1) + i
-          ].innerHTML = `<input style=" outline:none; 
-      border: 1px solid #C0C4CC;" 
-      class="inputs" value="">`
-        }
-        this.finishbutton = !this.finishbutton
-        this.index = index
-        this.btnclick = !this.btnclick
-      }
+      // if (parseInt(row.roleId) === 3) {
+      //   if (localStorage.getItem('roleid') === '"2"') {
+      //     return
+      //   }
+      // }
+      this.userId2 = row.userId
+      this.groupId2 = row.groupId
+      this.email2 = row.email
+      this.phone2 = row.phone
+      this.sex2 = row.sex
+      this.userName2 = row.userName
+      this.edituser = true
+      this.finishbutton = !this.finishbutton
+      this.index = index
+      this.btnclick = !this.btnclick
     },
     handleDelete (index, row) {
       if (row.roleId === 3) {
@@ -519,15 +495,28 @@ export default {
           return
         }
       }
-      console.log(index, row)
-      this.tableData.splice(index, 1)
+      userlogout({ userId: parseInt(row.userId) }).then((response) => {
+        Message({
+          message: '删除成功！',
+          type: 'success'
+        })
+        this.tableData.splice(index, 1)
+      }, (result) => {
+        Message({
+          message: '删除失败！',
+          type: 'error'
+        })
+      })
     },
     changepage (page) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/SearchUser/user/query?cur=${page}&size=5`
-      }).then((response) => {
-        const data = JSON.parse(Object.values(response))
+      queryuser({ cur: page, size: 5 }).then(response => {
+        const data = response
+        if (data.data[0] === undefined) {
+          this.tableData.splice(0)
+          alert('已到达结尾')
+          return
+        }
+        this.tableData = []
         for (let i = 0; i < 5; i++) {
           if (data.data[i] === undefined) {
             this.tableData.splice(i)
@@ -537,6 +526,7 @@ export default {
             })
             return
           }
+
           const k = {}
           k.userName = data.data[i].userName
           k.groupId = data.data[i].groupId
@@ -549,51 +539,18 @@ export default {
           k.userId = data.data[i].userId
           k.createTime = data.data[i].createTime
           k.updateTime = data.data[i].updateTime
-          this.tableData[i] = k
+          this.tableData.push(k)
         }
-      }, (result) => {
+      }, result => [
         console.log(result)
-      })
-    },
-    logout () {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/SearchUser/user/logout?userId=${parseInt(this.myData[0].userId)}`
-      }).then((response) => {
-        Message({
-          message: '登出成功！',
-          type: 'success'
-        })
-      }, (result) => {
-        Message({
-          message: '登出失败！',
-          type: 'error'
-        })
-      })
+      ])
     },
     myhandleEdit (index, row) {
-      // for (let i = 0; i < 5; i++) {
-      //   document.getElementsByClassName('cell')[
-      //     index + 8 + i
-      //   ].innerHTML = `<input style=" outline:none;
-      // border: 1px solid #C0C4CC;"
-      // class="inputs">`
-      // }
       this.changemyself = true
       this.myfinishbutton = true
     },
     myfinish (index, row) {
-      // if (document.getElementsByClassName('inputs')[0].value === '') {
-      //   document.getElementsByClassName('cell')[
-      //     index + 8 + i
-      //   ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
-      // } else {
-      //   row[Object.keys(row)[i]] = document.getElementsByClassName('inputs')[0].value
-      //   document.getElementsByClassName('cell')[
-      //     index + 8 + i
-      //   ].innerHTML = `<span>${
-      //       document.getElementsByClassName('inputs')[0].value
-      //     }</span>`
+      alert('hhh')
       if (this.myusername !== '') {
         this.myData[0].username = this.myusername
       }
@@ -609,22 +566,23 @@ export default {
       if (this.mysex !== '') {
         this.myData[0].sex = this.mysex
       }
-      axios({
-        method: 'POST',
-        url: 'http://localhost:8080/#/SearchUser/user/update',
-        data: {
-          userName: this.myData[0].username,
-          groupId: parseInt(this.myData[0].groupId),
-          groupName: this.myData[0].groupName,
-          roleName: this.myData[0].roleName,
-          roleId: parseInt(this.myData[0].roleId),
-          email: this.myData[0].email,
-          phone: this.myData[0].phonenumber,
-          sex: this.myData[0].sex === '男' ? 1 : 0,
-          userId: parseInt(this.myData[0].userId),
-          createTime: this.myData[0].createTime,
-          updateTime: this.myData[0].updateTime
-        }
+      const now = new Date()
+      const year = now.getFullYear()
+      const month = now.getMonth() + 1
+      const day = now.getDate()
+      const time = String(year) + '-' + String(month) + '-' + String(day)
+      updateinfos({
+        userName: this.myData[0].username,
+        groupId: parseInt(this.myData[0].groupId),
+        groupName: this.myData[0].groupName,
+        roleName: this.myData[0].roleName,
+        roleId: parseInt(this.myData[0].roleId),
+        email: this.myData[0].email,
+        phone: this.myData[0].phonenumber,
+        sex: this.myData[0].sex === '男' ? 1 : 0,
+        userId: parseInt(this.myData[0].userId),
+        createTime: this.myData[0].createTime,
+        updateTime: time
       }).then(response => {
         Message({
           message: '修改成功！',
@@ -643,18 +601,14 @@ export default {
       this.ifadduser = !this.ifadduser
     },
     yesadduser () {
-      axios({
-        method: 'POST',
-        url: 'http://localhost:8080/#/SearchUser/user/save',
-        data: {
-          userName: this.username,
-          groupId: parseInt(this.groupId),
-          roleId: parseInt(this.roleId),
-          email: this.email,
-          phone: this.phone,
-          sex: this.sex === '男' ? 1 : 0,
-          password: this.password
-        }
+      saveuser({
+        userName: this.username,
+        groupId: parseInt(this.groupId),
+        roleId: 1,
+        email: this.email,
+        phone: this.phone,
+        sex: this.sex === '男' ? 1 : 0,
+        password: this.password
       }).then(response => {
         Message({
           message: '添加成功！',
@@ -675,29 +629,25 @@ export default {
       })
     },
     editRole () {
-      if (this.roleid === '2') {
-        if (parseInt(this.myData[0].roleId) !== 3) {
+      if (parseInt(this.roleid) === 2) {
+        if (parseInt(this.myData[0].roleId) !== 1) {
           Message({
             message: '修改失败，请检查权限！',
             type: 'error'
           })
         }
       }
-      if (this.roleid === '3') {
-        if (parseInt(this.myData[0].roleId) !== 3) {
+      if (parseInt(this.roleid) === 1) {
+        if (parseInt(this.myData[0].roleId) !== 1) {
           Message({
             message: '修改失败，请检查权限！',
             type: 'error'
           })
         }
       }
-      axios({
-        method: 'GET',
-        url: 'http://localhost:8080/#/SearchUser/user/role/update',
-        data: {
-          roleId: parseFloat(this.roleid),
-          userId: parseFloat(this.userid)
-        }
+      updaterole({
+        roleId: parseInt(this.roleid),
+        userId: parseInt(this.userid)
       }).then(response => {
         Message({
           message: '修改成功！',

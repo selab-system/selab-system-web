@@ -9,8 +9,8 @@
       :index="indexMethod">
     </el-table-column>
     <el-table-column
-      prop="publisherName"
-      label="发布者"
+      prop="publisherId"
+      label="发布者ID"
       width="180">
     </el-table-column>
     <el-table-column
@@ -19,7 +19,7 @@
       width="180">
     </el-table-column>
     <el-table-column
-      prop="publishTime"
+      prop="dealTime"
       label="任务截止时间">
     </el-table-column>
   </el-table>
@@ -32,11 +32,17 @@
 export default {
   data () {
     return {
-      tableData: []
+      tableData: [{
+        date: '2016-05-02',
+        publisherId: '王小虎',
+        name: '上海',
+        dealTime: '任务截止时间',
+        zip: 200333,
+        tag: '家'
+      }]
     }
   },
   methods: {
-
     indexMethod (index) {
       return index + 1
     }

@@ -38,6 +38,8 @@ export default {
   data () {
     // 对于在组件内部输入内容的绑定可以实现 现在尝试仅使用vuex的方法
     return {
+      noticeMessge1: '',
+      noticeMessge2: '',
       msgNotice: '',
       logininfos: {
         password: '',
@@ -45,16 +47,15 @@ export default {
         // 以下为接收到的数据
         userName: '',
         // 用户名
-        groupId: 1,
+        groupId: '',
         // 小组id
-        roleId: 2,
+        roleId: '1',
         // 角色id 1,2,3
-        userid: 3,
+        userid: '',
         // 用户id
-        token: ''
+        token: '123'
         // 权限token
       },
-      loading: false,
       rules: {
         postMessage: [
           { required: true, message: '请输入用户名或邮箱', trigger: 'blur' },
@@ -72,11 +73,6 @@ export default {
     // ...mapState('login', ['postMessagex']),
     // ...mapState('login', ['passwordx'])
   },
-  // 加载注册时输入的保存到本地的用户名与密码
-  mounted () {
-    this.logininfos.postMessage = JSON.parse(localStorage.getItem('username'))
-    this.logininfos.password = JSON.parse(localStorage.getItem('password'))
-  },
   // 函数实现功能
   methods: {
     ...mapMutations('login', ['tokenStore']),
@@ -88,7 +84,6 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.loading = true
           alert('submit!')
           this.postData_login()
         } else {
@@ -147,8 +142,9 @@ export default {
       // 在此处可以将token存放到vuex仓库中
       // localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
       // 存储时仅仅使用小写字母
+      console.log('执行了')
     },
-    // 设置提示框（弹框显示返回消息）
+    // 设置提示框（弹框假消息）
     logined () {
       this.$message({
         type: 'success',
@@ -157,8 +153,15 @@ export default {
       // 弹框的单独使用？
     }
 
+  },
+  // 加载注册时输入的保存到本地的用户名与密码
+  mounted () {
+    this.postMessage = JSON.parse(localStorage.getItem('username'))
+    this.password = JSON.parse(localStorage.getItem('password'))
   }
+
 }
+
 </script>
 
 <style lang="less" scoped>

@@ -2,24 +2,23 @@
   <div class="main">
     <el-empty description="所有已经提交的报名表的列表" v-if="empty" ></el-empty>
     <!-- 如何为空的页面设置显示 -->
-
-    <el-form :model="Search1" :inline="true" :rules="rules1" ref="Search1" label-width="100px" class="ruleForm">
+    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
       <el-form-item label="姓名" prop="userName">
-        <el-input v-model="Search1.userName" placeholder="请输入姓名"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submit1('Search1')"><i class="el-icon-search"></i>   查询</el-button>
-      </el-form-item>
-    </el-form>
+    <el-input v-model="Search.userName" placeholder="请输入姓名"></el-input>
+  </el-form-item>
+    <el-form-item>
+    <el-button type="primary" @click="submit1('Search')"><i class="el-icon-search"></i>   查询</el-button>
+  </el-form-item>
 
-    <el-form :model="Search2" :inline="true" :rules="rules2" ref="Search2" label-width="100px" class="ruleForm">
-      <el-form-item label="年级" prop="grade">
-       <el-select v-model="Search2.grade" placeholder="请选择年级">
-         <el-option label="大一" value="1"></el-option>
-         <!-- 使用value进行与data的数据绑定常常 -->
-         <el-option label="大二" value="2"></el-option>
-       </el-select>
-      </el-form-item>
+    </el-form>
+    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
+  <el-form-item label="年级" prop="grade">
+    <el-select v-model="Search.grade" placeholder="请选择年级">
+      <el-option label="大一" value="1"></el-option>
+      <!-- 使用value进行与data的数据绑定常常 -->
+      <el-option label="大二" value="2"></el-option>
+    </el-select>
+  </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit2('Search2')"><i class="el-icon-search"></i> 查询</el-button>
     </el-form-item>
@@ -49,10 +48,10 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="手机号" width="180">
+    <el-table-column label="年级" width="180">
       <template slot-scope="scope">
         <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.phone}}</span>
+        <span style="margin-left: 10px">{{ scope.row.grade}}</span>
       </template>
     </el-table-column>
 
@@ -85,47 +84,29 @@
 
 <script>
 import Bus from '@/utils/EventBus'
-import { getlistDetail, getDetailByName, getDetailBygrade, getDetailByintentDepartment } from '@/api/recruit'
-
+import { getlistDetail, getDetailByName, getDetailBygrade } from '@/api/recruit'
 export default {
 
   data () {
     return {
-      empty: false,
-      // tableData中每一个数组代表一个row
       tableData: [
         {
 
         }
       ],
-      Search1: {
-        userName: ''
-      },
-      Search2: {
+      Search: {
+        userName: '',
         grade: ''
       },
-      Search3: {
-        intentDepartment: ''
-      },
-      rules1: {
+      rules: {
         userName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 1, max: 5, message: '长度在 0 到 5 个字符', trigger: 'blur' }
-        ]
-
-      },
-      rules2: {
-
+          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+        ],
         grade: [
-          { required: true, message: '请选择年级', trigger: 'blur' }
-        ]
-      },
-      rules3: {
-        intentDepartment: [
-          { required: true, message: '请选择意向部门', trigger: 'blur' }
+          { required: true, message: '请选择年级', trigger: 'change' }
         ]
       }
-
     }
   },
 
@@ -152,9 +133,7 @@ export default {
         if (valid) {
           alert('submit!')
           // 进行数据的请求
-          console.log(this.Search1.userName)
-          this.nameSearch(this.Search1.userName)
-          //  一定注意请求时是异步不可以在此函数中将输入框中数据设置为空，之后的请求操作会读到空数据
+          this.nameSearch()
         } else {
           console.log('error submit!!')
           return false
@@ -167,21 +146,7 @@ export default {
         if (valid) {
           alert('submit!')
           // 进行数据的请求
-          this.gradeidSearch(this.Search2.grade)
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    submit3 (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-          // 进行数据的请求
-          console.log(this.Search3.intentDepartment)
-          this.intentDepartmentSearch(this.Search3.intentDepartment)
-          // 对输入框进行清空
+          this.gradeidSearch()
         } else {
           console.log('error submit!!')
           return false
@@ -198,22 +163,17 @@ export default {
     // 第一页展示时进行的请求
     async firstlist () {
       const { data } = await getlistDetail(1, 10)
-      console.log(data)
-      this.tableData = data.data
+      this.tableData = data
     },
     // 点击不同页面进行数据的更新
     async curslist (cur) {
       const { data } = await getlistDetail(cur, 10)
-      // this.tableData = data
-      console.log(data)
-      this.tableData = data.data
+      this.tableData = data
     },
     // 通过用户姓名进行查询
     async nameSearch (userName) {
       const { data } = await getDetailByName(userName, 1, 20)
-      console.log(data)
-      this.tableData = data.data
-      this.Search1.userName = ''
+      this.tableData = data
     },
     // 通过用户年级进行查询
     async  gradeidSearch (grade) {

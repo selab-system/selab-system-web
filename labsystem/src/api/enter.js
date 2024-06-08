@@ -5,6 +5,7 @@ import enter from '@/utils/request.js'
 
 // 登录接口
 export const judgeLogin = (username, password) => {
+<<<<<<< HEAD
   return enter.post(
     '/login',
     {
@@ -14,20 +15,33 @@ export const judgeLogin = (username, password) => {
 }
 // 注册接口
 export const registerPost = (userName, email, phone, sex, password, identify) => {
+=======
+  return enter.post('/login', {
+    params: {
+      username,
+      password
+    }
+  })
+}
+export const registerPost = (userName, passWord, Email, phoneNumber, gender, checkinfo) => {
+>>>>>>> e0d04097df2157baf0bd64bca75c2f7eebe7b586
   return enter.post('/register', {
-    userName,
-    email,
-    phone,
-    sex,
-    password,
-    identify
-  }
-  )
+    params: {
+      userName,
+      passWord,
+      Email,
+      phoneNumber,
+      gender,
+      checkinfo
+
+    }
+  })
 }
 // 注册验证码发送接口
 export const PostInfo = (email) => {
-  return enter.post('/register/sendEmail', {
-    email
-  }
-  )
+  return enter.post('/login/sendEmail', {
+    params: {
+      email
+    }
+  })
 }

@@ -25,9 +25,9 @@
 
 <script>
 import { Message } from 'element-ui'
-import axios from 'axios'
+// import axios from 'axios'
+import { returnbook } from '../../../api/book'
 export default {
-  name: 'ReturnBooks',
   data () {
     return {
       sizeForm: {
@@ -39,24 +39,19 @@ export default {
     onSubmit () {
       const a = confirm('请再次确认是否归还？')
       if (a === true) {
-        axios({
-          method: 'GET',
-          url: `http://localhost:8080/#/booksReturn/book/return/${this.sizeForm.borrowId}`,
-          headers: {
-            Authorization: ''
-          }
-        }).then((response) => {
+        returnbook(parseInt(this.sizeForm.borrowId)).then((response) => {
           Message({
             message: '还书成功！',
             type: 'success'
           })
+          this.sizeForm.borrowId = ''
         }, function (result) {
           Message({
             showClose: true,
             message: '还书失败！',
             type: 'error'
           })
-          console.log(result.message)
+          console.log(result)
         })
       } else {
         Message({

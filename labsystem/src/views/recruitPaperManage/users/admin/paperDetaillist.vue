@@ -4,7 +4,7 @@
     </el-page-header>
   <div class="main">
   <el-descriptions title='报名表详细' :column="3" border size="big">
-  <el-descriptions-item style="width: 50px;" label="姓名" label-class-name="my-label" content-class-name="my-content">{{Datalist.userName}}</el-descriptions-item>
+  <el-descriptions-item style="width: 50px;" label="姓名" label-class-name="my-label" content-class-name="my-content">{{Datalist.interviewees.userName}}</el-descriptions-item>
   <el-descriptions-item label="邮箱">{{ Datalist.email }}</el-descriptions-item>
   <el-descriptions-item label="手机号">{{ Datalist.phone }}</el-descriptions-item>
   <el-descriptions-item label="面试时间">{{ Datalist.interviewTime}}</el-descriptions-item>
@@ -12,7 +12,7 @@
 
     <!-- <el-tag size="small">学校</el-tag> -->
 
-  <!-- <el-descriptions-item label="面试时期" :contentStyle="{'text-align': 'left'}">{{Datalist.interviewTime}}</el-descriptions-item> -->
+  <el-descriptions-item label="面试时期" :contentStyle="{'text-align': 'left'}">{{Datalist.interviewTime}}</el-descriptions-item>
   <el-descriptions-item label="年级" :contentStyle="{'text-align': 'left'}">{{ Datalist.grade }}</el-descriptions-item>
   <el-descriptions-item label="班级" :contentStyle="{'text-align': 'left'}">{{ Datalist.classroom }}</el-descriptions-item>
   <el-descriptions-item label="备注" :contentStyle="{'text-align': 'left'}">{{Datalist.remark  }}</el-descriptions-item>
@@ -26,15 +26,36 @@
 </template>
 
 <script>
-import { getDetail } from '@/api/recruit'
 import Bus from '@/utils/EventBus'
+import { getDetail } from '@/api/recruit'
 export default {
   data () {
     return {
       // 设置返回的数据对象组合
-      id: 18,
       Datalist: {
-
+        id: 0,
+        interviewees: {
+          userName: 'string',
+          groupId: 0,
+          groupName: 'string',
+          roleId: 0,
+          roleName: 'string',
+          email: 'string',
+          phone: 'string',
+          sex: 0,
+          userId: 0,
+          createTime: 'string',
+          updateTime: 'string'
+        },
+        email: 'string',
+        phone: 0,
+        intentDepartment: 0,
+        classroom: 'string',
+        interviewTime: 'string',
+        introduce: 'string',
+        purpose: 'string',
+        remark: 'string',
+        grade: 'string'
       }
 
     }
@@ -58,9 +79,8 @@ export default {
     // 获取数据
     // 调同一个请求即可
     async getDetail () {
-      const { data } = await getDetail(this.id)
-      this.Datalist = data.data
-      console.log(data)
+      const { data } = await getDetail(parseInt(this.id))
+      this.Datalist = data
     // 直接接收整个对象
     },
     goBack () {

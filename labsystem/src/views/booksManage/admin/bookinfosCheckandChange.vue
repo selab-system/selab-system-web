@@ -39,16 +39,22 @@
             <el-input v-model="search" size="mini" placeholder="输入书名搜索" />
           </template>
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               size="mini"
               @click="finish(scope.$index, scope.row)"
               v-show="finishbutton"
               style="width:80%; height:20%"
               >完成编辑</el-button
-            >
-            <el-button
+            > -->
+            <!-- <el-button
               size="mini"
               @click="handleEdit(scope.$index, scope.row)"
+              style="width:80%; height:20%; margin:5% 0;"
+              >Edit</el-button
+            > -->
+             <el-button
+              size="mini"
+              type="text" @click="open(scope.$index, scope.row)"
               style="width:80%; height:20%; margin:5% 0;"
               >Edit</el-button
             >
@@ -97,18 +103,19 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { Message } from 'element-ui'
+// import axios from 'axios'
+import { Message, MessageBox } from 'element-ui'
+import {
+  savebook,
+  updatebookifos,
+  getAllBook,
+  deletebookinfos
+} from '../../../api/book'
 export default {
+  name: 'bookinfosCheckandChange',
   mounted () {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/#/bookinfosCheckandChange/book/list?cur=1&size=5',
-      headers: {
-        Authorization: ''
-      }
-    }).then(response => {
-      const data = JSON.parse(response)
+    getAllBook({ cur: 1, size: 5 }).then(response => {
+      const data = response.data
       for (let i = 0; i < 5; i++) {
         // 不够五本书籍
         if (data.data[i] === undefined) {
@@ -157,91 +164,152 @@ export default {
       price: '',
       owner: '',
       remark: '',
-      bookRef: ''
+      bookRef: '',
+      bookName2: '',
+      bookAuthor2: '',
+      bookDetails2: '',
+      status2: '',
+      ownerName2: '',
+      bookRef2: ''
     }
   },
   methods: {
-    finish (index, row) {
-      if (this.index === index) {
-        for (let i = 0; i < 11; i++) {
-          if (document.getElementsByClassName('inputs')[0].value === '') {
-            document.getElementsByClassName('cell')[
-              index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + i
-            ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
-          } else {
-            row[Object.keys(row)[i]] =
-              document.getElementsByClassName('inputs')[0].value
-            document.getElementsByClassName('cell')[
-              index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + i
-            ].innerHTML = `<span>${
-              document.getElementsByClassName('inputs')[0].value
-            }</span>`
+    open (index, row) {
+      this.bookName2 = row.bookName
+      this.bookAuthor2 = row.bookAuthor
+      this.bookRef2 = row.bookRef
+      this.status2 = row.status
+      this.ownerName2 = row.ownerName
+      this.bookDetails2 = row.bookDetails
+      MessageBox.alert(`书名：<input class="haha" value=${this.bookName2} style="width:80%; height:20px; outline:none; margin:10px 10px 10px 0;">
+      作者：<input class="haha" value=${this.bookAuthor2} style="width:80%; height:20px; outline:none; margin:10px 10px 10px 0;">
+      书籍编号：<input class="haha" value=${this.bookRef2} style="width:70%; height:20px; outline:none; margin:10px 22px 10px 0;">
+      状态：<input class="haha" value=${this.status2} style="width:80%; height:20px; outline:none; margin:10px 10px 10px 0;">
+      书籍所有者：<input class="haha" value=${this.ownerName2} style="width:70%; height:20px; outline:none; margin:10px 10px 10px 0;">
+      书籍介绍：<input class="haha" value=${this.bookDetails2} style="width:70%; height:20px; outline:none; margin:10px 10px 10px 0;">`, '标题名称', {
+        confirmButtonText: '确定',
+        dangerouslyUseHTMLString: true,
+        inputValue: '',
+        callback: action => {
+          const now = new Date()
+          const year = now.getFullYear()
+          const month = now.getMonth() + 1
+          const day = now.getDate()
+          const time = String(year) + '-' + String(month) + '-' + String(day)
+          if (this.status2 === 0) {
+            this.status2 = '可借阅'
           }
-          if (i === 10) {
-            let a = 0
-            if (row.status === '可借阅') {
-              a = 0
-            }
-            if (row.status === '借阅') {
-              a = 1
-            } if (row.status === '不可借阅') {
-              a = 2
-            }
-            axios({
-              method: 'POST',
-              url: 'http://localhost:8080/#/bookinfosCheckandChange/book/update',
-              data: {
-                bookId: parseInt(row.bookId),
-                bookName: row.bookName,
-                bookAuthor: row.bookAuthor,
-                bookDetails: row.bookDetails,
-                price: Number(row.price),
-                owner: row.owner, // 为啥是int？
-                ownerName: row.ownerName,
-                status: a,
-                createTime: row.createTime,
-                updateTime: row.updateTime,
-                bookRef: row.bookRef
-              }
-            }).then(response => {
-              Message({
-                message: '修改成功！',
-                type: 'success'
-              })
-            }, result => {
-              Message({
-                message: '修改成功！',
-                type: 'error'
-              })
+          if (this.status2 === 1) {
+            this.status = '借阅'
+          } if (this.status2 === 2) {
+            this.status = '不可借阅'
+          }
+          updatebookifos({
+            bookId: parseInt(row.bookId),
+            bookName: this.bookName2 === '' ? row.bookName : this.bookName2,
+            bookAuthor: this.bookAuthor2 === '' ? row.bookAuthor : this.bookAuthor2,
+            bookDetails: this.bookDetails2 === '' ? row.bookDetails : this.bookDetails2,
+            price: Number(row.price),
+            owner: parseInt(row.owner), // 为啥是int？
+            ownerName: this.ownerName2 === '' ? row.ownerName2 : this.ownerName2,
+            status: parseInt(this.status2 === '' ? row.status : this.status2),
+            createTime: row.createTime,
+            updateTime: time,
+            bookRef: row.bookRef
+          }).then(response => {
+            Message({
+              message: '修改成功！',
+              type: 'success'
             })
-            this.finishbutton = false
-            this.btnclick = true
-            return
-          }
+            this.finishbutton = true
+            this.index = index
+            this.btnclick = false
+          }, result => {
+            Message({
+              message: '修改成功！',
+              type: 'error'
+            })
+          })
         }
-        // row.bookName = document.getElementsByClassName('inputs')[0].value
-        // row.bookAuthor = document.getElementsByClassName('inputs')[1].value
-        // row.bookId = document.getElementsByClassName('inputs')[2].value
-        // row.status = document.getElementsByClassName('inputs')[3].value
-        // row.bookDetails = document.getElementsByClassName('inputs')[4].value
-        // row.price = document.getElementsByClassName('inputs')[5].value
-        // row.owner = document.getElementsByClassName('inputs')[6].value
-        // row.ownerName = document.getElementsByClassName('inputs')[7].value
-        // row.createTime = document.getElementsByClassName('inputs')[8].value
-        // row.updateTime = document.getElementsByClassName('inputs')[9].value
-        // row.bookRef = document.getElementsByClassName('inputs')[10].value
-        // console.log(row)
-        // for (let k = 0; k < 11; k++) {
-        //   document.getElementsByClassName('cell')[
-        //     index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + k
-        //   ].innerHTML = `<span>${
-        //   document.getElementsByClassName('inputs')[0].value
-        // }</span>`
-        // }
-        // this.finishbutton = false
-        // this.btnclick = true
-      }
+      })
     },
+    // finish (index, row) {
+    //   if (this.index === index) {
+    //     for (let i = 0; i < 11; i++) {
+    //       if (document.getElementsByClassName('inputs')[0].value === '') {
+    //         document.getElementsByClassName('cell')[
+    //           index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + i
+    //         ].innerHTML = `<span>${row[Object.keys(row)[i]]}</span>`
+    //       } else {
+    //         row[Object.keys(row)[i]] =
+    //           document.getElementsByClassName('inputs')[0].value
+    //         document.getElementsByClassName('cell')[
+    //           index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + i
+    //         ].innerHTML = `<span>${
+    //           document.getElementsByClassName('inputs')[0].value
+    //         }</span>`
+    //       }
+    //       if (i === 10) {
+    //         let a = 0
+    //         if (row.status === '可借阅') {
+    //           a = 0
+    //         }
+    //         if (row.status === '借阅') {
+    //           a = 1
+    //         } if (row.status === '不可借阅') {
+    //           a = 2
+    //         }
+    //         updatebookifos({
+    //           bookId: parseInt(row.bookId),
+    //           bookName: row.bookName,
+    //           bookAuthor: row.bookAuthor,
+    //           bookDetails: row.bookDetails,
+    //           price: Number(row.price),
+    //           owner: row.owner, // 为啥是int？
+    //           ownerName: row.ownerName,
+    //           status: a,
+    //           createTime: row.createTime,
+    //           updateTime: row.updateTime,
+    //           bookRef: row.bookRef
+    //         }).then(response => {
+    //           Message({
+    //             message: '修改成功！',
+    //             type: 'success'
+    //           })
+    //         }, result => {
+    //           Message({
+    //             message: '修改成功！',
+    //             type: 'error'
+    //           })
+    //         })
+    //         this.finishbutton = false
+    //         this.btnclick = true
+    //         return
+    //       }
+    //     }
+    //     // row.bookName = document.getElementsByClassName('inputs')[0].value
+    //     // row.bookAuthor = document.getElementsByClassName('inputs')[1].value
+    //     // row.bookId = document.getElementsByClassName('inputs')[2].value
+    //     // row.status = document.getElementsByClassName('inputs')[3].value
+    //     // row.bookDetails = document.getElementsByClassName('inputs')[4].value
+    //     // row.price = document.getElementsByClassName('inputs')[5].value
+    //     // row.owner = document.getElementsByClassName('inputs')[6].value
+    //     // row.ownerName = document.getElementsByClassName('inputs')[7].value
+    //     // row.createTime = document.getElementsByClassName('inputs')[8].value
+    //     // row.updateTime = document.getElementsByClassName('inputs')[9].value
+    //     // row.bookRef = document.getElementsByClassName('inputs')[10].value
+    //     // console.log(row)
+    //     // for (let k = 0; k < 11; k++) {
+    //     //   document.getElementsByClassName('cell')[
+    //     //     index + index * 12 + 12 - (index === 0 ? 0 : 1 * index) + k
+    //     //   ].innerHTML = `<span>${
+    //     //   document.getElementsByClassName('inputs')[0].value
+    //     // }</span>`
+    //     // }
+    //     // this.finishbutton = false
+    //     // this.btnclick = true
+    //   }
+    // },
     handleEdit (index) {
       if (this.btnclick) {
         for (let k = 0; k < 11; k++) {
@@ -257,13 +325,7 @@ export default {
       }
     },
     handleDelete (index, row) {
-      axios({
-        method: 'GET',
-        url: ` http://localhost:8080/#/bookinfosCheckandChange/book/queryOne?bookName=${row.bookId}`,
-        headers: {
-          Authorization: ''
-        }
-      }).then(response => {
+      deletebookinfos({ bookId: parseInt(row.bookId) }).then(response => {
         Message({
           message: '删除成功！',
           type: 'success'
@@ -277,14 +339,14 @@ export default {
       this.tableData.splice(index, 1)
     },
     change (page) {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8080/#/bookinfosCheckandChange/book/list?cur=${page}&size=5`,
-        headers: {
-          Authorization: ''
+      getAllBook({ cur: page, size: 5 }).then(response => {
+        const data = response.data
+        if (data.data[0] === undefined) {
+          this.tableData.splice(0)
+          alert('已到达结尾')
+          return
         }
-      }).then(response => {
-        const data = JSON.parse(response)
+        this.tableData = []
         for (let i = 0; i < 5; i++) {
         // 不够五本书籍
           if (data.data[i] === undefined) {
@@ -311,7 +373,7 @@ export default {
           k.createTime = data.data[i].createTime
           k.updateTime = data.data[i].updateTime
           k.bookRef = data.data[i].bookRef
-          this.tableData[i] = k
+          this.tableData.push(k)
         }
       }, result => {
         console.log(result)
@@ -326,21 +388,15 @@ export default {
       if (a) {
         this.ifadd = false
         this.reallyadd = false
-        axios({
-          method: 'POST',
-          url: 'http://localhost:8080/#/bookinfosCheckandChange/book/save',
-          headers: {
-            Authorization: ''
-          },
-          data: {
-            bookName: this.bookName,
-            bookAuthor: this.bookAuthor,
-            bookDetails: this.bookDetails,
-            price: Number(this.price),
-            owner: parseInt(this.owner),
-            remark: this.remark,
-            bookRef: this.bookRef
-          }
+        // console.log('1t', this.bookName, this.bookAuthor, this.bookDetails, Number(this.price), parseInt(this.owner), this.remark, this.bookRef)
+        savebook({
+          bookName: this.bookName,
+          bookAuthor: this.bookAuthor,
+          bookDetails: this.bookDetails,
+          price: Number(this.price),
+          owner: parseInt(this.owner),
+          remark: this.remark,
+          bookRef: this.bookRef
         }).then(response => {
           Message({
             message: '添加成功！',
@@ -354,7 +410,7 @@ export default {
         })
       } else {
         Message({
-          message: '取消成功！',
+          message: '取消添加！',
           type: 'success'
         })
       }

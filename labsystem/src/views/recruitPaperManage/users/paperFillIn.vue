@@ -18,14 +18,14 @@
   </el-form-item>
   <el-form-item label="年级" prop="grade">
     <el-select v-model="paperForm.grade" placeholder="请选择所在年级">
-      <el-option label="大一" value=1>大一</el-option>
-      <el-option label="大二" value=2>大二</el-option>
-      <el-option label="大三" value=3>大三</el-option>
-      <el-option label="大四" value=4>大四</el-option>
+      <el-option label="大一" value="1">大一</el-option>
+      <el-option label="大二" value="2">大二</el-option>
+      <el-option label="大三" value="3">大三</el-option>
+      <el-option label="大四" value="4">大四</el-option>
     </el-select>
   </el-form-item>
   <!-- 补充所属班级 -->
-  <el-form-item label="面试时间" required >
+  <el-form-item label="面试时间" required>
     <el-col :span="11">
       <el-form-item prop="date1">
         <el-date-picker   type="date" placeholder="选择日期" v-model="paperForm.date1"  :value="paperForm.test1" style="width: 100%;" @change="test()"></el-date-picker>
@@ -34,7 +34,7 @@
     <el-col class="line" :span="2">-</el-col>
     <el-col :span="11">
       <el-form-item prop="date2">
-        <el-time-picker  placeholder="选择时间" v-model="paperForm.date2" style="width: 100%;"></el-time-picker>
+        <el-time-picker @change="date2()" placeholder="选择时间" v-model="paperForm.date2" style="width: 100%;"></el-time-picker>
       </el-form-item>
     </el-col>
   </el-form-item>
@@ -62,25 +62,6 @@
     <el-button @click="resetForm('recruit')">重置</el-button>
   </el-form-item>
 </el-form>
-<!-- <div class="block">
-    <span class="demonstration">默认</span>
-    <el-date-picker
-      v-model="value1"
-      type="date"
-      placeholder="选择日期">
-    </el-date-picker>
-  </div>
-  <el-time-select
-  v-model="value"
-  v-if="value"
-  :picker-options="{
-    start: '08:30',
-    step: '00:15',
-    end: '18:30'
-  }"
-  placeholder="选择时间">
-</el-time-select>
--->
     </div>
 
   </div>
@@ -93,7 +74,6 @@ import { postPaperData } from '@/api/recruit'
 export default {
   data () {
     return {
-
       paperForm: {
         name: '',
         // string
@@ -108,7 +88,6 @@ export default {
         // date2: '',
         test1: '',
         class: '',
-        // 班级字符串
         group: '',
         // int
         introduce: '',
@@ -170,9 +149,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         // 点击后执行函数在没有错误时进行请求的发送 没有错误如何判断？关键是vaildate函数？
         if (valid) {
-          console.log(this.paperForm.group)
-          this.postPaperMessage()
           alert('提交成功')
+          postPaperData()
         } else {
           console.log('error submit!!')
           return false
@@ -182,20 +160,14 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    // 对报名表数据的提交
     async postPaperMessage () {
-      try {
-        const result = await postPaperData(this.paperForm.name, parseInt(this.paperForm.phonenumber), this.paperForm.email, this.paperForm.class, parseInt(this.paperForm.grade), '2024-10-10 12:03:30', parseInt(this.paperForm.group), this.paperForm.introduce, this.paperForm.purpose, this.paperForm.notes)
-        console.log(result)
-        // 请求成功后会在此处执行之后的函数
-
+      const { msg } = await postPaperData(this.name, this.phonenumber, this.email, this.class, parseInt(this.grade), this.date, parseInt(this.group), this.introduce, this.purpose, this.notes)
+      alert(msg)
       // 暂时使用弹框进行信息提示
-      } catch (error) {
-        console.error(error)
-      }
     }
   }
 }
+
 </script>
 
 <style lang="less" scoped>

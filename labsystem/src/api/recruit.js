@@ -1,7 +1,8 @@
 import recruit from '@/utils/request.js'
-// 提交报名表
+
 export const postPaperData = (name, phonenumber, email, classroom, grade, date, group, introduce, purpose, notes) => {
   return recruit.post('/registration/insertRegistration', {
+<<<<<<< HEAD
     interviewees: name,
     email: email,
     phone: phonenumber,
@@ -26,13 +27,44 @@ export const getRecruitData = (userId) => {
 // 更改报名表/报名表详细页展示时数据的获取 uerid
 export const getDetail = (id) => {
   return recruit.get('/registration/selectRegistrationById', {
+=======
+>>>>>>> e0d04097df2157baf0bd64bca75c2f7eebe7b586
     params: {
-      registrationId: id
+      registrationDto: {
+        interviewees: name,
+        email: email,
+        phone: phonenumber,
+        intentDepartment: group,
+        classroom,
+        interviewTime: date,
+        introduce,
+        purpose,
+        remark: notes,
+        grade
+      }
+
     }
   })
 }
+// 我的报名表数据的获取
+export const getPaperData = (userid) => {
+  return recruit.get('/registration/queryMyRecruit', {
+    params: {
+      userid
+    }
+  })
+}
+// 更改报名表/报名表详细页展示 时数据的获取
+export const getDetail = (id) => {
+  return recruit.get('/registration/selectList', {
+    params: {
+      registrationId: id
+    }
 
+  })
+}
 // 更改报名表时数据的提交
+<<<<<<< HEAD
 export const postUpdate = (id, interviewees, email, phone, intentDepartment, classroom, interviewTime, introduce, purpose, remark, grade) => {
   return recruit.post('/registration/updateRegistration', {
     // 请求体传参
@@ -48,36 +80,75 @@ export const postUpdate = (id, interviewees, email, phone, intentDepartment, cla
     remark,
     grade
 
+=======
+export const postUpdate = (Detail) => {
+  return recruit.post('/registration/updateRegistration', {
+    params: {
+      Detail
+      // registrationDto: {
+      //   id: 0,
+      //   interviewees: {
+      //     userName: 'string',
+      //     groupId: 0,
+      //     groupName: 'string',
+      //     roleId: 0,
+      //     roleName: 'string',
+      //     email: 'string',
+      //     phone: 'string',
+      //     sex: 0,
+      //     userId: 0,
+      //     createTime: 'string',
+      //     updateTime: 'string'
+      //   },
+      //   email: 'string',
+      //   phone: 0,
+      //   intentDepartment: 0,
+      //   classroom: 'string',
+      //   interviewTime: 'string',
+      //   introduce: 'string',
+      //   purpose: 'string',
+      //   remark: 'string',
+      //   grade: 'string'
+      // }
+    }
+>>>>>>> e0d04097df2157baf0bd64bca75c2f7eebe7b586
   })
 }
 // 不加变量名默认是请求体传参
 
 // 获取所有的报名表列表
 export const getlistDetail = (cur, size) => {
-  return recruit.get(`/registration/selectList?cur=${cur}&size=${size}`)
+  return recruit.get('/registration/selectList', {
+    params: {
+      cur,
+      size
+    }
+  })
 }
+<<<<<<< HEAD
 // 按照用户名进行查询报名表：（暂时写死的）
 export const getDetailByName = (intervieweesName) => {
   return recruit.get(`/registration/selectByUserName?intervieweesName=${intervieweesName}&cur=1&size=10`, {
   }
   )
-}
-// 按照年级进行查询报名表：
-export const getDetailBygrade = (grade, cur, size) => {
-  return recruit.get('/registration/selectByGradeId', {
+=======
+// 按照用户名进行查询报名表：
+export const getDetailByName = (intervieweesName, cur, size) => {
+  return recruit.get('/registration/selectByUserName', {
     params: {
-      grade,
+      intervieweesName,
       cur,
       size
     }
 
   })
+>>>>>>> e0d04097df2157baf0bd64bca75c2f7eebe7b586
 }
-// 根据意向部门进行查询
-export const getDetailByintentDepartment = (intentDepartment, cur, size) => {
-  return recruit.get('/registration/selectByGradeId', {
+// 按照年级进行查询报名表：
+export const getDetailBygrade = (grade, cur, size) => {
+  return recruit.get('/registration/selectByUserName', {
     params: {
-      intentDepartment,
+      grade,
       cur,
       size
     }
