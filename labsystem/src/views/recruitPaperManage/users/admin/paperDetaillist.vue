@@ -1,7 +1,8 @@
 <template>
    <div  class="body">
+    <el-page-header @back="goBack()" content="详情页面">
+    </el-page-header>
   <div class="main">
-
   <el-descriptions title='报名表详细' :column="3" border size="big">
   <el-descriptions-item style="width: 50px;" label="姓名" label-class-name="my-label" content-class-name="my-content">{{Datalist.userName}}</el-descriptions-item>
   <el-descriptions-item label="邮箱">{{ Datalist.email }}</el-descriptions-item>
@@ -17,8 +18,6 @@
   <el-descriptions-item label="备注" :contentStyle="{'text-align': 'left'}">{{Datalist.remark  }}</el-descriptions-item>
   <el-descriptions-item label="个人介绍" :contentStyle="{'text-align': 'left'}">{{ Datalist.introduce }}</el-descriptions-item>
   <el-descriptions-item label="加入目的" :contentStyle="{'text-align': 'left'}">{{ Datalist.purpose }}</el-descriptions-item>
-  <!-- <el-descriptions-item label='更新时间' :contentStyle="{'text-align': 'left'}">{{Datalist.interviewees.updateTime  }}</el-descriptions-item>
-  <el-descriptions-item label='创建时间' :contentStyle="{'text-align': 'left'}">{{Datalist.interviewees.createTime  }}</el-descriptions-item> -->
 
 </el-descriptions>
   </div>
@@ -45,6 +44,9 @@ export default {
     this.getDetail()
   },
   // 在页面加载时获取列表页面中id值
+
+  // 此处对id的设置存在错误 在函数内部可以看
+  // 到this.id值的改变但在外部产看时没有改变
   created () {
     Bus.$on('id', (id) => {
       console.log(id)
@@ -60,6 +62,10 @@ export default {
       this.Datalist = data.data
       console.log(data)
     // 直接接收整个对象
+    },
+    goBack () {
+      console.log('go back')
+      history.back()
     }
   }
 }

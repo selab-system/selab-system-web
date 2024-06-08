@@ -1,20 +1,16 @@
 <template>
- <div class="main">
-  <!-- // 应将提示信息框设置定位进行排布设置 -->
-<!-- <div class="main2"> -->
+ <div class="main" >
   <div class="input">
     <div class="img"></div>
-    <ul>
+     <ul>
 
         <!-- 设置登录表单： 1.表单验证 2. 设置用户名输入 3、密码输入-->
         <!-- 注意此处 登录的验证暂时不适用 -->
-    <!-- <el-form-item label="活动名称" prop="name">
-    <el-input v-model="ruleForm.name"></el-input>
-    </el-form-item> -->
+
     <li><h1>欢迎登录实验室管理系统</h1></li>
-    <el-form :model="logininfos" :rules="rules" ref="logininfos" label-width="100px" class="demo-ruleForm">
+    <el-form :model="logininfos" :rules="rules" ref="logininfos" label-width="100px" class="demo-ruleForm" @keyup.enter.native="submitForm('logininfos')" >
       <el-form-item label="用户名/邮箱" prop="postMessage">
-        <el-input v-model="logininfos.postMessage"></el-input>
+        <el-input v-model="logininfos.postMessage" ></el-input>
       </el-form-item>
        <el-form-item label="密码" prop="password">
 
@@ -22,34 +18,22 @@
      </el-form-item>
 
     <el-form-item>
-    <el-button type="primary" :loading="loading" @click="submitForm('logininfos')">登录</el-button>
+    <el-button type="primary" :loading="loading"  @click="submitForm('logininfos')">登录</el-button>
     <el-button @click="resetForm('logininfos')">重置</el-button>
     </el-form-item>
     <li class="button_register"><span>还没有账号?</span><router-link to="/register">前往注册</router-link></li>
     </el-form>
 
-  </ul>
+     </ul>
   </div>
 
-        <!-- 登录框需要进行输入验证 -->
-<!-- 暂时确定仅验证输入的内容是否符合要求 -->
-<!-- 暂时不管是否内容为空 -->
-
-        <!-- 背景图如何设置 -->
-        <!-- 具体功能：
-        输入密码，账号，（输入格式不正确，未输入提示 前后）
-        点击登录，使用axios发送请求 判断账号密码信息 如果账号存在密码正确 账号不存在进行判断 密码不正确进行判断
-        登录成功了  接收返回的用户的信息（对axios返回数据进行存储）
-        实现页面跳转 -->
-<!-- </div> -->
 </div>
 </template>
 
 <script>
 // 使用映射引入库中数据 简化写法
 import { judgeLogin } from '@/api/enter'
-
-import { mapActions, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     // 对于在组件内部输入内容的绑定可以实现 现在尝试仅使用vuex的方法
@@ -58,7 +42,6 @@ export default {
       logininfos: {
         password: '',
         postMessage: '',
-
         // 以下为接收到的数据
         userName: '',
         // 用户名
@@ -96,63 +79,52 @@ export default {
   },
   // 函数实现功能
   methods: {
-    ...mapActions('login', ['judgeLogin']),
-    // 实现一下改变输入内容后进行对应变量数据的改变  (实现失败)？
-    // ...mapMutations('login', ['changepassWord']),
-    // ...mapMutations('login', ['changepostMessage'])
-    ...mapMutations('login', ['changepassWord']),
-    ...mapMutations('login', ['changepostMessage']),
-
-    // 一下是对修改后的登录页面的检验函数的绑定以及在检验后对数据的请求;
+    ...mapMutations('login', ['tokenStore']),
+    test () {
+      console.log(123)
+    },
+    // 登录页面的检验函数的绑定
+    // 在检验后对数据的请求;
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
           alert('submit!')
-          // 在下面设置函数的请求 获取的数据与组件中data变量的绑定
-          // 同时将获取到的数据传入到本地存储中
           this.postData_login()
-          // 如果登录/注册失败后应显示错误信息并阻止跳转
-          // 在此处进行判断
-          // if (this.msgNotice !== '登录成功') {
-          //   console.log(this.msgNotice)
-          //   return false
-          // } else {
-          //   console.log('asdsad')
-          //   this.stataStore()
-          //   // 进行跳转
-          //   this.tohomePage()
-          // }
-          // 同时将获取到的数据传入到本地存储中
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    // testTime () {
+    //   this.$store.state.token = ''
+    //   console.log(this.$store.state)
+    // },
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
     // axios获取页面登录数据
     async postData_login () {
       try {
-        const result = await judgeLogin(this.logininfos.postMessage, this.logininfos.password)
-        console.log(result)
-        if (result.data.msg === '') { this.msgNotice = '登录成功' } else { this.msgNotice = result.data.msg }
+        const { data } = await judgeLogin(this.logininfos.postMessage, this.logininfos.password)
+        if (data.msg === '') { this.msgNotice = '登录成功' } else { this.msgNotice = data.msg }
         this.loading = false
         console.log(this.loading)
-        this.logininfos.userName = result.data.data.userName// 用户名
-        this.logininfos.groupId = result.data.data.groupId// 小组id
-        this.logininfos.roleId = result.data.data.roleId// 角色id
-        this.logininfos.userid = result.data.data.useId// 用户id
-        this.logininfos.token = result.data.data.token
+        this.logininfos.userName = data.data.userName// 用户名
+        this.logininfos.groupId = data.data.groupId// 小组id
+        this.logininfos.roleId = data.data.roleId// 角色id
+        this.logininfos.userid = data.data.useId// 用户id
+        this.logininfos.token = data.data.token
+        // 将token保存到vuex仓库中
+        this.tokenStore(data.data.token)
         // 点击按钮后发送请求 loading变为true
         // 在请求函数中对返回数据做处理
         if (this.msgNotice !== '登录成功') {
           console.log(this.msgNotice)
+          this.logined()
           return false
         } else {
-          console.log('asdsad')
           this.logined()
           this.stataStore()
           // 进行跳转
@@ -168,21 +140,19 @@ export default {
     },
     // 数据的本地存储
     stataStore () {
-      // localStorage.setItem('password', JSON.stringify(this.logininfos.password))
-      // localStorage.setItem('postmessage', JSON.stringify(this.logininfos.postMessage))
-      // localStorage.setItem('roleId', JSON.stringify(this.roleId))
       localStorage.setItem('roleid', JSON.stringify(this.logininfos.roleId))
       localStorage.setItem('groupid', JSON.stringify(this.logininfos.groupId))
       localStorage.setItem('userid', JSON.stringify(this.logininfos.userid))
       localStorage.setItem('token', JSON.stringify(this.logininfos.token))
-      localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
+      // 在此处可以将token存放到vuex仓库中
+      // localStorage.setItem('username', JSON.stringify(this.logininfos.userName))
       // 存储时仅仅使用小写字母
     },
     // 设置提示框（弹框显示返回消息）
     logined () {
       this.$message({
         type: 'success',
-        message: '登录成功'
+        message: this.msgNotice
       })
       // 弹框的单独使用？
     }
@@ -202,11 +172,20 @@ padding: 0 0;
      width:3000px;
      height:2000px;
      background-color: #2fa15b;
-    position: relative;
-    // display: inline-block;
     overflow: hidden;
+
     }
-.img{
+
+.input{margin: 0 auto;
+        width: 1200px;
+        height: 550px;
+        margin-top: 300px;
+        background-color: #f5f8f9;
+        box-shadow: 1px 1px 1px 1px #c6c9c9;
+        position: relative;
+        display: flex;
+      }
+      .img{
 width: 60%;
 height: 100%;
 background-color: #531616;
@@ -214,17 +193,6 @@ position: absolute;
 background:url(../assets/login.png);
 background-size: 100% 100%;
 }
- .input{margin: 0 auto;
-        width: 1200px;
-        height: 550px;
-        margin-top: 300px;
-        background-color: #f5f8f9;
-        // border-radius: 40px;
-        // 添加阴影
-        box-shadow: 1px 1px 1px 1px #c6c9c9;
-        position: relative;
-        display: flex;
-    }
     ul{
       display: flex;
       flex-direction: column;
@@ -240,49 +208,6 @@ background-size: 100% 100%;
     display: flex;
     align-items: center;
     // margin-right: 50px;
-    }
-    #first{
-  display: block;
-  width: 90px;
-  text-align: center;
-  line-height: 16px;
-  font-size: 16px;
-
-    }
-    #second{
-        display: block;
-        width: 60px;
-        line-height: 16px;
-        font-size: 16px;
-    }
-     .alter1{
-      width: 190px;
-      height: 40px;
-      background-color: #fcf9f9;
-      color: red;
-    //  border-radius: 13px;
-     text-align: center;
-     font-size: 16px;
-     letter-spacing: 1px;
-     line-height: 40px;
-     position: absolute;
-     top: 96px;
-     right: 149px;
-     }
-    /* 登录界面设置背景的自定义 */
-    .alter2{
-      width: 190px;
-      height: 40px;
-      background-color: #fcf9f9;
-      color: red;
-    //  border-radius: 13px;
-     text-align: center;
-     font-size: 16px;
-     letter-spacing: 1px;
-     line-height: 40px;
-     position: absolute;
-     top: 256px;
-     right: 149px;
     }
     .el-button
     {
@@ -300,5 +225,4 @@ color: #2fa15b;
 font-size: 20px;
 }
 // 了解a标签与router-link的关系：
-
     </style>

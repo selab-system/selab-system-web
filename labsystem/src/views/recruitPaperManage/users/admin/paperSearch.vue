@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <el-empty description="所有已经提交的报名表的列表" v-if="empty" ></el-empty>
     <!-- 如何为空的页面设置显示 -->
 
@@ -40,21 +40,7 @@
     </el-form-item>
    </el-form>
 
-    <el-table :data="tableData" border style="width: 100%">
-
-    <!-- <el-table-column label="姓名" width="200"> -->
-    <!-- <template slot-scope="scope"> -->
-        <!-- <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover> -->
-        <!-- <i class="el-icon-user"></i> -->
-        <!-- <span >{{ scope.row.interviewees.userName}}</span> -->
-      <!-- </template> -->
-    <!-- </el-table-column> -->
+    <el-table :data="tableData" border style="width: 90%; margin-top: 100px; font-size: 20px; margin-bottom: 50px;" >
 
     <el-table-column label="意向部门" width="220">
       <template slot-scope="scope">
@@ -79,8 +65,8 @@
 
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button size="big" style="margin-left: 50px;" type="danger" @click="handleEdit(scope.$index, scope.row.id)">编辑/修改信息</el-button>
-        <el-button size="big"  @click="handleDetail(scope.$index, scope.row.userName)">查看详细</el-button>
+        <el-button size="big" style="margin-left: 100px;" type="danger" @click="handleEdit(scope.$index, scope.row.id)">编辑/修改信息</el-button>
+        <el-button size="big"  @click="handleDetail(scope.$index, scope.row.id)">查看详细</el-button>
       </template>
     </el-table-column>
 
@@ -88,6 +74,7 @@
   <div class="block" s>
 
   <el-pagination
+  style="width: 80%; font-size: 20px; margin-left: 90px;"
   background
     layout="prev, pager, next"
     :total="1000" @current-change="handleCurrentChange">
@@ -107,32 +94,9 @@ export default {
       empty: false,
       // tableData中每一个数组代表一个row
       tableData: [
-        // {
-        //   id: 1,
-        //   interviewees: {
-        //     userName: 'string',
-        //     groupId: 0,
-        //     groupName: 'string',
-        //     roleId: 0,
-        //     roleName: 'string',
-        //     email: 'string',
-        //     phone: 'string',
-        //     sex: 0,
-        //     userId: 0,
-        //     createTime: 'string',
-        //     updateTime: 'string'
-        //   },
-        //   email: 'string',
-        //   phone: 0,
-        //   intentDepartment: 0,
-        //   classroom: 'string',
-        //   interviewTime: 'string',
-        //   introduce: 'string',
-        //   purpose: 'string',
-        //   remark: 'string',
-        //   grade: 'string'
-        // }
+        {
 
+        }
       ],
       Search1: {
         userName: ''
@@ -170,6 +134,7 @@ export default {
     handleEdit (index, row) {
       // 获取到点击列的用户姓名 将姓名进行传递 传递到详细信息页面组件
       Bus.$emit('id', row)
+
       console.log(row)
       // 点击按钮跳转到详情页组件
       this.topaperDetail()
@@ -179,6 +144,7 @@ export default {
       console.log(index, row)
       this.toDetaillist()
     },
+
     // 查询按钮的设置
     // 使用姓名进行提交查询
     submit1 (formName) {
@@ -222,20 +188,13 @@ export default {
         }
       })
     },
-    // 跳转到用户报名表可更改详情页；
-    topaperDetail () {
-      this.$router.push('/paperDetail')
-    },
-    // 跳转到用户报名表详细页
-    toDetaillist () {
-      this.$router.push('/paperDetaillist')
-    },
     // 分页组件点击按钮实现获取页号的功能
     handleCurrentChange (val) {
       console.log(val)
       // 获取页码的同时将页码作为参数传递异步函数进行数据获取
       this.curslist(val)
     },
+
     // 第一页展示时进行的请求
     async firstlist () {
       const { data } = await getlistDetail(1, 10)
@@ -267,6 +226,14 @@ export default {
       const { data } = await getDetailByintentDepartment(parseInt(intentDepartment), 1, 20)
       this.tableData = data.data
       this.Search3.intentDepartment = ''
+    },
+    // 跳转到用户报名表可更改详情页；
+    topaperDetail () {
+      this.$router.push('/paperDetail')
+    },
+    // 跳转到用户报名表详细页
+    toDetaillist () {
+      this.$router.push('/paperDetaillist')
     }
   }, // 获取paperlist的所有数据并渲染
   mounted () {
@@ -276,4 +243,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main{
+  margin: 10px;
+  padding: 30px;
+  border: solid 1px #aca8a8;
+  border-radius: 20px;
+}
 </style>

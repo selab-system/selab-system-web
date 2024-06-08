@@ -5,16 +5,16 @@
         <h1 class="title">招新报名表</h1>
         <el-form :model="paperForm" :rules="rules" ref="recruit" label-width="100px" class="demo-ruleForm">
   <el-form-item label="姓名" prop="name">
-    <el-input v-model="paperForm.name" size="medium"></el-input>
+    <el-input v-model="paperForm.name" size="medium"  style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="邮箱" prop="email">
-    <el-input v-model="paperForm.email"></el-input>
+    <el-input v-model="paperForm.email" style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="手机号" prop="phonenumber">
-    <el-input v-model="paperForm.phonenumber"></el-input>
+    <el-input v-model="paperForm.phonenumber"  style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="班级" prop="class">
-    <el-input v-model="paperForm.class" size="small"></el-input>
+    <el-input v-model="paperForm.class" size="small"  style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="年级" prop="grade">
     <el-select v-model="paperForm.grade" placeholder="请选择所在年级">
@@ -28,7 +28,7 @@
   <el-form-item label="面试时间" required >
     <el-col :span="11">
       <el-form-item prop="date1">
-        <el-date-picker   type="date" placeholder="选择日期" v-model="paperForm.date1"  style="width: 100%;"></el-date-picker>
+        <el-date-picker   type="date" placeholder="选择日期" v-model="paperForm.date1"  :value="paperForm.test1" style="width: 100%;" @change="test()"></el-date-picker>
       </el-form-item>
     </el-col>
     <el-col class="line" :span="2">-</el-col>
@@ -40,22 +40,22 @@
   </el-form-item>
 
   <el-form-item label="意向部门" prop="group">
-    <el-radio-group v-model="paperForm.group">
-      <el-radio label=2 :value='2'>网络安全</el-radio>
-      <el-radio label=1 :value="3">软件开发</el-radio>
-      <el-radio label=4 :value='4'>虚拟现实</el-radio>
-      <el-radio label=3 :value='3'>人工智能</el-radio>
+    <el-radio-group v-model="paperForm.group" @change="test()">
+      <el-radio label='2' :value='2'>网络安全</el-radio>
+      <el-radio  lable='1' :value="1">软件开发</el-radio>
+      <el-radio label='4' :value='4'>虚拟现实</el-radio>
+      <el-radio label='3' :value='3'>人工智能</el-radio>
     </el-radio-group>
   </el-form-item>
 
   <el-form-item label="个人介绍" prop="introduce">
-    <el-input type="textarea" size="medium" v-model="paperForm.introduce"></el-input>
+    <el-input type="textarea" size="medium"  v-model="paperForm.introduce" rows="3" style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="加入目的" prop="purpose">
-    <el-input type="textarea" size="small" v-model="paperForm.purpose"></el-input>
+    <el-input type="textarea" size="small" v-model="paperForm.purpose" rows="3" style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item label="备注" prop="notes">
-    <el-input type="textarea" size="medium" v-model="paperForm.notes"></el-input>
+    <el-input type="textarea" size="medium" v-model="paperForm.notes" rows="3" style="width: 80%;"></el-input>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="submitForm('recruit')">提交报名表</el-button>
@@ -89,6 +89,7 @@
 
 <script>
 import { postPaperData } from '@/api/recruit'
+
 export default {
   data () {
     return {
@@ -105,6 +106,7 @@ export default {
         // date1: '',
         // // string
         // date2: '',
+        test1: '',
         class: '',
         // 班级字符串
         group: '',
@@ -118,19 +120,19 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { required: true, message: '请输入姓名', trigger: 'change' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         email: [
-          { required: true, message: '请输入邮箱号', trigger: 'blur' }
+          { required: true, message: '请输入邮箱号', trigger: 'change' }
         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         phonenumber: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { required: true, message: '请输入手机号', trigger: 'change' },
           { min: 11, message: '长度为11个字符', trigger: 'blur' }
         ],
         class: [
-          { required: true, message: '请输入班级', trigger: 'blur' }
+          { required: true, message: '请输入班级', trigger: 'change' }
         //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         grade: [
@@ -159,14 +161,10 @@ export default {
     }
   },
   methods: {
-
-    // Dataconsole1 () {
-    //   console.log(this.date1)
-    // },
-    // Dataconsole2 () {
-    //   console.log(this.date2)
-    // },
-
+    test () {
+      console.log(this.paperForm.group)
+      // console.log(1)
+    },
     // 此函数设置在表单的提交按钮上 参数为表单标签名 ref  validate 用于判断
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {

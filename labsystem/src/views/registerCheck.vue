@@ -10,8 +10,8 @@
           <el-form-item label="邮箱" prop="email">
           <el-input v-model="checkEmail.email"></el-input> <el-button style="display: inline;"  @click="postCheckinfo()"  type="primary" plain>发送验证码</el-button>
           </el-form-item>
-          <el-form-item label="验证码" prop="checkinfo">
-           <el-input v-model="checkEmail.checkinfo"></el-input>
+          <el-form-item label="验证码"  prop="checkinfo">
+           <el-input v-model="checkEmail.checkinfo" placeholder="请输入六位数的验证码"></el-input>
 
          </el-form-item>
          <el-form-item>
@@ -52,7 +52,8 @@ export default {
           { required: true, message: '请输入邮箱', trigger: 'blur' }
         ],
         checkinfo: [
-          { required: true, message: '请输入验证码', trigger: 'change' }
+          { required: true, message: '请输入验证码', trigger: 'change' },
+          { min: 6, max: 6, message: '验证码格式错误', trigger: 'blur' }
         ]
       }
     }
@@ -74,20 +75,6 @@ export default {
           this.loading = true
           this.register()
           alert('submit!')
-          // 显示提示信息
-          // this.registered()
-          // // 此处进行判断登录是否成功
-          // if (this.msg !== '注册成功!') {
-          //   console.log(this.msg)
-          //   return false
-          // } else {
-          //   setTimeout(() => {
-          //     this.tologin()
-          //   }, 2000)
-          // }
-          // 计时器时异步的下面的操作是同步的
-
-          // 前往登录面
         } else {
           console.log('error submit!!')
           return false
@@ -101,14 +88,13 @@ export default {
     postCheckinfo () {
       // 倒计时效果的实现最后：
       this.postinfo()
-      alert('邮箱发送')
+      alert('验证码已经发送')
     },
     // 进行邮箱验证的发送
     async postinfo () {
       try {
         const result1 = await PostInfo(this.checkEmail.email)
         console.log(result1)
-        alert(result1.msg)
       } catch (error) {
         console.error(error)
       }
@@ -127,23 +113,26 @@ export default {
     async register () {
       try {
         const result2 = await registerPost(this.registerinfos.username, this.checkEmail.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.registerinfos.password, this.checkEmail.checkinfo)
+        // 设置为加载后状态
+        this.loading = false
+        // 判断返回信息请求状态
         if (result2.data.msg === '') {
           this.msg = '注册成功!'
         } else {
           this.msg = result2.data.msg
         }
-        this.loading = false
-        this.registered()
+
         // 此处进行判断登录是否成功
         if (this.msg !== '注册成功!') {
           console.log(this.msg)
+          this.registered()
           return false
         } else {
+          this.registered()
           setTimeout(() => {
             this.tologin()
-          }, 2000)
+          }, 1000)
         }
-        // alert(result2.msg)
       } catch (error) {
         console.error(error)
       }

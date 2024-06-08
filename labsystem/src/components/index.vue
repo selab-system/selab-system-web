@@ -1,6 +1,6 @@
 <template>
   <div>
-   <span>hahah</span>
+   <span></span>
    <i class="el-icon-edit"></i>
   </div>
 </template>

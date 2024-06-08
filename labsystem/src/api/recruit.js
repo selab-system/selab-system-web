@@ -8,6 +8,7 @@ export const postPaperData = (name, phonenumber, email, classroom, grade, date, 
     intentDepartment: group,
     classroom,
     interviewTime: date,
+    // (需要设置为2024-03-04 12:04:08)格式
     introduce,
     purpose,
     remark: notes,
@@ -16,13 +17,13 @@ export const postPaperData = (name, phonenumber, email, classroom, grade, date, 
   }
   )
 }
-// 我的报名表数据的获取
+// 我的报名表数据的获取 uerid
 export const getRecruitData = (userId) => {
   return recruit.get(`/registration/queryMyRecruit?userId=${userId}`
   )
 }
 
-// 更改报名表/报名表详细页展示时数据的获取
+// 更改报名表/报名表详细页展示时数据的获取 uerid
 export const getDetail = (id) => {
   return recruit.get('/registration/selectRegistrationById', {
     params: {
@@ -32,13 +33,11 @@ export const getDetail = (id) => {
 }
 
 // 更改报名表时数据的提交
-export const postUpdate = (id, email, phone, intentDepartment, classroom, interviewTime, introduce, purpose, remark, grade) => {
+export const postUpdate = (id, interviewees, email, phone, intentDepartment, classroom, interviewTime, introduce, purpose, remark, grade) => {
   return recruit.post('/registration/updateRegistration', {
     // 请求体传参
     id,
-    interviewees: {
-
-    },
+    interviewees,
     email,
     phone,
     intentDepartment,
@@ -48,38 +47,16 @@ export const postUpdate = (id, email, phone, intentDepartment, classroom, interv
     purpose,
     remark,
     grade
-    // registrationDto: {
-    //   id: 0,
-    //   interviewees: {
-    //     userName: 'string',
-    //     groupId: 0,
-    //     groupName: 'string',
-    //     roleId: 0,
-    //     roleName: 'string',
-    //     email: 'string',
-    //     phone: 'string',
-    //     sex: 0,
-    //     userId: 0,
-    //     createTime: 'string',
-    //     updateTime: 'string'
-    //   },
-    //   email: 'string',
-    //   phone: 0,
-    //   intentDepartment: 0,
-    //   classroom: 'string',
-    //   interviewTime: 'string',
-    //   introduce: 'string',
-    //   purpose: 'string',
-    //   remark: 'string',
-    //   grade: 'string'
-    // }
+
   })
 }
+// 不加变量名默认是请求体传参
+
 // 获取所有的报名表列表
 export const getlistDetail = (cur, size) => {
   return recruit.get(`/registration/selectList?cur=${cur}&size=${size}`)
 }
-// 按照用户名进行查询报名表：
+// 按照用户名进行查询报名表：（暂时写死的）
 export const getDetailByName = (intervieweesName) => {
   return recruit.get(`/registration/selectByUserName?intervieweesName=${intervieweesName}&cur=1&size=10`, {
   }

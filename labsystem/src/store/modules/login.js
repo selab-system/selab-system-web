@@ -12,7 +12,9 @@ const state = {
   groupId: '',
   roleId: 'jjj',
   useId: '',
-  msgNotice: ''
+  msgNotice: '',
+
+  token: '123'
 }
 //
 const mutations = {
@@ -29,6 +31,10 @@ const mutations = {
     // {
 
     // }
+  },
+  // 将token保存到vuex仓库中方便调用同时提高token数据的安全性
+  tokenStore (state, Token) {
+    state.token = Token
   }
 }
 // 实现数据绑定

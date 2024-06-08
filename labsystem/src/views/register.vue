@@ -1,35 +1,34 @@
 <template>
  <div class="register">
   <div class="body">
-  <div class="main">
-    <div class="img"></div>
-    <h1>账号注册</h1>
-    <ul>
+    <div class="main">
+      <div class="img"></div>
+      <h1>账号注册</h1>
+      <ul>
       <el-form :model="registerinfos" :rules="rules" ref="registerinfos" label-width="100px" class="demo-ruleForm">
-
-  <el-form-item label="用户名" prop="username">
-    <el-input v-model="registerinfos.username"></el-input>
-  </el-form-item>
-  <el-form-item label="密码" prop="password">
-    <el-input v-model="registerinfos.password"></el-input>
-  </el-form-item>
-  <el-form-item label="邮箱" prop="email">
-    <el-input v-model="registerinfos.email"></el-input>
-  </el-form-item>
-  <el-form-item label="手机号" prop="phonenumber">
-    <el-input v-model="registerinfos.phonenumber"></el-input>
-  </el-form-item>
-  <!-- 性别0  -->
-  <el-form-item label="性别" prop="gender">
-    <el-radio-group v-model="registerinfos.gender">
-      <el-radio label="1">男</el-radio>
-      <el-radio label="0">女</el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('registerinfos')">下一步</el-button>
-    <el-button @click="resetForm('registerinfos')">重置</el-button>
-  </el-form-item>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="registerinfos.username"  ></el-input>
+        </el-form-item>
+        <el-form-item label="密码"  prop="password">
+          <el-input v-model="registerinfos.password" placeholder="包含一个大写小写字母与数字"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="registerinfos.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phonenumber">
+          <el-input v-model="registerinfos.phonenumber"></el-input>
+        </el-form-item>
+        <!-- 性别0  -->
+        <el-form-item label="性别" prop="gender">
+          <el-radio-group v-model="registerinfos.gender">
+            <el-radio label="1">男</el-radio>
+            <el-radio label="0">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('registerinfos')" style="width: 120px; height:50px;">下一步</el-button>
+          <el-button @click="resetForm('registerinfos')">重置</el-button>
+        </el-form-item>
       </el-form>
       </ul>
   </div>
@@ -63,7 +62,8 @@ export default {
           { required: true, message: '请输入邮箱', trigger: 'change' }
         ],
         phonenumber: [
-          { required: true, message: '请输入手机号', trigger: 'change' }
+          { required: true, message: '请输入手机号', trigger: 'change' },
+          { min: 11, max: 11, message: '手机号格式错误', trigger: 'blur' }
         ],
         gender: [
           { required: true, message: '请选择性别', trigger: 'change' }
@@ -215,10 +215,5 @@ width: 100px;
 width: 250px;
 height: 30px;
 margin-left: 75px;
-}
-.el-button
-{
-  width: 200px;
-  height: 50px;
 }
 </style>

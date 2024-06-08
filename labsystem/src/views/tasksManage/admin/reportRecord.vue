@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { queryMyTask } from '@/api/task'
-import dayjs from 'dayjs'
+// import { queryMyTask } from '@/api/task'
+// import dayjs from 'dayjs'
 export default {
   data () {
     return {
@@ -39,22 +39,23 @@ export default {
 
     indexMethod (index) {
       return index + 1
-    },
-
-    queryMyTask2 () {
-      queryMyTask().then(response => {
-        console.log(response.data.data)
-        this.tableData = response.data.data
-
-        this.tableData.map(item => {
-          const now = dayjs(item.publishTime)
-          console.log(now.format('YYYY-MM-DD HH:ss:mm'))
-          item.publishTime = now.format('YYYY-MM-DD HH:ss:mm')
-        })
-      }).catch(error => {
-        console.error('查询任务失败：', error)
-      })
     }
+
+    // queryMyTask2 () {
+    //   queryMyTask().then(response => {
+    //     console.log(response.data.data)
+    //     this.tableData = response.data.data
+
+    //     this.tableData.map(item => {
+    //       const now = dayjs(item.publishTime)
+    //       console.log(now.format('YYYY-MM-DD HH:ss:mm'))
+    //       item.publishTime = now.format('YYYY-MM-DD HH:ss:mm')
+    //       return false
+    //     })
+    //   }).catch(error => {
+    //     console.error('查询任务失败：', error)
+    //   })
+    // }
   },
   mounted () {
     this.queryMyTask2()

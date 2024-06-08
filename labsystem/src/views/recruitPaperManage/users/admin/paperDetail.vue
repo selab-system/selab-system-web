@@ -4,13 +4,13 @@
 
     <div class="body">
       <el-page-header @back="goBack()" content="详情页面">
-</el-page-header>
+      </el-page-header>
   <div class="main">
     <div class='container'>
         <h1 class="title">招新报名表</h1>
         <el-form :model="Detail" :rules="rules" ref="Detail" label-width="100px" class="ruleForm">
   <el-form-item label="姓名" prop="name">
-    <el-input v-model="Detail.userName" size="medium"></el-input>
+    <el-input v-model="Detail.interviewees" size="medium"></el-input>
   </el-form-item>
   <el-form-item label="邮箱" prop="email">
     <el-input v-model="Detail.email"></el-input>
@@ -63,7 +63,7 @@
     <el-input type="textarea" size="medium" v-model="Detail.remark"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="open()">更新报名表</el-button>
+    <el-button type="primary" @click="open(),submitForm('Detail')">更新报名表</el-button>
     <!-- 对按钮需要设置 1.校验内容的输入2.产生提示消息 -->
     <el-button @click="resetForm('recruit')">重置</el-button>
   </el-form-item>
@@ -86,24 +86,23 @@ export default {
         // 此处的参数仅用于设置使用 用于占位 实际Detail将是get来的整个大对象
         id: 0,
         interviewees: {
-          // userName: 'string',
-          // sex: 0
+
         },
-        userName: '',
         email: '',
-        phone: 1,
-        intentDepartment: 1,
+        phone: '',
+        intentDepartment: '',
         classroom: '',
         interviewTime: '',
+        // 暂时设置为不更改
         introduce: '',
         purpose: '',
         remark: '',
-        grade: 1
+        grade: ''
       },
       rules: {
         name: [
-          { required: true, message: '请输入姓名', trigger: 'input' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'input' }
+          { required: true, message: '请输入姓名', trigger: 'change' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         email: [
           { required: true, message: '请输入邮箱号', trigger: 'change' }
@@ -111,11 +110,11 @@ export default {
         ],
         phonenumber: [
           { required: true, message: '请输入手机号', trigger: 'change' },
-          { min: 11, message: '长度为11个字符', trigger: 'change' }
+          { min: 11, max: 11, message: '长度为11个字符', trigger: 'blur' }
         ],
         class: [
-          { required: true, message: '请输入班级', trigger: 'change' }
-        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入班级', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         grade: [
           { required: true, message: '请选择年级', trigger: 'change' }
@@ -127,7 +126,7 @@ export default {
         //   { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         // ],
         group: [
-          { required: true, message: '请选择意向部门', trigger: 'change' }
+          { required: true, message: '请选择意向部门', trigger: 'blur' }
         ],
 
         introduce: [
@@ -137,7 +136,7 @@ export default {
           { required: true, message: '请填写加入目的', trigger: 'change' }
         ],
         notes: [
-          { required: true, message: '请填写备注', trigger: 'change' }
+          { required: true, message: '请填写备注', trigger: 'blur' }
         ]
       }
 
@@ -194,16 +193,16 @@ export default {
       history.back()
     },
     // 暂时不设置数据校验
-    // submitForm (formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       alert('submit!')
-    //     } else {
-    //       console.log('error submit!!')
-    //       return false
-    //     }
-    //   })
-    // },
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
     // 校验信息出现错误
     resetForm (formName) {
       this.$refs[formName].resetFields()
@@ -211,7 +210,7 @@ export default {
 
     // 上传更新后的数据
     async postUpdate () {
-      const result = await postUpdate('12', this.Detail.email, this.Detail.phone, this.Detail.intentDepartment, this.Detail.classroom, this.Detail.interviewTime, this.Detail.introduce, this.Detail.purpose, this.Detail.remark, this.Detail.grade)
+      const result = await postUpdate(12, this.Detail.interviewees, this.Detail.email, this.Detail.phone, parseInt(this.Detail.intentDepartment), this.Detail.classroom, this.Detail.interviewTime, this.Detail.introduce, this.Detail.purpose, this.Detail.remark, this.Detail.grade)
       console.log(result)
     }
   }
