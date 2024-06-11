@@ -5,18 +5,20 @@ import request from "@/utils/request";
 
 // queryAllNeedReportUser  已完成
 // 查询所有需要汇报的用户信息
-export function queryAllNeedReportUser() {
+export function queryAllNeedReportUser(params = {}) {
     return request({
         url: "/task/report/queryAllNeedReportUser",
         method: "get",
+        params,
     });
 }
 
 // 查询自己要汇报的任务的信息
-export function queryForUser() {
+export function queryForUser(params) {
     return request({
         url: "/task/queryForUser",
         method: "get",
+        params,
     });
 }
 
@@ -27,10 +29,11 @@ export function queryForUser() {
 // 通过id查询任务所有的汇报记录
 // 请求参数
 // 任务id 
-export function queryAllReport() {
+export function queryAllReport(params = {}) {
     return request({
         url: "/task/report/queryAllResport",
-        method: "get"
+        method: "get",
+        params,
     });
 }
 
@@ -40,7 +43,7 @@ export function queryAllReport() {
 // {taskid,cur,size}
 export function queryMyReportByTaskId(params = {}) {
     return request({
-        url: "/task/queryMyReport",
+        url: "/task/report/queryMyReport",
         method: "get",
         params,
     });
@@ -68,7 +71,7 @@ export function report(data) {
     });
 }
 
-// delete
+// deleteete
 // 通过taskId删除任务(逻辑删除？？？🤦‍♂️)
 export function deleteTask(params = {}) {
     return request({
@@ -78,9 +81,18 @@ export function deleteTask(params = {}) {
     });
 }
 
+// 删除汇报
+export function deleteReport(params = {}) {
+    return request({
+        url: "/task/report/delete",
+        method: "get",
+        params,
+    });
+}
+
 // queryById
 // 通过taskId查询任务信息
-export function queryById(params = {}) {
+export function queryById(params) {
     return request({
         url: "/task/queryById",
         method: "get",

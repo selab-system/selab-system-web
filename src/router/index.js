@@ -125,25 +125,25 @@ let routes = [
             },
             //查看用户详情
             {
-                path: "/CheckUserMsg",
+                path: "/CheckUserMsg/:taskId",
                 name: "CheckUserMsg",
                 component: CheckUserMsg
             },
             //更新任务
             {
-                path: "/TaskUpdate",
+                path: "/TaskUpdate/:taskId",
                 name: "TaskUpdate",
                 component: TaskUpdate
             },
             //查看任务汇报
             {
-                path: "/TaskReport",
+                path: "/TaskReport/:taskId",
                 name: "TaskReport",
                 component: TaskReport
             },
             //汇报任务组件
             {
-                path: "/ReportMyTask",
+                path: "/ReportMyTask/:taskId",
                 name: "ReportMyTask",
                 component: ReportMyTask
             },
@@ -155,7 +155,7 @@ let routes = [
             },
             // 查看我的汇报
             {
-                path: "/CheckMyReport",
+                path: "/CheckMyReport/:taskId",
                 name: "CheckMyReport",
                 component: CheckMyReport
             },

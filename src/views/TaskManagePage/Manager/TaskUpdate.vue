@@ -3,20 +3,15 @@
     <div class="task-release-component">
       <!-- 要更新的任务信息 -->
       <div class="showPre">
-        <el-descriptions
-          class="margin-top"
-          :column="4"
-          :size="size"
-
-        >
+        <el-descriptions class="margin-top" :column="4" :size="size">
           <el-descriptions-item label="任务名称"
-            >kooriookami</el-descriptions-item
+            >{{ preTaskData.name}}</el-descriptions-item
           >
           <el-descriptions-item label="任务对象"
-            >18100000000</el-descriptions-item
+            >{{ preTaskData.groupNames[0]}}</el-descriptions-item
           >
-          <el-descriptions-item label="截止时间">苏州市</el-descriptions-item>
-          <el-descriptions-item label="任务内容">aaaa</el-descriptions-item>
+          <el-descriptions-item label="截止时间">{{preTaskData.dealTime}}</el-descriptions-item>
+          <el-descriptions-item label="任务内容">{{preTaskData.content}}</el-descriptions-item>
         </el-descriptions>
       </div>
       <div class="release-form-main">
@@ -99,11 +94,12 @@
 </template>
   
 <script>
-import { updateTask,queryById } from "@/api/TaskManage/TaskManage.js";
+import { updateTask, queryById } from "@/api/TaskManage/TaskManage.js";
+import dayjs from "dayjs";
 export default {
   data() {
     return {
-        size: '',
+      size: "",
       releaseFormMainContentInputTitle: ["任务名称", "任务对象", "截止时间"],
       name: "",
       deallTime: "", // 添加截止时间的data属性
@@ -114,7 +110,7 @@ export default {
       lastSubmitTime: null,
       formData: {},
       taskId: "",
-      preTaskData:{},
+      preTaskData: {},
     };
   },
   methods: {
@@ -152,7 +148,11 @@ export default {
         try {
           console.log(response);
           if (response.code === 200) {
-            alert("更新成功");
+            this.$message({
+          message: '更新成功',
+          type: 'success', 
+        },
+        this.$router.push("/CheckAllTask"));
           } else {
             alert("更新失败");
           }
@@ -166,20 +166,19 @@ export default {
       this.$router.push("/CheckAllTask");
     },
     // 传任务以前的数据
-    getTaskData() {
-        queryById(this.taskId).then((res) => {
-        this.tableData = res.data;
-        this.tableData.forEach(item => {
-            item.dealTime = dayjs(item.dealTime).format('YYYY-MM-DD HH:mm:ss');
-        })
-      });
-    },
+
   },
-  created() {
-    this.taskId = this.$route.query.taskId;
-    this.getTaskData()
-  }
-}
+  async created() {
+    this.taskId = this.$route.params.taskId;
+    console.log(this.taskId);
+    await queryById({ taskId: this.taskId }).then((response) => {
+      if (response.code === 200) {
+        response.data.dealTime = dayjs(response.dealTime).format('YYYY-MM-DD HH:mm:ss');
+        this.preTaskData = response.data;
+        // console.log(response.data);
+    }}); 
+  },
+};
 </script>
   
   <style>
@@ -187,8 +186,8 @@ export default {
   margin-top: 5px;
 }
 .showPre {
-    width:70%;
-    margin:0 auto
+  width: 70%;
+  margin: 0 auto;
 }
 
 .release-form-main {

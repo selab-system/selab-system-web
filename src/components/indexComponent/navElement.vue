@@ -39,7 +39,7 @@
           <span @click="toggleDropdownT"><a href="javascript:;">查看任务</a></span>
           <div class="dropdown-content" v-if="this.showDropdownT">
             <div class="menuDown"> <router-link to="/CheckMyTask">查看我的任务</router-link> </div>
-            <div class="menuDown"><router-link to="/QueryMyReport">查看我的汇报</router-link></div>
+            <div class="menuDown"><router-link to="/CheckMyReport">查看我的汇报</router-link></div>
           </div>
         </div>
       </div>

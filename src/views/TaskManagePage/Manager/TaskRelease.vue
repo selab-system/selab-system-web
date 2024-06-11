@@ -16,7 +16,7 @@
                         <div class="release-form-main-content-input-title-item">
                             <div class="release-form-main-content-input-title-item-title name-input" >                               
                                 <div style="width: 112px;">任务对象：</div>
-                                <input type="text" id="taskObject" placeholder="请输入任务对象小组" v-model="groupIds">
+                                <input type="text" id="taskObject" placeholder="请输入任务对象小组（数字形式）" v-model="groupIds">
                             </div>
                         </div>
                     </div>

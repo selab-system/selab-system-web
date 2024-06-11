@@ -28,7 +28,7 @@
           back-ground-colur="none"
           color="none"
           @click="goBack"
-          >返回</el-button
+          >返回查看任务</el-button
         >
       </el-row>
     </div>
@@ -40,6 +40,9 @@
   export default {
     data() {
       return {
+        taskId:'',
+        cur: 1,
+        size:5,
         tableData: [
           {
             date: "2016-05-02",
@@ -73,23 +76,35 @@
     methods: {
       //调用接口
       queryUserMsg() {
-        queryAllNeedReportUser().then((res) => {
+        const params = {
+        taskId: this.taskId,
+        cur: this.cur,
+        size: this.size,
+      };
+        queryAllNeedReportUser(params).then((res) => {
           this.tableData = res.data;
+          console.log("成功获取用户信息", res.data);
         });
       },
       // 分页
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        this.size = val;
+        this.queryUserMsg() 
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+        this.cur=val;
+        this.queryUserMsg() 
       },
         //   返回查看汇报界面
       goBack() {
-      this.$router.push("/TaskReport");
+      this.$router.push("/CheckAllTask");
     },
     },
     created() {
+    this.taskId = this.$route.params.taskId;
+    console.log(this.taskId);
       this.queryUserMsg();
     },
   
