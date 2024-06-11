@@ -5,11 +5,10 @@ import request from "@/utils/request";
 
 // queryMyRecruit
 // 查询本人提交报名表
-export function queryMyRecruit(query) {
+export function queryMyRecruit(userId) {
     return request({
-        url: "/registration/queryMyRecruit",
+        url: `/registration/queryMyRecruit?userId=${userId}`,
         method: "get",
-        query
     });
 }
 
@@ -17,11 +16,11 @@ export function queryMyRecruit(query) {
 // 通过年级查询报名表
 // 参数
 // {grade,cur,size}
-export function selectByGradeId(query) {
+export function selectByGradeId(params) {
     return request({
-        url: "/registration/selectByGradeId",
+        url: `/registration/selectByGradeId`,
         method: "get",
-        query
+        params: params
     });
 }
 
@@ -31,11 +30,10 @@ export function selectByGradeId(query) {
 // {intentDepartment,cur,size}
 // intentDepartment是数字
 // {intentDepartment:1开发，2网安，3人工智能，4虚拟现实}
-export function selectByIntentDepartment(query) {
+export function selectByIntentDepartment(params) {
     return request({
-        url: "/registration/selectByDepart",
+        url: `/registration/selectByDepart?intentDepartment=${params.intentDepartment}&cur=${params.cur}&size=${params.size}`,
         method: "get",
-        query
     });
 }
 
@@ -43,11 +41,10 @@ export function selectByIntentDepartment(query) {
 // 通过报名者的姓名查询报名表信息(支持模糊查询)
 // 参数
 // {intervieweesName,cur,size}
-export function selectByIntervieweesName(query) {
+export function selectByIntervieweesName(params) {
     return request({
-        url: "/registration/selectByUserName",
+        url: `/registration/selectByUserName?intervieweesName=${params.intervieweesName}&cur=${params.cur}&size=${params.size}`,
         method: "get",
-        query: query
     });
 }
 
@@ -55,11 +52,10 @@ export function selectByIntervieweesName(query) {
 // 通过 registrationId 查询报名表信息
 // 这里看文档
 
-export function selectRegistrationById(query) {
+export function selectRegistrationById(params) {
     return request({
-        url: "/registration/selectRegistrationById",
+        url: `/registration/selectRegistrationById?registrationId=${params}`,
         method: "get",
-        query: query
     });
 }
 // 返回信息

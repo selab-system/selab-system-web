@@ -1,27 +1,24 @@
 <script>
-import TopBar from "@/components/bookManagerComponent/topBar.vue";
-import QueryAllBooksTable from "@/components/bookManagerComponent/queryAllBooksTable.vue";
-import {BorrowBook, getBookInfo, getBookList, saveBookInfo} from "@/api/Book/BookManage";
+import {BorrowBook, DeleteBook, getBookInfo, getBookList, saveBookInfo, updateBookInfo} from "@/api/Book/BookManage";
 
 export default {
   name: "queryAllBooks",
-  components: {QueryAllBooksTable},
   data() {
     return {
       saveBookName: '',
       saveBookAuthor: '',
       saveBookInfo: '',
-      saveBookMon: '',
-      saveBookOwenId: '',
+      saveBookMon: 0,
+      saveBookOwenId: 0,
       saveBookOther: '',
-      saveBookRef: 0,
+      saveBookRef: '',
       bookId: 0,
       borrowBookId: 0,
       borrowDuration: 0,
       returnTime: '',
       tableTitleData: [
         "序号",
-        "书籍编号",
+        "书籍id",
         "图书名称",
         "书籍作者",
         "价格",
@@ -33,9 +30,13 @@ export default {
         "书籍状态",
         "操作"
       ],
-      tableData: [
-      ],
-      dataItem: -1
+      tableData: [],
+      dataItem: -1,
+      saveBookId: 0,
+      saveBookOwenName: '',
+      bookStatus: '',
+      createTime: '',
+      updateTime: ''
     }
   },
   methods: {
@@ -46,22 +47,30 @@ export default {
           bookAuthor: this.saveBookAuthor,
           bookDetails: this.saveBookInfo,
           price: this.saveBookMon,
-          owner: this.saveBookOwenId,
+          owner: parseInt(this.saveBookOwenId),
           remark: this.saveBookOther,
           bookRef: this.saveBookRef
         }
-        saveBookInfo(params).then(res =>{
-          if(res.code === 200){
-            console.log(res);
-            const selectDiv = document.querySelector('.selectDiv');
-            selectDiv.style.display = 'none';
-          } else {
-            console.log(111);
-          }
-        })
+        if(this.saveBookName !== '' && typeof this.saveBookName === 'string' && this.saveBookAuthor !== '' && typeof this.saveBookAuthor === 'string' && this.saveBookInfo !== '' && typeof this.saveBookInfo === 'string' && this.saveBookMon !== '' && typeof this.saveBookMon === 'number' && this.saveBookOwenId !== '' && typeof this.saveBookOwenId === 'number' && this.saveBookOther !== '' && typeof this.saveBookOther === 'string' && this.saveBookRef !== '' && typeof this.saveBookRef === 'string') {
+          saveBookInfo(params).then(res =>{
+            if(res.code === 200){
+              console.log(res);
+              this.getAllBooks();
+              const selectDiv = document.querySelector('.selectDiv');
+              selectDiv.style.display = 'none';
+              this.addOne();
+            } else {
+              console.log(111);
+            }
+          })
+        }else {
+          this.inputError();
+        }
       } catch (err) {
         console.log(err)
       }
+      console.log(typeof parseInt(this.saveBookMon))
+      console.log('')
     },
     queryData() {
       try {
@@ -70,6 +79,8 @@ export default {
         }
         getBookInfo(params).then(res =>{
           if(res.code === 200){
+            this.tableData = [];
+            this.tableData.push(res.data)
             console.log(res)
           } else {
             console.log(111);
@@ -79,22 +90,28 @@ export default {
         console.log(err)
       }
     },
-    borrowBook(borrowBookId) {
-      const borrowDiv = document.querySelector('.borrowDiv');
-      borrowDiv.style.display = 'block';
+    borrowBook() {
       try {
         const params = {
-          borrowBook: borrowBookId,
+          bookId: this.borrowBookId,
           borrowDuration: this.borrowDuration,
           returnTime: this.returnTime
         }
-        BorrowBook(params).then(res =>{
-          if(res.code === 200){
-            console.log(res);
-          } else {
-            console.log(111);
-          }
-        })
+        console.log(params)
+        if(this.borrowBookId !== '' && typeof this.borrowBookId === 'number' && this.borrowDuration !== '' && typeof this.borrowDuration === 'number' && this.returnTime !== '' && typeof this.returnTime === 'string') {
+          BorrowBook(params).then(res =>{
+            if(res.code === 200){
+              const borrowDiv = document.querySelector('.borrowDiv');
+              borrowDiv.style.display = 'none';
+              this.getAllBooks();
+              this.borrow();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
       } catch (err) {
         console.log(err)
       }
@@ -105,43 +122,71 @@ export default {
     touchLeaveContent() {
       this.dataItem = -1;
     },
-    borrow(e) {
-      if(e.target.textContent === '借阅') {
-        const borrowAsk1 = document.querySelector('.borrowAsk1');
-        borrowAsk1.style.display = 'block';
-        setTimeout(() => {
-          borrowAsk1.style.display = 'none';
-        }, 1000);
-      }
-      if(e.target.textContent === '已被借阅') {
-        const borrowAsk2 = document.querySelector('.borrowAsk2');
-        borrowAsk2.style.display = 'block';
-        setTimeout(() => {
-          borrowAsk2.style.display = 'none';
-        }, 1000);
-      }
-      e.target.textContent = '已被借阅';
+    borrow() {
+      const borrowAsk1 = document.querySelector('.borrowAsk1');
+      borrowAsk1.style.display = 'block';
+      setTimeout(() => {
+        borrowAsk1.style.display = 'none';
+      }, 1000);
+      // if(e.target.textContent === '借阅') {
+      //   const borrowAsk1 = document.querySelector('.borrowAsk1');
+      //   borrowAsk1.style.display = 'block';
+      //   setTimeout(() => {
+      //     borrowAsk1.style.display = 'none';
+      //   }, 1000);
+      // }
+      // if(e.target.textContent === '已被借阅') {
+      //   const borrowAsk2 = document.querySelector('.borrowAsk2');
+      //   borrowAsk2.style.display = 'block';
+      //   setTimeout(() => {
+      //     borrowAsk2.style.display = 'none';
+      //   }, 1000);
+      // }
+      // e.target.textContent = '已被借阅';
     },
-    edit() {
+    editOne() {
       const borrowAsk3 = document.querySelector('.borrowAsk3');
       borrowAsk3.style.display = 'block';
       setTimeout(() => {
         borrowAsk3.style.display = 'none';
       }, 1000);
     },
+    addOne() {
+      const addSuccess = document.querySelector('.addSuccess');
+      addSuccess.style.display = 'block';
+      setTimeout(() => {
+        addSuccess.style.display = 'none';
+      }, 1000);
+    },
+    deleteOne() {
+      const deleteSuccess = document.querySelector('.deleteSuccess');
+      deleteSuccess.style.display = 'block';
+      setTimeout(() => {
+        deleteSuccess.style.display = 'none';
+      }, 1000);
+    },
+    inputError() {
+      const inputError = document.querySelector('.inputError');
+      inputError.style.display = 'block';
+      setTimeout(() => {
+        inputError.style.display = 'none';
+      }, 1000);
+    },
     getAllBooks() {
       try {
         const params = {
           cur:1,
-          size:10
+          size:100
         }
         getBookList(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.tableData.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   console.log(res.data[i]);
+            //   this.tableData.push(res.data[i]);
+            // }
+            this.tableData = res.data.data;
+            console.log(this.tableData)
           } else {
             console.log(111);
           }
@@ -153,9 +198,73 @@ export default {
     selectDivHava() {
       const selectDiv = document.querySelector('.selectDiv');
       selectDiv.style.display = 'block';
+    },
+    borrowDivHave() {
+      const borrowDiv = document.querySelector('.borrowDiv');
+      borrowDiv.style.display = 'block';
+    },
+    editDivHave() {
+      const editDiv = document.querySelector('.editDiv');
+      editDiv.style.display = 'block';
+    },
+    editBook() {
+      try {
+        const params = {
+          bookId: this.saveBookId,
+          bookName: this.saveBookName,
+          bookAuthor: this.saveBookAuthor,
+          bookDetails: this.saveBookInfo,
+          price: this.saveBookMon,
+          owner: this.saveBookOwenId,
+          ownerName: this.saveBookOwenName,
+          status: this.bookStatus,
+          createTime: this.createTime,
+          updateTime: this.updateTime,
+          bookRef: this.saveBookRef
+        }
+        if(true) {
+          updateBookInfo(params).then(res =>{
+            console.log(res.data)
+            if(res.code === 200){
+              this.getAllBooks();
+              const editDiv = document.querySelector('.editDiv');
+              editDiv.style.display = 'none';
+              this.editOne();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    deleteBook(bookId) {
+      try {
+        const param = {
+          bookId: bookId
+        }
+        if(this.bookId !== '' && typeof this.bookId === 'number' ) {
+          DeleteBook(param).then(res =>{
+            if(res.code === 200){
+              this.deleteOne();
+              this.getAllBooks();
+            } else {
+              console.log(111);
+            }
+          })
+        } else {
+          this.inputError();
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   computed: {
+    // eslint-disable-next-line vue/no-dupe-keys
     editBooks() {
       return this.$store.state.readRoleId !== 3;
     },
@@ -214,18 +323,24 @@ export default {
             <span @mouseenter="touchContent(item)" @mouseleave="touchLeaveContent">轻触展开</span>
             <span class="booksIntroduceContent" v-show="dataItem === item">{{ data.bookDetails }}</span>
           </div>
-          <div>无</div>
           <div class="booksFunction">
-            <button class="borrowButton" @click="borrowBook(data.bookId)">借阅</button>
-            <button @click="edit" v-if="edit">修改</button>
+            <button class="borrowButton" @click="borrowDivHave">借阅</button>
+            <button @click="editDivHave" v-if="edit">修改</button>
+            <button @click="deleteBook(data.bookId)" v-if="edit">删除</button>
           </div>
         </div>
         <div class="borrowAsk1">借阅成功</div>
         <div class="borrowAsk2">该图书已被借阅</div>
         <div class="borrowAsk3">修改成功</div>
+        <div class="deleteSuccess">删除成功</div>
+        <div class="addSuccess">新增成功</div>
+        <div class="inputError">输入有误</div>
       </div>
     </div>
     <div class="borrowDiv">
+      <div>
+        书籍id：<input type="text" placeholder="请输入书籍id" v-model="borrowBookId">
+      </div>
       <div>
         借阅时长：<input type="text" placeholder="请输入借阅时长" v-model="borrowDuration">天
       </div>
@@ -233,7 +348,7 @@ export default {
         归还时间：<input type="text" placeholder="请输入归还时间" v-model="returnTime">
       </div>
       <div>
-        <button>确认</button>
+        <button @click="borrowBook">确认</button>
       </div>
     </div>
     <div class="selectDiv">
@@ -260,6 +375,44 @@ export default {
       </div>
       <div>
         <button @click="saveBookDate">增加</button>
+      </div>
+    </div>
+    <div class="editDiv">
+      <div>
+        书籍id：<input type="text" placeholder="请输入书籍id" v-model="saveBookId">
+      </div>
+      <div>
+        书籍名称：<input type="text" placeholder="请输入书籍名称" v-model="saveBookName">
+      </div>
+      <div>
+        书籍作者：<input type="text" placeholder="请输入书籍作者" v-model="saveBookAuthor">
+      </div>
+      <div>
+        书籍介绍：<input type="text" placeholder="请输入书籍介绍" v-model="saveBookInfo">
+      </div>
+      <div>
+        书籍价格：<input type="text" placeholder="请输入书籍价格" v-model="saveBookMon">
+      </div>
+      <div>
+        书籍拥有者id：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenId">
+      </div>
+      <div>
+        书籍拥有者名称：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenName">
+      </div>
+      <div>
+        书籍状态：<input type="text" placeholder="请输入书籍状态" v-model="bookStatus">
+      </div>
+      <div>
+        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
+      </div>
+      <div>
+        添加时间：<input type="text" placeholder="请输入添加时间" v-model="createTime">
+      </div>
+      <div>
+        修改时间：<input type="text" placeholder="请输入修改时间" v-model="updateTime">
+      </div>
+      <div>
+        <button @click="editBook">确定</button>
       </div>
     </div>
   </div>
@@ -296,6 +449,23 @@ export default {
         border-radius: 20px;
       }
     }
+  }
+  .inputError {
+    width: 20%;
+    height: 50px;
+    background-color: #e86868;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+    z-index: 5;
   }
   .editInput {
     width: 250px;
@@ -349,11 +519,14 @@ export default {
     left: 200px;
   }
   .selectDiv {
-    width: 500px;
+    width: 300px;
     height: 400px;
     background: wheat;
-    margin: 10px auto;
+    position: absolute;
+    top: 200px;
+    left: 43%;
     border: 1px black solid;
+    z-index: 3;
     div {
       width: 100%;
       height: 50px;
@@ -364,16 +537,44 @@ export default {
       }
       button {
         width: 50px;
-        height: 20px
+        height: 20px;
       }
     }
     display: none;
   }
+  .editDiv {
+    width: 500px;
+    height: 500px;
+    background: wheat;
+    position: absolute;
+    top: 200px;
+    left: 40%;
+    border: 1px black solid;
+    z-index: 3;
+    display: none;
+    div {
+      width: 100%;
+      height: 50px;
+      padding-top: 2px;
+
+      input {
+        border-radius: 40px;
+        text-indent: 10px;
+      }
+
+      button {
+        width: 50px;
+        height: 20px
+      }
+    }
+  }
   .borrowDiv {
     width: 400px;
-    height: 150px;
+    height: 200px;
     background: wheat;
-    margin: 10px auto;
+    position: absolute;
+    top: 200px;
+    left: 40%;
     border: 1px black solid;
     display: none;
     div {
@@ -460,6 +661,38 @@ export default {
       display: none;
       animation: askChange 0.5s linear;
     }
+    .deleteSuccess {
+      width: 20%;
+      height: 50px;
+      background-color: greenyellow;
+      color: black;
+      font-size: 20px;
+      font-family: fangsong;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      position: absolute;
+      top: -90px;
+      left: 40%;
+      display: none;
+      animation: askChange 0.5s linear;
+    }
+    .addSuccess {
+      width: 20%;
+      height: 50px;
+      background-color: greenyellow;
+      color: black;
+      font-size: 20px;
+      font-family: fangsong;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      position: absolute;
+      top: -90px;
+      left: 40%;
+      display: none;
+      animation: askChange 0.5s linear;
+    }
     div {
       width: 100%;
       .booksIntroduce {
@@ -482,8 +715,8 @@ export default {
           width: 300px;
           height: 300px;
           position: absolute;
-          top: 30px;
-          left: 130px;
+          top: 40px;
+          left: 0;
           background-color: lightgoldenrodyellow;
           border-radius: 10px;
           color: black;
@@ -494,7 +727,7 @@ export default {
       }
       .booksFunction {
         button {
-          width: 80px;
+          width: 30px;
           height: 70%;
           color: black;
           font-size: 16px;

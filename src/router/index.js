@@ -9,8 +9,6 @@ import index from "@/views/indexPage/index.vue";
 import UserHome from "@/views/UserHomePage/UserHome.vue";
 // 引入图书管理组件
 import BookManage from "@/views/BookManagePage/BookManage.vue";
-// 引入招新报名表管理租价
-import EnrolmentFormManagementPage from "@/views/EnrolmentManagePage/EnrolmentFormManagementPage.vue";
 // 引入任务管理组件
 import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
 //引入发布任务组件
@@ -39,8 +37,12 @@ import modifyPersonalInformation from "@/components/usersManagementComponent/mod
 import departmemtMenber from "@/components/usersManagementComponent/departmemtMenber.vue";
 import manageMembers from "@/components/usersManagementComponent/manageMembers.vue";
 import indexStyleMain from "@/components/indexStyle/indexStyleMain.vue";
-// 引入报名表组件
-import RegistrasionForm from "@/views/EnrolmentManagePage/RegistrasionForm.vue";
+// 引入报名页面
+import EnrolPage from "@/views/EnrolmentManagePage/EnrolPage.vue";
+// 报名表组件
+import RegistrasionForm from "@/components/EnrollMenagge/RegistrasionForm.vue";
+// 报名表表格
+import mainPerfectTable from "@/components/EnrollMenagge/mainPerfectTable.vue";
 // 把vuerouter安装成vue的插件
 
 Vue.use(VueRouter)
@@ -162,12 +164,12 @@ let routes = [
             // 招新报名表管理路由
             {
                 path: "/enroll",
-                name: "enroll",
-                component: EnrolmentFormManagementPage
+                name: "EnrolPage",
+                component: EnrolPage
             },
             {
-                path: "/registrasionForm",
-                name: "registrasionForm",
+                path: "/registrationForm",
+                name: "registrationForm",
                 component: RegistrasionForm
             }
         ]

@@ -1,6 +1,6 @@
 <script>
 import TopBar from "@/components/usersManagementComponent/topBar.vue";
-import {getBookInfo, getBookList} from "@/api/Book/BookManage";
+import {BorrowRecord, getBookInfo, getBookList} from "@/api/Book/BookManage";
 
 export default {
   name: "checkBorrowing",
@@ -19,26 +19,7 @@ export default {
         "归还时间",
         "状态"
       ],
-      borrowingBooksData: [
-        {
-          id: 2,
-          name: '西游记',
-          borrowingTime: "2024.3.5",
-          borrowId: 4,
-          borrowTiming: 5,
-          returnTime: "未归还",
-          state: "借阅中"
-        },
-        {
-          id: 17,
-          name: '俄狄浦斯王',
-          borrowingTime: "2024.3.13",
-          borrowId: 26,
-          borrowTiming: 5,
-          returnTime: "2024.3.16",
-          state: "已归还"
-        }
-      ],
+      borrowingBooksData: [],
       borrowId: 0,
       bookId: 0,
       bookName: '',
@@ -57,13 +38,14 @@ export default {
           cur: 1,
           size: 10
         }
-        getBookInfo(params).then(res =>{
+        BorrowRecord(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
             console.log(res.data);
-            for(let i in res.data) {
-              this.borrowingBooksData.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   this.borrowingBooksData.push(res.data[i]);
+            // }
+            this.borrowingBooksData = res.data.data;
           } else {
             console.log('错误');
           }

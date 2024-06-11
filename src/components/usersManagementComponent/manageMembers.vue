@@ -30,8 +30,7 @@ export default {
           "是否为管理员",
           "操作"
       ],
-      tableData: [
-      ],
+      tableData: [],
       userName: '',
       groupId: 0,
       roleId: 0,
@@ -57,9 +56,11 @@ export default {
         userQuery(params).then(res => {
           console.log(res.data)
           if (res.code === 200) {
-            for (let i in res.data) {
-              this.tableData.push(i);
-            }
+            // for (let i in res.data) {
+            //   this.tableData.push(i);
+            // }
+            this.tableData = res.data;
+            console.log(this.tableData)
           } else {
             console.log('错了')
           }
@@ -82,6 +83,7 @@ export default {
         saveUser(addData).then(res => {
           console.log(res.data)
           if (res.code === 200) {
+            this.getAllUser();
             const addUserDiv = document.querySelector('.addUserDiv');
             addUserDiv.style.display = 'none';
           } else {
@@ -110,6 +112,7 @@ export default {
         updateUser(editData).then(res => {
           console.log(res.data)
           if (res.code === 200) {
+            this.getAllUser();
             const editDiv = document.querySelector('.editDiv');
             editDiv.style.display = 'none';
           } else {
@@ -122,13 +125,14 @@ export default {
     },
     queryUser() {
       try {
-        const params = {
-          selectUserId: this.selectUserId
-        }
-        userQueryByid(params).then(res => {
+        // const params = {
+        //   userId: this.selectUserId
+        // }
+        userQueryByid(this.selectUserId).then(res => {
           console.log(res.data)
           if (res.code === 200) {
-            console.log(res)
+            this.tableData = [];
+            this.tableData.push(res.data) ;
           } else {
             console.log('错了')
           }
@@ -142,6 +146,7 @@ export default {
         logOutUser({userId}).then(res => {
         console.log(res.data);
         if (res.code === 200) {
+          this.getAllUser();
           console.log(res)
         } else {
           console.log('错了')
@@ -286,7 +291,7 @@ export default {
 .editDiv {
   width: 400px;
   height: 270px;
-  background: wheat;
+  //background: wheat;
   border: 1px black solid;
   z-index: 3;
   //margin: 10px auto;
@@ -298,7 +303,7 @@ export default {
 .addUserDiv {
   width: 400px;
   height: 200px;
-  background: wheat;
+  //background: wheat;
   border: 1px black solid;
   z-index: 3;
   //margin: 10px auto;

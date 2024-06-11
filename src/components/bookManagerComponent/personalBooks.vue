@@ -1,5 +1,5 @@
 <script>
-import {BorrowMy, getBookInfo, getBookList, ReturnBook} from "@/api/Book/BookManage";
+import {BorrowMy, getBookList, ReturnBook} from "@/api/Book/BookManage";
 
 export default {
   name: "personalBooks",
@@ -15,8 +15,8 @@ export default {
         "书籍ID",
         "书籍名称",
         "价格",
-        "书籍拥有者ID",
-        "书籍拥有者名称",
+        "拥有者ID",
+        "拥有者",
         "书籍状态",
         "添加时间",
         "修改时间"
@@ -25,9 +25,9 @@ export default {
           "序号",
           "借阅ID",
           "书籍ID",
-          "书籍名称",
-          "借阅用户ID",
-          "借阅用户名称",
+          "书籍名",
+          "借阅者ID",
+          "借阅者",
           "借阅时长",
           "状态",
           "借阅时间",
@@ -46,9 +46,10 @@ export default {
         BorrowMy(params).then(res =>{
           if(res.code === 200){
             console.log(res.data);
-            for(let i in res.data) {
-              this.borrowingBooks.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   this.borrowingBooks.push(res.data[i]);
+            // }
+            this.borrowingBooks = res.data.data;
           } else {
             console.log('错误');
           }
@@ -79,15 +80,20 @@ export default {
         console.log(err)
       }
     },
+    returnBookSuccess() {
+      const returnBook = document.querySelector('.returnBook');
+      returnBook.style.display = 'block';
+      setTimeout(() => {
+        returnBook.style.display = 'none';
+      }, 1000);
+    },
     returnBook(borrowId) {
       try {
-        const params = {
-          borrowId: borrowId
-        }
-        ReturnBook(params).then(res =>{
+        ReturnBook(borrowId).then(res =>{
           console.log(res.data)
           if(res.code === 200){
-            console.log('归还成功');
+            this.getMyBorrow();
+            this.returnBookSuccess();
           } else {
             console.log(111);
           }
@@ -99,13 +105,14 @@ export default {
   },
   created() {
     this.getMyBorrow();
-    this.getMyBooks();
+    // this.getMyBooks();
   }
 }
 </script>
 
 <template>
   <div class="backDrop">
+    <div class="returnBook">归还成功</div>
 <!--    <top-bar></top-bar>-->
     <div class="personalBooksTitle"><strong>个人书籍管理：</strong><hr></div>
     <div class="personalTitle">本人书籍：</div>
@@ -162,6 +169,22 @@ export default {
   .backDrop {
     height: 1000px;
     position: relative;
+    .returnBook {
+      width: 20%;
+      height: 50px;
+      background-color: greenyellow;
+      color: black;
+      font-size: 20px;
+      font-family: fangsong;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      position: absolute;
+      top: -90px;
+      left: 40%;
+      display: none;
+      animation: askChange 0.5s linear;
+    }
     .personalBooksTitle {
       position: absolute;
       top: 110px;
@@ -248,7 +271,7 @@ export default {
             align-content: center;
             box-sizing: border-box;
             button {
-              width: 40%;
+              width: 70%;
               height: 90%;
               font-size: 16px;
             }
@@ -257,7 +280,7 @@ export default {
       }
     }
     .borrowingList {
-      width: 40%;
+      width: 45%;
       //height: 100px;
       border: 1px black solid;
       border-radius: 20px;

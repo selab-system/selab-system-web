@@ -1,5 +1,9 @@
 <template>
   <div class="backDrop">
+    <div class="addSuccess">增加成功</div>
+    <div class="editSuccess">修改成功</div>
+    <div class="deleteSuccess">删除成功</div>
+    <div class="inputError">输入有误</div>
     <div class="allDepartment"><strong>全部部门：</strong></div>
     <div class="addGroupDiv">
       <input type="text" placeholder="请输入小组名" v-model="addGroupName">
@@ -8,7 +12,7 @@
     <div class="departmentList">
       <ul class="departmentItem">
          <template v-for="item in department" >
-            <li :key="item">{{ item.groupId }}.({{ item.groupName }}) {{ item.createTime}}</li>
+            <li :key="item">{{ item.groupId  }}.({{ item.groupName }}) {{ item.createTime}}</li>
             <button :key="item" @click="updateDivHave" v-if="manage">修改</button>
             <button :key="item" @click="deleteGroup(item.groupId)" v-if="manage" >删除</button>
             <br><br>
@@ -40,10 +44,11 @@ export default {
         groupQueryAll(params).then(res =>{
           console.log(res.data);
           if(res.code === 200){
-            for(let i in res.data) {
-              console.log(res.data[i]);
-              this.department.push(res.data[i]);
-            }
+            // for(let i in res.data) {
+            //   console.log(res.data[i]);
+            //   this.department.push(res.data[i]);
+            // }
+            this.department = res.data;
             console.log(this.department)
           } else {
             console.log(111)
@@ -81,20 +86,26 @@ export default {
           groupName: this.groupName,
           createTime: this.createTime
         }
-        updateGroup(params).then(res =>{
-          console.log(res.data);
-          if(res.code === 200){
-            // for(let i in res.data) {
-            //   console.log(res.data[i]);
-            //   this.department.push(res.data[i]);
-            // }
-            // console.log(this.department)
-            const updateDiv = document.querySelector('.updateDiv');
-            updateDiv.style.display = 'none';
-          } else {
-            console.log(111)
-          }
-        })
+        if(this.groupId !== '' && typeof this.groupId === 'number' && this.groupName !== '' && typeof this.groupName === 'string' && this.createTime !== '' && typeof this.createTime === 'string') {
+          updateGroup(params).then(res =>{
+            console.log(res.data);
+            if(res.code === 200){
+              // for(let i in res.data) {
+              //   console.log(res.data[i]);
+              //   this.department.push(res.data[i]);
+              // }
+              // console.log(this.department)
+              this.getAllGroup();
+              const updateDiv = document.querySelector('.updateDiv');
+              updateDiv.style.display = 'none';
+              this.editSuccess();
+            } else {
+              console.log(111)
+            }
+          })
+        } else {
+          this.inputErrorOne()
+        }
       } catch (err) {
         console.log(err)
       }
@@ -104,7 +115,8 @@ export default {
       deleteGroup({groupId}).then(res =>{
           console.log(res.data);
           if(res.code === 200){
-            console.log(res)
+            this.getAllGroup();
+            this.deleteSuccess();
           } else {
             console.log(111)
           }
@@ -118,14 +130,20 @@ export default {
         const params = {
           groupName: this.addGroupName
         }
-        saveGroup(params).then(res =>{
-          console.log(res.data);
-          if(res.code === 200){
-            console.log(res)
-          } else {
-            console.log(111)
-          }
-        })
+        if(this.addGroupName !== '' && typeof this.addGroupName === 'string') {
+          saveGroup(params).then(res =>{
+            console.log(res.data);
+            if(res.code === 200){
+              this.getAllGroup();
+              console.log(res)
+              this.addSuccess();
+            } else {
+              console.log(111)
+            }
+          })
+        } else {
+          this.inputErrorOne();
+        }
       } catch (err) {
         console.log(err)
       }
@@ -133,6 +151,34 @@ export default {
     updateDivHave() {
       const updateDiv = document.querySelector('.updateDiv');
       updateDiv.style.display = 'block';
+    },
+    addSuccess() {
+      const addSuccess = document.querySelector('.addSuccess');
+      addSuccess.style.display = 'block';
+      setTimeout(() => {
+        addSuccess.style.display = 'none';
+      }, 1000);
+    },
+    editSuccess() {
+      const editSuccess = document.querySelector('.editSuccess');
+      editSuccess.style.display = 'block';
+      setTimeout(() => {
+        editSuccess.style.display = 'none';
+      }, 1000);
+    },
+    deleteSuccess() {
+      const deleteSuccess = document.querySelector('.deleteSuccess');
+      deleteSuccess.style.display = 'block';
+      setTimeout(() => {
+        deleteSuccess.style.display = 'none';
+      }, 1000);
+    },
+    inputErrorOne() {
+      const inputError = document.querySelector('.inputError');
+      inputError.style.display = 'block';
+      setTimeout(() => {
+        inputError.style.display = 'none';
+      }, 1000);
     }
   },
   data() {
@@ -170,6 +216,70 @@ export default {
   height: 1000px;
   background-color: whitesmoke;
   position: relative;
+  .addSuccess {
+    width: 20%;
+    height: 50px;
+    background-color: greenyellow;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+  }
+  .editSuccess {
+    width: 20%;
+    height: 50px;
+    background-color: greenyellow;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+  }
+  .deleteSuccess {
+    width: 20%;
+    height: 50px;
+    background-color: greenyellow;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+  }
+  .inputError {
+    width: 20%;
+    height: 50px;
+    background-color: #e86868;
+    color: black;
+    font-size: 20px;
+    font-family: fangsong;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: -90px;
+    left: 40%;
+    display: none;
+    animation: askChange 0.5s linear;
+  }
   div {
     position: absolute;
   }

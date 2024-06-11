@@ -14,7 +14,7 @@
                     </div>
                 </div>
             <div class="table-search-button">
-                <button @click="select">查询</button>
+                <button @click="selectBySomething">查询</button>
             </div>
         </div>
         <div class="table-body-content">
@@ -35,7 +35,7 @@
                     <td>{{ item.remark }}</td>
                     <td>{{ item.purpose }}</td>
                     <td class="operation-column">
-                        <router-link to=""><button class="findhisform">查看他的报名表</button></router-link>
+                        <button class="findhisform" @click="SeeHisForm">查看他的报名表</button>
                     </td>
                 </tr>
                 </tbody>
@@ -47,7 +47,6 @@
                         </div>
                         <div class="page-box-item page-box-show" v-for="(index,item) in currentIndexs" :key="index" >
                             <button>{{ item + 1}}</button>
-                            
                         </div>
                         <div class="change-box-show-button" @click="ShowPagesChangeBox" v-show="ShowButtonIsShown">
                             <button>...</button>
@@ -56,7 +55,7 @@
                             <button v-for="(index,item) in currentIndexsUnShown" :key="index">{{ item + currentIndexs + 1 }}</button>
                         </div>
                         <div class="page-box-nextbox">
-                            <button>下一页</button>             
+                            <button @click="SeeHisForm">下一页</button>             
                         </div>
                     <div>
                     </div>
@@ -70,16 +69,18 @@
 
 <script>
 import request from '@/utils/request';
-import { selectByName, selectByGradeId, selectByIntentDepartment, selectByIntervieweesName, selectRegistrationById, selectList, updateRegistration } from '@/api/Enrolment/Enrolment';
+import { selectByName, selectByGradeId, selectByIntentDepartment, selectByIntervieweesName, selectRegistrationById, selectList, updateRegistration,queryMyRecruit } from '@/api/Enrolment/Enrolment';
+import manageMembersVue from '../usersManagementComponent/manageMembers.vue';
+import messageService from '@/utils/messageService';
 export default {
     data() {
         return {
             // 单页面表框数量 size
-            size: 10,
+            size:3,
             // 当前页面
             currentPage: 1,
             // 显示页面数
-            currentIndexs: 3,
+            currentIndexs: 8,
             // 隐藏页面数
             currentIndexsUnShown:5,
             // 省略页面数
@@ -185,6 +186,7 @@ export default {
                     id: 1,
                 },
             ],
+            FormHasDone:"",
             // 意向部门下拉框是否展示
             tableSearchContentBoxActive: false,
             // 分页是否展示
@@ -200,6 +202,8 @@ export default {
             department: ["软件开发", "网络安全", "人工智能", "虚拟现实"],
             // 选择的部门id
             theDepartmentId: 0,
+            // 根据点击事件决定它是否要查看
+            FormShowed:false
         }
     },
     methods: {
@@ -211,15 +215,10 @@ export default {
             // 鼠标移出，隐藏
             this.tableSearchContentBoxActive = false;
         },
-        // 分页按钮
+            // 分页按钮
         ShowPagesChangeBox() {
             this.pageChangeBoxActive = !this.pageChangeBoxActive;
             this.ShowButtonIsShown = !this.ShowButtonIsShown;
-        },
-        visonal() {
-            this.$emit("senttosee",
-                true
-            )
         },
         // 获取部门信息
         getTheDepartment(index) {
@@ -227,139 +226,140 @@ export default {
             this.theDepartmentId++
             console.log(this.theDepartmentId);
         },
-        // selectByIntervieweesName
-        select() {
-            // 分页查询
-            // 可以根据三个来查询
-            // 1.姓名
-            // 2.年级
-            // 3.意向部门
-            // 有哪个输哪个
-            console.log("查询");
-            console.log("获取到的参数有", {
-                cur: this.currentPage,
-                size: this.size,
-                intervieweesName: this.theName,
-                grade: this.theGrade,
-                intentDepartment: this.theDepartmentId
-            });
+        // 查看表单
+        SeeHisForm(ifshow) {
+            // 挂载事件
+            // 点击的话就是要显示了
+            this.FormShowed = true
+            ifshow = this.FormShowed
+            console.log(ifshow);
+            this.$emit("onEmitShow",ifshow)
+        },
+        // queryMyRecruit()
+        // async SeeHisForm() {
+        //     try {
+        //         const userId = 8
+        //         console.log(userId);
+        //         await queryMyRecruit(userId).then(res => {
+        //             console.log(res.data)
+        //             if (res.code === 200) {
+        //                 messageService.success("哈哈哈哈")
+        //             } else {
+        //                 messageService.error('错了')
+        //             }
+        //         })
+        //     } catch (error) {
+        //         messageService.error("hhh")
+        //         messageService.error(error)
+        //     }
+        // },
+        async selectBySomething() {
             try {
-                // 如果名字不为空
-                if (this.theName != '') {
+                if (this.theName != "") {
                     const params = {
                         intervieweesName: this.theName,
-                        cur: this.currentPage,
-                        size: this.size
+                        cur: 1,
+                        size:3
                     }
-                    selectByIntervieweesName(params).then(res => {
-                        try {
-                            console.log(res);
-                            if (res.code == 200) {
-                                console.log("查询成功", res);
-                                this.tableData = [
-                                    res.data.interviewees.userNamem,
-                                    res.data.grade,
-                                    res.data.classroom,
-                                    res.data.phone,
-                                    res.data.email,                            
-                                    this.department[res.data.intentDepartment++],
-                                    res.data.interviewTime,
-                                    res.data.remark
-                            ]
-                            }
-                        } catch (err) {
-                            console.log(err);
+                    await selectByIntervieweesName(params).then(res => {
+                        console.log(res.data)
+                        if (res.code === 200) {
+                            messageService.success("查询名字成功")
+                            this.tableData = res.data
+                        } else {
+                            messageService.error('查询名字失败')
                         }
-                        })
+                    })
                 }
-                else if (this.theClass != '') {
-                    const params = {
-                        gradeId: this.theGrade,
-                        cur: this.currentPage,
-                        size: this.size
+                else if (this.theGrade != "") {
+                    let grade = 0
+                    if (this.theGrade == "大一") {
+                        grade = 1
                     }
-                    selectByGradeId(params).then(res => {
-                        try {
-                            console.log(params);
-                            console.log(res);
-                            if (res.code == 200) {
-                                console.log("查询成功", res);
-                                this.tableData = [
-                                    res.data.interviewees.userNamem,
-                                    res.data.grade,
-                                    res.data.classroom,
-                                    res.data.phone,
-                                    res.data.email,                            
-                                    this.department[res.data.intentDepartment++],
-                                    res.data.interviewTime,
-                                    res.data.remark
-                            ]
-                            }
-                        } catch (err) {
-                            console.log(err);
+                    else {
+                        grade = 2
+                    }
+                    const params = {
+                        grade: grade,
+                        cur: 1,
+                        size:5
+                    }
+                    console.log(params);
+                    await selectByGradeId(params).then(res => {
+                        if (res.code === 200) {
+                            messageService.success("查询gradeid成功")
+                        } else {
+                            messageService.error('查询gradeid失败')
                         }
-                        })
+                    })
                 }
-                else if (this.theDepartmentId != "") {
+                else if (this.theDepartmentId != 0) {                            this.tableData = res.data
                     const params = {
-                        intentDepartment: this.theDepartmentId,
-                        cur: this.currentPage,
-                        size: this.size
+                        intentDepartment:this.theDepartmentId,
+                        cur: 1,
+                        size:3
                     }
-                    selectByIntentDepartment(params).then(res => {
-                        try {
-                            console.log(params);
-                            console.log(res);
-                            if (res.code == 200) {
-                                console.log("查询成功", res);
-                                this.tableData = [
-                                    res.data.interviewees.userNamem,
-                                    res.data.grade,
-                                    res.data.classroom,
-                                    res.data.phone,
-                                    res.data.email,                            
-                                    this.department[res.data.intentDepartment++],
-                                    res.data.interviewTime,
-                                    res.data.remark
-                            ]
-                            }
-                        } catch (err) {
-                            console.log(err);
+                    await selectByIntentDepartment(params).then(res => {
+                        if (res.code === 200) {
+                            messageService.success("查询intentDepartment成功")
+                            this.tableData = res.data
+                        } else {
+                            messageService.error('查询intentDepartment失败')
                         }
-                        })
+                    })
+                }
+                else if (this.theDepartmentId != 0 & this.theGrade != "" & this.theName != "") {
+                    const params = {
+                        intentDepartment:this.theDepartmentId,
+                        grade:this.theGrade,
+                        intervieweesName:this.theName,
+                        cur: 1,
+                        size:3
+                    }
+                }
+                else {
+                    const params = {
+                        cur: 1,
+                        size:3
+                    }
+                    await selectList(params).then(res => {
+                        if (res.code === 200) {
+                            messageService.success("查询所有成功")
+                        } else {
+                            messageService.error('查询所有失败')
+                        }
+                    })
                 }
             } catch (error) {
-                console.log(error);
-            }  
+                messageService.error(error)
+            }
         },
+        // selectByIntervieweesName
         async toselectList() {
             try {
                 const params = {
-                    cur: this.currentPage,
-                    size: this.size,
-                };
-                const response = await selectList(params);
-                if (response && response.code === 200) {
-                    // 假设返回的数据包含在 res.data 中
-                    this.tableData = response.data.records;
-                    // 假设返回的数据还包括总记录数，用于分页
-                    this.totalRecords = response.data.total;
-                } else {
-                    console.error('API 返回了错误码:', response.code);
+                    cur: 1,
+                    size: 6
                 }
+                await selectList(params).then(res => {
+                    console.log(res);
+                    if (res.code == 200) {
+                        console.log("查询成功", res);
+                        messageService.success("咦我中了")
+                        this.tableData = res.data
+                    } else {
+                        messageService.error("咦我没中")
+                    }
+                })
             } catch (error) {
-                console.error('请求列表数据失败:', error);
+                messageService.error(error)
             }
-        },
-    },
-    created() {
-
-    },
-    computed: {
-
+        }
     },
     created() {
         this.toselectList();
+    },
+    computed: {
     }
 }
 
