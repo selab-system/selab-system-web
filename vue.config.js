@@ -4,7 +4,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: ' http://iwupxc.natappfree.cc', // 代理到的后端服务器地址
+        target: 'http://jvjgku.natappfree.cc', // 代理到的后端服务器地址
         changeOrigin: true, // 启用跨域
         pathRewrite: {
           '^/api': '' // 重写请求路径，将'/api'删除

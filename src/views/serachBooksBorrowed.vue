@@ -1,65 +1,60 @@
 <script >
-import { getBookList,textUserId,getSearchBookList} from '@/api/searchOwnBooks'
+import { getSearchBookList } from "@/api/searchOwnBooks";
 export default {
-  data () {
+  data() {
     return {
-      inputbookname: '',
-      bookAuthor: '',
-      bookDetails: '',
-      owner: '',
-      status: '',
-      createTime: '',
-      control: false,
-      userid:'',
-      tableData: [{
-        bookId: 0,
-        bookName: 'leihou',
-        bookAuthor: 'string',
-        bookDetails: 'string',
-        price: 0,
-        owner: 0,
-        ownerName: 'string',
-        status: 0,
-        createTime: 'string',
-        updateTime: 'string',
-        bookRef: 'string'
-      }, {
-        bookId: 0,
-        bookName: 'leihou',
-        bookAuthor: 'string',
-        bookDetails: 'string',
-        price: 0,
-        owner: 0,
-        ownerName: 'string',
-        status: 0,
-        createTime: 'string',
-        updateTime: 'string',
-        bookRef: 'string'
-      }]
-    }
+      // inputbookname: '',
+      // bookAuthor: '',
+      // bookDetails: '',
+      // owner: '',
+      // status: '',
+      // createTime: '',
+      // control: false,
+      // userid:'',
+      tableData: [
+        {
+          borrowId: 0,
+          bookId: 0,
+          bookName: "string",
+          borrowUser: 0,
+          borrowUserName: "string",
+          borrowDuration: 0,
+          status: 0,
+          borrowTime: "string",
+          returnTime: "string",
+        },
+        {
+          borrowId: 0,
+          bookId: 0,
+          bookName: "string",
+          borrowUser: 0,
+          borrowUserName: "string",
+          borrowDuration: 0,
+          status: 0,
+          borrowTime: "string",
+          returnTime: "string",
+        },
+      ],
+    };
+  },
+  async created () {
+    this.searchownbook()
   },
   methods: {
-    async searchownbook(userid){
-      if(userid.trim()===''){
-                alert("本人id不能为空")
-                return
-            }
-      const res=await textUserId(userid)
-      console.log(res);
-      if(res){
-        const str = await getSearchBookList()
-        console.log(str);
-        this.tableData=str.data
-        // console.log(str);
-        alert("申请成功")
-        this.control=true
-      }
-      else{
-        alert("用户id不存在")
-      } 
-    }
-  }
-}
+    async searchownbook() {
+        const str = await getSearchBookList();
+        console.log(str.data.data.data);
+        if(str){
+          this.tableData = str.data.data.data;
+          alert("已获取本人借阅书籍");
+        }
+        else{
+          alert("获未取本人借阅书籍")
+        }
+       
+    },
+  },
+};
 </script>
 
 <template>
@@ -69,19 +64,19 @@ export default {
       <!-- 头部 -->
       <el-header>
         <!-- 输入本人名称 -->
-        <el-input
+        <!-- <el-input
           placeholder="请输入本人id获取本人书单"
           v-model="userid"
           clearable
         >
-        </el-input>
+        </el-input> -->
         <!-- 一个提交按钮 -->
-        <el-row>
+        <!-- <el-row>
           <el-button type="success" plain @click='searchownbook(userid)' >查询</el-button>
-        </el-row>
+        </el-row> -->
       </el-header>
       <!-- 查询到的信息 -->
-      <el-descriptions title="图书信息" v-if='control'>
+      <!-- <el-descriptions title="图书信息" v-if='control'>
         <el-descriptions-item label="图书名" v-model="bookName"
           >{{bookName}}</el-descriptions-item
         >
@@ -100,40 +95,46 @@ export default {
         <el-descriptions-item label="添加时间" v-model="createTime"
           >{{createTime}}</el-descriptions-item
         >
-      </el-descriptions>
+      </el-descriptions> -->
       <!-- 主体 -->
       <el-main>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="书籍编号">
-                  <span>{{ props.row.bookRef }}</span>
+                <el-form-item label="借阅id">
+                  <span>{{ props.row.borrowId }}</span>
                 </el-form-item>
-                <el-form-item label="书名">
+                <el-form-item label="书籍id">
+                  <span>{{ props.row.bookId }}</span>
+                </el-form-item>
+                <el-form-item label="书籍名称">
                   <span>{{ props.row.bookName }}</span>
                 </el-form-item>
-                <el-form-item label="作者">
-                  <span>{{ props.row.bookAuthor }}</span>
+                <el-form-item label="借阅用户id">
+                  <span>{{ props.row.borrowUser }}</span>
                 </el-form-item>
-                <el-form-item label="图书介绍">
-                  <span>{{ props.row.bookDetails }}</span>
+                <el-form-item label="借阅用户名称">
+                  <span>{{ props.row.borrowUserName }}</span>
                 </el-form-item>
-                <el-form-item label="书籍拥有者">
-                  <span>{{ props.row.owner }}</span>
-                </el-form-item>
-                <el-form-item label="添加时间">
-                  <span>{{ props.row.createTime }}</span>
+                <el-form-item label="借阅时长(已天为单位)">
+                  <span>{{ props.row.borrowDuration }}</span>
                 </el-form-item>
                 <el-form-item label="书籍状态">
                   <span>{{ props.row.status }}</span>
                 </el-form-item>
+                <el-form-item label="借阅时间">
+                  <span>{{ props.row.borrowTime }}</span>
+                </el-form-item>
+                <el-form-item label="归还时间">
+                  <span>{{ props.row.returnTime }}</span>
+                </el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="书籍编号" prop="bookRef"> </el-table-column>
-          <el-table-column label="书名" prop="bookName"> </el-table-column>
-          <el-table-column label="书籍状态" prop="status"> </el-table-column>
+          <el-table-column label="书籍名称" prop="bookName"> </el-table-column>
+          <el-table-column label="书籍id" prop="bookId"> </el-table-column>
+          <el-table-column label="借阅id" prop="borrowId"> </el-table-column>
         </el-table>
       </el-main>
     </el-container>

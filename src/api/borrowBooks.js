@@ -8,8 +8,8 @@ export const borrowBook = (bookId,borrowDuration,returnTime) => {
     })
   }
   // 根据书名得id
-  export const getBookId = (bookName) => {
-    return requests.get('/book/queryOne', {
-        bookName
-    })
-  }
+  // export const getBookId = (bookName) => {
+  //   return requests.get('/book/queryOne', {
+  //       bookName
+  //   })
+  // }

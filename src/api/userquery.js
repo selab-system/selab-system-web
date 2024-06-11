@@ -5,14 +5,16 @@ export const getList = () => {
 }
 // 获取成员信息
 export const searchUserMsg = (userId) => {
-  return requests.get('/user/queryById/{userId}',
-  {userId}
+  return requests.get(`/user/queryById/${userId}`,
+  {}
    )
 }
 // 删去小组
-export const delectGroup = (grooupId) => {
+export const delectGroup = (groupId) => {
   return requests.get('/group/delete',
-  {grooupId}
+  {params:{
+    groupId
+  }}
    )
 }
 // 添加小组

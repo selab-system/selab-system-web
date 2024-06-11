@@ -1,16 +1,18 @@
 import requests from '@/untils/request'
 // 获取本人信息
-export const getUserMsg = (UserId) => {
+export const getUserMsg = (userId) => {
     return requests.get('/user/query',
         {
-            UserId
+           params:{
+            userId
+           }
         }
     )
 }
 //   修改信息
 export function changeMsg(list) {
     const { userName, groupId, groupName, roleId, roleName, email, phone, sex, userId, createTime, updateTime } = list
-    return requests.get('/user/update',
+    return requests.post('/user/update',
         {
             userName,
             groupId,
@@ -21,7 +23,9 @@ export function changeMsg(list) {
 // 删除人员
 export const userDelete = (userId) => {
     return requests.get('/user/logout',
-        { userId }
+        { params:{
+            userId
+        } }
     )
 }
 

@@ -44,19 +44,14 @@ export default {
                 alert("本人id不能为空")
                 return
             }
-      const res=await textUserId(userid)
-      console.log(res);
-      if(res){
+     
         const str = await getBookList(userid)
         console.log(str);
-        this.tableData=str.data
+        this.tableData=str.data.data.data
         this.control=true
         // console.log(str);
         alert("申请成功")
-      }
-      else{
-        alert("用户id不存在")
-      } 
+      
     }
   }
 }
@@ -81,7 +76,7 @@ export default {
         </el-row>
       </el-header>
       <!-- 查询到的信息 -->
-      <el-descriptions title="图书信息" v-if='control'>
+      <!-- <el-descriptions title="图书信息" v-if='control'>
         <el-descriptions-item label="图书名" v-model="bookName"
           >{{bookName}}</el-descriptions-item
         >
@@ -100,7 +95,7 @@ export default {
         <el-descriptions-item label="添加时间" v-model="createTime"
           >{{createTime}}</el-descriptions-item
         >
-      </el-descriptions>
+      </el-descriptions> -->
       <!-- 主体 -->
       <el-main>
         <el-table :data="tableData" style="width: 100%">

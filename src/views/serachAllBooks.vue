@@ -1,9 +1,9 @@
 <script >
-import { getBookList, searchBookMsg,getBookId } from '@/api/searchAllBooks'
+import { getBookList, searchBookMsg } from '@/api/searchAllBooks'
 export default {
   data () {
     return {
-      inputbookname: '',
+      inputbookid: '',
       bookAuthor: '',
       bookDetails: '',
       owner: '',
@@ -44,36 +44,51 @@ export default {
     // 获取书单
     async getBookList () {
       const str = await getBookList()
-      // this.tableData = str.data
+      console.log(str);
+      this.tableData = str.data.data.data
       console.log(str)
     },
     // 点击事件searchbook
-    async searchbook () {
-      if(this.inputbookname.trim()===''){
-        alert("书名不能为空")
-        return
-      }
-      // 用书名查id
-      const res = await getBookId(this.inputbookname)
-      if(res.data.bookId){
-        this.searchBookMsg(this.inputbookname)
-        this.control = true
-        // alert("wow")
+    // async searchbook () {
+    //   if(this.inputbookname.trim()===''){
+    //     alert("书名不能为空")
+    //     return
+    //   }
+    //   // 用书名查id
+    //   const res = await getBookId(this.inputbookname)
+    //   if(res.data.bookId){
+    //     this.searchBookMsg(this.inputbookname)
+    //     this.control = true
+    //     // alert("wow")
+    //   }
+    //   else{
+    //     alert("此书名不存在")
+    //     this.control = true
+    //     return
+    //   }
+    // },
+    async  searchBookMsg () {
+      if(this.inputbookid.trim()===''){
+          alert("请先输入书籍id")
+          return
       }
       else{
-        alert("此书名不存在")
-        this.control = true
+        this.control=true
+        const str = await searchBookMsg(this.inputbookid)
+      console.log(str.data.data);
+      if(str.data.data==undefined){
+        alert("此书籍不存在")
         return
       }
-    },
-    async  searchBookMsg (data) {
-      const str = await searchBookMsg(data)
-      // this.bookName = str.bookName
-      // this.bookAuthor = str.bookAuthor
-      // this.bookDetails = str.bookDetails
-      // this.owner = str.owner
-      // this.status = str.status
-      // this.createTime = str.createTime
+      this.bookName = str.data.data.bookName
+      this.bookAuthor = str.data.data.bookAuthor
+      this.bookDetails = str.data.data.bookDetails
+      this.owner = str.data.data.owner
+      this.status = str.data.data.status
+      this.createTime = str.data.data.createTime
+      }
+      
+      
     }
   }
 }
@@ -87,15 +102,15 @@ export default {
       <el-header>
         <!-- 输入图书名称 -->
         <el-input
-          placeholder="请输入图书名称"
-          v-model="inputbookname"
+          placeholder="请输入图书id"
+          v-model="inputbookid"
           @keyup.enter="searchbook"
           clearable
         >
         </el-input>
         <!-- 一个提交按钮 -->
         <el-row>
-          <el-button type="success" plain @click="searchbook" >查询</el-button>
+          <el-button type="success" plain @click="searchBookMsg" >查询</el-button>
         </el-row>
       </el-header>
       <!-- 查询到的信息 -->

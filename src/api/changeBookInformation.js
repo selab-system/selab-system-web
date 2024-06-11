@@ -1,17 +1,19 @@
 import requests from '@/untils/request'
 // 获取书籍信息name
-export const  getMsgByName = (bookName) => {
-    return requests.get('/book/queryOne',
-    {
-        bookName,
-    }
-    )
-  }
+// export const  getMsgByName = (bookName) => {
+//     return requests.get('/book/queryOne',
+//     {
+//         bookName,
+//     }
+//     )
+//   }
 // 获取书籍信息id
   export const  getMsgById = (bookId) => {
     return requests.get('/book/queryOne',
     {
-        bookId,
+        params:{
+          bookId
+        }
     }
     )
   }
@@ -39,7 +41,9 @@ export const  getMsgByName = (bookName) => {
   export const   Delete= (bookId) => {
     return requests.get('/book/delete',
     {
-        bookId,
+        params:{
+          bookId
+        }
     }
     )
   }
