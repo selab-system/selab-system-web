@@ -178,6 +178,7 @@ export default {
           cur:1,
           size:100
         }
+
         getBookList(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
