@@ -1,13 +1,14 @@
 <template>
-<el-container style="height:100%;">
- <el-aside width="300px" style="height: 100%; font-size: 20px; ">
+<el-container style="height:4000px;">
+<el-aside style="height: 100%; font-size: 20px; ">
    <el-menu :default-openeds="[]"
     background-color="#000"
     text-color="#fff"
     active-text-color="#e6c150"
     default-active
     router
-    style="font-size: 22px;"
+
+    style="font-size: 22px; height: 100%;"
    >
      <h3 class="logo"><i class="el-icon-setting" style="margin-right: 10px;"></i>实验室管理系统</h3>
       <el-menu-item index="/homePageInner" ><i class="el-icon-s-home"></i>系统主界面</el-menu-item>
@@ -109,12 +110,9 @@ export default {
       name: 'sadasd'
     }
   },
-  methods: {},
-  //   handleMenuClick () {
-  //     this.isCollapsed = false
-  //     console.log('ssss')
-  //   }
-  // },
+  methods: {
+
+  },
   mounted () {
     // 函数实现将登录时输入的用户名与密码在本
     // 地的保存进行提取并进行组件的显示与隐藏判断

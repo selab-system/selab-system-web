@@ -56,6 +56,7 @@ export default {
         token: '123'
         // 权限token
       },
+      loading: false,
       rules: {
         postMessage: [
           { required: true, message: '请输入用户名或邮箱', trigger: 'blur' },
@@ -172,10 +173,10 @@ padding: 0 0;
 
 .main{
      margin: 0 auto;
-     width:3000px;
-     height:2000px;
+     width:100%;
+     height:4000px;
      background-color: #2fa15b;
-    overflow: hidden;
+     overflow: hidden;
 
     }
 
@@ -187,14 +188,16 @@ padding: 0 0;
         box-shadow: 1px 1px 1px 1px #c6c9c9;
         position: relative;
         display: flex;
+        border-radius: 40px;
       }
       .img{
-width: 60%;
-height: 100%;
-background-color: #531616;
-position: absolute;
-background:url(../assets/login.png);
+    width: 60%;
+   height: 100%;
+  background-color: #531616;
+  position: absolute;
+    background:url(../assets/login.png);
 background-size: 100% 100%;
+border-radius: 40px;
 }
     ul{
       display: flex;

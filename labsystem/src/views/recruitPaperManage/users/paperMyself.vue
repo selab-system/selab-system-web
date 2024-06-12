@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getpaperData } from '@/api/recruit'
+import { getPaperData } from '@/api/recruit'
 export default {
   data () {
     return {
@@ -35,12 +35,19 @@ export default {
   },
   mounted () {
     this.userid = JSON.parse(localStorage.getItem('userid'))
-    this.getpaperData()
+    this.paperData()
+    console.log('执行了')
   },
   methods: {
-    async getpaperData () {
-      const { data } = await getpaperData(this.userid)
-      this.Datalist = data
+    async paperData () {
+      try {
+        const { data } = await getPaperData(this.userid)
+
+        this.Datalist = data
+      } catch (error) {
+        // console.error(error)
+        console.log(error)
+      }
     }
   }
 }

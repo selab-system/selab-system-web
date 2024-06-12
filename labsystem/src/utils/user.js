@@ -8,7 +8,7 @@ import { Message } from 'element-ui'
 // 自定义配置发送请求
 const request = axios.create({
   // URL配置
-  baseURL: '/api1',
+  baseURL: '/api',
   timeout: 10000
 })
 
@@ -31,7 +31,7 @@ request.interceptors.request.use(config => {
 // 响应拦截器配置
 request.interceptors.response.use(response => {
   // 直接返回2xx范围内的响应数据
-  // console.log('Response Data:', response.data)
+  console.log('Response Data:', response.data)
   return response
 }, error => {
   const { status } = error.response || {} // 解构错误响应中的状态码

@@ -29,29 +29,7 @@
     <el-button type="primary" @click="submitForm('registerinfos')">下一步</el-button>
     <el-button @click="resetForm('registerinfos')">重置</el-button>
   </el-form-item>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="registerinfos.username"  ></el-input>
-        </el-form-item>
-        <el-form-item label="密码"  prop="password">
-          <el-input v-model="registerinfos.password" placeholder="包含一个大写小写字母与数字"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="registerinfos.email"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phonenumber">
-          <el-input v-model="registerinfos.phonenumber"></el-input>
-        </el-form-item>
-        <!-- 性别0  -->
-        <el-form-item label="性别" prop="gender">
-          <el-radio-group v-model="registerinfos.gender">
-            <el-radio label="1">男</el-radio>
-            <el-radio label="0">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('registerinfos')" style="width: 120px; height:50px;">下一步</el-button>
-          <el-button @click="resetForm('registerinfos')">重置</el-button>
-        </el-form-item>
+
       </el-form>
       </ul>
   </div>
@@ -227,6 +205,7 @@ overflow: hidden;
   margin-top: 200px;
   display:flex;
  position: relative;
+ border-radius: 40px;
 }
 h1{
   margin-left: 85px;
@@ -236,6 +215,7 @@ img{
   height: 300px;
   margin-left:20px;
   margin-top:30px
+
 }
 .img{
   width: 60%;
@@ -243,6 +223,8 @@ img{
   background-color: #bc1d1d;
 background:url(../assets/register.png);
 background-size: 100% 100%;
+border-radius:40px;
+
 }
 ul{
   display: flex;

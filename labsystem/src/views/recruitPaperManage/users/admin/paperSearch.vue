@@ -84,7 +84,7 @@
 
 <script>
 import Bus from '@/utils/EventBus'
-import { getlistDetail, getDetailByName, getDetailBygrade } from '@/api/recruit'
+import { getlistDetail, getDetailByName, getDetailBygrade, getDetailByintentDepartment } from '@/api/recruit'
 export default {
 
   data () {

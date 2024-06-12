@@ -17,23 +17,23 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/api': ''
         }
-      },
-      // 用户
-      '/api1': {
-        target: 'http://rdumrj.natappfree.cc',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api1': ''
-        }
-      },
-      // 书籍
-      '/api2': {
-        target: 'http://7f35u6.natappfree.cc',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api2': ''
-        }
       }
+      // 用户
+      // '/api1': {
+      //   target: 'http://rdumrj.natappfree.cc',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api1': ''
+      //   }
+      // },
+      // 书籍
+      // '/api2': {
+      //   target: 'http://7f35u6.natappfree.cc',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api2': ''
+      //   }
+      // }
     }
   }
 })

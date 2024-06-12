@@ -160,10 +160,10 @@ router.beforeEach((to, from, next) => {
   }
 })
 //  路由守卫：当个人已经登录时保存有token时可以访问除登录面……外路由否则将提示前往登录
-router.beforeEach((to, from, next) => {
-  const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
-  if (!JSON.parse(localStorage.getItem('token')) && !routes.includes(to.path)) { alert('请先前往登录'); next('/login') } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
+//   if (!JSON.parse(localStorage.getItem('token')) && !routes.includes(to.path)) { alert('请先前往登录'); next('/login') } else {
+//     next()
+//   }
+// })
 export default router
