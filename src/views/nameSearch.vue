@@ -5,39 +5,43 @@ export default {
     return{
       total:0,
       currentpage:1,
-      pagesize:10,
+      pagesize:5,
       allData:[],
       pageData:[],
       intervieweesName:'',
-      cur:'',
-      size:'',
-      person:[],
-    //   person: {
-    //     id: 0,
-    //     interviewees: {
-    //       userName: " ",
-    //       groupId: 0,
-    //       groupName: " ",
-    //       roleId: 0,
-    //       roleName: " ",
-    //       email: " ",
-    //       phone: " ",
-    //       sex: 0,
-    //       userId: 0,
-    //       createTime: " ",
-    //       updateTime: " "
-    //     },
-    //     email: " ",
-    //     phone: 0,
-    //     intentDepartment: 0,
-    //     classroom: " ",
-    //     interviewTime: " ",
-    //     introduce: " ",
-    //     purpose: " ",
-    //     remark: " ",
-    //     grade: " "
-    //   }
+      cur:1,
+      size:7,
+      data1: [
+        [{
+          id: 0,
+          interviewees: {
+            userName: "string",
+            groupId: 0,
+            groupName: "string",
+            roleId: 0,
+            roleName: "string",
+            email: "string",
+            phone: "string",
+            sex: 0,
+            userId: 0,
+            createTime: "string",
+            updateTime: "string"
+          },
+          email: "string",
+          phone: 0,
+          intentDepartment: 0,
+          classroom: "string",
+          interviewTime: "string",
+          introduce: "string",
+          purpose: "string",
+          remark: "string",
+          grade: "string"
+        }]
+      ],
+      "msg": "string"
     }
+    //
+
 
   },
   methods:{
@@ -45,13 +49,20 @@ export default {
       console.log(row);
     },
     handleCurrentChange(val){
-      console.log(`每页${val}条`)
-      this.pagesize=val
+      this.currentpage=val
+      this.search()
     },
-    search(person){
-      Namesearch(person).then(res=>{
-         this.person=res.data
-      })
+    search(){
+      Namesearch({
+        cur:this.cur,
+        size:this.size,
+        intervieweesName:this.intervieweesName
+      }).then(res=>{
+          this.data1=res.data.data
+        console.log(res)
+      },
+
+      )
     }
 
   }
@@ -62,9 +73,9 @@ export default {
 <div>
 
   <input type="text" placeholder="请输入你的姓名" v-model="intervieweesName">
-  <button @click="search">查询</button>
+  <button @click="search(intervieweesName)">查询</button>
   <el-table
-    :data="person.slice((currentpage-1)*pagesize,currentpage*pagesize)"
+    :data="this.data1.slice((currentpage-1)*pagesize,currentpage*pagesize)"
     border
     style="width: 100%">
     <el-table-column
@@ -115,7 +126,8 @@ export default {
   <el-pagination
     background
     layout="prev, pager, next"
-    @current-chnage="handleCurrentChange" :current-page="currentpage" :total="person.length">
+    @current-change="handleCurrentChange" :current-page="currentpage" :total="100"
+  >
   </el-pagination>
 </div>
 </template>

@@ -1,6 +1,7 @@
 <script >
 export default {
   name: 'adHome',
+
   methods: {
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -16,6 +17,7 @@ export default {
 
 <template>
   <div class="home" style="display: flex">
+    <div class="homeleader">
     <el-row class="tac">
       <el-col :span="12">
         <el-menu
@@ -25,7 +27,9 @@ export default {
           @close="handleClose"
           background-color="#545c64"
           text-color="#fff"
-          active-text-color="#ffd04b">
+          active-text-color="#ffd04b"
+
+        >
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -58,31 +62,42 @@ export default {
               <el-menu-item index="1-4-2"><router-link to="/viewCompletionStatus" class="active">查看进度完成情况</router-link>></el-menu-item>
               <el-menu-item index="1-4-3"><router-link to="/viewReportRecords" class="active">查看汇报记录</router-link>></el-menu-item>
             </el-submenu>
+            <el-menu-item index="1-5-1"><router-link to="/welcome" class="active">欢迎页</router-link>></el-menu-item>
+
           </el-submenu>
         </el-menu>
       </el-col>
     </el-row>
+    </div>
     <div class="homeview">
       <router-view></router-view>
     </div>
   </div>
+
 </template>
 
 <style scoped>
+
 router-view{
   position: absolute;
-  height: 880px;
+  //height: 880px;
+  height: 100vh;
 }
 /deep/ .el-col{
   width: 250px
 }
 .home{
-  height: 880px;
+height: 100vh;
 
+
+}
+.homeleader{
+  height: 100vh;
+  background-color: #545c64;
 }
 .homeview{
   width: 87%;
-  height: 880px;
+  height: 100vh;
   position: relative;
 
 }

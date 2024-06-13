@@ -3,10 +3,7 @@ import axios from 'axios'
 // 创建axios对象
 const requests = axios.create({
   baseURL: '/api',
-  timeout: 5000,
-  headers:{
-    Authorization:'string'
-  }
+  timeout: 10000,
 })
 // 请求拦截器
 requests.interceptors.request.use(function (config) {
@@ -23,6 +20,7 @@ requests.interceptors.response.use(function (response) {
   }
   return response
 }, function (error) {
+
   return Promise.reject(error)
 })
 export default requests

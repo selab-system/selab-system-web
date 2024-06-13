@@ -8,44 +8,52 @@ export default {
   data () {
     return {
       change:true,
-
-     form: {
       userName:'',
-        email: '',
-       phone: '',
-       password:'',
-       sex:'',
-       identify:'',
-
-     }
+      email: '',
+      phone: '',
+      password:'',
+      sex:'',
+      identify:'',
    }
   },
  methods: {
     handleReigster () {
-   register(this.form).then(res=>{
+   register({
+     userName:this.userName,
+     email:this.email,
+     phone:this.phone,
+     password:this.password,
+     sex:this.sex,
+     identify:this.identify
+     }
+   ).then(res=>{
        console.log(res)
      })
    },
-   handleRegister1(){
-
-   },
-  submitAuth() {
-    subAuth(this.form.email).then(res => {
+  async submitAuth() {
+    try{
+      await subAuth({
+        email:this.email
+      }).then(res =>{
+        console.log(this.email)
         console.log(res)
-
-      },
-    )
-
+        if(res.code ==200){
+          alert("发送验证码")
+        }else{
+          console.log(res.code)
+        }
+      })
+    }catch (err){
+      console.log("错了")
+      console.log(err)
+    }
   },
-  ifChange(){
-   this.change=!this.change
-    console.log(1)
+  // ifChange(){
+  //  this.change=!this.change
+  //   console.log(1)
   },
 
-}}
-
-
-
+}
 </script>
 
 <template>
@@ -55,25 +63,25 @@ export default {
                  :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push" ref="particles">
   </vue-particles>
   <div class="register">
-  <form id="registerform" @submit.prevent="handleRegister1">
+ <form id="registerform">
     <label for="usermailbox">邮箱</label>
-    <input type="text" placeholder="请输入你的qq邮箱" id="usermailbox" v-model=form.email class="active" @keydown.enter="ifChange" >
-    <button @click="submitAuth" v-if="change"  >发送验证码</button>
-    <input type="text" placeholder="请输入你的验证码" id="usermailmessage" v-model=form.identify class="active" v-if="change">
+    <input type="text" placeholder="请输入你的qq邮箱" id="usermailbox" v-model="email" class="active" >
+    <button @click.prevent="submitAuth"  >发送验证码</button>
+    <input type="text" placeholder="请输入你的验证码" id="usermailmessage" v-model="identify" class="active" v-if="change">
     <br>
     <label for="useraccount">姓名</label>
-    <input type="text" placeholder="请输入你的用户名" id="useraccount" v-model="form.userName" class="active">
+    <input type="text" placeholder="请输入你的用户名" id="useraccount" v-model="userName" class="active">
     <br>
     <label for="userpassword">密码</label>
-    <input type="password" placeholder="请输入你的密码" id="userpassword" v-model="form.userpassword" class="active">
+    <input type="password" placeholder="请输入你的密码" id="userpassword" v-model="password" class="active">
     <br>
     <label for="userpassword">电话</label>
-    <input type="password" placeholder="请输入你的电话" id="userphone" v-model="form.phone" class="active">
+    <input type="password" placeholder="请输入你的电话" id="userphone" v-model="phone" class="active">
     <br>
     <label for="userpassword">性别</label>
-    <input type="password" placeholder="请输入你的性别(0为女1为男)" id="usersex" v-model="form.sex" class="active">
+    <input type="password" placeholder="请输入你的性别(0为女1为男)" id="usersex" v-model="sex" class="active">
     <br>
-    <button @click="handleReigster">注册</button>
+    <button @click.prevent="handleReigster">注册</button>
   </form>
   </div>
 </div>
