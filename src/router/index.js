@@ -15,10 +15,12 @@ import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
 import TaskRelease from "@/views/TaskManagePage/Manager/TaskRelease.vue";
 //引入查看全部任务组件
 import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask.vue";
-//引入查看任务详情组件
-import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
+// //引入查看任务详情组件
+// import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
 //引入任务更新组件
-import TaskUpdate from "@/views/TaskManagePage/Manager/TsakUpdate.vue";
+import TaskUpdate from "@/views/TaskManagePage/Manager/TaskUpdate.vue";
+// 引入查看用户详情组件
+import CheckUserMsg from "@/views/TaskManagePage/Manager/CheckUserMsg.vue";
 //引入查看任务汇报组件
 import TaskReport from "@/views/TaskManagePage/Manager/TaskReport.vue";
 //引入汇报任务组件
@@ -69,7 +71,7 @@ let routes = [
         children: [
             //首页样式
             {
-                path: "/indexStyleMain",
+                path: "/index",
                 name: "indexStyleMain",
                 component: indexStyleMain
             },
@@ -123,27 +125,27 @@ let routes = [
                 name: "CheckAllTask",
                 component: CheckAllTask
             },
-            //查看任务详情
+            //查看用户详情
             {
-                path: "/TaskDetail",
-                name: "TaskDetail",
-                component: TaskDetail
+                path: "/CheckUserMsg/:taskId",
+                name: "CheckUserMsg",
+                component: CheckUserMsg
             },
             //更新任务
             {
-                path: "/TaskUpdate",
+                path: "/TaskUpdate/:taskId",
                 name: "TaskUpdate",
                 component: TaskUpdate
             },
             //查看任务汇报
             {
-                path: "/TaskReport",
+                path: "/TaskReport/:taskId",
                 name: "TaskReport",
                 component: TaskReport
             },
             //汇报任务组件
             {
-                path: "/ReportMyTask",
+                path: "/ReportMyTask/:taskId",
                 name: "ReportMyTask",
                 component: ReportMyTask
             },
@@ -155,7 +157,7 @@ let routes = [
             },
             // 查看我的汇报
             {
-                path: "/CheckMyReport",
+                path: "/CheckMyReport/:taskId",
                 name: "CheckMyReport",
                 component: CheckMyReport
             },

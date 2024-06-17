@@ -4,6 +4,115 @@ import {BorrowBook, DeleteBook, getBookInfo, getBookList, saveBookInfo, updateBo
 export default {
   name: "queryAllBooks",
   data() {
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('书籍名称不能为空'));
+      }
+      // setTimeout(() => {
+      //   if (!Number.isInteger(value)) {
+      //     callback(new Error('请输入数字值'));
+      //   } else {
+      //     if (value < 18) {
+      //       callback(new Error('必须年满18岁'));
+      //     } else {
+      //       callback();
+      //     }
+      //   }
+      // }, 1000);
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('书籍作者不能为空'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('书籍介绍不能为空'));
+      }
+      // } else if (value !== this.ruleForm.pass) {
+      //   callback(new Error('两次输入密码不一致!'));
+      // } else {
+      //   callback();
+      // }
+    };
+    var validatePass3 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('书籍价格不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value < 0) {
+            callback(new Error('必须大于0'));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+      // } else if (value !== this.ruleForm.pass) {
+      //   callback(new Error('两次输入密码不一致!'));
+      // } else {
+      //   callback();
+      // }
+    };
+    var validatePass4 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('书籍拥有者id不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value < 0) {
+            callback(new Error('必须大于0'));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+      // } else if (value !== this.ruleForm.pass) {
+      //   callback(new Error('两次输入密码不一致!'));
+      // } else {
+      //   callback();
+      // }
+    };
+    var validatePass5 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('备注不能为空'));
+      }
+      // } else if (value !== this.ruleForm.pass) {
+      //   callback(new Error('两次输入密码不一致!'));
+      // } else {
+      //   callback();
+      // }
+    };
+    var validatePass6 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('书籍编号不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value < 0) {
+            callback(new Error('必须大于0'));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+      // } else if (value !== this.ruleForm.pass) {
+      //   callback(new Error('两次输入密码不一致!'));
+      // } else {
+      //   callback();
+      // }
+    };
     return {
       saveBookName: '',
       saveBookAuthor: '',
@@ -36,7 +145,39 @@ export default {
       saveBookOwenName: '',
       bookStatus: '',
       createTime: '',
-      updateTime: ''
+      updateTime: '',
+      ruleForm: {
+        pass1: '',
+        pass2: '',
+        pass3: '',
+        pass4: '',
+        pass5: '',
+        pass6: '',
+        pass7: ''
+      },
+      rules: {
+        pass1: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        pass2: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+        pass3: [
+          { validator: checkAge, trigger: 'blur' }
+        ],
+        pass4: [
+          { validator: validatePass3, trigger: 'blur' }
+        ],
+        pass5: [
+          { validator: validatePass4, trigger: 'blur' }
+        ],
+        pass6: [
+          { validator: validatePass5, trigger: 'blur' }
+        ],
+        pass7: [
+          { validator: validatePass6, trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -51,7 +192,7 @@ export default {
           remark: this.saveBookOther,
           bookRef: this.saveBookRef
         }
-        if(this.saveBookName !== '' && typeof this.saveBookName === 'string' && this.saveBookAuthor !== '' && typeof this.saveBookAuthor === 'string' && this.saveBookInfo !== '' && typeof this.saveBookInfo === 'string' && this.saveBookMon !== '' && typeof this.saveBookMon === 'number' && this.saveBookOwenId !== '' && typeof this.saveBookOwenId === 'number' && this.saveBookOther !== '' && typeof this.saveBookOther === 'string' && this.saveBookRef !== '' && typeof this.saveBookRef === 'string') {
+        if(this.saveBookName !== '' && this.saveBookAuthor !== ''  && this.saveBookInfo !== ''  && this.saveBookMon !== '' && this.saveBookOwenId !== '' && this.saveBookOther !== ''  && this.saveBookRef !== '') {
           saveBookInfo(params).then(res =>{
             if(res.code === 200){
               console.log(res);
@@ -98,7 +239,7 @@ export default {
           returnTime: this.returnTime
         }
         console.log(params)
-        if(this.borrowBookId !== '' && typeof this.borrowBookId === 'number' && this.borrowDuration !== '' && typeof this.borrowDuration === 'number' && this.returnTime !== '' && typeof this.returnTime === 'string') {
+        if(this.borrowBookId !== ''&& this.borrowDuration !== '' && this.returnTime !== '') {
           BorrowBook(params).then(res =>{
             if(res.code === 200){
               const borrowDiv = document.querySelector('.borrowDiv');
@@ -178,6 +319,7 @@ export default {
           cur:1,
           size:100
         }
+
         getBookList(params).then(res =>{
           console.log(res.data)
           if(res.code === 200){
@@ -261,6 +403,19 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   },
   computed: {
@@ -352,30 +507,57 @@ export default {
       </div>
     </div>
     <div class="selectDiv">
-      <div>
-        书籍名称：<input type="text" placeholder="请输入书籍名称" v-model="saveBookName">
-      </div>
-      <div>
-        书籍作者：<input type="text" placeholder="请输入书籍作者" v-model="saveBookAuthor">
-      </div>
-      <div>
-        书籍介绍：<input type="text" placeholder="请输入书籍介绍" v-model="saveBookInfo">
-      </div>
-      <div>
-        书籍价格：<input type="text" placeholder="请输入书籍价格" v-model="saveBookMon">
-      </div>
-      <div>
-        书籍拥有者id：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenId">
-      </div>
-      <div>
-        备注：<input type="text" placeholder="请输入备注信息" v-model="saveBookOther">
-      </div>
-      <div>
-        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">
-      </div>
-      <div>
-        <button @click="saveBookDate">增加</button>
-      </div>
+<!--      <div>-->
+<!--        书籍名称：<input type="text" placeholder="请输入书籍名称" v-model="saveBookName">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        书籍作者：<input type="text" placeholder="请输入书籍作者" v-model="saveBookAuthor">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        书籍介绍：<input type="text" placeholder="请输入书籍介绍" v-model="saveBookInfo">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        书籍价格：<input type="text" placeholder="请输入书籍价格" v-model="saveBookMon">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        书籍拥有者id：<input type="text" placeholder="请输入书籍拥有者" v-model="saveBookOwenId">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        备注：<input type="text" placeholder="请输入备注信息" v-model="saveBookOther">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        书籍编号：<input type="text" placeholder="请输入书籍编号" v-model="saveBookRef">-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <button @click="saveBookDate">增加</button>-->
+<!--      </div>-->
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="书籍名称" prop="pass3">
+          <el-input type="password" v-model="saveBookName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="书籍作者" prop="pass1">
+          <el-input type="password" v-model="saveBookAuthor" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="书籍介绍" prop="pass2">
+          <el-input v-model="saveBookInfo"></el-input>
+        </el-form-item>
+        <el-form-item label="书籍价格" prop="pass4">
+          <el-input v-model="saveBookMon"></el-input>
+        </el-form-item>
+        <el-form-item label="书籍拥有者id" prop="pass5">
+          <el-input v-model="saveBookOwenId"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="pass6">
+          <el-input v-model="saveBookOther"></el-input>
+        </el-form-item>
+        <el-form-item label="书籍编号" prop="pass7">
+          <el-input v-model="saveBookRef"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveBookDate">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="editDiv">
       <div>
@@ -521,25 +703,25 @@ export default {
   .selectDiv {
     width: 300px;
     height: 400px;
-    background: wheat;
+    //background: wheat;
     position: absolute;
     top: 200px;
     left: 43%;
-    border: 1px black solid;
+    //border: 1px black solid;
     z-index: 3;
-    div {
-      width: 100%;
-      height: 50px;
-      padding-top: 2px;
-      input {
-        border-radius: 40px;
-        text-indent: 10px;
-      }
-      button {
-        width: 50px;
-        height: 20px;
-      }
-    }
+    //div {
+    //  width: 100%;
+    //  height: 50px;
+    //  padding-top: 2px;
+    //  input {
+    //    border-radius: 40px;
+    //    text-indent: 10px;
+    //  }
+    //  button {
+    //    width: 50px;
+    //    height: 20px;
+    //  }
+    //}
     display: none;
   }
   .editDiv {

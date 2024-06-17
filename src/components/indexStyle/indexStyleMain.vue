@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import * as echarts from 'echarts';
 import earthPhoto from "../../assets/img/主页地球纹理.png";
 import 'echarts-gl';
@@ -61,7 +61,7 @@ const randomData = () => {
   let name = "随机点" + Math.random().toFixed(5) * 100000;
   // 起点经纬度-北京
   let longitude = 116.2,
-      latitude = 39.56;
+    latitude = 39.56;
   // 随机终点经纬度
   let longitude2 = Math.random() * 360 - 180;
   let latitude2 = Math.random() * 180 - 90;
@@ -73,7 +73,7 @@ const randomData = () => {
     value: (Math.random() * 3000).toFixed(2),
   };
 }
-onMounted( () => {
+onMounted(() => {
   worldRotate();
 })
 </script>
@@ -83,9 +83,9 @@ onMounted( () => {
 </template>
 
 <style scoped>
-  .worldBox {
-    width: 800px;
-    height: 800px;
-    margin: 0 auto;
-  }
+.worldBox {
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+}
 </style>

@@ -6,7 +6,7 @@ import store from "@/store";
 import router from "@/router";
 import messageService from "./messageService";
 
-// 自定义配置发送请求
+// 自定义配置发送请求   
 const request = axios.create({
     // URL配置
     baseURL: '/api',

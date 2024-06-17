@@ -3,7 +3,7 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
-        <index-style-main></index-style-main>
+<!--        <index-style-main></index-style-main>-->
       </div>
     </div>
   </div>
@@ -24,4 +24,9 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
 <style scoped></style>
+=======
+<style scoped>
+</style>
+>>>>>>> 60740e7986cd281f415bd45671a45566586192b3

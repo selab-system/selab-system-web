@@ -1,49 +1,63 @@
 <template>
-  <div >
-    <div class="report-task">
-        <div>
-            <div>汇报内容</div>
-            <textarea name="message" rows="20" cols="20" v-model="content" required></textarea>
-            <button class="reportTask">汇报</button>
-        </div>
-    </div>
+  <div class="reportContainer">
+    <el-form ref="form" :model="formDetails" label-width="100px">
+      <el-form-item label="汇报内容">
+        <el-input type="textarea" v-model="formDetails.details"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">立即汇报</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
-<script>
+  <script>
+import { report } from "@/api/TaskManage/TaskManage";
 export default {
-
-}
+  data() {
+    return {
+      taskId: "",
+      formDetails: { 
+      details: "", 
+    },
+    };
+  },
+  methods: {
+    async onSubmit() {
+      console.log("submit!", this.details, this.taskId);
+      const formData = {
+        TaskReportDto: {
+          taskId: this.taskId,
+          details: this.formDetails.details,
+          reportStatus: 1,
+        },
+      };
+      await report(formData).then((res) => {
+        if (res.code === 200) {
+          this.$message({
+          message: '恭喜你，汇报成功',
+          type: 'success'
+        });
+          console.log("汇报成功", res);
+        } else {
+          this.$message.error('汇报失败');
+          
+          console.log("汇报失败", res);
+        }
+      });
+      
+    },
+  },
+  created() {
+    this.taskId = this.$route.params.taskId;
+    console.log(this.taskId);
+  },
+};
 </script>
 
--task<style>
-.report-task {
-    margin:10px auto 0;
-    width: 60%;
-    height: 600px;
-    padding-top: 5px;
-    /* background-color: pink; */
-}
-.report-task div{
-    font-size: 30px;
-    font-family: var(--font-family);
-    margin-bottom: 5px;
-}
-.report-task button{
-    width: 120px;
-    height: 60px;
-    box-shadow: var(--table-box-shadow);
-    background-color: var(--table-box-title-bgc-color);
-    border: 0.5px solid var(--table-border-grey);
-    border-radius: var(--table-action-radius);
-    margin-left: 20px;
-}
-.report-task button:hover{
-    background-color: var(--table-action-hover-bg-color);
-    color: var(--table-action-hover-color);
-}
-.report-task button:active{
-    background-color: var(--table-action-active-box-shadow);
-    transform: scale(0.95);
+<style>
+.reportContainer {
+  width: 70%;
+  margin: 20px auto 0;
 }
 </style>

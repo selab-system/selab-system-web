@@ -58,6 +58,7 @@
         <div class="nav-selection dropdown" @mouseleave="showDropdownT = false" v-if="taskIsShowed">
           <span @click="toggleDropdownT"><a href="javascript:;">查看任务</a></span>
           <div class="dropdown-content" v-if="this.showDropdownT">
+<<<<<<< HEAD
             <router-link to="/CheckMyTask">
               <div class="menuDown">查看我的任务</div>
             </router-link>
@@ -65,6 +66,10 @@
               <div class="menuDown">查看我的汇报
               </div>
             </router-link>
+=======
+            <div class="menuDown"> <router-link to="/CheckMyTask">查看我的任务</router-link> </div>
+            <div class="menuDown"><router-link to="/CheckMyReport">查看我的汇报</router-link></div>
+>>>>>>> 60740e7986cd281f415bd45671a45566586192b3
           </div>
         </div>
       </div>
