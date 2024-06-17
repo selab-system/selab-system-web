@@ -4,6 +4,9 @@ import axios from 'axios'
 const requests = axios.create({
   baseURL: '/api',
   timeout: 10000,
+  headers: {
+    Authorization: 'string'
+  }
 })
 // 请求拦截器
 requests.interceptors.request.use(function (config) {

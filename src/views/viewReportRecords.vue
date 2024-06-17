@@ -9,13 +9,13 @@
       <div class="content">
         <el-table
           :data="tableData"
-          style="width: 100%">
+          style="width: 100%"
+          @expand-change="handleRowExpandChange">
           <el-table-column type="expand">
-            <template v-if="tableData1>0">
+            <template >
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-table
                   :data="tableData1"
-                  border
                   style="width: 100%">
                   <el-table-column
                     prop="userName"
@@ -31,14 +31,20 @@
                     fixed
                     prop="reportTime"
                     label="汇报时间"
-                    width="300">
+                    width="300"
+                    :formatter="formatTimestamp">
                   </el-table-column>
                   <el-table-column
+                    prop="details"
+                    label="汇报信息"
+                    width="300">
+                  </el-table-column>
+                  <!-- <el-table-column
                     fixed="right"
                     label="操作"
                     width="100">
                     <template>
-                      <el-button type="text" @click="dialogVisible = true">查看</el-button>
+                      <el-button type="text" @click="showDialog(scope.row)">查看</el-button>
 
                       <el-dialog
                         title="汇报信息"
@@ -46,14 +52,14 @@
                         width="30%"
                         :before-close="handleClose"
                         :append-to-body='true'>
-                        <span>{{tableData1.datails}}</span>
+                        <span>{{dialogRow.datails}}</span>
                         <span slot="footer" class="dialog-footer">
                           <el-button @click="dialogVisible = false">取 消</el-button>
                           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
                         </span>
                       </el-dialog>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                 </el-table>
               </el-form>
               <!-- 分页相关 -->
@@ -67,9 +73,9 @@
                 </el-pagination>
               </div>
             </template>
-            <div v-else>
+            <!-- <div v-else>
               <el-empty :image-size="200"></el-empty>
-            </div>
+            </div> -->
           </el-table-column>
           <el-table-column
             label="发布者"
@@ -85,7 +91,8 @@
           </el-table-column>
           <el-table-column
             label="截止时间"
-            prop="dealTime">
+            prop="dealTime"
+            :formatter="formatTimestamp">
           </el-table-column>
         </el-table>
       </div>
@@ -103,18 +110,20 @@ export default {
       dialogVisible: false,
       tableData: [],
       tableData1: [],
-      allTableData1: []
+      allTableData1: [],
+      dialogRow: '',
+      expandedRowsData: {}
     }
   },
   created () {
     this.search()
-    this.details()
+    // this.details()
     this.handleCurrentChange()
   },
   methods: {
     // 显示当前页数据
     handleCurrentChange (currentPage) {
-      // 更新当前页数据
+    // 更新当前页数据
       this.currentPage = currentPage
       this.tableData1 = []
       // 获取当前页数据范围
@@ -131,16 +140,40 @@ export default {
     // 查询所有任务信息
     search () {
       queryMyTask().then((res) => {
-        console.log(res)
-        this.tableData = Object.values(res.data)
+        console.log(res.data.data)
+        this.tableData = res.data.data
       })
     },
     // 查询汇报记录
-    details () {
-      const id = { taskId: this.tableData.id }
+    // 下拉框下的小细节
+    // details () {
+    //   const id = { taskId: this.tableData.id }
+    //   queryAllResport(id).then((res) => {
+    //     console.log(res.data.data)
+    //     this.allTableData1 = res.data.data
+    //     if (!this.currentPage || this.currentPage === 1) {
+    //       this.handleCurrentChange(1)
+    //     }
+    //   })
+    // },
+    showDialog (row) {
+      this.dialogVisible = true
+      this.dialogRow = row
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
+    },
+    // 下拉框渲染
+    handleRowExpandChange (row) {
+      const id = row.id
+      console.log(id)
       queryAllResport(id).then((res) => {
-        console.log(res)
-        this.allTableData1 = Object.values(res.data)
+        console.log(res.data.data)
+        this.allTableData1 = res.data.data
+        // this.$set(this.expandedRowsData, id, this.allTableData1)
+        // console.log(this.expandedRowsData[id])
+        console.log(this.allTableData1)
         if (!this.currentPage || this.currentPage === 1) {
           this.handleCurrentChange(1)
         }
@@ -176,6 +209,7 @@ export default {
   .title p{
     font-size: 30px;
     font-weight: 700;
+    color: black;
   }
   .content{
     width: 900px;

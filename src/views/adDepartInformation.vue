@@ -94,12 +94,13 @@ export default {
     };
   },
   async created() {
-    this.getList();
+    await this.getList();
     let counter = 1
-    list.forEach((item) => {
+    // let i = 0
+    this.list.forEach((item) => {
       item.id = counter++;
-      item.label = item.data.groupName; // 将groupName替换为label
-      item.children = item.data.userVos.map((user) => {
+      item.label = item.groupName; // 将groupName替换为label
+      item.children = item.userVos.map((user) => {
         return {
           id: counter++,
           label: user.userName, // 将userName替换为label
@@ -108,7 +109,7 @@ export default {
       delete item.data; // 删除原来的data属性
     });
 
-    let data = list.map((item) => {
+    this.data = this.list.map((item) => {
       return {
         id: item.id,
         // id: item.code,
@@ -116,13 +117,15 @@ export default {
         children: item.children,
       };
     });
+    console.log(this.data);
   },
   methods: {
     // 获取树形表
     async getList() {
       const str = await getList();
-      this.list = str;
       console.log(str);
+      this.list = str.data.data;
+      console.log(str.data.data);
     },
     // 树形表自带
     filterNode(value, data) {
@@ -137,7 +140,8 @@ export default {
       }
       const str = await searchUserMsg(this.input);
       if (str) {
-        this.form = str.data;
+        console.log(str);
+        this.form = str.data.data;
         alert("已获取成员信息");
       } else {
         alert("获取信息失败");
@@ -242,17 +246,17 @@ export default {
       <el-button type="primary" @click="searchUserMsg">查询</el-button>
 
       <el-descriptions title="用户信息">
-        <el-descriptions-item label="用户名称" v-model="form.userName" ></el-descriptions-item>
-        <el-descriptions-item label="小组id" v-model="form.groupId" ></el-descriptions-item>
-        <el-descriptions-item label="小组名称" v-model="form.groupName" ></el-descriptions-item>
-        <el-descriptions-item label="角色id" v-model="form.roleId" ></el-descriptions-item>
-        <el-descriptions-item label="角色名称" v-model="form.roleName" ></el-descriptions-item>
-        <el-descriptions-item label="邮箱" v-model="form.email" ></el-descriptions-item>
-        <el-descriptions-item label="手机号码" v-model="form.phone" ></el-descriptions-item>
-        <el-descriptions-item label=" 性别(0为女1为男)" v-model="form.sex" ></el-descriptions-item>
-        <el-descriptions-item label="用户id" v-model="form.userId" ></el-descriptions-item>
-        <el-descriptions-item label="创建时间" v-model="form.createTime" ></el-descriptions-item>
-        <el-descriptions-item label="更新时间" v-model="form.updateTime" ></el-descriptions-item>
+        <el-descriptions-item label="用户名称" v-model="form.userName" >{{form.userName}}</el-descriptions-item>
+        <el-descriptions-item label="小组id" v-model="form.groupId" >{{form.groupId}}</el-descriptions-item>
+        <el-descriptions-item label="小组名称" v-model="form.groupName" >{{form.groupName}}</el-descriptions-item>
+        <el-descriptions-item label="角色id" v-model="form.roleId" >{{form.roleId}}</el-descriptions-item>
+        <el-descriptions-item label="角色名称" v-model="form.roleName" >{{form.roleName}}</el-descriptions-item>
+        <el-descriptions-item label="邮箱" v-model="form.email" >{{form.email}}</el-descriptions-item>
+        <el-descriptions-item label="手机号码" v-model="form.phone" >{{form.phone}}</el-descriptions-item>
+        <el-descriptions-item label=" 性别(0为女1为男)" v-model="form.sex" >{{form.sex}}</el-descriptions-item>
+        <el-descriptions-item label="用户id" v-model="form.userId" >{{form.userId}}</el-descriptions-item>
+        <el-descriptions-item label="创建时间" v-model="form.createTime" >{{form.createTime}}</el-descriptions-item>
+        <el-descriptions-item label="更新时间" v-model="form.updateTime" >{{form.updateTime}}</el-descriptions-item>
       </el-descriptions>
 
       <!-- 小组信息修改 -->
@@ -262,7 +266,6 @@ export default {
       <el-input placeholder="请输入创建时间" v-model="changelist.createTime" clearable></el-input>
         <el-button type="success" @click="changdeGroupMsg(changelist)">提交</el-button>
         <el-button @click="cle">取消</el-button>
-</el-input>
       <!-- 小组删除 -->
     <div class="title">删除小组</div>
       <el-input placeholder="请输入小组id" v-model="inputGroupId" clearable>
@@ -293,7 +296,7 @@ export default {
 </template>
 
 
-<style>
+<style >
 .el-aside {
   background-color: #d3dce6;
   color: #333;

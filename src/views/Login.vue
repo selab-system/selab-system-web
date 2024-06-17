@@ -78,8 +78,7 @@ export default {
       <br>
     <input type="password" placeholder="请输入你的密码" id="userpassword" v-model="form.password" style="width:250px ;height: 30px">
       <br>
-      <button class="active" @click.prevent="handlesubmit">用户登录</button>
-      <router-link to="/adhome" class="active" >管理登录</router-link>
+      <button class="active" @click.prevent="handlesubmit">登录</button>
     <router-link to="/register" class="active">注册</router-link>
     </form>
   </div>
@@ -91,6 +90,7 @@ export default {
   margin-left: 10px;
   text-decoration: none;
   color: white;
+  background-color: black;
 }
 div{
   background-color: black;

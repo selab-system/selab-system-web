@@ -35,7 +35,8 @@ export function deletetask (params) {
 export const update = (id, name, groupIds, publisherId, updaterId, dealTime, content) => {
   const url = `/task/save/${id}`
   const body = {
-
+    id,
+    publisherId,
     updaterId,
     groupIds,
     name,

@@ -8,7 +8,7 @@
       <!-- 主体内容 -->
       <div>
         <!-- 根据发布者名字搜索任务 -->
-        <input type="text" v-model="publisherName" @input="search" placeholder="请输入发布者的名字...">
+        <input type="text" v-model="publisherName"  placeholder="请输入发布者的名字...">
         <el-button type="primary" @click="search()">搜索任务</el-button>
         <div v-if="tableData.length>0">
           <el-table class="table"
@@ -20,7 +20,8 @@
               fixed
               prop="publishTime"
               label="发布时间"
-              width="150">
+              width="150"
+              :formatter="formatTimestamp">
             </el-table-column>
             <el-table-column
               prop="publisherName"
@@ -35,7 +36,8 @@
             <el-table-column
               prop="dealTime"
               label="截止时间"
-              width="120">
+              width="120"
+              :formatter="formatTimestamp">
             </el-table-column>
             <el-table-column
               prop="status"
@@ -43,22 +45,11 @@
               width="120">
             </el-table-column>
             <el-table-column
-              prop="number"
-              label="已汇报数量"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              :data="numberData"
-              prop="data"
-              label="未汇报数量"
-              width="120">
-            </el-table-column>
-            <el-table-column
               fixed="right"
               label="操作"
               width="500">
               <template slot-scope="scope">
-                <el-button type="text" @click="dialogTableVisible = true">查看所有需要汇报人员信息</el-button>
+                <el-button type="text" @click="showDialog1(scope.row)">查看所有需要汇报人员信息</el-button>
 
                 <el-dialog title="查看所有汇报人员信息" :visible.sync="dialogTableVisible" :modal-append-to-body='false'>
                   <el-table :data="gridData">
@@ -66,13 +57,20 @@
                     <el-table-column property="isReport" label="是否汇报"></el-table-column>
                   </el-table>
                 </el-dialog>
+                <el-button type="text" @click="showDialog5(scope.row)">&nbsp;&nbsp;查看汇报数量</el-button>
+
+                <el-dialog title="查看汇报数量" :visible.sync="dialogTableVisible1" :modal-append-to-body='false'>
+                  <el-table :data="numberData">
+                    <el-table-column property="data" label="汇报数量" width="200"></el-table-column>
+                  </el-table>
+                </el-dialog>
                 <el-button
-                  @click.native.prevent="deleteRow(scope.$index, tableData)"
+                  @click.native.prevent="deleteRow(scope.$index, tableData,scope.row)"
                   type="text"
                   size="small">
                   &nbsp;&nbsp;&nbsp;删除任务
                 </el-button>
-                <el-button type="text" @click="dialogVisible = true">查看任务信息&nbsp;</el-button>
+                <el-button type="text" @click="showDialog2(scope.row)">查看任务信息&nbsp;</el-button>
                 <el-dialog
                   title="提示"
                   :visible.sync="dialogVisible"
@@ -92,7 +90,7 @@
                   </span>
                 </el-dialog>
                 <!-- 可以更新任务 -->
-                <el-button type="text" @click="dialogFormVisible = true">修改任务</el-button>
+                <el-button type="text" @click="showDialog(scope.row)">更新任务</el-button>
 
                 <el-dialog title="更新任务" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
                   <el-form :model="form">
@@ -137,7 +135,7 @@
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
-                    <el-button type="primary" @click="update()">确认更新</el-button>
+                    <el-button type="primary" @click="newupdate">确认更新</el-button>
                   </div>
                 </el-dialog>
               </template>
@@ -171,6 +169,10 @@ export default {
       publisherName: '',
       currentPage: 1,
       totalCount: 1,
+      dialogRow: '',
+      dialogRow1: '',
+      dialogRow2: '',
+      dialogRow5: '',
       // 全部表格数据
       allTableData: [],
       // 分页表格数据
@@ -178,6 +180,7 @@ export default {
       // 所有需要汇报的人员信息
       gridData: [],
       dialogTableVisible: false,
+      dialogTableVisible1: false,
       dialogVisible: false,
       // formLabelWidth: '120px',
       numberData: [],
@@ -205,25 +208,25 @@ export default {
     // this.search()
     this.details()
     this.number()
-    this.query()
+    // this.query()
   },
   methods: {
     // 删除任务（逻辑删除）
-    deleteRow (index, rows) {
+    deleteRow (index, rows, row) {
       rows.splice(index, 1)
-      const id = { taskId: this.allTableData.id }
+      console.log(row.id)
+      const id = { taskId: row.id }
       deletetask(id).then((res) => {
         console.log(res)
-      }
-
-      )
+      })
     },
     // 根据发布者查询用户信息
     querymytaskByname (obj) {
-      queryMyTask(obj).then(response => {
-        console.log(response)
+      queryMyTask(obj).then(res => {
+        console.log(res.data)
         // 多条件查询的数据
-        this.allTableData = Object.values(response.data)
+        console.log(res.data.data)
+        this.allTableData = res.data.data
         // 总数量
         // this.totalCount = response.data.length
         // 取第一页数据
@@ -252,7 +255,7 @@ export default {
     details () {
       const id = { taskId: this.tableData.id }
       queryAllNeedReportUser(id).then((res) => {
-        console.log(res)
+        console.log(res.data.data)
         this.gridData = Object.values(res.data)
       }
       )
@@ -267,29 +270,71 @@ export default {
 
       )
     },
+    // 获取当前行数据
+    showDialog (row) {
+      this.dialogFormVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
+      console.log(this.dialogRow)
+    },
     // 更新任务
-    async update () {
+    async newupdate () {
       console.log('submit!')
-      const id = this.tableData.id
+      const id = this.dialogRow.id
+      console.log(this.dialogRow.id)
       const res = await update(id, this.form.name, this.form.groupIds, this.form.publisherId, this.form.updaterId, this.form.dealTime, this.form.content)
       console.log(res)
       alert('任务更新成功')
     },
     // 查看任务信息
-    query () {
-      const id = { taskId: this.allTableData.id }
-      queryById(id).then((res) => {
-        this.row = Object.values(res.data)
-      }
+    // query () {
+    //   const id = { taskId: this.allTableData.id }
+    //   queryById(id).then((res) => {
+    //     console.log(res)
+    //     this.row = Object.values(res.data)
+    //   }
 
-      )
-    },
+    //   )
+    // },
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
           done()
         })
         .catch(_ => {})
+    },
+    showDialog1 (row) {
+      this.dialogTableVisible = true
+      this.dialogRow1 = row
+      const id = { taskId: row.id }
+      queryAllNeedReportUser(id).then((res) => {
+        console.log(res.data.data)
+        this.gridData = res.data.data
+      })
+    },
+    showDialog2 (row) {
+      this.dialogVisible = true
+      this.dialogRow2 = row
+      console.log(this.dialogRow2)
+      const id = { taskId: this.dialogRow2.id }
+      // 将当前行的数据赋值给dialogRow
+      queryById(id).then((res) => {
+        console.log(res.data.data)
+        this.row = res.data.data
+      })
+    },
+    showDialog5 (row) {
+      this.dialogTableVisible1 = true
+      this.dialogRow5 = row
+      console.log(row)
+      const id = { taskId: row.id }
+      queryCount(id).then((res) => {
+        console.log(res.data)
+        this.numberData.data = res.data
+      })
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     }
   }
 }
@@ -324,6 +369,7 @@ export default {
   .title p{
     font-size: 30px;
     font-weight: 700;
+    color: black;
   }
   input {
     width: 200px;

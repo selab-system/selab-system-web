@@ -30,14 +30,15 @@
               <el-table-column
                 prop="dealTime"
                 label="截止时间"
-                width="200">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 fixed="right"
                 label="操作"
                 width="150">
-                <template>
-                  <el-button type="text" @click="dialogFormVisible = true">我要汇报</el-button>
+                <template slot-scope="scope">
+                  <el-button type="text" @click="showDialog2(scope.row)">我要汇报</el-button>
 
                   <el-dialog title="汇报任务" :visible.sync="dialogFormVisible" :append-to-body="true">
                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -91,12 +92,14 @@
                 fixed
                 prop="dealTime"
                 label="截止时间"
-                width="150">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="publishTime"
                 label="发布时间"
-                width="150">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="publisherName"
@@ -109,12 +112,6 @@
                 width="300">
               </el-table-column>
               <el-table-column
-              :data="tableData1"
-                prop="judge"
-                label="是否汇报"
-                width="120">
-              </el-table-column>
-              <el-table-column
                 prop="status"
                 label="任务状态"
                 width="120">
@@ -122,24 +119,24 @@
               <el-table-column
                 fixed="right"
                 label="操作"
-                width="200">
+                width="250">
                 <template slot-scope="scope">
                   <!-- 任务内容 -->
-                  <el-button type="text" @click="dialogVisible = true">任务内容&nbsp;&nbsp;</el-button>
+                  <el-button type="text" @click="showDialog(scope.row)">任务内容&nbsp;&nbsp;</el-button>
                   <el-dialog
                     title="提示"
                     :visible.sync="dialogVisible"
                     width="30%"
                     :before-close="handleClose"
                     :append-to-body="true">
-                    <span>{{tableData.content}}</span>
+                    <span>{{dialogRow.content}}</span>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
                     </span>
                   </el-dialog>
                    <!-- 汇报信息 -->
-                  <el-button type="text" @click="dialogVisible1 = true">汇报信息</el-button>
+                  <el-button type="text" @click="showDialog1(scope.row)">汇报信息</el-button>
 
                   <el-dialog
                     title="提示"
@@ -147,7 +144,15 @@
                     width="30%"
                     :before-close="handleClose"
                     :append-to-body="true">
-                    <span>{{tableData1.taskReportVo}}</span>
+                    <p>汇报信息：{{ tableData2.content }}</p>
+                    <p>截止时间：{{ tableData2.dealTime }}</p>
+                    <p>任务发布小组范围：{{ tableData2.id }}</p>
+                    <p>ID编号:{{ tableData2.id }}</p>
+                    <p>是否汇报：{{ tableData2.judge }}</p>
+                    <p>任务名：{{ tableData2.name }}</p>
+                    <p>发布时间：{{ tableData2.publishTime }}</p>
+                    <p>发布者：{{ tableData2.publisherName }}</p>
+                    <p>任务状态：{{ tableData2.status }}</p>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible1 = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
@@ -155,7 +160,7 @@
                   </el-dialog>
                   <!-- 删除任务 -->
                   <el-button
-                  @click.native.prevent="deleteRow(scope.$index, tableData)"
+                  @click.native.prevent="deleteRow(scope.$index, tableData,scope.row)"
                   type="text"
                   size="small">
                   &nbsp;&nbsp;删除任务
@@ -186,6 +191,7 @@ export default {
   name: 'ReportingTasks',
   data () {
     return {
+      dialogRow: '',
       username: '',
       dialogVisible: false,
       dialogVisible1: false,
@@ -205,10 +211,11 @@ export default {
       tableData: [],
       allTableData: [],
       tableData1: [],
+      tableData2: '',
       rules: {
         name: [
           { required: true, message: '请输入汇报人名称', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         date1: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
@@ -231,10 +238,14 @@ export default {
   methods: {
     // 汇报任务
     async submitForm () {
-      const id = { taskId: this.allTableData.id }
+      const id = this.dialogRow.id
       const res = await report(id, this.ruleForm.reportStatus, this.ruleForm.details)
       console.log(res)
       alert('恭喜你又完成了一项任务')
+    },
+    showDialog2 (row) {
+      this.dialogFormVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
     },
     // 对话框
     handleClose (done) {
@@ -249,9 +260,9 @@ export default {
       const data = { username: this.username }
       // 传用户id
       queryForUser(data).then((res) => {
-        console.log(res)
+        console.log(res.data.data)
         // 将数据渲染给tableData
-        this.allTableData = Object.values(res.data)
+        this.allTableData = res.data.data
         // this.totalCount = res.allTableData.length
         this.handleCurrentChange(this.currentPage)
         // 返回一个任务id
@@ -276,15 +287,37 @@ export default {
       )
     },
     // 删除汇报记录
-    deleteRow (index, rows) {
+    deleteRow (index, rows, row) {
       rows.splice(index, 1)
-      const id = { reportId: this.tableData.id }
-      del(id).then((res) => {
+      console.log(row.id)
+      // const id = { reportId: this.tableData.id }
+      // del(id).then((res) => {
+      //   console.log('删除成功')
+      //   alert('删除成功')
+      // }
+      const reportId = { reportId: row.id }
+      del(reportId).then((res) => {
         console.log('删除成功')
         alert('删除成功')
       }
 
       )
+    },
+    showDialog (row) {
+      this.dialogVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
+    },
+    showDialog1 (row) {
+      this.dialogVisible1 = true
+      const id = { taskId: 32 }
+      queryMyReport(id).then((res) => {
+        console.log(res.data.data)
+        this.tableData2 = res.data.data
+      })
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     }
 
   }
@@ -318,6 +351,7 @@ export default {
 .title p{
   font-size: 30px;
   font-weight: 700;
+  color: black;
 }
 .title1{
     margin-top:0px ;

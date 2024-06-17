@@ -35,9 +35,14 @@ export default {
         return;
       }
       const str = await getUserMsg(this.inputUserId);
-      console.log(str);
-      this.list = str;
+      if(str){
+        console.log(str.data.data[0]);
+      this.list = str.data.data[0];
       alert("已获取到用户信息");
+      }
+      else{
+        alert("未获取到用户信息")
+      }
     },
     // 修改用户信息
     async modi(name, context) {
@@ -77,6 +82,7 @@ export default {
 
     // 添加用户
     async addUser(addform) {
+      console.log(addform);
       if (
         addform.userName &&
         addform.groupId &&
@@ -96,7 +102,7 @@ export default {
 
     // 清理表单
     clean() {
-      addform= {
+      addform={
         userName: "",
         groupId:null,
         roleId:null,
@@ -124,32 +130,32 @@ export default {
       <el-descriptions-item
         label="用户名"
         v-model="list.userName"
-      ></el-descriptions-item>
+      >{{list.userName}}</el-descriptions-item>
       <el-descriptions-item
         label="用户id"
         v-model="list.userId"
-      ></el-descriptions-item>
+      >{{list.userId}}</el-descriptions-item>
 
       <el-descriptions-item
         label="手机号"
         v-model="list.phone"
-      ></el-descriptions-item>
+      >{{list.phone}}</el-descriptions-item>
       <el-descriptions-item
         label="性别"
         v-model="list.sex"
-      ></el-descriptions-item>
+      >{{list.sex}}</el-descriptions-item>
       <el-descriptions-item
         label="邮箱"
         :span="2"
         v-model="list.email"
-      ></el-descriptions-item>
+      >{{list.email}}</el-descriptions-item>
       <el-descriptions-item label="备注">
         <el-tag size="small">普通用户</el-tag>
       </el-descriptions-item>
       <el-descriptions-item
         label="创建时间"
         v-model="list.createTime"
-      ></el-descriptions-item>
+      >{{list.createTime}}</el-descriptions-item>
     </el-descriptions>
     <!-- 修改信息 -->
     <div class="title">请选择修改内容</div>
@@ -204,10 +210,11 @@ export default {
 
       <el-form-item>
         <el-button type="primary" @click="addUser(addform)">立即创建</el-button>
-        <el-button @click="clean">取消</el-button>
+        <!-- <el-button @click="clean">取消</el-button> -->
       </el-form-item>
     </el-form>
     <!-- 添加用户完成 -->
+    <!-- 修改用户权限 -->
     
   </div>
 </template>

@@ -21,12 +21,14 @@
                 fixed
                 prop="dealTime"
                 label="截止时间"
-                width="150">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="publishTime"
                 label="发布时间"
-                width="120">
+                width="200"
+                :formatter="formatTimestamp">
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -47,15 +49,15 @@
                 fixed="right"
                 label="操作"
                 width="200">
-                <template>
-                  <el-button type="text" @click="dialogVisible = true">查看任务内容</el-button>
+                <template slot-scope="scope">
+                  <el-button type="text" @click="showDialog(scope.row)">查看任务内容</el-button>
                   <el-dialog
                     title="任务内容"
                     :visible.sync="dialogVisible"
                     width="40%"
                     :before-close="handleClose"
                     :append-to-body='true'>
-                    <span>{{tableData.content}}</span>
+                    <span >{{ dialogRow.content }}</span>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -80,7 +82,8 @@ export default {
     return {
       username: '',
       dialogVisible: false,
-      tableData: []
+      tableData: [],
+      dialogRow: ''
     }
   },
   created () {
@@ -99,14 +102,19 @@ export default {
     search () {
       const data = { username: this.username }
       queryForUser(data).then((res) => {
-        console.log(res)
-        if (res.data && typeof res.data === 'object' && !Array.isArray(res.data)) {
-          // 转换对象为数组，每个元素是一个包含 key 和 value 的对象
-          this.tableData = Object.values(res.data)
-        }
+        console.log(res.data.data)
+        this.tableData = res.data.data
       }
 
       )
+    },
+    showDialog (row) {
+      this.dialogVisible = true
+      this.dialogRow = row// 将当前行的数据赋值给dialogRow
+    },
+    formatTimestamp (row, column, cellValue) {
+      const date = new Date(cellValue)
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     }
   }
 }
@@ -135,6 +143,7 @@ export default {
     .title p{
       font-size: 30px;
       font-weight: 700;
+      color: black;
     }
     /* 搜索框 */
     .search{

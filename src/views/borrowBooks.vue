@@ -4,31 +4,36 @@ export default {
   data() {
       return {
         form: {
-          bookName: '',
+          bookId:null,
           borrowTime: '',
           returnTime: '',
           borrowman:'',
-          bookId:null,
+          // bookId:null,
           borrowDuration:'',
-          borrowDuration:null
+          // borrowDuration:null
         }
       }
     },
     methods: {
       async onSubmit() {
         const form = this.form;
-        if (!form.bookName || !form.borrowTime || !form.returnTime || !form.borrowman || !form.borrowDuration) {
+        if (!form.bookId || !form.borrowTime || !form.returnTime || !form.borrowman || !form.borrowDuration) {
           alert("有内容未填，请仔细检查")
           return
         }
         // 根据书名得书籍id
-        const str =await getBookId(form.bookName)
-        form.bookId=str.data.bookId
+        // const str =await getBookId(form.bookName)
+        // form.bookId=str.data.bookId
         if(form.bookId){
           // 提交给后端信息
-          await borrowBook(form.bookId,form.borrowDuration,form.returnTime)
-          alert("已借阅成功！")
-          // form.resetField()
+          const str = await borrowBook(form.bookId,form.borrowDuration,form.returnTime)
+          console.log(str);
+          if(str){
+            alert("已借阅成功！")
+          }
+          else{
+            alert("借阅失败")
+          }
         }
         else{
           alert("此图书不存在！")
@@ -37,11 +42,11 @@ export default {
       },
       clearForm(){
           this.form={
-          bookName: '',
+          // bookName: '',
           borrowTime: '',
           returnTime: '',
           borrowman:'',
-          bookId:'',
+          bookId:null,
           borrowDuration:'',
           borrowDuration:null}
         }
@@ -57,8 +62,8 @@ export default {
       <el-input v-model="form.borrowman"></el-input>
     </el-form-item>
 
-    <el-form-item label="借阅书名">
-      <el-input v-model="form.bookName"></el-input>
+    <el-form-item label="借阅书籍id">
+      <el-input v-model="form.bookId"></el-input>
     </el-form-item>
 
     <el-form-item label="借阅时长">
