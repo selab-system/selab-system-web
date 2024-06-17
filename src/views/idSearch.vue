@@ -3,7 +3,10 @@ import {idsearch} from "@/api/submitForm";
 export default {
   data() {
     return {
-      registrationid: '',
+      registrationId: '',
+      code:'',
+      gg:{
+
       person: {
         id: 0,
         interviewees: {
@@ -30,59 +33,29 @@ export default {
         grade: " "
       },
       msg: " "
-    }
+    }}
   },
   methods: {
-    open(registrationid) {
-     idsearch(registrationid).then(res=>{
-       this.person=res.data
+    open() {
+     idsearch({
+       registrationId:this.registrationId
+     }).then(res=>{
+       this.gg.person=res.data
        console.log(res)
      })
+
     }
-  }
+  },
+
 }
 </script>
 
 <template>
   <div>
 
-  <input type="number" placeholder="请输入你的id" v-model="registrationid">
-  <button @click="open">查询</button>
-<!--{{person.id}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.userName}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.groupId}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.groupName}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.roleId}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.roleName}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.email}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.phone}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.sex}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.userId}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.createTime}}-->
-<!--  <br>-->
-<!--  {{person.interviewees.updateTime}}-->
-<!--  <br>-->
-<!--  {{person.intentDepartment}}-->
-<!--  <br>-->
-<!--  {{person.classroom}}-->
-<!--  <br>-->
-<!--  {{person.interviewTime}}-->
-<!--  {{person.purpose}}-->
-<!--  <br>-->
-<!--  {{person.grade}}-->
-<!--  <br>-->
-<!--  {{person.remark}}-->
-<!--  <br>-->
+  <input type="text" placeholder="请输入你的id" v-model="registrationId">
+  <button @click="open(registrationId)">查询</button>
+
 
   </div>
 </template>

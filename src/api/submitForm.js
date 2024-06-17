@@ -1,17 +1,10 @@
 import requests from '@/untils/request'
-export const submit= (interviewees,email,phone,intentDepartment,classroom,introduce,purpose,remark,grade)=>{
-return  requests.post('//registration/insertRegistration'),
-  {
-  interviewees,
-  email,
-  phone,
-  intentDepartment,
-  classroom,
-  introduce,
-  purpose,
-  remark,
-  grade
-}
+export function submit(data){
+  return requests({
+    url:'/registration/insertRegistration',
+    method:'post',
+    data
+  })
 }
 export function viewsubmit(params){
 return requests({

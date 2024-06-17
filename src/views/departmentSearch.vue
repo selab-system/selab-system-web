@@ -3,15 +3,43 @@ import {departmentSearch} from "@/api/submitForm";
 export default {
   data(){
     return{
+      intentDepartment:1,
       total:0,
-      currentpage:1,
-      pagesize:10,
+      currentpage:2,
+      pagesize:12,
       allData:[],
       pageData:[],
-      intervieweesName:'',
-      cur:'',
-      size:'',
-      person:[]
+      cur:1,
+      size:12,
+      code: 0,
+      data1: [[
+        {
+          id: 0,
+          interviewees: {
+            userName: "string",
+            groupId: 0,
+            groupName: "string",
+            roleId: 0,
+            roleName: "string",
+            email: "string",
+            phone: "string",
+            sex: 0,
+            userId: 0,
+            createTime: "string",
+            updateTime: "string"
+          },
+          email: "string",
+          phone: 0,
+          intentDepartment: 0,
+          classroom: "string",
+          interviewTime: "string",
+          introduce: "string",
+          purpose: "string",
+          remark: "string",
+          grade: "string"
+        }
+      ]],
+      msg: "string"
       // person: {
       //   id: 0,
       //   interviewees: {
@@ -48,10 +76,16 @@ export default {
       console.log(`每页${val}条`)
       this.pagesize=val
     },
-    DepartmentSearch(intentDepartment) {
-      departmentSearch(intentDepartment).then(res=> {
-        this.person = res.data
+    departmentSearch() {
+
+      departmentSearch({
+        cur:this.cur,
+        intentDepartment:this.intentDepartment,
+        size:this.size
+      }).then(res=> {
+        console.log(this.cur)
         console.log(res)
+        this.data1=res.data.data
       })
     }
   }
@@ -62,10 +96,10 @@ export default {
 <template>
 <div>
 
-  <input type="text" placeholder="请输入你的意向部门" v-model="person.intentDepartment">
-  <button @click="DepartmentSearch">查询</button>
+  <input type="text" placeholder="请输入你的意向部门" v-model="this.intentDepartment">
+  <button @click="departmentSearch()">查询</button>
   <el-table
-    :data="person.slice((currentpage-1)*pagesize,currentpage*pagesize)"
+    :data="this.data1.slice((currentpage-1)*pagesize,currentpage*pagesize)"
     border
     style="width: 100%">
     <el-table-column
@@ -116,7 +150,7 @@ export default {
   <el-pagination
     background
     layout="prev, pager, next"
-    @current-chnage="handleCurrentChange" :current-page="currentpage" :total="person.length">
+    @current-chnage="handleCurrentChange" :current-page="currentpage" :total="data1.length">
   </el-pagination>
 </div>
 </template>

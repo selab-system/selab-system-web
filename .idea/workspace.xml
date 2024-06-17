@@ -6,14 +6,34 @@
   <component name="ChangeListManager">
     <list default="true" id="6a35c98e-bf55-4f3e-bb3b-2c62270c7261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/borrowBooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/borrowBooks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/changeBookInformation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/changeBookInformation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/queryBorrowingRecords.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/queryBorrowingRecords.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/returnBook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/returnBook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/searchAllBooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/searchAllBooks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/searchOwnBooks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/searchOwnBooks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/userinformationchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/userinformationchange.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/userquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/userquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/viewCompletionStatus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/viewCompletionStatus.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/untils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/untils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/adHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/adHome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/departmentSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/departmentSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/gradeSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/gradeSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/nameSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/nameSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/QueryBookInformation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/QueryBookInformation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/UserInformationChange.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/UserInformationChange.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/adDepartInformation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/adDepartInformation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/adUserChange.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/adUserChange.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/borrowBooks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/borrowBooks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/changeBookInformation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/changeBookInformation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/departInformation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/departInformation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/publishTask.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/publishTask.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/queryBorrowingRecords.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/queryBorrowingRecords.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/reportProgress.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/reportProgress.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/returnBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/returnBook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/serachAllBooks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/serachAllBooks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/serachBooksBorrowed.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/serachBooksBorrowed.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/serachOwnBooks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/serachOwnBooks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/viewCompletionStatus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/viewCompletionStatus.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/viewReportRecords.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/viewReportRecords.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/viewTasks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/viewTasks.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,8 +86,8 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;second&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lenovo/Desktop/project-demo2/project-demo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;正在合并 second&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lenovo/Desktop/017d0355c1ed0e6ac7253f36abb243.jpg@2o.jpg&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -85,6 +105,11 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\Desktop\project-demo2\project-demo\src\store" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -112,7 +137,19 @@
       <workItem from="1717062141818" duration="5608000" />
       <workItem from="1717071929163" duration="5797000" />
       <workItem from="1717111878655" duration="711000" />
-      <workItem from="1717154637837" duration="1389000" />
+      <workItem from="1717154637837" duration="5855000" />
+      <workItem from="1717161678891" duration="2757000" />
+      <workItem from="1717235487633" duration="3771000" />
+      <workItem from="1717411123020" duration="10347000" />
+      <workItem from="1717500347662" duration="9488000" />
+      <workItem from="1717589211938" duration="5753000" />
+      <workItem from="1717670544069" duration="11188000" />
+      <workItem from="1717732960693" duration="3796000" />
+      <workItem from="1717770458303" duration="11000" />
+      <workItem from="1717865069850" duration="31000" />
+      <workItem from="1718267004650" duration="2461000" />
+      <workItem from="1718272008743" duration="1890000" />
+      <workItem from="1718278016968" duration="1720000" />
     </task>
     <servers />
   </component>

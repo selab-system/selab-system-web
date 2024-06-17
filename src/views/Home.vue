@@ -8,12 +8,33 @@ export default {
     handleClose (key, keyPath) {
       console.log(key, keyPath)
     }
+  },
+  computed: {
+    breadcrumbItems() {
+      let matched = this.$route.matched;
+      let breadcrumbItems = [];
+      matched.forEach(item => {
+        if (item.meta && item.meta.title) {
+          let path = item.path;
+          // 如果不是根路由，则添加路径
+          if (path !== '/') {
+            path = `/${path}`;
+          }
+          breadcrumbItems.push({
+            path: path,
+            title: item.meta.title
+          });
+        }
+      });
+      return breadcrumbItems;
+    }
   }
 }
 </script>
 
 <template>
   <div class="home" style="display: flex">
+    <div class="homeleader">
   <el-row class="tac">
   <el-col :span="12">
     <el-menu
@@ -52,14 +73,27 @@ export default {
           <el-menu-item index="1-4-1"><router-link to="/viewTasks" class="active">查看任务</router-link>></el-menu-item>
           <el-menu-item index="1-4-2"><router-link to="/reportProgress" class="active">任务完成后汇报进度</router-link>></el-menu-item>
         </el-submenu>
+        <el-menu-item index="1-5-1"><router-link to="/welcome" class="active">欢迎页</router-link>></el-menu-item>
       </el-submenu>
     </el-menu>
   </el-col>
   </el-row>
+      </div>
     <div class="homeview">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item
+          v-for="(item, index) in breadcrumbItems"
+          :key="index"
+          :to="item.path"
+          :class="{ 'is-active': index === breadcrumbItems.length - 1 }"
+        >
+          {{ item.title }}
+        </el-breadcrumb-item>
+      </el-breadcrumb>
  <router-view></router-view>
     </div>
-  </div>
+    </div>
+
 </template>
 
 <style scoped>
@@ -67,12 +101,16 @@ export default {
   width: 250px
 }
 .home{
-  height: 880px;
+  height: 100vh;
 
+}
+.homeleader{
+ height: 100vh;
+  background-color: #545c64;
 }
 .homeview{
   width: 87%;
-  height: 880px;
+  height: 100vh;
   /* background-color: blue; */
 }
 .active{

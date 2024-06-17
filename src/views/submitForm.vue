@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       registrationDto:{
+        id:10,
       interviewees: '',
         email: '',
         interviewTime: '',
@@ -19,33 +20,11 @@ export default {
     }
   ,
   methods: {
-    // Onsubmit() {
-    //   submit().then(res=>{
-    //    data:{
-    //
-    //
-    //
-    //    }
-    //   })
-    // }
-    async Onsubmit() {
-    //   const res = await submit(
-    //     {
-    //       registrationDto:{
-    //         interviewees: '',
-    //         email: '',
-    //         interviewTime: '',
-    //         phone: '',
-    //         intentDepartment: '',
-    //         classroom: '',
-    //         introduce: '',
-    //         purpose: '',
-    //         remark: '',
-    //         grade: ''
-    //       }}
-    //
-    // )
-
+     Onsubmit() {
+     submit(this.registrationDto
+     ).then(res=>{
+       console.log(res)
+     })
       console.log(this.registrationDto)
       // this.registrationDto.inerviewTime=' '
       // this.registrationDto.grade=' '
@@ -67,9 +46,11 @@ export default {
 <template>
   <div>
     <el-form ref="registrationDtoRef" :model="registrationDto" label-width="80px">
+      <el-form-item label="id">
+        <el-input v-model="registrationDto.id" placeholder="请填写你的id"></el-input>
+      </el-form-item>
       <el-form-item label="姓名">
         <el-input v-model="registrationDto.interviewees" placeholder="请填写你的姓名"></el-input>
-        {{registrationDto.interviewees}}
       </el-form-item>
       <el-form-item label="邮箱">
         <el-input v-model="registrationDto.email" placeholder="请填写你的邮箱">
@@ -91,7 +72,6 @@ export default {
       </el-form-item>
       <el-form-item label="班级">
           <el-input v-model="registrationDto.classroom" placeholder="请填写你的班级">
-            {{registrationDto.classroom}}
           </el-input>
       </el-form-item>
       <el-form-item label="自我介绍">
