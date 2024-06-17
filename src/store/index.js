@@ -14,10 +14,9 @@ const store = new Vuex.Store({
             // isLoggedIn: false,
             roleId: "1",
             // 存入userId
-            userId: "",
+            userId: "4",
             // groupId 小组Id
             groupId: "",
-
         }
     },
     getters: {

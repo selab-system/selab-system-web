@@ -5,13 +5,11 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex';
 export default {
   name: 'App',
   components: {
   },
   computed: {
-    // ...mapState(['isLoggedIn'])  //映射状态
   }
 }
 </script>

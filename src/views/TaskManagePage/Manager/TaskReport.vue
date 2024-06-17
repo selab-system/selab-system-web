@@ -1,260 +1,171 @@
 <template>
-    <div class="table">
-          <div class="table-body-content">
-        
-              <table class="table-body">
-                  <tr class="table-body-title">
-                      <td v-for="(item,index) in tableTitle" :key="index">{{ item }}</td>
-                      
-                  </tr>
-                  <tr v-for="(item, rowIndex) in maxVisibleRows" :key="rowIndex">
-                      <td v-for="(cellItem, cellIndex) in tableData" :key="cellIndex">
-                        {{ rowIndex < maxVisibleRows ? cellItem : '' }}
-                      </td>
-                  </tr>
-              </table>
-              <div class="page-change-box">
-                  <div class="page-box">
-                          <div class="change-box lastbox">
-                              <button>上一页</button>
-                          </div>
-                          <div class="page-box-item page-box-show" v-for="(index,item) in currentIndexs" :key="index" >
-                              <button>{{ item + 1}}</button>
-                              
-                          </div>
-                          <div class="change-box-show-button" @click="ShowPagesChangeBox" v-show="ShowButtonIsShown">
-                              <button>...</button>
-                          </div>
-                          <div class="page-box-item-page-box-not-show" v-show="pageChangeBoxActive">
-                              <button v-for="(index,item) in currentIndexsUnShown" :key="index">{{ item + currentIndexs + 1 }}</button>
-                          </div>
-                          <div class="page-box-nextbox">
-                              <button>下一页</button>             
-                          </div>
-                      <div>
-                      </div>
-              </div>
-          </div>
-          </div>
-       
-      </div>
-  </template>
-  
-  <script>
-  
-  export default {
-      data() {
-          return {
-              // 单页面表框数量 size
-              size: 10,
-              // 当前页面
-              currentPage: 1,
-              // 显示页面数
-              currentIndexs: 3,
-              // 隐藏页面数
-              currentIndexsUnShown:5,
-              // 省略页面数
-              currentIndexs_: 9,
-              // 表格标头
-              tableTitle: ["汇报人","汇报内容",],
-              tableData: ["name","细菌nvjkzsnvzxkfjkjfioeqfnjkvnznvzlcnjodkvnznvzlcnjodfoiqhfsjdkfnjkz"],
-              // 分页是否展示
-              pageChangeBoxActive: false,
-              // 分页按钮是否展示
-              ShowButtonIsShown: true,
+  <div class="taskReportContainer">
+    <!-- 表格 -->
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="userName" label="用户名" width="100">
+      </el-table-column>
+      <el-table-column prop="reportTime" label="提交时间" width="180">
+      </el-table-column>
+      <el-table-column prop="details" label="汇报内容"> </el-table-column>
+      <el-table-column prop="reportStatusText" label="汇报状态" width="100">
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="100">
+        <template slot-scope="scope">
+          <!--删除-->
+          <el-button type="text" size="small" @click="deleteReport(scope.row.reportId)"
+            >删除</el-button
+          ></template>
+          
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage2"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="5"
+        layout="sizes, prev, pager, next"
+        :total="total"
+      >
+      </el-pagination>
+    </div>
+
+    <!-- 返回查看所有任务页面 -->
+    <el-row margin="0 auto">
+      <el-tag>汇报数量 : {{ reportCounts }} </el-tag>
+      <el-button type="primary" plain @click="goBack">返回</el-button>
+      <el-button type="primary" plain @click="checkUserMsg"
+        >查看用户信息</el-button
+      >
+    </el-row>
+  </div>
+</template>
+
+<script>
+import { queryAllReport,deleteReport } from "@/api/TaskManage/TaskManage.js";
+import dayjs from "dayjs";
+export default {
+  data() {
+    return {
+      reportCounts: 0,
+      taskId: "",
+      cur: 1,
+      size: 5,
+      total:'',
+      tableData: [],
+      //   分页
+      currentPage1: 5,
+      currentPage2: 5,
+      currentPage3: 5,
+      currentPage4: 4,
+    };
+  },
+
+  methods: {
+    // 删除任务
+    async deleteReport(){
+      await deleteReport({reportId:this.reportId}).then((res)=>{
+        if(res.code===200){
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.queryReport();
+        }else{
+          this.$message({
+            message: '删除失败',
+            type: 'error'
+          });
+        }
+      })
+    },
+    // 分页
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.size = val;
+      this.queryReport();
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.cur = val;
+      this.queryReport();
+    },
+    //返回查看全部任务界面
+    goBack() {
+      this.$router.push("/CheckAllTask");
+    },
+    // 查看用户详情信息
+    checkUserMsg() {
+      this.$router.push({
+        name: "CheckUserMsg",
+        params: { taskId: this.taskId },
+      });
+    },
+    // 查看任务汇报
+    async queryReport() {
+      const params = {
+        taskId: this.taskId,
+        cur: this.cur,
+        size: this.size,
+      };
+      await queryAllReport(params).then((response) => {
+        if (response.code === 204) {
+        } else {
+          response.data.data.forEach((item) => {
+            item.reportStatusText =
+              item.reportStatus.status === 1 ? "未汇报" : "已汇报";
+            item.reportTime = dayjs(item.reportTime).format(
+              "YYYY-MM-DD HH:mm:ss"
+            );
+          });
+          this.tableData = response.data.data;
+          console.log("成功获取任务汇报！！！", response.data);
+          if(res.data.total!==undefined){
+            this.total = res.data.total;
           }
-      },
-      methods: {
-          // 分页按钮
-          ShowPagesChangeBox() {
-              this.pageChangeBoxActive = !this.pageChangeBoxActive;
-              this.ShowButtonIsShown = !this.ShowButtonIsShown;
-          },
-  
-      },
-      created() {
-          // 测试输出
-          console.log(this.tableTitle);
-      },
-      computed: {
-          rowHeight() {
-              // 每一行的高度
-            return 91; 
-          },
-      
-          // 计算表格最大可显示的行数
-          maxVisibleRows() {
-              // 表格总高度
-            const availableHeight = 600;
-            return Math.floor(availableHeight / this.rowHeight);
-          },
-      },
-  }
-  </script>
-  
-  <style scoped>
+        }
+      });
+    },
+    // 查看任务汇报数量
+    // async reportCount() {
+    //   const params = {
+    //     taskId: this.taskId,
+    //   };
+    //   await queryAllReport(params).then((response) => {
+    //     if (response.code === 204) {
+    //       this.$message(
+    //         {
+    //           message: "该任务暂时还没有汇报记录",
+    //           type: "success",
+    //         },
+            
+    //       );
+    //     } else {
+    //       this.reportCounts = response.data.total;
+    //       console.log("成功获取任务汇报数量!!!", response.data.total);
+    //     }
+    //   });
+    // },
+  },
+  created() {
+    this.taskId = this.$route.params.taskId;
+    console.log(this.taskId);
+    this.queryReport();
+    // this.reportCount();
+  },
+};
+</script>
 
-  .table{
+<style scope>
+.taskReportContainer {
+  width: 70%;
+  margin: 0 auto;
+}
 
-      height: 600px;
-      padding: 20px 50px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      width: 70%;
-      box-shadow: var(--nav-box-shadow);
-      margin:5px auto 0;
-  }
-  
-  .table-search-name{
-      margin-top: 20px;
-      margin-right: 30px;
-  }
-  .table-search-name input {
-      width: 135px;
-      font-size: 17px;
-      padding: 10px;
-      border: 1px solid var(--table-border-color);
-      box-shadow: var(--table-box-shadow);
-  }
-  .table-search-box-checkbox{
-      margin-top: 20px;
-      padding: px;
-      /* border: 2px solid var(--table-border-color); */
-      position: absolute;
-      left:300px;
-      margin-left: 60px;
-      margin-right: 60px;
-      /* z-index: 999; */
-  }
-  .table-search-title-name{
-      font-size: 17px;
-      padding: 10px;
-      border: 1px solid var(--table-border-color);
-      box-shadow: var(--table-box-shadow);
-  }
-  .table-search-content-box div:hover{
-      cursor: pointer;
-      /* background-color: var(--table-font-color); */
-      color: var(--button-color);
-  }
-  .table-search-content-box div:active{
-      background-color: var(--button-color-mint);
-  }
-  .table-search-button{
-      margin-left: 80px;
-      margin-top: 10px;
-      padding: 10px;
-  }
-  .table-search-button button {
-      padding: 15px;
-      width: fit-content;
-      min-width: 100px;
-      height: 45px;
-      padding: 8px;
-      border-radius: 5px;
-      border: 2.5px solid var(--table-query-border-color);
-      box-shadow: 0px 0px 20px -20px;
-      cursor: pointer;
-      background-color: var(--table-query-button-color);
-      transition: all 0.2s ease-in-out 0ms;
-      user-select: none;
-      font-family: 'Poppins', sans-serif;
-  }
-  .table-search-button button:hover {
-    background-color: var(--table-query-button-beChosen-color);
-    box-shadow: 0px 0px 20px -18px;
-  }
-  .table-search-button button:active {
-    transform: scale(0.85);
-  }
-  /* 表格 */
-  .table-body-content{
-      width: 100%;
-  }
-  .table-body{
-      width: 100%;
-      box-sizing: border-box;
-  }
-  .table-body tr{
-      display: flex;
-      /* flex: 1; */
-  }
-  .table-body td {
-      border: var(--table-border-grey);
-      border-collapse: collapse;
-      height: calc(30px + 2 * 15px);
-      line-height: calc(30px + 2 * 15px);
-      box-sizing: border-box;
-      text-align: center;
-      flex: 1;
-  }
-  .table-body-title td{
-      /* 表格标头 */
-      background-color: var(--table-box-title-bgc-color);
-      font-size: var(--table-box-title-font-size);
-      font-weight: var(--table-box-title-font-width);
-      color: var(--table-box-title-font-color);
-  }
-  .operation-column {
-      min-width: 300px;
-      text-align: center;
-  }
-  .operation-column button {
-      height: 35px;
-      width: 60px;
-      margin: 0 5px;
-      box-shadow: var(--table-box-shadow);
-      background-color: var(--table-action-bg-color);
-      border: 0.5px solid var(--table-border-grey);
-      border-radius: var(--table-action-radius);
-  }
-  .operation-column button:hover{
-      background-color: var(--table-action-hover-bg-color);
-      color: var(--table-action-hover-color);
-  }
-  .operation-column button:active{
-      box-shadow: var(--table-action-active-box-shadow);
-      transform: scale(0.85);
-  }
-  .page-change-box{
-      /* text-align: center; */
-      margin: 25px auto;
-      width: 50%;
-      display: flex;
-      justify-content: space-around;
-      box-sizing: border-box;
-  }
-  .page-box{
-      display: flex;
-  }
-  .page-change-box{
-      margin: 25px auto;
-      display: flex;
-      justify-content: space-around;
-      font-size: var(--page-change-box-font-size);
-  }
-  .page-box{
-      display: flex;
-      justify-content: space-around;
-  
-  }
-  .page-box button{
-      height: 40px;
-      width: 50px;
-      border: var(--page-change-box-border);
-      font-weight: var(--page-change-box-width);
-      box-shadow: var(--page-change-box-box-shadow);
-  }
-  .page-box button:hover{
-      background-color: var(--page-change-box-bg-color);
-  }
-  .page-box button:active{
-      transform: var(--page-change-box-active-bg-color);
-      transition: ease-in 0.5s;
-  }
-  .page-box-item-page-box-not-show{
-      display: flex;
-      justify-content: space-around;
-  }
-  </style>
+::v-deep span {
+  background-color: none;
+  color: none;
+}
+</style>

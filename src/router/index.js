@@ -9,18 +9,18 @@ import index from "@/views/indexPage/index.vue";
 import UserHome from "@/views/UserHomePage/UserHome.vue";
 // 引入图书管理组件
 import BookManage from "@/views/BookManagePage/BookManage.vue";
-// 引入招新报名表管理租价
-import EnrolmentFormManagementPage from "@/views/EnrolmentManagePage/EnrolmentFormManagementPage.vue";
 // 引入任务管理组件
 import TaskManagement from "@/views/TaskManagePage/TaskManagement.vue";
 //引入发布任务组件
 import TaskRelease from "@/views/TaskManagePage/Manager/TaskRelease.vue";
 //引入查看全部任务组件
 import CheckAllTask from "@/views/TaskManagePage/Manager/CheckAllTask.vue";
-//引入查看任务详情组件
-import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
+// //引入查看任务详情组件
+// import TaskDetail from "@/views/TaskManagePage/Manager/TaskDetail.vue";
 //引入任务更新组件
-import TaskUpdate from "@/views/TaskManagePage/Manager/TsakUpdate.vue";
+import TaskUpdate from "@/views/TaskManagePage/Manager/TaskUpdate.vue";
+// 引入查看用户详情组件
+import CheckUserMsg from "@/views/TaskManagePage/Manager/CheckUserMsg.vue";
 //引入查看任务汇报组件
 import TaskReport from "@/views/TaskManagePage/Manager/TaskReport.vue";
 //引入汇报任务组件
@@ -37,8 +37,12 @@ import modifyPersonalInformation from "@/components/usersManagementComponent/mod
 import departmemtMenber from "@/components/usersManagementComponent/departmemtMenber.vue";
 import manageMembers from "@/components/usersManagementComponent/manageMembers.vue";
 import indexStyleMain from "@/components/indexStyle/indexStyleMain.vue";
-// 引入报名表组件
-import RegistrasionForm from "@/views/EnrolmentManagePage/RegistrasionForm.vue";
+// 引入报名页面
+import EnrolPage from "@/views/EnrolmentManagePage/EnrolPage.vue";
+// 报名表组件
+import RegistrasionForm from "@/components/EnrollMenagge/RegistrasionForm.vue";
+// 报名表表格
+import mainPerfectTable from "@/components/EnrollMenagge/mainPerfectTable.vue";
 // 把vuerouter安装成vue的插件
 
 Vue.use(VueRouter)
@@ -121,27 +125,27 @@ let routes = [
                 name: "CheckAllTask",
                 component: CheckAllTask
             },
-            //查看任务详情
+            //查看用户详情
             {
-                path: "/TaskDetail",
-                name: "TaskDetail",
-                component: TaskDetail
+                path: "/CheckUserMsg/:taskId",
+                name: "CheckUserMsg",
+                component: CheckUserMsg
             },
             //更新任务
             {
-                path: "/TaskUpdate",
+                path: "/TaskUpdate/:taskId",
                 name: "TaskUpdate",
                 component: TaskUpdate
             },
             //查看任务汇报
             {
-                path: "/TaskReport",
+                path: "/TaskReport/:taskId",
                 name: "TaskReport",
                 component: TaskReport
             },
             //汇报任务组件
             {
-                path: "/ReportMyTask",
+                path: "/ReportMyTask/:taskId",
                 name: "ReportMyTask",
                 component: ReportMyTask
             },
@@ -153,19 +157,19 @@ let routes = [
             },
             // 查看我的汇报
             {
-                path: "/CheckMyReport",
+                path: "/CheckMyReport/:taskId",
                 name: "CheckMyReport",
                 component: CheckMyReport
             },
             // 招新报名表管理路由
             {
                 path: "/enroll",
-                name: "enroll",
-                component: EnrolmentFormManagementPage
+                name: "EnrolPage",
+                component: EnrolPage
             },
             {
-                path: "/registrasionForm",
-                name: "registrasionForm",
+                path: "/registrationForm",
+                name: "registrationForm",
                 component: RegistrasionForm
             }
         ]

@@ -15,8 +15,8 @@
         <div class="nav-selection" @mouseleave="showDropdownE = false " v-if="readRoleId!==3">
           <span @click="toggleDropdownE"> <a href="javascript:;">招新报名表管理</a> </span>
           <div class="dropdown-content-Long" v-if="this.showDropdownE">
-            <div><router-link to="/enroll" v-if="!taskIsShowed">查看报名表</router-link></div>
-            <div><router-link to="/registrasionForm" v-if="taskIsShowed">报名</router-link></div>
+            <div class="menuDown" v-if="!taskIsShowed"><router-link to="/enroll">查看报名信息</router-link></div>
+            <div class="menuDown" v-if="taskIsShowed"><router-link to="/registrationForm">报名</router-link></div>
           </div>
         </div>
         <div class="nav-selection" @mouseleave="showDropdownB = false" v-if="readRoleId!==3">
@@ -24,7 +24,7 @@
           <div class="dropdown-content" v-if="this.showDropdownB">
             <div class="menuDown"><router-link to="/queryAllBooks">查询书籍</router-link></div>
             <div class="menuDown"><router-link to="/personalBooks">个人书籍</router-link></div>
-            <div class="menuDown"><router-link to="/checkBorrowing" v-if="bookRecord">查询借阅记录</router-link></div>
+            <div class="menuDown" v-if="bookRecord"><router-link to="/checkBorrowing">查询借阅记录</router-link></div>
           </div>
         </div>
         <div class="nav-selection dropdown" @mouseleave="showDropdownT = false" v-if="!taskIsShowed">
@@ -39,7 +39,7 @@
           <span @click="toggleDropdownT"><a href="javascript:;">查看任务</a></span>
           <div class="dropdown-content" v-if="this.showDropdownT">
             <div class="menuDown"> <router-link to="/CheckMyTask">查看我的任务</router-link> </div>
-            <div class="menuDown"><router-link to="/QueryMyReport">查看我的汇报</router-link></div>
+            <div class="menuDown"><router-link to="/CheckMyReport">查看我的汇报</router-link></div>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default {
       } else {
         return true
       }
-    }
+    },
   },
   created() {  
     console.log("显示身份：",this.$store.state.roleId)
