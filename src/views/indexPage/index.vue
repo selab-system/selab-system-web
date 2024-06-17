@@ -15,7 +15,7 @@ import IndexStyleMain from "@/components/indexStyle/indexStyleMain.vue";
 export default {
   components: {
     IndexStyleMain,
-     navElement,
+    navElement,
   },
   data() {
     return {
@@ -24,5 +24,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
