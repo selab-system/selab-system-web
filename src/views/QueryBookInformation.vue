@@ -1,6 +1,6 @@
 
 <script>
-import { getBookList, searchBookMsg} from "@/api/searchAllBooks";
+import { getBookList, searchBookMsg } from "@/api/searchAllBooks";
 export default {
   data() {
     return {
@@ -40,6 +40,7 @@ export default {
           bookRef: "string",
         },
       ],
+      loading: true,
     };
   },
   async created() {
@@ -59,13 +60,12 @@ export default {
       if (this.inputbookid.trim() === "") {
         alert("书籍id不能为空");
         return;
-      }
-       else{
-         const str = await searchBookMsg(this.inputbookid) 
+      } else {
+        const str = await searchBookMsg(this.inputbookid);
         console.log(str.data.data);
-        if(str.data.data==undefined){
-          alert("此书籍不存在")
-          return
+        if (str.data.data == undefined) {
+          alert("此书籍不存在");
+          return;
         }
         this.control = true;
         alert("已查询到书籍信息");
@@ -75,9 +75,7 @@ export default {
         this.owner = str.data.data.owner;
         this.status = str.data.data.status;
         this.createTime = str.data.data.createTime;
-       }
-       
-      
+      }
     },
   },
 };
@@ -105,8 +103,8 @@ export default {
       <!-- 查询到的信息 -->
       <el-descriptions title="图书信息" v-if="control">
         <el-descriptions-item label="图书名" v-model="bookName">
-          {{bookName}}
-          </el-descriptions-item>
+          {{ bookName }}
+        </el-descriptions-item>
         <el-descriptions-item label="书籍作者" v-model="bookAuthor">{{
           bookAuthor
         }}</el-descriptions-item>
@@ -125,7 +123,14 @@ export default {
       </el-descriptions>
       <!-- 主体 -->
       <el-main>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">

@@ -1,52 +1,56 @@
 <script >
-import { getBookList, searchBookMsg } from '@/api/searchAllBooks'
+import { getBookList, searchBookMsg } from "@/api/searchAllBooks";
 export default {
-  data () {
+  data() {
     return {
-      inputbookid: '',
-      bookAuthor: '',
-      bookDetails: '',
-      owner: '',
-      status: '',
-      createTime: '',
+      inputbookid: "",
+      bookAuthor: "",
+      bookDetails: "",
+      owner: "",
+      status: "",
+      createTime: "",
       control: false,
-      tableData: [{
-        bookId: 0,
-        bookName: 'leihou',
-        bookAuthor: 'string',
-        bookDetails: 'string',
-        price: 0,
-        owner: 0,
-        ownerName: 'string',
-        status: 0,
-        createTime: 'string',
-        updateTime: 'string',
-        bookRef: 'string'
-      }, {
-        bookId: 0,
-        bookName: 'leihou',
-        bookAuthor: 'string',
-        bookDetails: 'string',
-        price: 0,
-        owner: 0,
-        ownerName: 'string',
-        status: 0,
-        createTime: 'string',
-        updateTime: 'string',
-        bookRef: 'string'
-      }]
-    }
+      tableData: [
+        {
+          bookId: 0,
+          bookName: "leihou",
+          bookAuthor: "string",
+          bookDetails: "string",
+          price: 0,
+          owner: 0,
+          ownerName: "string",
+          status: 0,
+          createTime: "string",
+          updateTime: "string",
+          bookRef: "string",
+        },
+        {
+          bookId: 0,
+          bookName: "leihou",
+          bookAuthor: "string",
+          bookDetails: "string",
+          price: 0,
+          owner: 0,
+          ownerName: "string",
+          status: 0,
+          createTime: "string",
+          updateTime: "string",
+          bookRef: "string",
+        },
+      ],
+      loading:true
+    };
   },
-  async created () {
-    this.getBookList()
+  async created() {
+    this.getBookList();
   },
   methods: {
     // 获取书单
-    async getBookList () {
-      const str = await getBookList()
+    async getBookList() {
+      const str = await getBookList();
       console.log(str);
-      this.tableData = str.data.data.data
-      console.log(str)
+      this.tableData = str.data.data.data;
+      console.log(str);
     },
     // 点击事件searchbook
     // async searchbook () {
@@ -67,31 +71,28 @@ export default {
     //     return
     //   }
     // },
-    async  searchBookMsg () {
-      if(this.inputbookid.trim()===''){
-          alert("请先输入书籍id")
-          return
+    async searchBookMsg() {
+      if (this.inputbookid.trim() === "") {
+        alert("请先输入书籍id");
+        return;
+      } else {
+        this.control = true;
+        const str = await searchBookMsg(this.inputbookid);
+        console.log(str.data.data);
+        if (str.data.data == undefined) {
+          alert("此书籍不存在");
+          return;
+        }
+        this.bookName = str.data.data.bookName;
+        this.bookAuthor = str.data.data.bookAuthor;
+        this.bookDetails = str.data.data.bookDetails;
+        this.owner = str.data.data.owner;
+        this.status = str.data.data.status;
+        this.createTime = str.data.data.createTime;
       }
-      else{
-        this.control=true
-        const str = await searchBookMsg(this.inputbookid)
-      console.log(str.data.data);
-      if(str.data.data==undefined){
-        alert("此书籍不存在")
-        return
-      }
-      this.bookName = str.data.data.bookName
-      this.bookAuthor = str.data.data.bookAuthor
-      this.bookDetails = str.data.data.bookDetails
-      this.owner = str.data.data.owner
-      this.status = str.data.data.status
-      this.createTime = str.data.data.createTime
-      }
-      
-      
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -110,33 +111,42 @@ export default {
         </el-input>
         <!-- 一个提交按钮 -->
         <el-row>
-          <el-button type="success" plain @click="searchBookMsg" >查询</el-button>
+          <el-button type="success" plain @click="searchBookMsg"
+            >查询</el-button
+          >
         </el-row>
       </el-header>
       <!-- 查询到的信息 -->
-      <el-descriptions title="图书信息" v-if='control'>
-        <el-descriptions-item label="图书名" v-model="bookName"
-          >{{bookName}}</el-descriptions-item
-        >
-        <el-descriptions-item label="书籍作者" v-model="bookAuthor"
-          >{{bookAuthor}}</el-descriptions-item
-        >
+      <el-descriptions title="图书信息" v-if="control">
+        <el-descriptions-item label="图书名" v-model="bookName">{{
+          bookName
+        }}</el-descriptions-item>
+        <el-descriptions-item label="书籍作者" v-model="bookAuthor">{{
+          bookAuthor
+        }}</el-descriptions-item>
         <el-descriptions-item label="图书介绍" v-model="bookDetails">
-          {{bookDetails}}</el-descriptions-item
+          {{ bookDetails }}</el-descriptions-item
         >
-        <el-descriptions-item label="书籍拥有者" v-model="owner"
-          >{{owner}}</el-descriptions-item
-        >
-        <el-descriptions-item label="书籍状态" v-model="status"
-          >{{status}}</el-descriptions-item
-        >
-        <el-descriptions-item label="添加时间" v-model="createTime"
-          >{{createTime}}</el-descriptions-item
-        >
+        <el-descriptions-item label="书籍拥有者" v-model="owner">{{
+          owner
+        }}</el-descriptions-item>
+        <el-descriptions-item label="书籍状态" v-model="status">{{
+          status
+        }}</el-descriptions-item>
+        <el-descriptions-item label="添加时间" v-model="createTime">{{
+          createTime
+        }}</el-descriptions-item>
       </el-descriptions>
       <!-- 主体 -->
       <el-main>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
