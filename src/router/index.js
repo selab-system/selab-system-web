@@ -71,7 +71,7 @@ let routes = [
         children: [
             //首页样式
             {
-                path: "/indexStyleMain",
+                path: "/index",
                 name: "indexStyleMain",
                 component: indexStyleMain
             },

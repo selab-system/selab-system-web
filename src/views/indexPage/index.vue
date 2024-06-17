@@ -3,7 +3,7 @@
     <div class="container">
       <div class="head">
         <navElement></navElement>
-        <index-style-main></index-style-main>
+<!--        <index-style-main></index-style-main>-->
       </div>
     </div>
   </div>

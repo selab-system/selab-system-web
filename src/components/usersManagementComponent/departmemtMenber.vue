@@ -86,7 +86,7 @@ export default {
           groupName: this.groupName,
           createTime: this.createTime
         }
-        if(this.groupId !== '' && typeof this.groupId === 'number' && this.groupName !== '' && typeof this.groupName === 'string' && this.createTime !== '' && typeof this.createTime === 'string') {
+        if(this.groupId !== '' && this.groupName !== '' && this.createTime !== '') {
           updateGroup(params).then(res =>{
             console.log(res.data);
             if(res.code === 200){
@@ -130,7 +130,7 @@ export default {
         const params = {
           groupName: this.addGroupName
         }
-        if(this.addGroupName !== '' && typeof this.addGroupName === 'string') {
+        if(this.addGroupName !== '') {
           saveGroup(params).then(res =>{
             console.log(res.data);
             if(res.code === 200){
