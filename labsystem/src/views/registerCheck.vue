@@ -5,22 +5,17 @@
        <div class="main">
         <div class="img"></div>
         <ul>
-        <!-- <li><img src="../assets/labtubiao.jpg" alt=""></li> -->
         <li><h1>邮箱号验证</h1></li>
-        <!-- <li><span>验证码将发送到邮箱使用仓库中的数据（经过修改）</span></li>
-        <li><el-input v-model="input" placeholder="请输入内容"></el-input></li>
-        <li><el-input placeholder="请输入密码" v-model="input" show-password></el-input></li> -->
-
         <el-form :model="checkEmail" :rules="rules" ref="checkEmail" label-width="100px" class="demo-ruleForm">
           <el-form-item label="邮箱" prop="email">
           <el-input v-model="checkEmail.email"></el-input> <el-button style="display: inline;"  @click="postCheckinfo()"  type="primary" plain>发送验证码</el-button>
           </el-form-item>
-          <el-form-item label="验证码"  prop="checkinfo">
-           <el-input v-model="checkEmail.checkinfo" placeholder="请输入六位数的验证码"></el-input>
+          <el-form-item label="验证码" prop="checkinfo">
+           <el-input v-model="checkEmail.checkinfo"></el-input>
 
          </el-form-item>
          <el-form-item>
-         <el-button type="primary" @click="submitForm('checkEmail')" >立即创建</el-button>
+         <el-button type="primary" :loading="loading" @click="submitForm('checkEmail')" >立即创建</el-button>
             <el-button @click="resetForm('checkEmail')">重置</el-button>
            </el-form-item>
         </el-form>
@@ -37,6 +32,7 @@ import { registerPost, PostInfo } from '@/api/enter'
 export default {
   data () {
     return {
+      msg: '',
       registerinfos: {
         // 对radio进行判断
         // 定仓库中gender变量存储的特征值
@@ -50,30 +46,48 @@ export default {
         checkinfo: '',
         email: ''
       },
+      loading: false,
       rules: {
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' }
         ],
         checkinfo: [
-          { required: true, message: '请输入验证码', trigger: 'change' },
-          { min: 6, max: 6, message: '验证码格式错误', trigger: 'blur' }
+          { required: true, message: '请输入验证码', trigger: 'change' }
         ]
       }
     }
   },
+  // 加载时保存本地信息与显示邮箱号
   mounted () {
     this.checkEmail.email = JSON.parse(localStorage.getItem('email'))
     this.registerinfos.username = JSON.parse(localStorage.getItem('username'))
     this.registerinfos.phonenumber = JSON.parse(localStorage.getItem('phonenumber'))
-    this.registerinfos.paaword = JSON.parse(localStorage.getItem('password'))
+    this.registerinfos.password = JSON.parse(localStorage.getItem('password'))
     this.registerinfos.gender = JSON.parse(localStorage.getItem('gender'))
+    console.log()
   },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          // 进行注册提交
+          this.loading = true
           this.register()
           alert('submit!')
+          // 显示提示信息
+          // this.registered()
+          // // 此处进行判断登录是否成功
+          // if (this.msg !== '注册成功!') {
+          //   console.log(this.msg)
+          //   return false
+          // } else {
+          //   setTimeout(() => {
+          //     this.tologin()
+          //   }, 2000)
+          // }
+          // 计时器时异步的下面的操作是同步的
+
+          // 前往登录面
         } else {
           console.log('error submit!!')
           return false
@@ -83,15 +97,18 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
+    // 点击邮箱验证发送函数
     postCheckinfo () {
       // 倒计时效果的实现最后：
       this.postinfo()
-      alert('验证码已经发送')
+      alert('邮箱发送')
     },
+    // 进行邮箱验证的发送
     async postinfo () {
       try {
         const result1 = await PostInfo(this.checkEmail.email)
         console.log(result1)
+        alert(result1.msg)
       } catch (error) {
         console.error(error)
       }
@@ -106,35 +123,44 @@ export default {
     // } catch (error) {
     //   console.error('Error fetching user data:', error);
     // }
+    //
     async register () {
       try {
         const result2 = await registerPost(this.registerinfos.username, this.checkEmail.email, this.registerinfos.phonenumber, parseInt(this.registerinfos.gender), this.registerinfos.password, this.checkEmail.checkinfo)
-        // 设置为加载后状态
         this.loading = false
-        // 判断返回信息请求状态
+        console.log(this.loading
+        )
         if (result2.data.msg === '') {
           this.msg = '注册成功!'
         } else {
           this.msg = result2.data.msg
         }
-
+        this.registered()
         // 此处进行判断登录是否成功
         if (this.msg !== '注册成功!') {
           console.log(this.msg)
-          this.registered()
           return false
         } else {
-          this.registered()
           setTimeout(() => {
             this.tologin()
-          }, 1000)
+          }, 2000)
         }
+        // alert(result2.msg)
       } catch (error) {
-        console.error('Error fetching user data:', error)
+        console.error(error)
       }
     },
+    // 前往登录面
     tologin () {
       this.$router.push('/login')
+    },
+    // 注册成功提示
+    registered () {
+      this.$message({
+        type: 'success',
+        message: this.msg
+      })
+      // 弹框的单独使用？
     }
   }
 

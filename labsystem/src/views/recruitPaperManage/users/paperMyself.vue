@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       // 此处存在错误：仅设置Datalist对象用来接收传输回来的data数据
-      userid: '8',
+      userid: '',
       // 此处设置存在错误
       Datalist: {}
       // 姓名

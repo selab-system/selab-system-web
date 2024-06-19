@@ -14,7 +14,9 @@ instance.interceptors.request.use(
 
   (config) => { // config代表的是请求体中的数据
     const token = localStorage.getItem('token')
-    if (token) { config.headers.Authorization = `Bearer ${token}` }// token存在将config中的请求头中的Authorization设置为本地存储的token值
+    if (token) { config.headers.Authorization = `${token}` }// token存在将config中的请求头中的Authorization设置为本地存储的token值
+    console.log('携带了token')
+    console.log(config.headers.Authorization)
     return config
   }, (error) => {
     console.log('发送请求失败')
@@ -31,6 +33,8 @@ instance.interceptors.response.use(
     // 在控制台中打印接受的data数据
     console.log('响应成功')
     console.log('Response Data:', response.data)
+    return response
+    // 关键
   },
 
   // 3xx及以上都会调用以下的函数
@@ -61,6 +65,7 @@ instance.interceptors.response.use(
     } else {
       console.error(`Unexpected response status: ${status}`)
       // 错误形式打印未知状态码
+
       return Promise.reject(error)
       // 返回原始的错误信息供外部处理
     }

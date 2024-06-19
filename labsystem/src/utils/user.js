@@ -17,7 +17,7 @@ request.interceptors.request.use(config => {
   const token = localStorage.getItem('token')// 获取token
   // console.log('Request URL:', config.url) // 打印请求URL
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = token
   }
 
   return config

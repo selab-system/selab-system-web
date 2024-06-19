@@ -8,7 +8,7 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         // 跨域的域名（不需要写路径）
-        target: 'http://localhost:8080',
+        target: 'http://sbpytu.natappfree.cc',
         // 是否代理websocked
         // ws:true
         // 是否开启跨域

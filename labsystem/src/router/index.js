@@ -153,17 +153,18 @@ const router = new VueRouter({
     }
   ]
 })
+
 // router.beforeEach((to, from, next) => {
 //   const routes = ['/bookinfosCheckandChange', '/borrowedCheck', '/setTasks', '/taskDetails', '/reportRecord', '/paperSearch']
-//   if (JSON.parse(localStorage.getItem('roleid')) !== '2' && routes.includes(to.path)) { alert('没有权限') } else {
+//   if (localStorage.getItem('roleid') !== '2' && routes.includes(to.path)) { alert('没有权限') } else {
 //     next()
 //   }
 // })
 //  路由守卫：当个人已经登录时保存有token时可以访问除登录面……外路由否则将提示前往登录
-// router.beforeEach((to, from, next) => {
-//   const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
-//   if (!JSON.parse(localStorage.getItem('token')) && !routes.includes(to.path)) { alert('请先前往登录'); next('/login') } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const routes = ['/login', '/register', '/registerCheck', '/homePageInner']
+  if (!localStorage.getItem('token') && !routes.includes(to.path)) { alert('请先前往登录'); next('/login') } else {
+    next()
+  }
+})
 export default router
