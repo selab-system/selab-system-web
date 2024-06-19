@@ -105,7 +105,7 @@ export default {
       isCollapsed: true,
       infos: {
         username: '',
-        roleId: ''
+        roleId: '2'
       },
       name: 'sadasd'
     }
@@ -117,7 +117,7 @@ export default {
     // 函数实现将登录时输入的用户名与密码在本
     // 地的保存进行提取并进行组件的显示与隐藏判断
     // console.log(JSON.parse(localStorage.getItem('username')))
-    this.infos.roleId = JSON.parse(localStorage.getItem('roleid'))
+    // this.infos.roleId = JSON.parse(localStorage.getItem('roleid'))
     console.log(this.infos.roleId)
     this.infos.username = JSON.parse(localStorage.getItem('username'))
     this.userName = this.infos.username

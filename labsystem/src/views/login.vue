@@ -49,7 +49,7 @@ export default {
         // 用户名
         groupId: '',
         // 小组id
-        roleId: '1',
+        roleId: '2',
         // 角色id 1,2,3
         userid: '',
         // 用户id
@@ -93,10 +93,6 @@ export default {
         }
       })
     },
-    // testTime () {
-    //   this.$store.state.token = ''
-    //   console.log(this.$store.state)
-    // },
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },

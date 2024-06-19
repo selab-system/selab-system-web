@@ -1,98 +1,107 @@
 <template>
+  <div>
   <!-- 管理者查看任务详情及汇报记录 -->
-  <div>
-  <!-- 进度完成情况 -->
-  <div>
-    <el-row :gutter="20" v-model="progerssCase">
-      <!-- 完成人数 -->
-      <el-col :span="6">
-        <div>
-          <el-statistic
-            group-separator=","
-            :precision="2"
-            :value="value2"
-            :title="title"
-          ></el-statistic>
-        </div>
-      </el-col>
-      <!-- 完成度 -->
-      <el-col :span="6">
-        <div>
-          <el-statistic title="完成度">
-            <template slot="formatter">
-              {{  }}
-            </template>
-          </el-statistic>
-        </div>
-      </el-col>
-      <!-- 未完成人数 -->
-      <el-col :span="6">
-        <div>
-          <el-statistic
-            group-separator=","
-            :precision="2"
-            decimal-separator="."
-            :value="value1"
-            :title="title"
-          >
-            <template slot="prefix">
-              <i class="el-icon-s-flag" style="color: red"></i>
-            </template>
-            <template slot="suffix">
-              <i class="el-icon-s-flag" style="color: blue"></i>
-            </template>
-          </el-statistic>
-        </div>
-      </el-col>
-    </el-row>
-  </div>
   <!-- 任务详情 -->
   <div id="taskDetails">
   <el-table
     :data="tableData"
     style="width: 100%">
     <el-table-column type="expand">
-      <template slot-scope="props">
+      <el-table-column type="props">
         <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="任务组ID">
-            <span>{{ props.row.groupIds }}</span>
+          <el-form-item label="任务组ID" prop="groupNames">
+            <span></span>
           </el-form-item>
-          <el-form-item label="更新者ID ">
-            <span>{{ props.row.updaterId }}</span>
+          <el-form-item label="汇报数量 " prop="reportCount">
+            <span></span>
           </el-form-item>
-          <el-form-item label="发布者ID">
-            <span>{{ props.row.publisherId }}</span>
+          <el-form-item label="发布者ID" prop="publisherName">
+            <span></span>
           </el-form-item>
-          <el-form-item label="更新时间">
-            <span>{{ props.row.newTime }}</span>
+          <el-form-item label="状态" prop="status | statusFilter">
+            <span></span>
           </el-form-item>
-          <el-form-item label="任务名称">
-            <span>{{ props.row.name }}</span>
+          <el-form-item label="任务名称" prop="name">
+            <span></span>
           </el-form-item>
-          <el-form-item label="截止时间">
-            <span>{{ props.row.dealTime }}</span>
+          <el-form-item label="任务内容" prop="content">
+            <span></span>
+          </el-form-item>
+          <el-form-item label="截止时间" prop="dealTime">
+            <span></span>
           </el-form-item>
         </el-form>
-      </template>
+        </el-table-column>
     </el-table-column>
     <el-table-column
-      label="更新者ID"
-      prop="updaterId">
+      label="发布者ID"
+      props="publisherName">
     </el-table-column>
     <el-table-column
       label="任务组ID"
-      prop="groupIds">
+      props="groupIds">
     </el-table-column>
     <el-table-column
       label="任务名称"
-      prop="name">
+      props="name">
     </el-table-column>
   </el-table>
 </div>
 </div>
 </template>
 
+<script>
+import { queryById, queryCount } from '@/api/task'
+export default {
+  data () {
+    return {
+      tableData: []
+      // tableData: [{
+      //   updaterId: '汇报数量',
+      //   groupNames: '任务组ID',
+      //   publisherName: '发布者ID',
+      //   name: '任务名称',
+      //   content: '任务内容',
+      //   dealTime: '任务截止时间',
+      //   status: '状态'
+      // }]
+    }
+  },
+  mounted () {
+    this.fetchReportCount()
+    this.fetchTasks()
+  },
+  methods: {
+    fetchReportCount () {
+      queryCount().then(response => {
+        this.reportCount = response.data.count
+      }).catch(error => {
+        console.error('error fetching report count:', error)
+      })
+    },
+    fetchTasks () {
+      queryById().then(response => {
+        this.tableData = response.data.data
+      }).catch(error => {
+        console.error('error fetching tasks:', error)
+      })
+    }
+  },
+  filters: {
+    statusFilter (status) {
+      const statusMap = {
+        0: '未发布',
+        1: '已发布'
+      }
+      return statusMap[status] || '未知状态'
+    }
+  }
+}
+
+</script>
+
 <style>
+
   .demo-table-expand {
     font-size: 0;
   }
@@ -110,29 +119,4 @@
     font-size: 25px;
     display: inline-block;
   }
-</style>
-
-<script>
-export default {
-  data () {
-    return {
-      value1: 4154.564,
-      value2: 555,
-      title: '增长人数',
-      tableData: [{
-        updaterId: '更新者ID',
-        groupIds: '任务组ID',
-        publisherId: '发布者ID',
-        name: '任务名称',
-        content: '任务内容',
-        dealTime: '任务截止时间',
-        newTime: '更新时间'
-      }]
-    }
-  }
-}
-</script>
-
-<style>
-
 </style>

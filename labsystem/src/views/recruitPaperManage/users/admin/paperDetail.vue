@@ -1,16 +1,16 @@
 <template>
 
-    <!-- <el-empty description="报名表信息详细"></el-empty> -->
+  <!-- <el-empty description="报名表信息详细"></el-empty> -->
 
     <div class="body">
       <el-page-header @back="goBack()" content="详情页面">
-      </el-page-header>
+  </el-page-header>
   <div class="main">
     <div class='container'>
         <h1 class="title">招新报名表</h1>
         <el-form :model="Detail" :rules="rules" ref="Detail" label-width="100px" class="ruleForm">
   <el-form-item label="姓名" prop="name">
-    <el-input v-model="Detail.interviewees" size="medium"></el-input>
+    <el-input v-model="Detail.userName" size="medium"></el-input>
   </el-form-item>
   <el-form-item label="邮箱" prop="email">
     <el-input v-model="Detail.email"></el-input>
@@ -63,16 +63,16 @@
     <el-input type="textarea" size="medium" v-model="Detail.remark"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="open(),submitForm('Detail')">更新报名表</el-button>
+    <el-button type="primary" @click="open()">更新报名表</el-button>
     <!-- 对按钮需要设置 1.校验内容的输入2.产生提示消息 -->
     <el-button @click="resetForm('recruit')">重置</el-button>
   </el-form-item>
-</el-form>
+  </el-form>
     </div>
 
   </div>
   </div>
-</template>
+  </template>
 
 <script>
 
@@ -81,39 +81,41 @@ import { getDetail, postUpdate } from '@/api/recruit'
 export default {
   data () {
     return {
-      id: '',
+      iid: '18',
       Detail: {
         // 此处的参数仅用于设置使用 用于占位 实际Detail将是get来的整个大对象
         id: 0,
         interviewees: {
+          // userName: 'string',
+          // sex: 0
         },
+        userName: '',
         email: '',
-        phone: '',
-        intentDepartment: '',
+        phone: 1,
+        intentDepartment: 1,
         classroom: '',
         interviewTime: '',
-        // 暂时设置为不更改
         introduce: '',
         purpose: '',
         remark: '',
-        grade: ''
+        grade: 1
       },
       rules: {
         name: [
-          { required: true, message: '请输入姓名', trigger: 'change' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入姓名', trigger: 'input' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'input' }
         ],
         email: [
           { required: true, message: '请输入邮箱号', trigger: 'change' }
-        //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         phonenumber: [
           { required: true, message: '请输入手机号', trigger: 'change' },
-          { min: 11, max: 11, message: '长度为11个字符', trigger: 'blur' }
+          { min: 11, message: '长度为11个字符', trigger: 'change' }
         ],
         class: [
-          { required: true, message: '请输入班级', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入班级', trigger: 'change' }
+          //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         grade: [
           { required: true, message: '请选择年级', trigger: 'change' }
@@ -125,7 +127,7 @@ export default {
         //   { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         // ],
         group: [
-          { required: true, message: '请选择意向部门', trigger: 'blur' }
+          { required: true, message: '请选择意向部门', trigger: 'change' }
         ],
 
         introduce: [
@@ -135,19 +137,35 @@ export default {
           { required: true, message: '请填写加入目的', trigger: 'change' }
         ],
         notes: [
-          { required: true, message: '请填写备注', trigger: 'blur' }
+          { required: true, message: '请填写备注', trigger: 'change' }
         ]
       }
 
     }
   },
+  // 接收到列表页面传来的姓名
+
+  // 在页面渲染后对详细数据进行获取并进行保存展示
+  mounted () {
+    Bus.$on('id', (id) => {
+      console.log(id)
+      this.iid = id
+      console.log(this.iid)
+    })
+    console.log(this.iid)
+    this.getDetail()
+  },
+  // 对更新后的数据进行提交
   methods: {
 
     // 在请求中添加id参数(用户id的详细了解)与
     async getDetail () {
-      const { data } = await getDetail(parseInt(this.id))
-      this.Detail = data
-    // 直接接收整个对象
+      console.log(this.iid)
+      const { data } = await getDetail(this.iid)
+      // console.log(result)
+      this.Detail = data.data
+      console.log(this.Detail)
+      // 直接接收整个对象
     },
     // 点击更新提交按钮时进行提示框的弹出 同时进行数据的post
     open () {
@@ -156,7 +174,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log('asdfsad')
+        console.log(this.iid)
         this.postUpdate()
         this.$message({
           type: 'success',
@@ -176,16 +194,16 @@ export default {
       history.back()
     },
     // 暂时不设置数据校验
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
+    // submitForm (formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       alert('submit!')
+    //     } else {
+    //       console.log('error submit!!')
+    //       return false
+    //     }
+    //   })
+    // },
     // 校验信息出现错误
     resetForm (formName) {
       this.$refs[formName].resetFields()
@@ -193,72 +211,59 @@ export default {
 
     // 上传更新后的数据
     async postUpdate () {
-      const { msg } = await postUpdate(this.Detail)
-      console.log(msg)
+      const result = await postUpdate('12', this.Detail.email, this.Detail.phone, this.Detail.intentDepartment, this.Detail.classroom, this.Detail.interviewTime, this.Detail.introduce, this.Detail.purpose, this.Detail.remark, this.Detail.grade)
+      console.log(result)
     }
-  },
-  // 接收到列表页面传来的姓名
-  created () {
-    Bus.$on('userName', (id) => {
-      console.log(id)
-      this.id = id
-    })
-    console.log(this.id)
-  },
-  // 在页面渲染后对详细数据进行获取并进行保存展示
-  mounted () {
-    this.getDetail()
   }
-  // 对更新后的数据进行提交
 
 }
 </script>
 
-<style lang="less" scoped >
-*{
+  <style lang="less" scoped >
+  *{
     margin: 0 0;
     padding: 0 0;
-}
-.el-main
-{
-padding: 0;
-}
-.body{
+  }
+  .el-main
+  {
+  padding: 0;
+  }
+  .body{
 width: 90%;
 height: 100%;
 background-color: #f3f5f5;
 padding: 20px;
 }
 .main{
-    background-color: #bce0fc;
-     border-radius: 20px;
-     padding: 20px;
-     height: 100%;
+  background-color: #bce0fc;
+   border-radius: 20px;
+   padding: 20px;
+   height: 100%;
 
 }
 .container
 {width: 1200px;
- height: 85%;
- margin: 0 auto;
+height: 85%;
+margin: 0 auto;
 margin-top: 50px;
 border: 5px solid #965319;
 border-radius: 30px;
 padding: 30px;
 }
 .title{
-    font-size: 80px;
-    margin: 0 auto;
-    width: 500px;
-    height: 120px;
-    line-height: 90px;
-    padding-bottom: 40px;
-    font-family:  "SimSun", "宋体", serif;
+  font-size: 80px;
+  margin: 0 auto;
+  width: 500px;
+  height: 120px;
+  line-height: 90px;
+  padding-bottom: 40px;
+  font-family:  "SimSun", "宋体", serif;
 }
 ::v-deep .el-form-item__label{
-  color: #333;
-  font-size: 25px;
+color: #333;
+font-size: 25px;
 
-  font-family: "SimSun", "宋体", serif;
+font-family: "SimSun", "宋体", serif;
 /* font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif; */
 }
 
@@ -278,10 +283,10 @@ height: 100px;
 }
 ::v-deep .el-page-header
 {
-  width:100%;
-  background-color: #f3f5f5;
-  height: 50px;
-  line-height: 50px;
-  font-size: 30px;
+width:100%;
+background-color: #f3f5f5;
+height: 50px;
+line-height: 50px;
+font-size: 30px;
 }
 </style>

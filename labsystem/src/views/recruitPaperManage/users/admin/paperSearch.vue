@@ -2,27 +2,27 @@
   <div class="main">
     <el-empty description="所有已经提交的报名表的列表" v-if="empty" ></el-empty>
     <!-- 如何为空的页面设置显示 -->
-    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
+    <el-form :model="Search1" :inline="true" :rules="rules1" ref="Search1" label-width="100px" class="ruleForm">
       <el-form-item label="姓名" prop="userName">
-    <el-input v-model="Search.userName" placeholder="请输入姓名"></el-input>
+    <el-input v-model="Search1.userName" placeholder="请输入姓名"></el-input>
   </el-form-item>
     <el-form-item>
-    <el-button type="primary" @click="submit1('Search')"><i class="el-icon-search"></i>   查询</el-button>
+    <el-button type="primary" @click="submit1('Search1')"><i class="el-icon-search"></i>   查询</el-button>
   </el-form-item>
 
     </el-form>
-    <el-form :model="Search" :inline="true" :rules="rules" ref="Search" label-width="100px" class="ruleForm">
-  <el-form-item label="年级" prop="grade">
-    <el-select v-model="Search.grade" placeholder="请选择年级">
-      <el-option label="大一" value="1"></el-option>
-      <!-- 使用value进行与data的数据绑定常常 -->
-      <el-option label="大二" value="2"></el-option>
-    </el-select>
-  </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submit2('Search2')"><i class="el-icon-search"></i> 查询</el-button>
-    </el-form-item>
-   </el-form>
+        <el-form :model="Search2" :inline="true" :rules="rules2" ref="Search2" label-width="100px" class="ruleForm">
+      <el-form-item label="年级" prop="grade">
+        <el-select v-model="Search2.grade" placeholder="请选择年级">
+          <el-option label="大一" value="1"></el-option>
+          <!-- 使用value进行与data的数据绑定常常 -->
+          <el-option label="大二" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submit2('Search2')"><i class="el-icon-search"></i> 查询</el-button>
+        </el-form-item>
+      </el-form>
 
    <el-form :model="Search3" :inline="true" :rules="rules3" ref="Search3" label-width="100px" class="ruleForm">
 
@@ -89,33 +89,66 @@ export default {
 
   data () {
     return {
+      empty: false,
       tableData: [
         {
-
+          id: 0,
+          interviewees: {
+            userName: 'string',
+            groupId: 0,
+            groupName: 'string',
+            roleId: 0,
+            roleName: 'string',
+            email: 'string',
+            phone: 'string',
+            sex: 0,
+            userId: 0,
+            createTime: 'string',
+            updateTime: 'string'
+          },
+          email: 'string',
+          phone: 0,
+          intentDepartment: 0,
+          classroom: 'string',
+          interviewTime: 'string',
+          introduce: 'string',
+          purpose: 'string',
+          remark: 'string',
+          grade: 'string'
         }
       ],
-      Search: {
-        userName: '',
+      Search1: {
+        userName: ''
+      },
+      Search2: {
         grade: ''
       },
-      rules: {
+      Search3: {
+        intentDepartment: ''
+      },
+      rules1: {
         userName: [
-          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { required: true, message: '请输入姓名', trigger: 'change' },
           { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-        ],
+        ]
+      },
+      rules2: {
         grade: [
           { required: true, message: '请选择年级', trigger: 'change' }
+        ]
+      },
+      rules3: {
+        intentDepartment: [
+          { required: true, message: '请选择意向部门', trigger: 'blur' }
         ]
       }
     }
   },
-
   methods: {
     // 编辑信息按钮 --》传递用户的返回id（主键？）
     handleEdit (index, row) {
       // 获取到点击列的用户姓名 将姓名进行传递 传递到详细信息页面组件
       Bus.$emit('id', row)
-
       console.log(row)
       // 点击按钮跳转到详情页组件
       this.topaperDetail()
@@ -153,6 +186,20 @@ export default {
         }
       })
     },
+    submit3 (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+          // 进行数据的请求
+          console.log(this.Search3.intentDepartment)
+          this.intentDepartmentSearch(this.Search3.intentDepartment)
+          // 对输入框进行清空
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
     // 分页组件点击按钮实现获取页号的功能
     handleCurrentChange (val) {
       console.log(val)
@@ -163,17 +210,22 @@ export default {
     // 第一页展示时进行的请求
     async firstlist () {
       const { data } = await getlistDetail(1, 10)
-      this.tableData = data
+      console.log(data)
+      this.tableData = data.data
     },
     // 点击不同页面进行数据的更新
     async curslist (cur) {
       const { data } = await getlistDetail(cur, 10)
-      this.tableData = data
+      // this.tableData = data
+      console.log(data)
+      this.tableData = data.data
     },
     // 通过用户姓名进行查询
     async nameSearch (userName) {
       const { data } = await getDetailByName(userName, 1, 20)
-      this.tableData = data
+      console.log(data)
+      this.tableData = data.data
+      this.Search1.userName = ''
     },
     // 通过用户年级进行查询
     async  gradeidSearch (grade) {
@@ -182,6 +234,7 @@ export default {
       this.tableData = data.data
       this.Search2.grade = ''
     },
+    // 通过意向部门进行查询
     async  intentDepartmentSearch (intentDepartment) {
       const { data } = await getDetailByintentDepartment(parseInt(intentDepartment), 1, 20)
       this.tableData = data.data
@@ -197,7 +250,7 @@ export default {
     }
   }, // 获取paperlist的所有数据并渲染
   mounted () {
-    this.firstlist()
+    // this.firstlist()
   }
 }
 </script>
