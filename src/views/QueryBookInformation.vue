@@ -50,7 +50,7 @@ export default {
     // 获取书单
     async getBookList() {
       const str = await getBookList();
-      console.log(str.data.data.data);
+      console.log(str);
       this.tableData = str.data.data.data;
       // console.log(str);
     },

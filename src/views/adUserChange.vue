@@ -50,9 +50,10 @@ export default {
         return;
       }
       const str = await getUserMsg(this.inputUserId);
+      console.log(str.data.data.data);
       if(str){
-        console.log(str.data.data[0]);
-      this.list = str.data.data[0];
+        console.log(str.data.data.data[0]);
+      this.list = str.data.data.data[0];
       alert("已获取到用户信息");
       }
       else{

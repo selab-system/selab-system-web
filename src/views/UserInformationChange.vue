@@ -33,7 +33,7 @@ export default {
       const str = await getUserMsg(this.inputUserId);
       if (str) {
         console.log(str.data.data);
-        this.list = str.data.data[0];
+        this.list = str.data.data.data[0];
         alert("已获取到用户信息");
       } else {
         alert("未获取到用户信息");
@@ -123,4 +123,12 @@ export default {
 </template>
 
 <style scoped>
+.title {
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  color: blue;
+}
 </style>

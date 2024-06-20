@@ -124,7 +124,7 @@ export default {
     async getList() {
       const str = await getList();
       console.log(str);
-      this.list = str.data.data;
+      this.list = str.data.data.data;
       console.log(str.data.data);
     },
     // 树形表自带
@@ -163,6 +163,7 @@ export default {
     async addGrroup(groupName) {
       if (groupName) {
         const res = await addGroup(groupName);
+        console.log(res);
         if (res) {
           alert("添加成功");
         } else {
@@ -181,10 +182,11 @@ export default {
     //   修改组别
     async changeGroup(changeform) {
       if (changeform.userId && changeform.groupId) {
-        const str = changeGroup(changeform);
+        const str = await changeGroup(changeform);
         console.log(str);
         if (str) {
           alert("修改成功");
+          return
         } else {
           alert("修改失败");
         }
