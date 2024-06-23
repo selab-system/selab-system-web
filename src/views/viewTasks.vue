@@ -102,7 +102,7 @@ export default {
     search () {
       const data = { username: this.username }
       queryForUser(data).then((res) => {
-        console.log(res.data.data)
+        console.log(res.data)
         this.tableData = res.data.data
       }
 

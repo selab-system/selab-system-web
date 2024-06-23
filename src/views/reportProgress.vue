@@ -274,7 +274,9 @@ export default {
       this.currentPage = currentPage
       this.tableData = []
       // 获取当前页数据范围
-      this.tableData = this.allTableData.slice((((currentPage - 1) * 5)), (currentPage * 5))
+      if (this.allTableData > 0) {
+        this.tableData = this.allTableData.slice((((currentPage - 1) * 5)), (currentPage * 5))
+      }
     },
     // 通过taskId查询本人汇报记录
     datails () {

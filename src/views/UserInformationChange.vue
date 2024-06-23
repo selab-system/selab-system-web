@@ -1,67 +1,67 @@
 <script >
-import { getUserMsg, changeMsg } from "@/api/userinformationchange";
+import { getUserMsg, changeMsg } from '@/api/userinformationchange'
 export default {
-  data() {
+  data () {
     return {
-      inputUserId: "",
+      inputUserId: '',
       list: {
-        userName: "",
+        userName: '',
         groupId: 0,
-        groupName: "",
+        groupName: '',
         roleId: 0,
-        roleName: "",
-        email: "",
-        phone: "",
+        roleName: '',
+        email: '',
+        phone: '',
         sex: null,
         userId: null,
-        createTime: "",
-        updateTime: "",
+        createTime: '',
+        updateTime: ''
       },
       form: {
-        select: "",
-        context: "",
-      },
-    };
+        select: '',
+        context: ''
+      }
+    }
   },
   methods: {
     // 查找用户信息
-    async searchUser() {
-      if (this.inputUserId.trim() === "") {
-        alert("请输入用户id");
-        return;
+    async searchUser () {
+      if (this.inputUserId.trim() === '') {
+        alert('请输入用户id')
+        return
       }
-      const str = await getUserMsg(this.inputUserId);
+      const str = await getUserMsg(this.inputUserId)
       if (str) {
-        console.log(str.data.data);
-        this.list = str.data.data[0];
-        alert("已获取到用户信息");
+        console.log(str.data.data)
+        this.list = str.data.data[0]
+        alert('已获取到用户信息')
       } else {
-        alert("未获取到用户信息");
+        alert('未获取到用户信息')
       }
     },
     // 修改用户信息
-    async modi(name, context) {
-      if (this.inputUserId.trim() === "") {
-        alert("请先输入用户id");
-        return;
+    async modi (name, context) {
+      if (this.inputUserId.trim() === '') {
+        alert('请先输入用户id')
+        return
       }
       if (name && context) {
-        this.list[name] = context;
-        const newlist = this.list;
-        console.log(this.list);
-        const str = await changeMsg(newlist);
-        console.log(str);
+        this.list[name] = context
+        const newlist = this.list
+        console.log(this.list)
+        const str = await changeMsg(newlist)
+        console.log(str)
         if (str) {
-          alert("修改成功");
+          alert('修改成功')
         } else {
-          alert("修改失败");
+          alert('修改失败')
         }
       } else {
-        alert("修改信息不完整");
+        alert('修改信息不完整')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <template>
