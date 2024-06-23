@@ -32,9 +32,15 @@ export default {
       }
       const str = await getUserMsg(this.inputUserId)
       if (str) {
+<<<<<<< HEAD
         console.log(str.data.data)
         this.list = str.data.data[0]
         alert('已获取到用户信息')
+=======
+        console.log(str.data.data);
+        this.list = str.data.data.data[0];
+        alert("已获取到用户信息");
+>>>>>>> dcec5f2dc8fb6774757a9c6357841842e00a62c7
       } else {
         alert('未获取到用户信息')
       }
@@ -123,4 +129,12 @@ export default {
 </template>
 
 <style scoped>
+.title {
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  color: blue;
+}
 </style>

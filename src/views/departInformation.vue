@@ -99,7 +99,7 @@ export default {
     // 获取树形表
     async getList() {
       const str = await getList();
-      this.list = str.data.data;
+      this.list = str.data.data.data;
       console.log(str.data.data);
     },
     // 树形表自带

@@ -6,9 +6,9 @@ export default {
       inputUserId: "",
       list: {
         userName: "",
-        userId: null,
+        userId: "",
         phone: "",
-        sex: null,
+        sex: "",
         email: "",
         createTime: "",
       },
@@ -19,12 +19,27 @@ export default {
       addform: {
         userName: "",
         groupId:null,
-        roleId:null,
+        roleId:"",
         email: "",
         phone: "",
         sex: "",
         password:""
       },
+      rules: {
+          userName: [
+            { required: true, message: '请输入用户名', trigger: 'blur' },
+            { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' },
+          ],
+          groupId:[
+            { required: true, message: '请输入小组id', trigger: 'blur'},
+            // { type: 'number', message: '小组id必须为数字值', trigger: 'blur'}
+          ],
+          roleId:[{ required: true, message: '请输入角色id', trigger: 'blur' }],
+          email:[{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+          phone:[{ required: true, message: '请输入电话', trigger: 'blur' }],
+          sex:[{ required: true, message: '请输入性别', trigger: 'blur' }],
+          password:[{ required: true, message: '请输入密码', trigger: 'blur' }],
+        }
     };
   },
   methods: {
@@ -35,9 +50,10 @@ export default {
         return;
       }
       const str = await getUserMsg(this.inputUserId);
+      console.log(str.data.data.data);
       if(str){
-        console.log(str.data.data[0]);
-      this.list = str.data.data[0];
+        console.log(str.data.data.data[0]);
+      this.list = str.data.data.data[0];
       alert("已获取到用户信息");
       }
       else{
@@ -102,9 +118,9 @@ export default {
 
     // 清理表单
     clean() {
-      addform={
+      this.addform={
         userName: "",
-        groupId:null,
+        groupId:'',
         roleId:null,
         email: "",
         phone: "",
@@ -118,8 +134,9 @@ export default {
 
 <template>
   <div class="continue">
+    <div class="title">查询用户信息</div>
     <!-- 输入用户id -->
-    <el-input placeholder="请输入用户id" v-model="inputUserId" clearable>
+    <el-input placeholder="请输入用户id" v-model="inputUserId" clearable >
     </el-input>
     <!-- 按钮查询 -->
     <el-button type="success" @click="searchUser">查询</el-button>
@@ -158,17 +175,17 @@ export default {
       >{{list.createTime}}</el-descriptions-item>
     </el-descriptions>
     <!-- 修改信息 -->
-    <div class="title">请选择修改内容</div>
+    <div class="title">修改用户信息</div>
     <el-form :inline="true" :model="form" class="demo-form-inline">
       <el-form-item label="修改内容">
         <el-select v-model="form.select" placeholder="修改内容">
           <el-option label="用户名" value="userName"></el-option>
-          <el-option label="用户id" value="userId"></el-option>
+          <!-- <el-option label="用户id" value="userId"></el-option> -->
           <el-option label="手机号" value="phone"></el-option>
           <el-option label="性别" value="sex"></el-option>
           <el-option label="邮箱" value="email"></el-option>
-          <el-option label="小组名称" value="groupName"></el-option>
-          <el-option label="创建时间" value="createTime"></el-option>
+          <!-- <el-option label="小组名称" value="groupName"></el-option> -->
+          <!-- <el-option label="创建时间" value="createTime"></el-option> -->
         </el-select>
       </el-form-item>
       <el-form-item label="修改为">
@@ -181,30 +198,30 @@ export default {
       </el-form-item>
     </el-form>
     <!-- 注销用户 -->
+    <div class="title">删除用户</div>
     <el-button type="danger" @click="deleteUser">删除此用户</el-button>
     <!-- 添加用户 -->
     <div class="title"></div>
     <div class="title">添加用户</div>
-    <el-form ref="addform" :model="addform" label-width="80px">
-      <el-form-item label="用户名"
-        ><el-input v-model="addform.userName"></el-input
+    <el-form ref="addform" :model="addform" label-width="80px" :rules="rules">
+      <el-form-item label="用户名" prop="userName"><el-input v-model="addform.userName"></el-input
       ></el-form-item>
-      <el-form-item label="小组id"
-        ><el-input v-model="addform.groupId"></el-input
+      <el-form-item label="小组id" prop="groupId" 
+        ><el-input v-model="addform.groupId" ></el-input
       ></el-form-item>
-      <el-form-item label="角色id"
+      <el-form-item label="角色id" prop="roleId"
         ><el-input v-model="addform.roleId"></el-input
       ></el-form-item>
-      <el-form-item label="邮箱"
+      <el-form-item label="邮箱" prop="email"
         ><el-input v-model="addform.email"></el-input
       ></el-form-item>
-      <el-form-item label="手机号码"
+      <el-form-item label="手机号码" prop="phone"
         ><el-input v-model="addform.phone"></el-input
       ></el-form-item>
-      <el-form-item label="性别(0为女1为男)"
+      <el-form-item label="性别(0为女1为男)" prop="sex"
         ><el-input v-model="addform.sex"></el-input
       ></el-form-item>
-      <el-form-item label="密码"
+      <el-form-item label="密码" prop="password"
         ><el-input v-model="addform.password" type="password" ></el-input
       ></el-form-item>
 

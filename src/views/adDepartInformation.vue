@@ -124,7 +124,7 @@ export default {
     async getList() {
       const str = await getList();
       console.log(str);
-      this.list = str.data.data;
+      this.list = str.data.data.data;
       console.log(str.data.data);
     },
     // 树形表自带
@@ -163,6 +163,7 @@ export default {
     async addGrroup(groupName) {
       if (groupName) {
         const res = await addGroup(groupName);
+        console.log(res);
         if (res) {
           alert("添加成功");
         } else {
@@ -174,16 +175,18 @@ export default {
       }
     },
     clean() {
-      addform = {
+      this.addform = {
         groupName: "",
       };
     },
     //   修改组别
     async changeGroup(changeform) {
       if (changeform.userId && changeform.groupId) {
-        const str = changeGroup(changeform);
+        const str = await changeGroup(changeform);
+        console.log(str);
         if (str) {
           alert("修改成功");
+          return
         } else {
           alert("修改失败");
         }
@@ -193,7 +196,7 @@ export default {
       }
     },
     clea() {
-      changeform = {
+      this.changeform = {
         userId: null,
         groupId: null,
       };
@@ -212,7 +215,7 @@ export default {
       }
     },
     cle() {
-      changelist = {
+      this.changelist = {
         groupId: null,
         groupName: "",
         createTime: "",
@@ -260,7 +263,7 @@ export default {
       </el-descriptions>
 
       <!-- 小组信息修改 -->
-      <div class="title">请选择修改内容</div>
+      <div class="title">修改小组信息</div>
       <el-input placeholder="请输入小组id" v-model="changelist.groupId" clearable></el-input>
       <el-input placeholder="请输入小组名称" v-model="changelist.groupName" clearable></el-input>
       <el-input placeholder="请输入创建时间" v-model="changelist.createTime" clearable></el-input>
@@ -270,6 +273,9 @@ export default {
     <div class="title">删除小组</div>
       <el-input placeholder="请输入小组id" v-model="inputGroupId" clearable>
       </el-input>
+      <!-- <el-popconfirm title="确定删除吗？">
+        <el-button type="danger" plain @click="delectGroup" slot="reference">删除小组</el-button>
+      </el-popconfirm> -->
       <el-button type="danger" plain @click="delectGroup">删除小组</el-button>
       <!-- 小组添加 -->
     <!-- <div class="title"></div> -->
@@ -277,6 +283,10 @@ export default {
     <el-form ref="addform" :model="addform" label-width="80px">
       <el-form-item label="小组名称"><el-input v-model="addform.groupName"></el-input></el-form-item>
       <el-form-item>
+        <!-- <el-popconfirm title="确定添加吗？">
+                <el-button type="primary" @click="addGrroup(addform.groupName)" slot="reference">立即创建</el-button>
+
+      </el-popconfirm> -->
         <el-button type="primary" @click="addGrroup(addform.groupName)">立即创建</el-button>
         <el-button @click="clean">取消</el-button>
       </el-form-item>
@@ -284,9 +294,13 @@ export default {
     <!-- 修改用户组别 -->
     <div class="title">修改用户组别</div>
     <el-form ref="changeform" :model="changeform" label-width="80px">
-      <el-form-item label="小组id"><el-input v-model="changeform.groupId"></el-input></el-form-item>
       <el-form-item label="用户id"><el-input v-model="changeform.userId"></el-input></el-form-item>
+      <el-form-item label="小组id"><el-input v-model="changeform.groupId"></el-input></el-form-item>
       <el-form-item>
+        <!-- <el-popconfirm title="确定删除吗？">
+                <el-button type="primary" @click="changeGroup(changeform)" slot="reference">立即修改</el-button>
+
+      </el-popconfirm> -->
         <el-button type="primary" @click="changeGroup(changeform)">立即修改</el-button>
         <el-button @click="clea">取消</el-button>
       </el-form-item>
